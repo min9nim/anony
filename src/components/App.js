@@ -9,7 +9,7 @@ export default class App extends React.Component {
         super(props);
         this.state = {
           mode: 'list',
-          posts: JSON.parse(localStorage.getItem("posts")),
+          posts: JSON.parse(localStorage.getItem("posts")) || [],
         };
         window.app = this;
     }
