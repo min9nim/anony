@@ -1,18 +1,19 @@
 {
-  "name": "codelab",
-  "version": "1.0.0",
+  "name": "talkplace",
+  "version": "0.0.1",
   "main": "index.js",
   "scripts": {
     "dev-server": "webpack-dev-server"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "description": "Anonymous-based sns",
   "dependencies": {
     "react": "^15.3.1",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^15.3.1",
-    "react-hot-loader": "^3.0.0-beta.3"
+    "react-hot-loader": "^3.0.0-beta.3",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "babel-core": "^6.9.1",
