@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from "shortid";
 import {
     FormGroup,
     HelpBlock,
@@ -13,7 +14,8 @@ export default class Write extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.savePost = this.savePost.bind(this);
         this.state = {
-            key : Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2),
+            //key : Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2),
+            key: shortid.generate(),
             title: "",
             writer: "",
             content: "",
@@ -44,12 +46,12 @@ export default class Write extends React.Component {
             alert("제목을 입력하세요");
             return;
         }
-        const posts = [...app.state.posts, this.state];
-        app.setState({
+        const posts = [...window.app.state.posts, this.state];
+        window.app.setState({
             posts: posts,
             mode: "list"
         });
-        localStorage.setItem("posts", JSON.stringify(posts));
+        window.localStorage.setItem("posts", JSON.stringify(posts));
     }
 
     render() {

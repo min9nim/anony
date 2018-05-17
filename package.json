@@ -7,7 +7,7 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Anonymous-based sns",
   "dependencies": {
     "react": "^15.3.1",
     "react-bootstrap": "^0.32.1",
