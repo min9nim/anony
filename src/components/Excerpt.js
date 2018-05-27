@@ -1,4 +1,7 @@
 import React from 'react';
+import tp, {store, deletePost} from "../tp.js";
+
+console.log("Excerpt.js call");
 
 export default class Excerpt extends React.Component {
 
@@ -13,14 +16,18 @@ export default class Excerpt extends React.Component {
 
     deletePost(){
         if(confirm("선택 항목을 삭제합니다")){
-            let posts = JSON.parse(JSON.stringify(app.state.posts));
+            //let posts = JSON.parse(JSON.stringify(app.state.posts));
+            
+            /*
+            let posts = tp.getPosts();
             let idx = posts.findIndex(o => o.key === this.props.post.key);
             posts.splice(idx,1);
-            app.setState({
+            this.props.app.setState({
                 posts : posts
             });
-            //localStorage.setItem("posts", JSON.stringify(app.state.posts));   // setState가 비동기라 이렇게 사용하믄 안됨
-            localStorage.setItem("posts", JSON.stringify(posts))
+            */
+            store.dispatch(deletePost(this.props.post.key));
+            tp.saveState(store.getState());
         }
     }
 

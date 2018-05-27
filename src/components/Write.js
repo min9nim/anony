@@ -1,5 +1,5 @@
 import React from 'react';
-import shortid from "shortid";
+
 import {
     FormGroup,
     HelpBlock,
@@ -7,15 +7,17 @@ import {
     FormControl,
     Button
 } from 'react-bootstrap';
+import tp, {store, addPost} from "../tp.js";
+
+console.log("Write.js call");
 
 export default class Write extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.handleChange = this.handleChange.bind(this);
         this.savePost = this.savePost.bind(this);
+        this.goList = this.goList.bind(this);
         this.state = {
-            //key : Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2),
-            key: shortid.generate(),
             title: "",
             writer: "",
             content: "",
@@ -46,13 +48,25 @@ export default class Write extends React.Component {
             alert("제목을 입력하세요");
             return;
         }
-        const posts = [...window.app.state.posts, this.state];
-        window.app.setState({
+        //const posts = [...this.props.app.state.posts, this.state];
+        //const posts = [...tp.getPosts(), this.state];
+        /*
+        this.props.app.setState({
             posts: posts,
             mode: "list"
         });
-        window.localStorage.setItem("posts", JSON.stringify(posts));
+        */
+        store.dispatch(addPost(this.state));
+        //tp.setPosts({mode: "list", posts: posts});
+        tp.saveState(store.getState());
     }
+    
+    goList() {
+        this.props.app.setState({
+            mode: "list",
+        });
+    }
+    
 
     render() {
         console.log("Write rendering");
@@ -71,8 +85,9 @@ export default class Write extends React.Component {
                     <FormControl type="text" value={this.state.writer} onChange={this.handleChange} placeholder="별명을 입력하세요.." /> </FormGroup>
                 <FormGroup controlId="content">
                     <ControlLabel>Content</ControlLabel>
-                    <FormControl style={{height: "300px"}} value={this.state.content} onChange={this.handleChange} componentClass="textarea" placeholder="내용을 입력하세요.." /> </FormGroup>
-                <Button bsStyle="success" onClick={this.savePost}>Save</Button> </div>
+                    <FormControl style={{height: "100px"}} value={this.state.content} onChange={this.handleChange} componentClass="textarea" placeholder="내용을 입력하세요.." /> </FormGroup>
+                <Button bsStyle="success" onClick={this.savePost}>Save</Button>
+                <Button style={{marginLeft: "3px"}}bsStyle="success" onClick={this.goList}>List</Button> </div>
         );
     }
 }

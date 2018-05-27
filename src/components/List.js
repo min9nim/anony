@@ -2,6 +2,8 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import Excerpt from "./Excerpt";
 
+console.log("List.js call");
+
 export default class List extends React.Component {
 
     constructor(props) {
@@ -11,7 +13,7 @@ export default class List extends React.Component {
     }
 
     writePost(){
-        this.props.parentObj.setState({
+        this.props.app.setState({
             mode : "write",
         })
     }
@@ -20,8 +22,8 @@ export default class List extends React.Component {
         console.log("List rendering");
         return (
             <div style={{margin: '20px'}}>
-                {this.props.parentObj.state.posts.map(
-                    post => <Excerpt key={post.key} post={post}/>
+                {this.props.app.state.posts.map(
+                    post => <Excerpt key={post.key} post={post} app={this.props.app}/>
                 )}
                 <Button bsStyle="success" onClick={this.writePost}>Write</Button>
             </div>
