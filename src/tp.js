@@ -1,72 +1,29 @@
 import { createStore } from 'redux';
-import shortid from "shortid";
+import {reducer} from "./reducer";
 
-console.log("tp.js call..");
-
-
-let tp = {};
-export default tp;
-
+export let tp = {};
 
 tp.init = function(){
-    console.log("tp.init() called");
     let str = window.localStorage.getItem("state");
     this.state = ["undefined", "", null].includes(str) ? {mode : "list", posts : []} : JSON.parse(str);
 };
 
-tp.saveState = function(state){
-    this.state = state;
-    window.localStorage.setItem("state", JSON.stringify(state));
+tp.init();
+
+tp.saveState = function(){
+    this.state = this.store.getState();
+    window.localStorage.setItem("state", JSON.stringify(this.state));
 };
 
 tp.loadState = function(){
     return this.state;
 };
 
-tp.init();
-
-const initialState = tp.loadState();
-
-
-export function addPost({key, title, writer, content}){
-    return {
-        type: "ADD",
-        post : {
-            key : shortid.generate(),
-            title : title,
-            writer: writer,
-            content : content,
-        }
-    }
+tp.dispatch = function(action){
+  this.store.dispatch(action);
+  this.saveState();
 }
 
+tp.store = createStore(reducer, tp.loadState());
 
-export function deletePost(key){
-    return {
-        type : "DELETE",
-        key : key
-    }
-}
-
-const reducer = function(state = initialState, action) {
-    switch (action.type) {
-        case "ADD" :
-            return {
-                mode : "list",
-                posts : [...state.posts, action.post]
-            }
-        case "DELETE" :
-            let idx = state.posts.findIndex(o => o.key === action.key);
-            let tmp = [...state.posts];
-            tmp.splice(idx,1);
-            return {
-                mode: "list",
-                posts : tmp
-            }
-        default:
-            return state
-    }
-}
-
-
-export const store = createStore(reducer);
+window.tp = tp;
