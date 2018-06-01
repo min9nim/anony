@@ -65,23 +65,24 @@ export default class Write extends React.Component {
                 <FormControl type = "text"
                         autoFocus value = {this.state.title}
                         onChange = {this.handleChange}
-                        placeholder = "제목을 입력하세요.." / >
-                <FormControl.Feedback / >
+                        placeholder = "제목을 입력하세요.." />
+                <FormControl.Feedback />
             </FormGroup>
             <FormGroup controlId = "writer" >
                 <ControlLabel> Writer </ControlLabel>
                 <FormControl type = "text"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
-                      placeholder = "별명을 입력하세요.." / > < /FormGroup> <
-                      FormGroup controlId = "content" >
-                <ControlLabel> Content < /ControlLabel>
+                      placeholder = "별명을 입력하세요.." />
+            </FormGroup>
+            <FormGroup controlId = "content">
+                <ControlLabel> Content </ControlLabel>
                 <FormControl  style = {{height: "100px"}}
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
-                        placeholder = "내용을 입력하세요.." / >
-            < /FormGroup>
+                        placeholder = "내용을 입력하세요.." />
+            </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}> Save </Button>
             <Button style = {{marginLeft: "3px"}} bsStyle = "success" onClick = {this.goList}>List </Button>
         </div>
