@@ -1,9 +1,9 @@
  http://0.0.0.0:7777/
 webpack result is served from /
-content is served from /home/ec2-user/dev/talkplace/public/
-Hash: 8ec6e0194908583b7081
+content is served from /Users/songmingu/Documents/project/talkplace/public/
+Hash: 25b5d4ca85a22c7304bc
 Version: webpack 1.15.0
-Time: 3261ms
+Time: 3012ms
     Asset     Size  Chunks             Chunk Names
 bundle.js  1.87 MB       0  [emitted]  main
 chunk    {0} bundle.js (main) 1.75 MB [rendered]
@@ -433,7 +433,7 @@ chunk    {0} bundle.js (main) 1.75 MB [rendered]
   [423] ./~/prop-types/factoryWithThrowingShims.js 1.49 kB {0} [built]
   [424] ./~/react-deep-force-update/lib/index.js 2.7 kB {0} [built]
   [425] ./~/react-hot-loader/lib/index.dev.js 1.57 kB {0} [built]
-  [426] ./src/components/App.js 3.32 kB {0} [built]
+  [426] ./src/components/App.js 3.35 kB {0} [built]
   [427] ./~/react-bootstrap/lib/index.js 11.3 kB {0} [built]
   [428] ./~/react-bootstrap/lib/Accordion.js 1.5 kB {0} [built]
   [429] ./~/babel-runtime/helpers/extends.js 544 bytes {0} [built]
@@ -705,14 +705,14 @@ chunk    {0} bundle.js (main) 1.75 MB [rendered]
   [695] ./~/react-bootstrap/lib/Tooltip.js 4.58 kB {0} [built]
   [696] ./~/react-bootstrap/lib/Well.js 2.2 kB {0} [built]
   [697] ./~/react-bootstrap/lib/utils/index.js 1.1 kB {0} [built]
-  [698] ./src/components/List.js 3.61 kB {0} [built]
-  [699] ./src/components/Excerpt.js 4.24 kB {0} [built]
-  [700] ./src/tp.js 980 bytes {0} [built]
+  [698] ./src/components/List.js 3.64 kB {0} [built]
+  [699] ./src/components/Excerpt.js 4.27 kB {0} [built]
+  [700] ./src/tp.js 996 bytes {0} [built]
   [701] ./~/redux/lib/redux.js 23.1 kB {0} [built]
   [702] ./~/symbol-observable/lib/index.js 664 bytes {0} [built]
   [703] ./~/symbol-observable/lib/ponyfill.js 449 bytes {0} [built]
-  [704] ./src/reducer.js 1.72 kB {0} [built]
-  [705] ./src/action.js 1.8 kB {0} [built]
+  [704] ./src/reducer.js 1.77 kB {0} [built]
+  [705] ./src/action.js 1.9 kB {0} [built]
   [706] ./~/shortid/index.js 55 bytes {0} [built]
   [707] ./~/shortid/lib/index.js 1.78 kB {0} [built]
   [708] ./~/shortid/lib/alphabet.js 2.2 kB {0} [built]
@@ -723,5 +723,5 @@ chunk    {0} bundle.js (main) 1.75 MB [rendered]
   [713] ./~/shortid/lib/build.js 1.29 kB {0} [built]
   [714] ./~/shortid/lib/is-valid.js 407 bytes {0} [built]
   [715] ./~/shortid/lib/util/cluster-worker-id-browser.js 35 bytes {0} [built]
-  [716] ./src/components/Write.js 6.08 kB {0} [built]
+  [716] ./src/components/Write.js 6.11 kB {0} [built]
 webpack: Compiled successfully.
