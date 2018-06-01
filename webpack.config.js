@@ -12,7 +12,7 @@ module.exports = {
         hot: true,
         inline: true,
         host: '0.0.0.0',
-        port: 8080,
+        port: 7777,
         contentBase: __dirname + '/public/',
         disableHostCheck: true,
     },
