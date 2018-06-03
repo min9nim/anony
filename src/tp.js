@@ -1,29 +1,32 @@
-import { createStore } from 'redux';
+import {createStore} from 'redux';
 import {reducer} from "./reducer";
 
 export let tp = {};
 
 tp.init = function(){
-    let str = window.localStorage.getItem("state");
-    this.state = ["undefined", "", null].includes(str) ? {mode : "list", posts : []} : JSON.parse(str);
+    tp.loadState();
+    tp.store = createStore(reducer, tp.state);
 };
 
-tp.init();
-
 tp.saveState = function(){
-    this.state = this.store.getState();
-    window.localStorage.setItem("state", JSON.stringify(this.state));
+    tp.state = tp.store.getState();
+
+    window.localStorage.setItem("state", JSON.stringify(tp.state));
+
 };
 
 tp.loadState = function(){
-    return this.state;
+    const str = window.localStorage.getItem("state");
+    tp.state = ["undefined", "", null].includes(str) ?
+                { mode: "list", posts: [] } :
+                JSON.parse(str) ;
 };
 
 tp.dispatch = function(action){
-  this.store.dispatch(action);
-  this.saveState();
+    tp.store.dispatch(action);
+    tp.saveState();
 }
 
-tp.store = createStore(reducer, tp.loadState());
-
+tp.init();
 window.tp = tp;
+console.log("### aaaaaa");

@@ -10,7 +10,7 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = tp.loadState();
+        this.state = tp.state;
 
         let that = this;
 
@@ -23,10 +23,8 @@ export default class App extends React.Component {
         console.log("App rendering");
         return (
             <div>{
-                this.state.mode === "list"
-                ?
-                <List app={this}/>
-                :
+                this.state.mode === "list" ?
+                <List app={this}/> :
                 <Write app={this}/>
             }</div>
         );
