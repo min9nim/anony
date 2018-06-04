@@ -48,6 +48,7 @@ export default class Write extends React.Component {
     }
     this.state.date = Date.now();
     tp.dispatch(addPost(this.state));
+    this.goList();
   }
 
   goList() {

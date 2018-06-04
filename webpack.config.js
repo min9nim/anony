@@ -15,6 +15,9 @@ module.exports = {
         port: 7777,
         contentBase: __dirname + '/public/',
         disableHostCheck: true,
+        proxy: {
+            "*": "http://localhost:8080"
+        }
     },
 
     module:{

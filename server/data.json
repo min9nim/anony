@@ -1,19 +1,26 @@
 {
-  "mode": "list",
+  "mode": "write",
   "posts": [
     {
-      "key": "Skazcplx7",
-      "title": "22",
-      "writer": "22",
-      "content": "22",
-      "date": 1527990804840
+      "key": "SkuiXUMl7",
+      "title": "첫번째 데이터",
+      "writer": "하하하",
+      "content": "하하하\n",
+      "date": 1528091551592
     },
     {
-      "key": "S14tEOZgQ",
-      "title": "졸려요",
-      "writer": "민구",
-      "content": "쫌만 하고 잘꺼에요..",
-      "date": 1528034427933
+      "key": "BJwttIGe7",
+      "title": "오늘은 왜케 잠잠하지.. 허허",
+      "writer": "송혜교",
+      "content": "그러니 왠지 더욱 불안..\n",
+      "date": 1528093055313
+    },
+    {
+      "key": "rJf4T8zlm",
+      "title": "이제 대략 정리가 된거 같다아",
+      "writer": "휴우",
+      "content": "정신 하나도 없었엉~~",
+      "date": 1528093993879
     }
   ]
 }
