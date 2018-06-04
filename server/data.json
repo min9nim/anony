@@ -2,13 +2,6 @@
   "mode": "write",
   "posts": [
     {
-      "key": "SkuiXUMl7",
-      "title": "첫번째 데이터",
-      "writer": "하하하",
-      "content": "하하하\n",
-      "date": 1528091551592
-    },
-    {
       "key": "BJwttIGe7",
       "title": "오늘은 왜케 잠잠하지.. 허허",
       "writer": "송혜교",
@@ -21,6 +14,27 @@
       "writer": "휴우",
       "content": "정신 하나도 없었엉~~",
       "date": 1528093993879
+    },
+    {
+      "key": "SyTvQvflX",
+      "title": "이제 나왔다",
+      "writer": "카카",
+      "content": "서버에서 돈다 이젠",
+      "date": 1528095589017
+    },
+    {
+      "key": "By9xVvMlX",
+      "title": "데이터 하나더",
+      "writer": "키팅",
+      "content": "벌써 오늘 하루 다갔넹",
+      "date": 1528095729985
+    },
+    {
+      "key": "S1Z4SvGlQ",
+      "title": "모바일",
+      "writer": "할",
+      "content": "이거 왜이러징",
+      "date": 1528096040736
     }
   ]
 }
