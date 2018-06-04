@@ -11,18 +11,20 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     // 초기상태 정의
-    this.state = {mode : "list", posts : []};
+    this.state = {
+      mode: "list",
+      posts: []
+    };
     tp.view.App = this;
   }
 
   render() {
     console.log("App rendering..");
     return (
-        <div>{
-          this.state.mode === "list"
-          ? <List/> 
+      <div>{this.state.mode === "list"
+          ? <List/>
           : <Write/>
-        }</div>
+      }</div>
     );
   }
 }

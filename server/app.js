@@ -11,16 +11,17 @@ const PORT = 8080;
 const DATAFILE = __dirname + path.sep + "data.json"; // __dirname 는 app.js 가 위치한 경로
 
 
-
 // 미들웨어 정의
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-const staticPath = process.platform.indexOf("win32") > -1 ?
-                __dirname + '\\..\\public' :
-                __dirname + '/../public' ;
+const staticPath = process.platform.indexOf("win32") > -1
+                   ? __dirname + '\\..\\public' 
+                   : __dirname + '/../public' ;
 app.use(express.static(staticPath));
 
 
+
+// 라우팅 정의
 app.get("/hello", (req, res) => {
     res.send("hello world..");
 })
@@ -56,6 +57,6 @@ app.post("/save", (req, res) => {
 });
 
 app.listen(PORT, function(){
-    console.log(`express server is lintening on port ${PORT}`);
+    console.log(`express is lintening on port ${PORT}`);
 });
 
