@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "907969d21010e0a17416"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d9f345bf8923730ebd79"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -28844,7 +28844,10 @@
 	    // 초기상태 정의
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-	    _this.state = { mode: "list", posts: [] };
+	    _this.state = {
+	      mode: "list",
+	      posts: []
+	    };
 	    _tp.tp.view.App = _this;
 	    return _this;
 	  }
@@ -28873,9 +28876,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/songmingu/Documents/project/talkplace/src/components/App.js');
+	  __REACT_HOT_LOADER__.register(App, 'App', 'C:/Users/myData/project/talkplace/src/components/App.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/components/App.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/components/App.js');
 	}();
 
 	;
@@ -29436,7 +29439,7 @@
 /* 361 */
 /***/ (function(module, exports) {
 
-	var core = module.exports = { version: '2.5.6' };
+	var core = module.exports = { version: '2.5.7' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -32956,7 +32959,7 @@
 /* 464 */
 /***/ (function(module, exports) {
 
-	/** @license React v16.3.2
+	/** @license React v16.4.0
 	 * react-is.production.min.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -32965,17 +32968,17 @@
 	 * LICENSE file in the root directory of this source tree.
 	 */
 
-	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol["for"],c=b?Symbol["for"]("react.element"):60103,d=b?Symbol["for"]("react.portal"):60106,e=b?Symbol["for"]("react.fragment"):60107,f=b?Symbol["for"]("react.strict_mode"):60108,g=b?Symbol["for"]("react.provider"):60109,h=b?Symbol["for"]("react.context"):60110,k=b?Symbol["for"]("react.async_mode"):60111,l=b?Symbol["for"]("react.forward_ref"):60112;
-	function m(a){if("object"===typeof a&&null!==a){var n=a.$$typeof;switch(n){case c:switch(a=a.type,a){case k:case e:case f:return a;default:switch(a=a&&a.$$typeof,a){case h:case l:case g:return a;default:return n}}case d:return n}}}exports.typeOf=m;exports.AsyncMode=k;exports.ContextConsumer=h;exports.ContextProvider=g;exports.Element=c;exports.ForwardRef=l;exports.Fragment=e;exports.Portal=d;exports.StrictMode=f;
-	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===k||a===f||"object"===typeof a&&null!==a&&(a.$$typeof===g||a.$$typeof===h||a.$$typeof===l)};exports.isAsyncMode=function(a){return m(a)===k};exports.isContextConsumer=function(a){return m(a)===h};exports.isContextProvider=function(a){return m(a)===g};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return m(a)===l};
-	exports.isFragment=function(a){return m(a)===e};exports.isPortal=function(a){return m(a)===d};exports.isStrictMode=function(a){return m(a)===f};
+	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.forward_ref"):60112,n=b?Symbol.for("react.timeout"):60113;
+	function q(a){if("object"===typeof a&&null!==a){var p=a.$$typeof;switch(p){case c:switch(a=a.type,a){case l:case e:case g:case f:return a;default:switch(a=a&&a.$$typeof,a){case k:case m:case h:return a;default:return p}}case d:return p}}}exports.typeOf=q;exports.AsyncMode=l;exports.ContextConsumer=k;exports.ContextProvider=h;exports.Element=c;exports.ForwardRef=m;exports.Fragment=e;exports.Profiler=g;exports.Portal=d;exports.StrictMode=f;
+	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===l||a===g||a===f||a===n||"object"===typeof a&&null!==a&&(a.$$typeof===h||a.$$typeof===k||a.$$typeof===m)};exports.isAsyncMode=function(a){return q(a)===l};exports.isContextConsumer=function(a){return q(a)===k};exports.isContextProvider=function(a){return q(a)===h};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return q(a)===m};
+	exports.isFragment=function(a){return q(a)===e};exports.isProfiler=function(a){return q(a)===g};exports.isPortal=function(a){return q(a)===d};exports.isStrictMode=function(a){return q(a)===f};
 
 
 /***/ }),
 /* 465 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.3.2
+	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.4.0
 	 * react-is.development.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -32996,23 +32999,23 @@
 
 	// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 	// nor polyfill, then a plain number is used for performance.
-	var hasSymbol = typeof Symbol === 'function' && Symbol['for'];
+	var hasSymbol = typeof Symbol === 'function' && Symbol.for;
 
-	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol['for']('react.element') : 0xeac7;
-
-
-	var REACT_PORTAL_TYPE = hasSymbol ? Symbol['for']('react.portal') : 0xeaca;
-	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol['for']('react.fragment') : 0xeacb;
-	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol['for']('react.strict_mode') : 0xeacc;
-	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol['for']('react.provider') : 0xeacd;
-	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol['for']('react.context') : 0xeace;
-	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol['for']('react.async_mode') : 0xeacf;
-	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol['for']('react.forward_ref') : 0xead0;
+	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+	var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+	var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
+	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+	var REACT_TIMEOUT_TYPE = hasSymbol ? Symbol.for('react.timeout') : 0xead1;
 
 	function isValidElementType(type) {
 	  return typeof type === 'string' || typeof type === 'function' ||
 	  // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_STRICT_MODE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_TIMEOUT_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
 	}
 
 	function typeOf(object) {
@@ -33026,6 +33029,7 @@
 	        switch (type) {
 	          case REACT_ASYNC_MODE_TYPE:
 	          case REACT_FRAGMENT_TYPE:
+	          case REACT_PROFILER_TYPE:
 	          case REACT_STRICT_MODE_TYPE:
 	            return type;
 	          default:
@@ -33054,6 +33058,7 @@
 	var Element = REACT_ELEMENT_TYPE;
 	var ForwardRef = REACT_FORWARD_REF_TYPE;
 	var Fragment = REACT_FRAGMENT_TYPE;
+	var Profiler = REACT_PROFILER_TYPE;
 	var Portal = REACT_PORTAL_TYPE;
 	var StrictMode = REACT_STRICT_MODE_TYPE;
 
@@ -33075,6 +33080,9 @@
 	function isFragment(object) {
 	  return typeOf(object) === REACT_FRAGMENT_TYPE;
 	}
+	function isProfiler(object) {
+	  return typeOf(object) === REACT_PROFILER_TYPE;
+	}
 	function isPortal(object) {
 	  return typeOf(object) === REACT_PORTAL_TYPE;
 	}
@@ -33089,6 +33097,7 @@
 	exports.Element = Element;
 	exports.ForwardRef = ForwardRef;
 	exports.Fragment = Fragment;
+	exports.Profiler = Profiler;
 	exports.Portal = Portal;
 	exports.StrictMode = StrictMode;
 	exports.isValidElementType = isValidElementType;
@@ -33098,6 +33107,7 @@
 	exports.isElement = isElement;
 	exports.isForwardRef = isForwardRef;
 	exports.isFragment = isFragment;
+	exports.isProfiler = isProfiler;
 	exports.isPortal = isPortal;
 	exports.isStrictMode = isStrictMode;
 	  })();
@@ -50211,7 +50221,7 @@
 	            this.props.app.setState({
 	                mode : "write",
 	            })
-	             */
+	              */
 
 	            _tp.tp.dispatch((0, _action.viewMode)("write"));
 	        }
@@ -50248,9 +50258,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(List, 'List', '/Users/songmingu/Documents/project/talkplace/src/components/List.js');
+	    __REACT_HOT_LOADER__.register(List, 'List', 'C:/Users/myData/project/talkplace/src/components/List.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/components/List.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/components/List.js');
 	}();
 
 	;
@@ -50353,9 +50363,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 	}();
 
 	;
@@ -50448,7 +50458,7 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(tp, "tp", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(tp, "tp", "C:/Users/myData/project/talkplace/src/tp.js");
 	}();
 
 	;
@@ -51184,11 +51194,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(reducer, "reducer", "C:/Users/myData/project/talkplace/src/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(posts, "posts", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(posts, "posts", "C:/Users/myData/project/talkplace/src/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(mode, "mode", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(mode, "mode", "C:/Users/myData/project/talkplace/src/reducer.js");
 	}();
 
 	;
@@ -51200,7 +51210,7 @@
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	exports.VIEW = exports.DELETE = exports.ADD = undefined;
 	exports.addPost = addPost;
@@ -51218,55 +51228,49 @@
 	var VIEW = exports.VIEW = "VIEW";
 
 	function addPost(_ref) {
-	    var key = _ref.key,
-	        title = _ref.title,
-	        writer = _ref.writer,
-	        content = _ref.content,
-	        date = _ref.date;
+	  var key = _ref.key,
+	      title = _ref.title,
+	      writer = _ref.writer,
+	      content = _ref.content,
+	      date = _ref.date;
 
-	    return {
-	        type: ADD,
-	        post: {
-	            key: _shortid2.default.generate(),
-	            title: title,
-	            writer: writer,
-	            content: content,
-	            date: date
-	        }
-	    };
+	  return {
+	    type: ADD,
+	    post: {
+	      key: _shortid2.default.generate(),
+	      title: title,
+	      writer: writer,
+	      content: content,
+	      date: date
+	    }
+	  };
 	}
 
 	function deletePost(key) {
-	    return {
-	        type: DELETE,
-	        key: key
-	    };
+	  return { type: DELETE, key: key };
 	}
 
 	function viewMode(mode) {
-	    return {
-	        type: VIEW,
-	        mode: mode
-	    };
+	  return { type: VIEW, mode: mode };
 	}
 	;
 
 	var _temp = function () {
-	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	        return;
-	    }
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
 
-	    __REACT_HOT_LOADER__.register(ADD, "ADD", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(ADD, "ADD", "C:/Users/myData/project/talkplace/src/action.js");
 
-	    __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "C:/Users/myData/project/talkplace/src/action.js");
 
-	    __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "C:/Users/myData/project/talkplace/src/action.js");
 
-	    __REACT_HOT_LOADER__.register(addPost, "addPost", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(addPost, "addPost", "C:/Users/myData/project/talkplace/src/action.js");
 
-	    __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "C:/Users/myData/project/talkplace/src/action.js");
 
-	    __REACT_HOT_LOADER__.register(viewMode, "viewMode", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(viewMode, "viewMode", "C:/Users/myData/project/talkplace/src/action.js");
 	}();
 
 	;
@@ -51802,9 +51806,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Write, "Write", "/Users/songmingu/Documents/project/talkplace/src/components/Write.js");
+	  __REACT_HOT_LOADER__.register(Write, "Write", "C:/Users/myData/project/talkplace/src/components/Write.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Write.js");
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Write.js");
 	}();
 
 	;

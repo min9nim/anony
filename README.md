@@ -7,7 +7,13 @@
 ~/talkplace $ npm install
 ```
 
-#### webpack-dev-server 시작
+#### 개발모드 시작
 ```
 ~/talkplace $ npm run dev-server
+~/talkplace $ npm run dev-express
+```
+
+#### 운영모드 시작
+```
+~/talkplace $ npm start
 ```
