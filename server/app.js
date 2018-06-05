@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan');
 const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
 
 
 // 상수정의
@@ -20,41 +21,61 @@ const staticPath = process.platform.indexOf("win32") > -1
 app.use(express.static(staticPath));
 
 
+// 디비설정 
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', function () {
+    console.log("Connected to mongod server");
+});
+
+mongoose.connect('mongodb://localhost/talkplace');
+
+
+// DEFINE MODEL
+let Post = require('./models/post');
+
 
 // 라우팅 정의
 app.get("/hello", (req, res) => {
     res.send("hello world..");
 })
 
-app.get("/load", (req, res) => {
-    fs.readFile(DATAFILE, (err, data) => {
-        if(err){
-            // 최초 data.json 이 존재하지 않을 경우 예외처리
-            console.log(err);
-            res.send({
-                status : "ok",
-                data : {mode : "list", data : []}
-            });                
-        }else{
-            res.send({
-                status : "ok",
-                data : JSON.parse(data)
-            });    
-        }
+app.post("/api/posts", (req, res) => {
+    console.log("received data = " + JSON.stringify(req.body, null, 2));
+
+    var post = new Post();
+    post.key = req.body.key;
+    post.title = req.body.title;
+    post.writer = req.body.writer;
+    post.content = req.body.content;
+    post.date = req.body.date;
+
+    post.save(function (err) {
+        if (err) throw err;
+        res.send({
+            status: 'ok',
+            message: 'save success'
+        });
+
+    });   
+});
+
+
+app.get("/api/posts", (req, res) => {
+    Post.find(function (err, posts) {
+        if (err) return res.status(500).send({ error: 'database failure' });
+        res.send({posts : posts});
+    })    
+});
+
+
+app.delete("/api/posts/:key", (req, res) => {
+    Post.remove({ key: req.params.key }, function (err, output) {
+        if (err) return res.status(500).json({ error: "database failure" });
+        res.send({message : req.params.key + " is deleted"})
     })
 });
 
-app.post("/save", (req, res) => {
-    // request의 content-type 이 application/json 이어야 req.body에 접근 가능함
-    console.log("received data = " + JSON.stringify(req.body, null, 2));
-    fs.writeFile(DATAFILE, JSON.stringify(req.body, null, 2), (err) => {
-        if(err) throw err;
-        res.send({
-            status : 'ok',
-            message : 'save success'
-        });
-    })
-});
 
 app.listen(PORT, function(){
     console.log(`express is lintening on port ${PORT}`);
