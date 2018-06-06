@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d9f345bf8923730ebd79"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "38f43eeb2071f89a0a5f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -50385,6 +50385,8 @@
 
 	var _reducer = __webpack_require__(630);
 
+	var _action = __webpack_require__(631);
+
 	var tp = exports.tp = {};
 
 	console.log("tp.js called..");
@@ -50392,12 +50394,18 @@
 	tp.init = function () {
 	  tp.state = { mode: "list", posts: [] };
 	  tp.view = {};
-	  tp.loadState();
+	  tp.api = {};
+	  //tp.loadState();
 	};
+
+	tp.init();
+	window.tp = tp;
 
 	tp.saveState = function () {
 	  tp.state = tp.store.getState();
 	  var data = JSON.stringify(tp.state, null, 2);
+
+	  // 요부분에서 추가된 post 정보만 서버로 전달을 해야하는 것이고나!!
 
 	  fetch("/save", {
 	    method: "POST",
@@ -50415,17 +50423,33 @@
 	  });
 	};
 
-	tp.loadState = function () {
-	  var str = window.localStorage.getItem("state");
+	tp.api.addPost = function (post) {
+	  fetch("/api/posts", {
+	    method: "POST",
+	    headers: new Headers({
+	      "Content-Type": "application/json"
+	    }),
+	    body: JSON.stringify(post, null, 2)
+	  }).then(function (response) {
+	    if (!response.ok) throw Error(response.statusText);
+	    return response.json();
+	  }).then(function (data) {
+	    console.log("addPost success : " + data);
+	  }).catch(function (e) {
+	    console.log(e);
+	  });
+	};
 
-	  fetch("/load", {
+	tp.api.loadPosts = function () {
+	  fetch("/api/posts", {
 	    method: "GET"
 	  }).then(function (response) {
 	    if (!response.ok) throw Error(response.statusText);
 	    return response.json();
 	  }).then(function (res) {
+	    console.log("addPost success : " + JSON.stringify(res, null, 2));
 	    // redux 스토어 생성
-	    tp.store = (0, _redux.createStore)(_reducer.reducer, res.data);
+	    tp.store = (0, _redux.createStore)(_reducer.reducer, { mode: "list", posts: res.posts });
 
 	    // redux 로부터 상태 얻어오기
 	    tp.state = tp.store.getState();
@@ -50435,8 +50459,22 @@
 
 	    // App.js 컴포넌트가 스토어를 구독하도록 설정
 	    tp.store.subscribe(function () {
-	      tp.view.App.setState(tp.store.getState());
+	      tp.state = tp.store.getState();
+	      tp.view.App.setState(tp.state);
 	    });
+	  }).catch(function (e) {
+	    console.log(e);
+	  });
+	};
+
+	tp.api.deletePost = function (key) {
+	  fetch("/api/posts/" + key, {
+	    method: "DELETE"
+	  }).then(function (response) {
+	    if (!response.ok) throw Error(response.statusText);
+	    return response.json();
+	  }).then(function (res) {
+	    console.log("deletePost success : " + JSON.stringify(res, null, 2));
 	  }).catch(function (e) {
 	    console.log(e);
 	  });
@@ -50444,13 +50482,19 @@
 
 	tp.dispatch = function (action) {
 	  tp.store.dispatch(action);
-	  if (action.type !== "VIEW") {
-	    tp.saveState();
+	  switch (action.type) {
+	    case _action.ADD:
+	      tp.api.addPost(action.post);
+	      break;
+	    case _action.DELETE:
+	      tp.api.deletePost(action.key);
+	      break;
+	    default:
+	      break;
 	  }
 	};
 
-	tp.init();
-	window.tp = tp;
+	tp.api.loadPosts();
 	;
 
 	var _temp = function () {
