@@ -112,7 +112,7 @@ tp.dispatch = function(action){
         tp.api.deletePost(action.key);
         break;
       default :
-        tp.saveState();
+        break;
     }
 }
 
