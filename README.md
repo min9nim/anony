@@ -17,11 +17,7 @@
 ```
 ~/talkplace $ npm start
 ```
-
-
-
-#### forever 를 이용한 서비스 실행
-터미널 종료 후에도 계속 서비스를 해야할 경우 아래와 같이 forever 를 이용한다
+터미널 종료 후에도 서비스를 계속 해야할 경우에는 아래와 같이 forever 를 이용한다
 1. forever 설치
     ```
     sudo npm i -g forever
