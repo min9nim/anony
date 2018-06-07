@@ -1,6 +1,7 @@
 import shortid from "shortid";
 
 export const ADD = "ADD";
+export const ADDMULTI = "ADDMULTI";
 export const DELETE = "DELETE";
 export const VIEW = "VIEW";
 
@@ -14,6 +15,14 @@ export function addPost({key, title, writer, content, date}) {
       content: content,
       date: date
     }
+  }
+}
+
+export function addMultiPost(posts) {
+  //posts = posts.map(o => {o.key = shortid.generate(); return o;});
+  return {
+    type: ADDMULTI,
+    posts
   }
 }
 

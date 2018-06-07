@@ -1,6 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
-import {addPost, viewMode} from "../action";
+import {addPost, viewMode} from "../redux/action";
 import {
   FormGroup,
   HelpBlock,
@@ -28,6 +28,7 @@ export default class Write extends React.Component {
   }
 
   getValidationState() {
+    return;
     const length = this.state.title.length;
     if (length > 10) return 'success';
     else if (length > 5) return 'warning';
@@ -45,6 +46,9 @@ export default class Write extends React.Component {
     if (this.state.content === "") {
       alert("내용을 입력하세요");
       return;
+    }
+    if(this.state.title === ""){
+      this.state.title = this.state.content.substr(0,7);
     }
     this.state.date = Date.now();
     tp.dispatch(addPost(this.state));
@@ -84,8 +88,8 @@ export default class Write extends React.Component {
                         componentClass = "textarea"
                         placeholder = "내용을 입력하세요.." />
             </FormGroup>
-            <Button bsStyle = "success" onClick = {this.savePost}> Save </Button>
-            <Button style = {{marginLeft: "3px"}} bsStyle = "success" onClick = {this.goList}>List </Button>
+            <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
+            <Button style = {{marginLeft: "3px"}} bsStyle = "success" onClick = {this.goList}>Cancel</Button>
         </div>
     );
   }

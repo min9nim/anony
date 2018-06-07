@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import Excerpt from "./Excerpt";
 import {tp} from "../tp.js";
-import {viewMode} from "../action";
+import {viewMode} from "../redux/action";
 
 console.log("List.js call");
 
@@ -31,7 +31,7 @@ export default class List extends React.Component {
                 {tp.state.posts.slice().reverse().map(
                     post => <Excerpt key={post.key} post={post} app={this.props.app}/>
                 )}
-                <Button bsStyle="success" onClick={this.writePost}>Write</Button>
+                <div className="writeBtn"><Button bsStyle="success" onClick={this.writePost}>Write</Button></div>
             </div>
         );
     }

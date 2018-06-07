@@ -12,6 +12,8 @@ function posts(state = {}, action) {
   switch (action.type) {
     case ADD:
       return [...state, action.post];
+    case ADDMULTI:
+      return [...state, ...action.posts];
     case DELETE:
       let idx = state.findIndex(o => o.key === action.key);
       let tmp = [...state];

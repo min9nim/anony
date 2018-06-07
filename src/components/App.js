@@ -2,7 +2,7 @@ import React from 'react';
 import {Media, Button} from 'react-bootstrap';
 import List from "./List";
 import Write from "./Write";
-import {tp} from "../tp.js";
+import {tp} from "../tp";
 
 console.log("App.js call");
 

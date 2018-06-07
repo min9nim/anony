@@ -72,6 +72,24 @@ app.get("/api/posts", (req, res) => {
     })    
 });
 
+app.get("/api/posts", (req, res) => {
+    Post.find()
+        .then(posts => res.send({posts : posts}))
+        .catch(err => res.status(500).send({ error: 'database failure' }));
+});
+
+
+app.get("/api/posts/:idx/:cnt", (req, res) => {
+    Post.find()
+        .skip(Number(req.params.idx))
+        .limit(Number(req.params.cnt))
+        .then(posts => res.send({posts : posts}))
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+});
+
 
 app.delete("/api/posts/:key", (req, res) => {
     Post.remove({ key: req.params.key }, function (err, output) {
