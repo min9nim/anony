@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d3e61d322caf203f7baf"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ff0c60e2597304da9d72"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -28878,9 +28878,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/songmingu/Documents/project/talkplace/src/components/App.js');
+	  __REACT_HOT_LOADER__.register(App, 'App', '/home/ec2-user/dev/talkplace/src/components/App.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/components/App.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/home/ec2-user/dev/talkplace/src/components/App.js');
 	}();
 
 	;
@@ -50253,9 +50253,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(List, 'List', '/Users/songmingu/Documents/project/talkplace/src/components/List.js');
+	    __REACT_HOT_LOADER__.register(List, 'List', '/home/ec2-user/dev/talkplace/src/components/List.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/components/List.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', '/home/ec2-user/dev/talkplace/src/components/List.js');
 	}();
 
 	;
@@ -50316,45 +50316,34 @@
 	        key: "render",
 	        value: function render() {
 	            console.log("Excerpt rendering");
-
-	            var excerpt1 = { display: "inline-block", margin: "10px", width: "100%" };
-
 	            return _react2.default.createElement(
 	                "div",
-	                { id: this.props.post.key },
+	                { id: this.props.post.key, className: "excerpt" },
 	                _react2.default.createElement(
 	                    "div",
-	                    { style: excerpt1, className: "excerpt1" },
+	                    null,
 	                    _react2.default.createElement(
 	                        "div",
-	                        null,
-	                        _react2.default.createElement(
-	                            "div",
-	                            { style: { display: "inline-block", width: "calc(100% - 30px)" } },
-	                            _react2.default.createElement(
-	                                "h4",
-	                                null,
-	                                this.props.post.title
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            "div",
-	                            { style: { display: "inline-block", margin: "10px", cursor: "pointer" }, onClick: this.deletePost },
-	                            "x"
-	                        )
+	                        { className: "title h4" },
+	                        this.props.post.title
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
-	                        { style: { color: "#aaa" } },
-	                        this.props.post.writer,
-	                        " - ",
-	                        new Date(this.props.post.date).toString().substr(4, 17)
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
-	                        null,
-	                        this.props.post.content
+	                        { className: "delete", onClick: this.deletePost },
+	                        "x"
 	                    )
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "meta" },
+	                    this.props.post.writer,
+	                    " - ",
+	                    new Date(this.props.post.date).toString().substr(4, 17)
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    this.props.post.content
 	                )
 	            );
 	        }
@@ -50372,9 +50361,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/home/ec2-user/dev/talkplace/src/components/Excerpt.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "/home/ec2-user/dev/talkplace/src/components/Excerpt.js");
 	}();
 
 	;
@@ -50511,7 +50500,7 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(tp, "tp", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(tp, "tp", "/home/ec2-user/dev/talkplace/src/tp.js");
 	}();
 
 	;
@@ -51247,11 +51236,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/home/ec2-user/dev/talkplace/src/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(posts, "posts", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(posts, "posts", "/home/ec2-user/dev/talkplace/src/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(mode, "mode", "/Users/songmingu/Documents/project/talkplace/src/reducer.js");
+	  __REACT_HOT_LOADER__.register(mode, "mode", "/home/ec2-user/dev/talkplace/src/reducer.js");
 	}();
 
 	;
@@ -51313,17 +51302,17 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/home/ec2-user/dev/talkplace/src/action.js");
 
-	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/home/ec2-user/dev/talkplace/src/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/home/ec2-user/dev/talkplace/src/action.js");
 
-	  __REACT_HOT_LOADER__.register(addPost, "addPost", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(addPost, "addPost", "/home/ec2-user/dev/talkplace/src/action.js");
 
-	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/home/ec2-user/dev/talkplace/src/action.js");
 
-	  __REACT_HOT_LOADER__.register(viewMode, "viewMode", "/Users/songmingu/Documents/project/talkplace/src/action.js");
+	  __REACT_HOT_LOADER__.register(viewMode, "viewMode", "/home/ec2-user/dev/talkplace/src/action.js");
 	}();
 
 	;
@@ -51859,9 +51848,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Write, "Write", "/Users/songmingu/Documents/project/talkplace/src/components/Write.js");
+	  __REACT_HOT_LOADER__.register(Write, "Write", "/home/ec2-user/dev/talkplace/src/components/Write.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Write.js");
+	  __REACT_HOT_LOADER__.register(_default, "default", "/home/ec2-user/dev/talkplace/src/components/Write.js");
 	}();
 
 	;
@@ -51925,7 +51914,7 @@
 
 
 	// module
-	exports.push([module.id, "#writeBtn {\n  display: block; }\n\n.dialog, .search {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0px;\n  left: 0px;\n  display: none;\n  font-size: 14px; }\n\n#modal {\n  width: 100%;\n  height: 100%;\n  opacity: 0.5;\n  background-color: gray; }\n\n#div_write {\n  position: absolute;\n  width: 90%;\n  height: 20%;\n  top: 30%;\n  left: 50%;\n  transform: translateX(-50%) translateY(-30%); }\n\n.input {\n  height: 100%;\n  border: 1px solid #6699ff;\n  background-color: white;\n  padding: 5px;\n  overflow: auto;\n  font-size: 20px; }\n\n#btn_cencle {\n  right: 0px; }\n\n.txt {\n  display: inline-block;\n  padding-top: 0px;\n  line-height: initial;\n  word-wrap: break-word;\n  width: 100%; }\n\n.header {\n  background-color: #26a69a;\n  color: #fff;\n  font-size: 20px;\n  padding-left: 10px;\n  cursor: pointer; }\n  .header .title {\n    cursor: pointer;\n    display: inline-block;\n    vertical-align: middle; }\n  .header .state {\n    display: inline-block;\n    vertical-align: middle; }\n  .header .message {\n    display: inline-block;\n    vertical-align: middle; }\n\n#btnSearch {\n  cursor: pointer;\n  vertical-align: middle;\n  float: right;\n  margin-top: 4px;\n  margin-right: 7px; }\n\n#topNavi {\n  font-weight: bold;\n  font-size: 30px;\n  line-height: 56px;\n  margin-bottom: 10px; }\n\n#addBtn {\n  font-weight: bold;\n  font-size: 22px;\n  line-height: 50px; }\n\n.createDate {\n  color: #999999;\n  font-size: 12px;\n  line-height: 20px; }\n\n.btnContext {\n  color: #dddddd;\n  font-size: 12px;\n  line-height: 20px;\n  right: 0px;\n  position: absolute;\n  margin-right: 20px; }\n\n.collection .collection-item.avatar i.circle {\n  width: 50px;\n  height: 50px;\n  font-size: 25px;\n  line-height: 45px;\n  font-weight: bold; }\n\n#btn_delete {\n  color: #aaaaaa;\n  top: 45% !important;\n  position: absolute;\n  display: inline-block;\n  right: -70px; }\n\n#btn_edit {\n  color: #aaaaaa;\n  top: 45% !important;\n  position: absolute;\n  display: inline-block;\n  right: -30px; }\n\n.btn_grp {\n  margin-top: 5px;\n  text-align: center; }\n\n#nprogress .bar {\n  display: none;\n  position: absolute;\n  top: 30px;\n  background: #708c0c; }\n\n#nprogress .spinner {\n  top: 50%;\n  right: 45%; }\n\n.menu {\n  position: absolute;\n  width: 220px;\n  left: -220px;\n  background-color: white;\n  z-index: 100; }\n  .menu .collection-item {\n    border: 0px;\n    padding-left: 5px; }\n  .menu li:nth-child(1) .menuTitle i {\n    background-color: #a3150b; }\n  .menu li:nth-child(2) .menuTitle i {\n    background-color: #013f7a; }\n  .menu li:nth-child(3) .menuTitle i {\n    background-color: #c65d07; }\n\n.menuTitle {\n  display: inline-block;\n  width: 100px; }\n  .menuTitle i {\n    font-size: 15px;\n    color: white;\n    width: 22px;\n    height: 22px;\n    text-align: center;\n    margin-right: 6px; }\n\ninput#fontSize {\n  width: 40px;\n  height: 20px;\n  margin: 0px; }\n\ninput#nickname {\n  width: 80px;\n  height: 20px;\n  margin: 0px; }\n\nselect#iconColor {\n  display: inline-block;\n  width: 80px;\n  height: 22px;\n  margin: 0px;\n  padding: 0px; }\n\n.menuContent {\n  display: inline-block; }\n\n#btnMenu {\n  vertical-align: middle; }\n\n.material-icons.circle {\n  cursor: pointer; }\n", ""]);
+	exports.push([module.id, ".excerpt {\n  display: inline-block;\n  margin: 10px;\n  width: 100%; }\n  .excerpt .title {\n    display: inline-block;\n    width: calc(100% - 30px); }\n  .excerpt .delete {\n    display: inline-block;\n    margin: 10px;\n    cursor: pointer;\n    color: #aaa; }\n  .excerpt .meta {\n    color: #aaa; }\n", ""]);
 
 	// exports
 
