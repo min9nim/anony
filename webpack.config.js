@@ -9,6 +9,7 @@ module.exports = {
     },
 
     devServer: {
+        /* devServer 는 변경사항 발생시 메모리에 bundle.js 를 배포하고 해당 파일?을 바라보며 서비스된다 */
         hot: true,
         inline: true,
         host: '0.0.0.0',

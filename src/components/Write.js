@@ -42,8 +42,8 @@ export default class Write extends React.Component {
   }
 
   savePost() {
-    if (this.state.title === "") {
-      alert("제목을 입력하세요");
+    if (this.state.content === "") {
+      alert("내용을 입력하세요");
       return;
     }
     this.state.date = Date.now();

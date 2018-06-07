@@ -28,7 +28,7 @@ export default class List extends React.Component {
         console.log("List rendering");
         return (
             <div style={{margin: '20px'}}>
-                {tp.state.posts.map(
+                {tp.state.posts.slice().reverse().map(
                     post => <Excerpt key={post.key} post={post} app={this.props.app}/>
                 )}
                 <Button bsStyle="success" onClick={this.writePost}>Write</Button>
