@@ -23,7 +23,7 @@ export default class List extends React.Component {
         console.log("List rendering");
         return (
             <div style={{margin: '20px'}}>
-                {this.props.posts.slice().reverse().map(
+                {this.props.posts.map(
                     post => <Excerpt key={post.key} post={post}/>
                 )}
                 <div className="writeBtn"><Button bsStyle="success" onClick={this.writePost}>Write</Button></div>

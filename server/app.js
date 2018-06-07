@@ -65,13 +65,8 @@ app.post("/api/posts", (req, res) => {
 });
 
 
-app.get("/api/posts", (req, res) => {
-    Post.find(function (err, posts) {
-        if (err) return res.status(500).send(err);
-        res.send({posts : posts});
-    })    
-});
 
+// 전체 데이터를 한꺼번에 가져오는 api 는 필요 없잖아?
 app.get("/api/posts", (req, res) => {
     Post.find()
         .then(posts => res.send({posts : posts}))
@@ -81,6 +76,7 @@ app.get("/api/posts", (req, res) => {
 
 app.get("/api/posts/:idx/:cnt", (req, res) => {
     Post.find()
+        .sort({"date" : -1})
         .skip(Number(req.params.idx))
         .limit(Number(req.params.cnt))
         .then(posts => res.send({posts : posts}))
@@ -92,10 +88,12 @@ app.get("/api/posts/:idx/:cnt", (req, res) => {
 
 
 app.delete("/api/posts/:key", (req, res) => {
-    Post.remove({ key: req.params.key }, function (err, output) {
-        if (err) return res.status(500).json({ error: "database failure" });
-        res.send({message : req.params.key + " is deleted"})
-    })
+    Post.remove({ key: req.params.key })
+        .then(() => res.send({ message: req.params.key + " is deleted" }))
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 
