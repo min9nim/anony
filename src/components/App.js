@@ -22,7 +22,7 @@ export default class App extends React.Component {
     console.log("App rendering..");
     return (
       <div>{this.state.mode === "list"
-          ? <List/>
+          ? <List posts={this.state.posts}/>
           : <Write/>
       }</div>
     );

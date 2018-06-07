@@ -67,7 +67,7 @@ app.post("/api/posts", (req, res) => {
 
 app.get("/api/posts", (req, res) => {
     Post.find(function (err, posts) {
-        if (err) return res.status(500).send({ error: 'database failure' });
+        if (err) return res.status(500).send(err);
         res.send({posts : posts});
     })    
 });
@@ -75,7 +75,7 @@ app.get("/api/posts", (req, res) => {
 app.get("/api/posts", (req, res) => {
     Post.find()
         .then(posts => res.send({posts : posts}))
-        .catch(err => res.status(500).send({ error: 'database failure' }));
+        .catch(err => res.status(500).send(err));
 });
 
 

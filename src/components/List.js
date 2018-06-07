@@ -10,17 +10,12 @@ export default class List extends React.Component {
 
     constructor(props) {
         super(props);
+        //this.state = {posts : []};
         this.writePost = this.writePost.bind(this);
+        //tp.view.List = this;
     }
 
     writePost(){
-        /*
-        this.props.app.setState({
-            mode : "write",
-        })
-
-        */
-
         tp.dispatch(viewMode("write"));
     }
 
@@ -28,8 +23,8 @@ export default class List extends React.Component {
         console.log("List rendering");
         return (
             <div style={{margin: '20px'}}>
-                {tp.state.posts.slice().reverse().map(
-                    post => <Excerpt key={post.key} post={post} app={this.props.app}/>
+                {this.props.posts.slice().reverse().map(
+                    post => <Excerpt key={post.key} post={post}/>
                 )}
                 <div className="writeBtn"><Button bsStyle="success" onClick={this.writePost}>Write</Button></div>
             </div>

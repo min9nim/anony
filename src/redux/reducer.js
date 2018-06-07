@@ -1,4 +1,4 @@
-import {ADD, DELETE, VIEW} from "./action";
+import {ADD, DELETE, VIEW, ADDMULTI} from "./action";
 
 
 export function reducer(state = {}, action) {
