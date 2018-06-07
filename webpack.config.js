@@ -32,6 +32,11 @@ module.exports = {
                     presets: ['es2015', 'react'],
                     plugins: ["react-hot-loader/babel"]
                 }
+            },
+            {
+                test: /\.(s*)css$/,
+                //loader : ['style-loader', 'css-loader', 'sass-loader']
+                loader : 'style-loader!css-loader!sass-loader'      // 아직 sass-loader 를 설치하지 않았는데 잘 돌아간다? 18-06-07
             }
         ]
     },

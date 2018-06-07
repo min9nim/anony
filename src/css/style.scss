@@ -1,0 +1,19 @@
+.excerpt {
+    display: inline-block;
+    margin: 10px;
+    width: 100%;
+
+    .title {
+        display: inline-block;
+        width: calc(100% - 30px);
+    }
+    .delete {
+        display: inline-block;
+        margin: 10px;
+        cursor: pointer;
+        color : #aaa;
+    }
+    .meta {
+        color: #aaa;
+    }
+}
