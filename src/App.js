@@ -30,10 +30,10 @@ export default class App extends React.Component {
     return (
       <div>
         <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
-          <Route path="/post/:key" render={({ match }) => <Post post={this.state.data.posts.find(post => post.key === match.params.key)} />} />
+          <Route path="/post/:key" render={({ match, history, location }) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} />} />
           <Route path="/write" component={Write} />
-          <Route path="/list" render={() => <List posts={this.state.data.posts} />} />
-          <Route path="/" render={() => <List posts={this.state.data.posts} />} />
+          <Route path="/list" render={({ match, history, location }) => <List posts={this.state.data.posts} />} />
+          <Route path="/" render={({ match, history, location }) => <List posts={this.state.data.posts} />} />
         </Switch>
       </div>
     );

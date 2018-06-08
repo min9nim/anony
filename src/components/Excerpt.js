@@ -27,7 +27,7 @@ export default class Excerpt extends React.Component {
         tp.dispatch(viewMode({mode: "post", key: this.props.post.key}));
     }
     render(){
-        console.log("Excerpt rendering");
+        console.log("Excerpt 렌더링..");
         return (
             <div id={this.props.post.key} className="excerpt">
                 <div>

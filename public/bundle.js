@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0bd1aef290fb70c6f113"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3563499fbf0ce286b49f"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -32659,16 +32659,24 @@
 	          _reactRouterDom.Switch,
 	          null,
 	          _react2.default.createElement(_reactRouterDom.Route, { path: '/post/:key', render: function render(_ref) {
-	              var match = _ref.match;
-	              return _react2.default.createElement(_pages.Post, { post: _this2.state.data.posts.find(function (post) {
+	              var match = _ref.match,
+	                  history = _ref.history,
+	                  location = _ref.location;
+	              return _react2.default.createElement(_pages.Post, { history: history, post: _this2.state.data.posts.find(function (post) {
 	                  return post.key === match.params.key;
 	                }) });
 	            } }),
 	          _react2.default.createElement(_reactRouterDom.Route, { path: '/write', component: _pages.Write }),
-	          _react2.default.createElement(_reactRouterDom.Route, { path: '/list', render: function render() {
+	          _react2.default.createElement(_reactRouterDom.Route, { path: '/list', render: function render(_ref2) {
+	              var match = _ref2.match,
+	                  history = _ref2.history,
+	                  location = _ref2.location;
 	              return _react2.default.createElement(_pages.List, { posts: _this2.state.data.posts });
 	            } }),
-	          _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render() {
+	          _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render(_ref3) {
+	              var match = _ref3.match,
+	                  history = _ref3.history,
+	                  location = _ref3.location;
 	              return _react2.default.createElement(_pages.List, { posts: _this2.state.data.posts });
 	            } })
 	        )
@@ -54072,7 +54080,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            console.log("Excerpt rendering");
+	            console.log("Excerpt 렌더링..");
 	            return _react2.default.createElement(
 	                "div",
 	                { id: this.props.post.key, className: "excerpt" },
@@ -73109,13 +73117,8 @@
 	        value: function deletePost() {
 	            if (confirm("이 글을 삭제합니다")) {
 	                _tp.tp.dispatch((0, _action.deletePost)(this.props.post.key));
-	                this.goList();
+	                this.props.history.push("/list");
 	            }
-	        }
-	    }, {
-	        key: "goList",
-	        value: function goList() {
-	            _tp.tp.dispatch((0, _action.viewMode)({ mode: "list" }));
 	        }
 	    }, {
 	        key: "render",

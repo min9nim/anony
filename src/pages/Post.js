@@ -22,12 +22,8 @@ export default class Post extends React.Component {
     deletePost(){
         if(confirm("이 글을 삭제합니다")){
             tp.dispatch(deletePost(this.props.post.key));
-            this.goList();
+            this.props.history.push("/list");
         }
-    }
-
-    goList() {
-        tp.dispatch(viewMode({mode: "list"}));
     }
 
     render(){

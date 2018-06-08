@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node server/app.js",
     "build": "node node_modules/webpack/bin/webpack.js",
+    "build-watch": "node node_modules/webpack/bin/webpack.js --watch",
     "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "dev-express": "node node_modules/nodemon/bin/nodemon.js server/app.js",
     "forever-start": "forever start server/app.js",
