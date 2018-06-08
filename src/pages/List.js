@@ -22,7 +22,6 @@ export default class List extends React.Component {
 
     render(){
         console.log("List rendering");
-        debugger;
         return (
             <div className="list">
                 {this.props.posts.map(
