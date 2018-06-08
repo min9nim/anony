@@ -10,7 +10,6 @@ export default class Post extends React.Component {
     constructor(props) {
         super(props);
         this.deletePost = this.deletePost.bind(this);
-        this.goList = this.goList.bind(this);
     }
 
     shouldComponentUpdate(prevProps, prevState) {
