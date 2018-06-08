@@ -11,14 +11,12 @@ export function reducer(state = {}, action) {
 function posts(state = {}, action) {
   switch (action.type) {
     case ADD:
-      return [...state, action.post];
+      return [action.post, ...state];
     case ADDMULTI:
       return [...state, ...action.posts];
     case DELETE:
-      let idx = state.findIndex(o => o.key === action.key);
-      let tmp = [...state];
-      tmp.splice(idx, 1);
-      return tmp;
+      const idx = state.findIndex(o => o.key === action.key);
+      return state.slice().splice(idx, 1);
     default:
       return state;
   }
