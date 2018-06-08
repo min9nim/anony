@@ -1,0 +1,29 @@
+
+/* Excerpt component */
+.excerpt {
+    display: inline-block;
+    margin-bottom: 40px;
+    width: 100%;
+        
+    .title {
+        display: inline-block;
+        width: calc(100% - 30px);
+        margin: 0px;
+        color: #555;
+    }
+    .delete {
+        display: inline-block;
+        cursor: pointer;
+        color : #aaa;
+        width: 30px;
+        text-align: right;        
+    }
+    .meta {
+        color: #aaa;
+        text-align: right;
+        font-size: 14px;
+    }
+    .content {
+        color: #777;
+    }
+}

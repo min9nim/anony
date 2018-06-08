@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import Excerpt from "./Excerpt";
 import {tp} from "../tp.js";
 import {viewMode} from "../redux/action";
+import "./List.scss";
 
 console.log("List.js call");
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import {addPost, viewMode} from "../redux/action";
+import "./Write.scss";
 import {
   FormGroup,
   HelpBlock,
@@ -8,6 +9,7 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap';
+
 
 export default class Write extends React.Component {
   constructor(props, context) {
@@ -60,11 +62,9 @@ export default class Write extends React.Component {
   }
 
   render() {
-    const layout = {
-      margin: "20px"
-    };
+    console.log("Write 렌더링..");
     return (
-        <div style = {layout} >
+        <div className="write">
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 <ControlLabel> Title </ControlLabel>
                 <FormControl type = "text"
@@ -89,7 +89,7 @@ export default class Write extends React.Component {
                         placeholder = "내용을 입력하세요.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Button style = {{marginLeft: "3px"}} bsStyle = "success" onClick = {this.goList}>Cancel</Button>
+            <Button className="write-cancel-btn" bsStyle = "success" onClick = {this.goList}>Cancel</Button>
         </div>
     );
   }

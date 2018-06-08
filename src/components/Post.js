@@ -3,6 +3,7 @@ import {tp} from "../tp";
 import {deletePost, viewMode} from "../redux/action";
 import moment from "moment";
 import {Button} from 'react-bootstrap';
+import "./Post.scss";
 
 export default class Post extends React.Component {
     constructor(props) {

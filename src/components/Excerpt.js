@@ -2,6 +2,7 @@ import React from 'react';
 import {tp} from "../tp";
 import {deletePost, viewMode} from "../redux/action";
 import moment from "moment";
+import "./Excerpt.scss";
 
 export default class Excerpt extends React.Component {
     constructor(props) {
