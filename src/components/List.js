@@ -16,13 +16,13 @@ export default class List extends React.Component {
     }
 
     writePost(){
-        tp.dispatch(viewMode("write"));
+        tp.dispatch(viewMode({mode:"write"}));
     }
 
     render(){
         console.log("List rendering");
         return (
-            <div style={{margin: '20px'}}>
+            <div className="list">
                 {this.props.posts.map(
                     post => <Excerpt key={post.key} post={post}/>
                 )}

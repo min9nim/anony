@@ -3,14 +3,14 @@ import shortid from "shortid";
 // 디비 CRUD까지 필요한 action
 export const ADD = "ADD";
 export const DELETE = "DELETE";
+export const VIEWKEY = "VIEWKEY";
 
 // store 상태만 변경하면 되는 action
 export const SCROLLEND = "SCROLLEND";
 export const VIEW = "VIEW";
 
 
-
-export function addPost({key, title, writer, content, date}) {
+export function addPost({title, writer, content, date}) {
   return {
     type: ADD,
     post: {
@@ -32,9 +32,9 @@ export function scrollEnd(posts) {
 }
 
 export function deletePost(key) {
-  return {type: DELETE, key: key}
+  return {type: DELETE, key}
 }
 
-export function viewMode(mode) {
-  return {type: VIEW, mode: mode};
+export function viewMode(view) {
+  return {type: VIEW, view};
 }

@@ -2,8 +2,8 @@ import {ADD, DELETE, VIEW, SCROLLEND} from "./action";
 
 export function reducer(state = {}, action) {
   return {
-    mode: mode(state.mode, action),
-    posts: posts(state.posts, action)
+    view: view(state.view, action),
+    data: {posts: posts(state.data.posts, action)}
   }
 }
 
@@ -23,11 +23,12 @@ function posts(state = {}, action) {
   }
 }
 
-function mode(state = "", action) {
+function view(state = {}, action) {
   switch (action.type) {
     case VIEW:
-      return action.mode
+      return action.view
     default:
       return state;
   }
 }
+

@@ -56,7 +56,7 @@ export default class Write extends React.Component {
   }
 
   goList() {
-    tp.dispatch(viewMode("list"));
+    tp.dispatch(viewMode({mode: "list"}));
   }
 
   render() {

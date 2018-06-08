@@ -1,12 +1,11 @@
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
-import {ADD, DELETE, VIEW, scrollEnd} from "./redux/action";
+import {ADD, DELETE, scrollEnd} from "./redux/action";
 import {api} from "./restful/api";
 
 const PAGEROWS = 10;
 
 export let tp = {
-  state : { mode: "list", posts: [] },
   view : {},
   api : api
 };
@@ -43,7 +42,7 @@ tp.bodyScroll = function () {
   const clientHeight = document.documentElement.clientHeight;
 
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
-    tp.api.getPosts(tp.view.App.state.posts.length, PAGEROWS).then(res => {
+    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS).then(res => {
       tp.dispatch(scrollEnd(res.posts));
       if(res.posts.length < PAGEROWS){
         console.log("Scroll has touched bottom")
@@ -60,7 +59,11 @@ tp.init = function () {
     //console.log("getPosts success : " + JSON.stringify(res, null, 2));
 
     // store생성
-    tp.store = createStore(reducer, { mode: "list", posts: res.posts });
+    let copy = JSON.parse(JSON.stringify(tp.view.App.state));
+    copy.data.posts = res.posts
+
+    //tp.store = createStore(reducer, { mode: "list", posts: res.posts });
+    tp.store = createStore(reducer, copy);
 
     if(tp.view.App){
       // App.js 상태를 서버에서 로드한 데이터로 초기화

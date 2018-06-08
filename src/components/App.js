@@ -2,6 +2,7 @@ import React from 'react';
 import {Media, Button} from 'react-bootstrap';
 import List from "./List";
 import Write from "./Write";
+import View from "./Post";
 import {tp} from "../tp";
 
 console.log("App.js call");
@@ -13,19 +14,38 @@ export default class App extends React.Component {
     super(props);
     // 초기상태 정의
     this.state = {
-      mode: "list",
-      posts: []
+      view : {
+        mode: "list",
+        key: ""
+      },
+      data : {
+        posts: []
+      }
     };
     tp.view.App = this;
   }
   
   render() {
     console.log("App 렌더링..");
+
+    let viewComp;
+    switch(this.state.view.mode){
+      case "list":
+        viewComp = <List posts={this.state.data.posts}/>;
+        break;
+      case "write":
+        viewComp = <Write />;
+        break;
+      case "post":
+        viewComp = <View post={this.state.data.posts.find(post => post.key === this.state.view.key)}/>;
+        break;
+      default:
+        break;
+    }
+
+
     return (
-      <div>{this.state.mode === "list"
-          ? <List posts={this.state.posts}/>
-          : <Write/>
-      }</div>
+      <div>{viewComp}</div>
     );
   }
 }
