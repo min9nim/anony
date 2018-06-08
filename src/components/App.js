@@ -9,6 +9,7 @@ console.log("App.js call");
 export default class App extends React.Component {
 
   constructor(props) {
+    console.log("App 생성자 호출..");
     super(props);
     // 초기상태 정의
     this.state = {
@@ -17,9 +18,9 @@ export default class App extends React.Component {
     };
     tp.view.App = this;
   }
-
+  
   render() {
-    console.log("App rendering..");
+    console.log("App 렌더링..");
     return (
       <div>{this.state.mode === "list"
           ? <List posts={this.state.posts}/>
