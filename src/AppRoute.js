@@ -1,9 +1,10 @@
 import React from 'react';
 import {Media, Button} from 'react-bootstrap';
-import List from "./List";
-import Write from "./Write";
-import View from "./Post";
-import {tp} from "../tp";
+import List from "./pages/List";
+import Write from "./pages/Write";
+import Post from "./pages/Post";
+import { Route, Switch } from 'react-router-dom';
+import {tp} from "./tp";
 
 console.log("App.js call");
 
@@ -43,9 +44,15 @@ export default class App extends React.Component {
         break;
     }
 
-
     return (
-      <div>{viewComp}</div>
+      <div>
+        <Switch>
+          <Route path="/" component={List} posts={this.state.data.posts} />
+          <Route path="/list" component={List} posts={this.state.data.posts} />
+          <Route path="/write" component={Write}/>
+          <Route path="/post" component={Post}/>
+        </Switch>
+      </div>
     );
   }
 }

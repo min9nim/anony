@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import Excerpt from "./Excerpt";
+import Excerpt from "../components/Excerpt";
 import {tp} from "../tp.js";
 import {viewMode} from "../redux/action";
 import "./List.scss";
@@ -22,6 +22,7 @@ export default class List extends React.Component {
 
     render(){
         console.log("List rendering");
+        debugger;
         return (
             <div className="list">
                 {this.props.posts.map(
