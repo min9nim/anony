@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3563499fbf0ce286b49f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ef8ea24d38545ff0e9ae"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -73101,7 +73101,6 @@
 	        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
 
 	        _this.deletePost = _this.deletePost.bind(_this);
-	        _this.goList = _this.goList.bind(_this);
 	        return _this;
 	    }
 
