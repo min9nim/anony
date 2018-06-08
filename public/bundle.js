@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e94702281148f45e21a6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c075abe5b428ec0456d8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -28843,6 +28843,8 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
+	    console.log("App 생성자 호출..");
+
 	    // 초기상태 정의
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
@@ -28857,7 +28859,7 @@
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
-	      console.log("App rendering..");
+	      console.log("App 렌더링..");
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -50389,6 +50391,8 @@
 
 	var _api = __webpack_require__(642);
 
+	var PAGEROWS = 10;
+
 	var tp = exports.tp = {
 	  state: { mode: "list", posts: [] },
 	  view: {},
@@ -50397,10 +50401,13 @@
 
 	console.log("tp.js called..");
 
+	// application 의 상태변경이 필요할 때 호출
 	tp.dispatch = function (action) {
+
+	  // 리덕스 store 상태 업데이트
 	  tp.store.dispatch(action);
 
-	  // 서버 상태를 변경해야 하는 경우만 아래 switch 문에 등록한다
+	  // 디비에 변경내용을 반영해야 하는 경우만 아래 switch문에 등록한다
 	  switch (action.type) {
 	    case _action.ADD:
 	      tp.api.addPost(action.post);
@@ -50419,37 +50426,40 @@
 	  var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 	  //현재 스크롤탑의 값
 	  var scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-
 	  //현재 화면 높이 값
 	  var clientHeight = document.documentElement.clientHeight;
 
 	  if (scrollTop + clientHeight == scrollHeight) {
 	    //스크롤이 마지막일때
-	    tp.api.getPosts(tp.view.App.state.posts.length, 10).then(function (res) {
-	      if (res.posts.length === 0) {
+	    tp.api.getPosts(tp.view.App.state.posts.length, PAGEROWS).then(function (res) {
+	      tp.dispatch((0, _action.scrollEnd)(res.posts));
+	      if (res.posts.length < PAGEROWS) {
 	        console.log("Scroll has touched bottom");
 	        tp.isScrollLast = true;
 	        return;
 	      }
-	      tp.dispatch((0, _action.addMultiPost)(res.posts));
 	    });
 	  }
 	};
 
 	tp.init = function () {
-	  tp.api.getPosts(0, 10).then(function (res) {
-	    console.log("getPosts success : " + JSON.stringify(res, null, 2));
+	  tp.api.getPosts(0, PAGEROWS).then(function (res) {
+	    //console.log("getPosts success : " + JSON.stringify(res, null, 2));
 
 	    // store생성
 	    tp.store = (0, _redux.createStore)(_reducer.reducer, { mode: "list", posts: res.posts });
 
-	    // App.js 상태를 서버에서 로드한 데이터로 초기화
-	    tp.view.App.setState(tp.store.getState());
-
-	    // App.js 컴포넌트가 스토어를 구독하도록 설정
-	    tp.store.subscribe(function () {
+	    if (tp.view.App) {
+	      // App.js 상태를 서버에서 로드한 데이터로 초기화
 	      tp.view.App.setState(tp.store.getState());
-	    });
+
+	      // App.js 컴포넌트가 스토어를 구독하도록 설정
+	      tp.store.subscribe(function () {
+	        tp.view.App.setState(tp.store.getState());
+	      });
+	    } else {
+	      throw Error("tp.view.App 가 아직 정의되지 않았습니다");
+	    }
 	  });
 	};
 
@@ -50461,6 +50471,8 @@
 	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
 	    return;
 	  }
+
+	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "/home/ec2-user/dev/talkplace/src/tp.js");
 
 	  __REACT_HOT_LOADER__.register(tp, "tp", "/home/ec2-user/dev/talkplace/src/tp.js");
 	}();
@@ -51168,13 +51180,15 @@
 	  switch (action.type) {
 	    case _action.ADD:
 	      return [action.post].concat(_toConsumableArray(state));
-	    case _action.ADDMULTI:
+	    case _action.SCROLLEND:
 	      return [].concat(_toConsumableArray(state), _toConsumableArray(action.posts));
 	    case _action.DELETE:
 	      var idx = state.findIndex(function (o) {
 	        return o.key === action.key;
 	      });
-	      return state.slice().splice(idx, 1);
+	      var tmp = [].concat(_toConsumableArray(state)); // state 배열 복사
+	      tmp.splice(idx, 1); // idx번째 요소 삭제
+	      return tmp;
 	    default:
 	      return state;
 	  }
@@ -51216,9 +51230,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.VIEW = exports.DELETE = exports.ADDMULTI = exports.ADD = undefined;
+	exports.VIEW = exports.SCROLLEND = exports.DELETE = exports.ADD = undefined;
 	exports.addPost = addPost;
-	exports.addMultiPost = addMultiPost;
+	exports.scrollEnd = scrollEnd;
 	exports.deletePost = deletePost;
 	exports.viewMode = viewMode;
 
@@ -51228,9 +51242,12 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// 디비 CRUD까지 필요한 action
 	var ADD = exports.ADD = "ADD";
-	var ADDMULTI = exports.ADDMULTI = "ADDMULTI";
 	var DELETE = exports.DELETE = "DELETE";
+
+	// store 상태만 변경하면 되는 action
+	var SCROLLEND = exports.SCROLLEND = "SCROLLEND";
 	var VIEW = exports.VIEW = "VIEW";
 
 	function addPost(_ref) {
@@ -51252,10 +51269,10 @@
 	  };
 	}
 
-	function addMultiPost(posts) {
+	function scrollEnd(posts) {
 	  //posts = posts.map(o => {o.key = shortid.generate(); return o;});
 	  return {
-	    type: ADDMULTI,
+	    type: SCROLLEND,
 	    posts: posts
 	  };
 	}
@@ -51276,15 +51293,15 @@
 
 	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(ADDMULTI, "ADDMULTI", "/home/ec2-user/dev/talkplace/src/redux/action.js");
-
 	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/home/ec2-user/dev/talkplace/src/redux/action.js");
+
+	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
 	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
 	  __REACT_HOT_LOADER__.register(addPost, "addPost", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(addMultiPost, "addMultiPost", "/home/ec2-user/dev/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(scrollEnd, "scrollEnd", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
 	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/home/ec2-user/dev/talkplace/src/redux/action.js");
 
