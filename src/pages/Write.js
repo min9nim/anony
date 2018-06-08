@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import {addPost, viewMode} from "../redux/action";
-import "./Write.scss";
+import { Link } from 'react-router-dom';
 import {
   FormGroup,
   HelpBlock,
@@ -9,14 +9,13 @@ import {
   FormControl,
   Button
 } from 'react-bootstrap';
-
+import "./Write.scss";
 
 export default class Write extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
-    this.goList = this.goList.bind(this);
     this.state = {
       title: "",
       writer: "",
@@ -54,12 +53,9 @@ export default class Write extends React.Component {
     }
     this.state.date = Date.now();
     tp.dispatch(addPost(this.state));
-    this.goList();
+    this.props.history.push("/list");
   }
 
-  goList() {
-    tp.dispatch(viewMode({mode: "list"}));
-  }
 
   render() {
     console.log("Write 렌더링..");
@@ -89,7 +85,7 @@ export default class Write extends React.Component {
                         placeholder = "내용을 입력하세요.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Button className="write-cancel-btn" bsStyle = "success" onClick = {this.goList}>Cancel</Button>
+            <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }

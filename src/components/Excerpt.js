@@ -2,7 +2,9 @@ import React from 'react';
 import {tp} from "../tp";
 import {deletePost, viewMode} from "../redux/action";
 import moment from "moment";
+import { Link } from 'react-router-dom';
 import "./Excerpt.scss";
+
 
 export default class Excerpt extends React.Component {
     constructor(props) {
@@ -24,13 +26,12 @@ export default class Excerpt extends React.Component {
     viewPost(){
         tp.dispatch(viewMode({mode: "post", key: this.props.post.key}));
     }
-
     render(){
         console.log("Excerpt rendering");
         return (
             <div id={this.props.post.key} className="excerpt">
                 <div>
-                    <div className="title h4" onClick={this.viewPost}>{this.props.post.title}</div>
+                    <div className="title h4"><Link to={"/post/" + this.props.post.key}>{this.props.post.title}</Link></div>
                     <div className="delete" onClick={this.deletePost}>...</div>
                 </div>
                 <div className="meta">{this.props.post.writer} - {moment(this.props.post.date).fromNow()}</div>

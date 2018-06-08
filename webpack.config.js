@@ -19,7 +19,7 @@ module.exports = {
         contentBase: __dirname + '/public/',
         disableHostCheck: true,     // 외부에서 접속 허용
         proxy: {
-            "*": "http://localhost:8080"
+            "/api/*": "http://localhost:8080"
         }
     },
 

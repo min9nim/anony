@@ -3,6 +3,7 @@ import {tp} from "../tp";
 import {deletePost, viewMode} from "../redux/action";
 import moment from "moment";
 import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import "./Post.scss";
 
 export default class Post extends React.Component {
@@ -13,7 +14,9 @@ export default class Post extends React.Component {
     }
 
     shouldComponentUpdate(prevProps, prevState) {
-        return prevProps !== this.props;
+        // 여기는 setState 나 props 가 바뀔 때만 호출되는 듯
+        // 화면 최초 로딩시에는 무조건 한번은 렌더링이 되게 되어있는 듯 하다. 업데이트할지 말지에 대한 부분이니까.. 맞네.. 18/06/08
+        return prevProps !== this.props
     }
 
     deletePost(){
@@ -25,10 +28,14 @@ export default class Post extends React.Component {
 
     goList() {
         tp.dispatch(viewMode({mode: "list"}));
-    }    
+    }
 
     render(){
-        console.log("Excerpt rendering");
+        console.log("Post 렌더링..");
+        if(this.props.post === undefined){
+            // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
+            return <div/>
+        }
         const html = this.props.post.content.replace(/\n/g, "<br>");
         return (
             <div className="post">
@@ -38,7 +45,7 @@ export default class Post extends React.Component {
                 </div>
                 <div className="meta">{this.props.post.writer} - {moment(this.props.post.date).fromNow()}</div>
                 <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
-                <Button bsStyle="success" onClick={this.goList}>List</Button>
+                <Link to="/list"><Button bsStyle="success">List</Button></Link>
             </div>
         );
     }

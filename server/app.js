@@ -13,6 +13,8 @@ const PORT = 8080;
 //const DATAFILE = __dirname + path.sep + "data.json"; // __dirname 는 app.js 가 위치한 경로
 
 
+// 설치필요, https://www.npmjs.com/package/express-history-api-fallback
+
 // 미들웨어 등록
 app.use(morgan('combined'));
 app.use(bodyParser.json());

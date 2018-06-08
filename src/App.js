@@ -1,8 +1,6 @@
 import React from 'react';
 import { Media, Button } from 'react-bootstrap';
-import List from "./pages/List";
-import Write from "./pages/Write";
-import Post from "./pages/Post";
+import { List, Write, Post } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import { tp } from "./tp";
 
@@ -27,15 +25,15 @@ export default class App extends React.Component {
   }
 
   render() {
-    console.log("App 렌더링..");
+    console.log("App 렌더링..,,");
 
     return (
       <div>
-        <Switch>
-          <Route path="/" render={() => <List posts={this.state.data.posts} />} />
-          <Route path="/list" render={() => <List posts={this.state.data.posts} />} />
+        <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
+          <Route path="/post/:key" render={({ match }) => <Post post={this.state.data.posts.find(post => post.key === match.params.key)} />} />
           <Route path="/write" component={Write} />
-          <Route path="/post" render={() => <Post post={this.state.data.posts.find(post => post.key === this.state.view.key)} />} />
+          <Route path="/list" render={() => <List posts={this.state.data.posts} />} />
+          <Route path="/" render={() => <List posts={this.state.data.posts} />} />
         </Switch>
       </div>
     );
