@@ -5,6 +5,11 @@ const Post = require('./models/post');
 
 const router = express.Router();
 
+
+// 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
+// https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
+
+
 // 신규 post 등록
 router.post("/posts", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
@@ -29,17 +34,12 @@ router.post("/posts", (req, res) => {
     });   
 });
 
-/*
-// 전체 데이터를 한꺼번에 가져오는 api 는 필요 없잖아?
-router.get("/posts", (req, res) => {
-    Post.find()
-        .then(posts => res.send({posts : posts}))
-        .catch(err => res.status(500).send(err));
-});
-*/
-
 // idx 번째부터 cnt 개수만큼 post 를 조회
 router.get("/posts/:idx/:cnt", (req, res) => {
+    console.log("req = " + req);
+    console.log("res = " + res);
+
+    console.log("#### arguments.length = " + arguments.length)
     Post.find()
         .sort({"date" : -1})
         .skip(Number(req.params.idx))

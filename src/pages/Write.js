@@ -78,7 +78,7 @@ export default class Write extends React.Component {
             </FormGroup>
             <FormGroup controlId = "content">
                 <ControlLabel> Content </ControlLabel>
-                <FormControl  style = {{height: "100px"}}
+                <FormControl className="content"
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
