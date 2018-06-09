@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ef8ea24d38545ff0e9ae"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "95163a6b4c6567e3a641"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -72947,7 +72947,7 @@
 	            null,
 	            " Content "
 	          ),
-	          _react2.default.createElement(_reactBootstrap.FormControl, { style: { height: "100px" },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { className: "content",
 	            value: this.state.content,
 	            onChange: this.handleChange,
 	            componentClass: "textarea",
@@ -73049,7 +73049,7 @@
 
 
 	// module
-	exports.push([module.id, ".write {\n  margin: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
+	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
 
 	// exports
 
@@ -73101,12 +73101,14 @@
 	        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
 
 	        _this.deletePost = _this.deletePost.bind(_this);
+	        _moment2.default.locale('ko');
 	        return _this;
 	    }
 
 	    _createClass(Post, [{
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
+	            console.log("Post shouldComponentUpdate called..");
 	            // 여기는 setState 나 props 가 바뀔 때만 호출되는 듯
 	            // 화면 최초 로딩시에는 무조건 한번은 렌더링이 되게 되어있는 듯 하다. 업데이트할지 말지에 대한 부분이니까.. 맞네.. 18/06/08
 	            return prevProps !== this.props;
@@ -73122,7 +73124,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            console.log("Post 렌더링..");
+	            console.log("Post 렌더링,,");
 	            if (this.props.post === undefined) {
 	                // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
 	                return _react2.default.createElement("div", null);
@@ -73150,7 +73152,7 @@
 	                    { className: "meta" },
 	                    this.props.post.writer,
 	                    " - ",
-	                    (0, _moment2.default)(this.props.post.date).fromNow()
+	                    (0, _moment2.default)(this.props.post.date).format('MM/DD/YYYY dd HH:mm:ss')
 	                ),
 	                _react2.default.createElement("div", { className: "content", dangerouslySetInnerHTML: { __html: html } }),
 	                _react2.default.createElement(
@@ -73244,7 +73246,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 30px);\n    margin: 0px;\n    color: #555; }\n  .post .delete {\n    display: inline-block;\n    cursor: pointer;\n    color: #aaa;\n    width: 30px;\n    text-align: right; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px; }\n  .post .content {\n    color: #777; }\n  .post button {\n    margin-top: 30px; }\n", ""]);
+	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 30px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .delete {\n    display: inline-block;\n    cursor: pointer;\n    color: #aaa;\n    width: 30px;\n    text-align: right; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-top: 20px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post button {\n    margin-top: 30px; }\n", ""]);
 
 	// exports
 
