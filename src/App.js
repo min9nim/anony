@@ -1,10 +1,10 @@
+console.log("App.js start");
+
 import React from 'react';
 import { Media, Button } from 'react-bootstrap';
 import { List, Write, Post } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import { tp } from "./tp";
-
-console.log("App.js call");
 
 export default class App extends React.Component {
 

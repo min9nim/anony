@@ -62,27 +62,27 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
-                <ControlLabel> Title </ControlLabel>
+                {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
                         autoFocus value = {this.state.title}
                         onChange = {this.handleChange}
-                        placeholder = "" />
+                        placeholder = "Title.." />
                 <FormControl.Feedback />
             </FormGroup>
             <FormGroup controlId = "writer" >
-                <ControlLabel> Writer </ControlLabel>
+                {/*<ControlLabel> Writer </ControlLabel> */}
                 <FormControl type = "text"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
-                      placeholder = "" />
+                      placeholder = "Writer.." />
             </FormGroup>
             <FormGroup controlId = "content">
-                <ControlLabel> Content </ControlLabel>
+                {/*<ControlLabel> Content </ControlLabel>*/}
                 <FormControl className="content"
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
-                        placeholder = "" />
+                        placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
             <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>

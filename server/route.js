@@ -36,10 +36,6 @@ router.post("/posts", (req, res) => {
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
 router.get("/posts/:idx/:cnt", (req, res) => {
-    console.log("req = " + req);
-    console.log("res = " + res);
-
-    console.log("#### arguments.length = " + arguments.length)
     Post.find()
         .sort({"date" : -1})
         .skip(Number(req.params.idx))

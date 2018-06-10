@@ -7,7 +7,7 @@ export function reducer(state = {}, action) {
   }
 }
 
-function posts(state = {}, action) {
+function posts(state = [], action) {
   switch (action.type) {
     case ADD:
       return [action.post, ...state];

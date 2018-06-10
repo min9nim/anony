@@ -32,10 +32,10 @@ export default class Excerpt extends React.Component {
             <div id={this.props.post.key} className="excerpt">
                 <div>
                     <div className="title h4"><Link to={"/post/" + this.props.post.key}>{this.props.post.title}</Link></div>
-                    <div className="delete" onClick={this.deletePost}>...</div>
+                    <div className="delete" onClick={this.deletePost}>~</div>
                 </div>
                 <div className="meta">{this.props.post.writer} - {moment(this.props.post.date).fromNow()}</div>
-                <div className="content">{this.props.post.content}</div>
+                <div className="content">{this.props.post.content.substr(0,100)}</div>
             </div>
         );
     }

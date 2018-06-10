@@ -1,7 +1,12 @@
 /* 공통 css 스타일 설정 */
 
+/* bootstrap.css 커스터마이징 */
+.form-control {// 입력 컨트롤에 그림자효과 제거
+    box-shadow: initial;
+}
 
-// nprogress 스타일 커스터마이징
+
+/* nprogress.css 커스터마이징 */
 #nprogress {
     /*
     .bar {
@@ -16,4 +21,6 @@
         right: 45%;
     }
 }
+
+
 

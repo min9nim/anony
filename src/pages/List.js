@@ -1,3 +1,5 @@
+console.log("List.js start");
+
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import Excerpt from "../components/Excerpt";
@@ -6,12 +8,12 @@ import {viewMode} from "../redux/action";
 import { Link } from 'react-router-dom';
 import "./List.scss";
 
-console.log("List.js call");
 
 export default class List extends React.Component {
 
     constructor(props) {
         super(props);
+
     }
 
     render(){

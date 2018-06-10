@@ -1,3 +1,5 @@
+console.log("tp.js start");
+
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 import {ADD, DELETE, scrollEnd} from "./redux/action";
@@ -13,8 +15,6 @@ export let tp = {
   nprogress,
   $m
 };
-
-console.log("tp.js called..");
 
 
 // application 의 상태변경이 필요할 때 호출
@@ -61,8 +61,7 @@ tp.bodyScroll = function () {
 
 
 tp.init = function () {
-  tp.api.getPosts(0, PAGEROWS).then(res => {
-    //console.log("getPosts success : " + JSON.stringify(res, null, 2));
+  tp.api.getPosts(0, 10).then(res => {
 
     // store생성
     let copy = JSON.parse(JSON.stringify(tp.view.App.state));
@@ -71,7 +70,7 @@ tp.init = function () {
     //tp.store = createStore(reducer, { mode: "list", posts: res.posts });
     tp.store = createStore(reducer, copy);
 
-    if(tp.view.App){
+    if (tp.view.App) {
       // App.js 상태를 서버에서 로드한 데이터로 초기화
       tp.view.App.setState(tp.store.getState());
 
@@ -79,10 +78,11 @@ tp.init = function () {
       tp.store.subscribe(() => {
         tp.view.App.setState(tp.store.getState());
       });
-    }else{
+    } else {
       throw Error("tp.view.App 가 아직 정의되지 않았습니다");
     }
   })
+
 };
 
 tp.init();

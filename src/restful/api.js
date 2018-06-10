@@ -1,4 +1,4 @@
-console.log("api.js called..");
+console.log("api.js start");
 
 import nprogress from "nprogress";
 
