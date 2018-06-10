@@ -66,7 +66,7 @@ export default class Write extends React.Component {
                 <FormControl type = "text"
                         autoFocus value = {this.state.title}
                         onChange = {this.handleChange}
-                        placeholder = "제목을 입력하세요.." />
+                        placeholder = "" />
                 <FormControl.Feedback />
             </FormGroup>
             <FormGroup controlId = "writer" >
@@ -74,7 +74,7 @@ export default class Write extends React.Component {
                 <FormControl type = "text"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
-                      placeholder = "별명을 입력하세요.." />
+                      placeholder = "" />
             </FormGroup>
             <FormGroup controlId = "content">
                 <ControlLabel> Content </ControlLabel>
@@ -82,7 +82,7 @@ export default class Write extends React.Component {
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
-                        placeholder = "내용을 입력하세요.." />
+                        placeholder = "" />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
             <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>

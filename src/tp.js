@@ -2,12 +2,16 @@ import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 import {ADD, DELETE, scrollEnd} from "./redux/action";
 import {api} from "./restful/api";
+import $m from "./util";
+import nprogress from "nprogress";
 
 const PAGEROWS = 10;
 
 export let tp = {
   view : {},
-  api : api
+  api,
+  nprogress,
+  $m
 };
 
 console.log("tp.js called..");
@@ -42,7 +46,9 @@ tp.bodyScroll = function () {
   const clientHeight = document.documentElement.clientHeight;
 
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
-    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS).then(res => {
+    nprogress.start();
+    $m("#nprogress .spinner").css("top", "95%");
+    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS, true).then(res => {
       tp.dispatch(scrollEnd(res.posts));
       if(res.posts.length < PAGEROWS){
         console.log("Scroll has touched bottom")

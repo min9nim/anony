@@ -1,1 +1,19 @@
 /* 공통 css 스타일 설정 */
+
+
+// nprogress 스타일 커스터마이징
+#nprogress {
+    /*
+    .bar {
+        display: none;
+        position: absolute;
+        top: 30px;
+        background: #708c0c;
+    }
+    */
+    .spinner {
+        top: 50%;
+        right: 45%;
+    }
+}
+

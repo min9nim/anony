@@ -1,47 +1,52 @@
 console.log("api.js called..");
 
+import nprogress from "nprogress";
+
+function errHandler(res) {
+    nprogress.done(); // nprogress.status 가 null 이면 바로 종료됨
+    if (!res.ok) throw Error(res.statusText);
+    return res.json();
+}
+
+function httpReq(path, opt) {
+    opt.hideProgress || nprogress.start();
+    return fetch(path, opt);
+}
 
 export const api = {};
 
-
-api.addPost = function (post) {
-    return fetch(
+api.addPost = function (post, hideProgress) {
+    return httpReq(
         "/api/posts",
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
             body: JSON.stringify(post, null, 2),
+            hideProgress
         }
-    ).then(function (res) {
-        if (!res.ok) throw Error(res.statusText);
-        return res.json();
-    });
+    ).then(errHandler);
 }
 
 
 
-api.getPosts = function (idx, cnt) {
-    return fetch(
+api.getPosts = function (idx, cnt, hideProgress) {
+    return httpReq(
         "/api/posts/" + idx + "/" + cnt,
         {
-            method: "GET"
+            method: "GET",
+            hideProgress
         }
-    ).then(function (res) {
-        if (!res.ok) throw Error(res.statusText);
-        return res.json();
-    });
+    ).then(errHandler);
 }
 
 
 
-api.deletePost = function (key) {
-    return fetch(
+api.deletePost = function (key, hideProgress) {
+    return httpReq(
         "/api/posts/" + key,
         {
             method: "DELETE",
+            hideProgress
         }
-    ).then(function (res) {
-        if (!res.ok) throw Error(res.statusText);
-        return res.json();
-    });
+    ).then(errHandler);
 }
