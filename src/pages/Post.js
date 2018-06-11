@@ -8,16 +8,15 @@ import "./Post.scss";
 
 export default class Post extends React.Component {
     constructor(props) {
+        console.log("Post 생성자 호출");
         super(props);
         this.deletePost = this.deletePost.bind(this);
-        moment.locale('ko');
     }
 
     shouldComponentUpdate(prevProps, prevState) {
         // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-        const isUpdate = prevProps !== this.props;
-        console.log("Post.shouldComponentUpdate returns [" + isUpdate + "]");
-        return isUpdate;
+        console.log("Post.shouldComponentUpdate returns [" + true + "]");
+        return true;
     }
 
     deletePost(){
@@ -29,19 +28,30 @@ export default class Post extends React.Component {
     }
 
     render(){
-        console.log("Post 렌더링,,");
-        if(this.props.post === undefined){
+        console.log("Post 렌더링");
+        if(this.props.post){
+            // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+            this.state = this.props.post
+        }
+        
+        if([null, undefined].includes(this.state)){
             // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
+            const key = location.pathname.split("/")[2];
+            tp.api.getPost(key).then(res => {
+                this.setState(res.posts[0]);
+            });
             return <div/>
         }
-        const html = this.props.post.content.replace(/\n/g, "<br>");
+
+
+        const html = this.state.content.replace(/\n/g, "<br>");
         return (
             <div className="post">
                 <div>
-                    <div className="title h4">{this.props.post.title}</div>
+                    <div className="title h4">{this.state.title}</div>
                     <div className="delete" onClick={this.deletePost}>~</div>
                 </div>
-                <div className="meta">{this.props.post.writer} - {moment(this.props.post.date).format('MM/DD/YYYY dd HH:mm:ss')}</div>
+                <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm:ss')}</div>
                 <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
                 <Link to="/list"><Button bsStyle="success">List</Button></Link>
                 <Link to="/write"><Button bsStyle="success">Write</Button></Link>

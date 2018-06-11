@@ -51,19 +51,18 @@ export default class Write extends React.Component {
       return;
     }
 
-    this.state.key = shortid.generate();
-    if(this.state.title === ""){
-      this.state.title = this.state.content.substr(0,7);
-    }
-    this.state.title = this.state.title.trim();
-    this.state.writer = this.state.writer.trim();
-    this.state.content = this.state.content.trim();
-    this.state.date = Date.now();
+    const newPost = {
+      key : shortid.generate(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
+      writer : this.state.writer.trim(),
+      content : this.state.content.trim(),
+      date : Date.now()
+    };
 
-    tp.api.addPost(this.state).then(res => {
+    tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
-      tp.store.dispatch(addPost(this.state));
-      this.props.history.push("/post/" + this.state.key);
+      tp.store.dispatch(addPost(newPost));
+      this.props.history.push("/post/" + newPost.key);
     });
   }
 

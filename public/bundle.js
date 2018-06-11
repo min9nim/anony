@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d386117716c6ebb8ecee"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "4813d7055fcbfee1f7a0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -29488,7 +29488,7 @@
 
 
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\n/* 공통 css 스타일 설정 */\n/* bootstrap.css 커스터마이징 */\n.form-control {\n  box-shadow: initial; }\n\n/* nprogress.css 커스터마이징 */\n#nprogress {\n  /*\r\n    .bar {\r\n        display: none;\r\n        position: absolute;\r\n        top: 30px;\r\n        background: #708c0c;\r\n    }\r\n    */ }\n  #nprogress .spinner {\n    top: 50%;\n    right: 45%; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\n/* 공통 css 스타일 설정 */\n/* bootstrap.css 커스터마이징 */\n.form-control {\n  box-shadow: initial; }\n\n/* nprogress.css 커스터마이징 */\n#nprogress {\n  /*\r\n    .bar {\r\n        display: none;\r\n        position: absolute;\r\n        top: 30px;\r\n        background: #708c0c;\r\n    }\r\n    */ }\n  #nprogress .spinner {\n    top: 50%;\n    right: 45%; }\n\n/* 입력 컨트롤 테두리의 top쪽 그림자 제거 */\ninput, textarea {\n  -webkit-appearance: none; }\n", ""]);
 
 	// exports
 
@@ -29532,9 +29532,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Root, 'Root', 'C:/Users/myData/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(Root, 'Root', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
 	}();
 
 	;
@@ -33302,6 +33302,10 @@
 
 	var _reactRouterDom = __webpack_require__(360);
 
+	var _moment = __webpack_require__(694);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
 	var _tp = __webpack_require__(675);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -33335,10 +33339,20 @@
 	      }
 	    };
 	    _tp.tp.view.App = _this;
+
+	    _moment2.default.locale('ko');
+
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'shouldComponentUpdate',
+	    value: function shouldComponentUpdate(prevProps, prevState) {
+	      // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+	      console.log("App.shouldComponentUpdate returns [" + true + "]");
+	      return true;
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -33389,9 +33403,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, 'App', 'C:/Users/myData/project/talkplace/src/App.js');
+	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/songmingu/Documents/project/talkplace/src/App.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/App.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/App.js');
 	}();
 
 	;
@@ -33952,7 +33966,7 @@
 /* 411 */
 /***/ (function(module, exports) {
 
-	var core = module.exports = { version: '2.5.7' };
+	var core = module.exports = { version: '2.5.6' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -35630,7 +35644,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2017 Jed Watson.
+	  Copyright (c) 2016 Jed Watson.
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
@@ -35652,11 +35666,8 @@
 
 				if (argType === 'string' || argType === 'number') {
 					classes.push(arg);
-				} else if (Array.isArray(arg) && arg.length) {
-					var inner = classNames.apply(null, arg);
-					if (inner) {
-						classes.push(inner);
-					}
+				} else if (Array.isArray(arg)) {
+					classes.push(classNames.apply(null, arg));
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
@@ -35670,7 +35681,6 @@
 		}
 
 		if (typeof module !== 'undefined' && module.exports) {
-			classNames.default = classNames;
 			module.exports = classNames;
 		} else if (true) {
 			// register as 'classnames', consistent with npm package name
@@ -37420,7 +37430,7 @@
 /* 513 */
 /***/ (function(module, exports) {
 
-	/** @license React v16.4.0
+	/** @license React v16.3.2
 	 * react-is.production.min.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37429,17 +37439,17 @@
 	 * LICENSE file in the root directory of this source tree.
 	 */
 
-	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.forward_ref"):60112,n=b?Symbol.for("react.timeout"):60113;
-	function q(a){if("object"===typeof a&&null!==a){var p=a.$$typeof;switch(p){case c:switch(a=a.type,a){case l:case e:case g:case f:return a;default:switch(a=a&&a.$$typeof,a){case k:case m:case h:return a;default:return p}}case d:return p}}}exports.typeOf=q;exports.AsyncMode=l;exports.ContextConsumer=k;exports.ContextProvider=h;exports.Element=c;exports.ForwardRef=m;exports.Fragment=e;exports.Profiler=g;exports.Portal=d;exports.StrictMode=f;
-	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===l||a===g||a===f||a===n||"object"===typeof a&&null!==a&&(a.$$typeof===h||a.$$typeof===k||a.$$typeof===m)};exports.isAsyncMode=function(a){return q(a)===l};exports.isContextConsumer=function(a){return q(a)===k};exports.isContextProvider=function(a){return q(a)===h};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return q(a)===m};
-	exports.isFragment=function(a){return q(a)===e};exports.isProfiler=function(a){return q(a)===g};exports.isPortal=function(a){return q(a)===d};exports.isStrictMode=function(a){return q(a)===f};
+	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol["for"],c=b?Symbol["for"]("react.element"):60103,d=b?Symbol["for"]("react.portal"):60106,e=b?Symbol["for"]("react.fragment"):60107,f=b?Symbol["for"]("react.strict_mode"):60108,g=b?Symbol["for"]("react.provider"):60109,h=b?Symbol["for"]("react.context"):60110,k=b?Symbol["for"]("react.async_mode"):60111,l=b?Symbol["for"]("react.forward_ref"):60112;
+	function m(a){if("object"===typeof a&&null!==a){var n=a.$$typeof;switch(n){case c:switch(a=a.type,a){case k:case e:case f:return a;default:switch(a=a&&a.$$typeof,a){case h:case l:case g:return a;default:return n}}case d:return n}}}exports.typeOf=m;exports.AsyncMode=k;exports.ContextConsumer=h;exports.ContextProvider=g;exports.Element=c;exports.ForwardRef=l;exports.Fragment=e;exports.Portal=d;exports.StrictMode=f;
+	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===k||a===f||"object"===typeof a&&null!==a&&(a.$$typeof===g||a.$$typeof===h||a.$$typeof===l)};exports.isAsyncMode=function(a){return m(a)===k};exports.isContextConsumer=function(a){return m(a)===h};exports.isContextProvider=function(a){return m(a)===g};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return m(a)===l};
+	exports.isFragment=function(a){return m(a)===e};exports.isPortal=function(a){return m(a)===d};exports.isStrictMode=function(a){return m(a)===f};
 
 
 /***/ }),
 /* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.4.0
+	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.3.2
 	 * react-is.development.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37460,23 +37470,23 @@
 
 	// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 	// nor polyfill, then a plain number is used for performance.
-	var hasSymbol = typeof Symbol === 'function' && Symbol.for;
+	var hasSymbol = typeof Symbol === 'function' && Symbol['for'];
 
-	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
-	var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
-	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
-	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
-	var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
-	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
-	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
-	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
-	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
-	var REACT_TIMEOUT_TYPE = hasSymbol ? Symbol.for('react.timeout') : 0xead1;
+	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol['for']('react.element') : 0xeac7;
+
+
+	var REACT_PORTAL_TYPE = hasSymbol ? Symbol['for']('react.portal') : 0xeaca;
+	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol['for']('react.fragment') : 0xeacb;
+	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol['for']('react.strict_mode') : 0xeacc;
+	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol['for']('react.provider') : 0xeacd;
+	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol['for']('react.context') : 0xeace;
+	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol['for']('react.async_mode') : 0xeacf;
+	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol['for']('react.forward_ref') : 0xead0;
 
 	function isValidElementType(type) {
 	  return typeof type === 'string' || typeof type === 'function' ||
 	  // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_TIMEOUT_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_STRICT_MODE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
 	}
 
 	function typeOf(object) {
@@ -37490,7 +37500,6 @@
 	        switch (type) {
 	          case REACT_ASYNC_MODE_TYPE:
 	          case REACT_FRAGMENT_TYPE:
-	          case REACT_PROFILER_TYPE:
 	          case REACT_STRICT_MODE_TYPE:
 	            return type;
 	          default:
@@ -37519,7 +37528,6 @@
 	var Element = REACT_ELEMENT_TYPE;
 	var ForwardRef = REACT_FORWARD_REF_TYPE;
 	var Fragment = REACT_FRAGMENT_TYPE;
-	var Profiler = REACT_PROFILER_TYPE;
 	var Portal = REACT_PORTAL_TYPE;
 	var StrictMode = REACT_STRICT_MODE_TYPE;
 
@@ -37541,9 +37549,6 @@
 	function isFragment(object) {
 	  return typeOf(object) === REACT_FRAGMENT_TYPE;
 	}
-	function isProfiler(object) {
-	  return typeOf(object) === REACT_PROFILER_TYPE;
-	}
 	function isPortal(object) {
 	  return typeOf(object) === REACT_PORTAL_TYPE;
 	}
@@ -37558,7 +37563,6 @@
 	exports.Element = Element;
 	exports.ForwardRef = ForwardRef;
 	exports.Fragment = Fragment;
-	exports.Profiler = Profiler;
 	exports.Portal = Portal;
 	exports.StrictMode = StrictMode;
 	exports.isValidElementType = isValidElementType;
@@ -37568,7 +37572,6 @@
 	exports.isElement = isElement;
 	exports.isForwardRef = isForwardRef;
 	exports.isFragment = isFragment;
-	exports.isProfiler = isProfiler;
 	exports.isPortal = isPortal;
 	exports.isStrictMode = isStrictMode;
 	  })();
@@ -54697,9 +54700,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(List, 'List', 'C:/Users/myData/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(List, 'List', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
 	}();
 
 	;
@@ -54823,9 +54826,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
 	}();
 
 	;
@@ -54872,7 +54875,9 @@
 
 	// application 의 상태변경이 필요할 때 호출
 	tp.dispatch = function (action) {
-
+	  /* store 상태관리와 서버상태관리를 한방에 하기 위해 더 좋은 구조는 무엇일따
+	  지금은 스토어 상태와 서버상태가 완전히 동일하지는 않기 때문에 자꾸 고민이 되는 상황인 건데....ㅠㅠ
+	  */
 	  // 리덕스 store 상태 업데이트
 	  tp.store.dispatch(action);
 
@@ -54891,6 +54896,8 @@
 
 	tp.bodyScroll = function () {
 	  if (tp.isScrollLast) return;
+	  if (!["/", "/list"].includes(location.pathname)) return;
+
 	  //현재문서의 높이
 	  var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
 	  //현재 스크롤탑의 값
@@ -54903,7 +54910,7 @@
 	    _nprogress2.default.start();
 	    (0, _util2.default)("#nprogress .spinner").css("top", "95%");
 	    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS, true).then(function (res) {
-	      tp.dispatch((0, _action.scrollEnd)(res.posts));
+	      tp.store.dispatch((0, _action.scrollEnd)(res.posts));
 	      if (res.posts.length < PAGEROWS) {
 	        console.log("Scroll has touched bottom");
 	        tp.isScrollLast = true;
@@ -54914,9 +54921,7 @@
 	};
 
 	tp.init = function () {
-
-	  tp.api.getPosts(0, PAGEROWS).then(function (res) {
-	    //console.log("getPosts success : " + JSON.stringify(res, null, 2));
+	  tp.api.getPosts(0, 10).then(function (res) {
 
 	    // store생성
 	    var copy = JSON.parse(JSON.stringify(tp.view.App.state));
@@ -54948,9 +54953,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "C:/Users/myData/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
 
-	  __REACT_HOT_LOADER__.register(tp, "tp", "C:/Users/myData/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(tp, "tp", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
 	}();
 
 	;
@@ -55650,7 +55655,7 @@
 	}
 
 	function posts() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
 
 	  switch (action.type) {
@@ -55688,11 +55693,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(reducer, "reducer", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(posts, "posts", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(posts, "posts", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(view, "view", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(view, "view", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
 	}();
 
 	;
@@ -55728,7 +55733,8 @@
 	var VIEW = exports.VIEW = "VIEW";
 
 	function addPost(_ref) {
-	  var title = _ref.title,
+	  var key = _ref.key,
+	      title = _ref.title,
 	      writer = _ref.writer,
 	      content = _ref.content,
 	      date = _ref.date;
@@ -55736,7 +55742,7 @@
 	  return {
 	    type: ADD,
 	    post: {
-	      key: _shortid2.default.generate(),
+	      key: key || _shortid2.default.generate(),
 	      title: title,
 	      writer: writer,
 	      content: content,
@@ -55767,23 +55773,23 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(ADD, "ADD", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEWKEY, "VIEWKEY", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(VIEWKEY, "VIEWKEY", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(addPost, "addPost", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(addPost, "addPost", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(scrollEnd, "scrollEnd", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(scrollEnd, "scrollEnd", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(viewMode, "viewMode", "C:/Users/myData/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(viewMode, "viewMode", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
 	}();
 
 	;
@@ -56219,11 +56225,11 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "C:/Users/myData/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "C:/Users/myData/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(api, "api", "C:/Users/myData/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(api, "api", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
 	}();
 
 	;
@@ -57134,7 +57140,7 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register($m, "$m", "C:/Users/myData/project/talkplace/src/util.js");
+	    __REACT_HOT_LOADER__.register($m, "$m", "/Users/songmingu/Documents/project/talkplace/src/util.js");
 	}();
 
 	;
@@ -73907,6 +73913,10 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _shortid = __webpack_require__(681);
+
+	var _shortid2 = _interopRequireDefault(_shortid);
+
 	var _tp = __webpack_require__(675);
 
 	var _action = __webpack_require__(680);
@@ -73936,6 +73946,7 @@
 	    _this.handleChange = _this.handleChange.bind(_this);
 	    _this.savePost = _this.savePost.bind(_this);
 	    _this.state = {
+	      key: "",
 	      title: "",
 	      writer: "",
 	      content: "",
@@ -73967,16 +73978,26 @@
 	  }, {
 	    key: "savePost",
 	    value: function savePost() {
+	      var _this2 = this;
+
 	      if (this.state.content === "") {
 	        alert("내용을 입력하세요");
 	        return;
 	      }
-	      if (this.state.title === "") {
-	        this.state.title = this.state.content.substr(0, 7);
-	      }
-	      this.state.date = Date.now();
-	      _tp.tp.dispatch((0, _action.addPost)(this.state));
-	      this.props.history.push("/list");
+
+	      var newPost = {
+	        key: _shortid2.default.generate(),
+	        title: this.state.title === "" ? this.state.content.trim().substr(0, 7) : this.state.title.trim(),
+	        writer: this.state.writer.trim(),
+	        content: this.state.content.trim(),
+	        date: Date.now()
+	      };
+
+	      _tp.tp.api.addPost(newPost).then(function (res) {
+	        console.log("# " + res.message);
+	        _tp.tp.store.dispatch((0, _action.addPost)(newPost));
+	        _this2.props.history.push("/post/" + newPost.key);
+	      });
 	    }
 	  }, {
 	    key: "render",
@@ -74041,9 +74062,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Write, "Write", "C:/Users/myData/project/talkplace/src/pages/Write.js");
+	  __REACT_HOT_LOADER__.register(Write, "Write", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Write.js");
+	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
 	}();
 
 	;
@@ -74159,17 +74180,16 @@
 	        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
 
 	        _this.deletePost = _this.deletePost.bind(_this);
-	        _moment2.default.locale('ko');
 	        return _this;
 	    }
 
 	    _createClass(Post, [{
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
-	            console.log("Post shouldComponentUpdate called..");
-	            // 여기는 setState 나 props 가 바뀔 때만 호출되는 듯
-	            // 화면 최초 로딩시에는 무조건 한번은 렌더링이 되게 되어있는 듯 하다. 업데이트할지 말지에 대한 부분이니까.. 맞네.. 18/06/08
-	            return prevProps !== this.props;
+	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+	            var isUpdate = prevProps !== this.props;
+	            console.log("Post.shouldComponentUpdate returns [" + isUpdate + "]");
+	            return isUpdate;
 	        }
 	    }, {
 	        key: "deletePost",
@@ -74203,7 +74223,7 @@
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "delete", onClick: this.deletePost },
-	                        "..."
+	                        "~"
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -74222,6 +74242,15 @@
 	                        { bsStyle: "success" },
 	                        "List"
 	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactRouterDom.Link,
+	                    { to: "/write" },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Button,
+	                        { bsStyle: "success" },
+	                        "Write"
+	                    )
 	                )
 	            );
 	        }
@@ -74239,9 +74268,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Post, "Post", "C:/Users/myData/project/talkplace/src/pages/Post.js");
+	    __REACT_HOT_LOADER__.register(Post, "Post", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Post.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
 	}();
 
 	;
@@ -74305,7 +74334,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 30px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .delete {\n    display: inline-block;\n    cursor: pointer;\n    color: #aaa;\n    width: 30px;\n    text-align: right; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-top: 20px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post button {\n    margin-top: 30px; }\n", ""]);
+	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 30px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .delete {\n    display: inline-block;\n    cursor: pointer;\n    color: #aaa;\n    width: 30px;\n    text-align: right;\n    font-size: 20px; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-top: 20px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post button {\n    margin-top: 30px;\n    margin-right: 3px; }\n", ""]);
 
 	// exports
 

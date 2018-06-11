@@ -35,6 +35,9 @@ export function deletePost(key) {
   return {type: DELETE, key}
 }
 
+
+/* 리액트라우터를 적용하면서 필요없어짐
 export function viewMode(view) {
   return {type: VIEW, view};
 }
+*/

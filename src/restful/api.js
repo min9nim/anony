@@ -39,6 +39,16 @@ api.getPosts = function (idx, cnt, hideProgress) {
     ).then(errHandler);
 }
 
+api.getPost = function (key, hideProgress) {
+    return httpReq(
+        "/api/posts/" + key,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
 
 
 api.deletePost = function (key, hideProgress) {

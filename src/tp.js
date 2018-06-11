@@ -1,7 +1,5 @@
 console.log("tp.js start");
 
-import {createStore} from 'redux';
-import {reducer} from "./redux/reducer";
 import {ADD, DELETE, scrollEnd} from "./redux/action";
 import {api} from "./restful/api";
 import $m from "./util";
@@ -67,27 +65,6 @@ tp.bodyScroll = function () {
 
 
 tp.init = function () {
-  tp.api.getPosts(0, 10).then(res => {
-
-    // store생성
-    let copy = JSON.parse(JSON.stringify(tp.view.App.state));
-    copy.data.posts = res.posts
-
-    //tp.store = createStore(reducer, { mode: "list", posts: res.posts });
-    tp.store = createStore(reducer, copy);
-
-    if (tp.view.App) {
-      // App.js 상태를 서버에서 로드한 데이터로 초기화
-      tp.view.App.setState(tp.store.getState());
-
-      // App.js 컴포넌트가 스토어를 구독하도록 설정
-      tp.store.subscribe(() => {
-        tp.view.App.setState(tp.store.getState());
-      });
-    } else {
-      throw Error("tp.view.App 가 아직 정의되지 않았습니다");
-    }
-  })
 
 };
 

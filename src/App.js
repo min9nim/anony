@@ -4,6 +4,7 @@ import React from 'react';
 import { Media, Button } from 'react-bootstrap';
 import { List, Write, Post } from "./pages";
 import { Route, Switch } from 'react-router-dom';
+import moment from "moment";
 import { tp } from "./tp";
 
 export default class App extends React.Component {
@@ -11,6 +12,7 @@ export default class App extends React.Component {
   constructor(props) {
     console.log("App 생성자 호출..");
     super(props);
+    
     // 초기상태 정의
     this.state = {
       view: {
@@ -22,6 +24,9 @@ export default class App extends React.Component {
       }
     };
     tp.view.App = this;
+
+    moment.locale('ko');
+
   }
 
   shouldComponentUpdate(prevProps, prevState) {

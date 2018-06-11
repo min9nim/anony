@@ -57,5 +57,15 @@ router.delete("/posts/:key", (req, res) => {
         });
 });
 
+// key 에 해당하는 post 를 조회
+router.get("/posts/:key", (req, res) => {
+    Post.find({ key: req.params.key })
+        .then(posts => res.send({posts : posts}))
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+});
+
 
 module.exports = router;
