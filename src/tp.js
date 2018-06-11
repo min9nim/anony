@@ -42,6 +42,8 @@ tp.dispatch = function(action){
 
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;
+  if(!["/", "/list"].includes(location.pathname)) return;
+
   //현재문서의 높이
   const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
   //현재 스크롤탑의 값
