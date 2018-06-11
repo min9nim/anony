@@ -28,7 +28,7 @@ router.post("/posts", (req, res) => {
         }
         res.send({
             status: 'ok',
-            message: 'save success'
+            message: req.body.key + ' is saved'
         });
 
     });   

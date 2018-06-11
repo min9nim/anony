@@ -14,10 +14,10 @@ export default class Post extends React.Component {
     }
 
     shouldComponentUpdate(prevProps, prevState) {
-        console.log("Post shouldComponentUpdate called..");
-        // 여기는 setState 나 props 가 바뀔 때만 호출되는 듯
-        // 화면 최초 로딩시에는 무조건 한번은 렌더링이 되게 되어있는 듯 하다. 업데이트할지 말지에 대한 부분이니까.. 맞네.. 18/06/08
-        return prevProps !== this.props
+        // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+        const isUpdate = prevProps !== this.props;
+        console.log("Post.shouldComponentUpdate returns [" + isUpdate + "]");
+        return isUpdate;
     }
 
     deletePost(){

@@ -40,7 +40,6 @@ tp.dispatch = function(action){
 
 
 
-
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;
   //현재문서의 높이
@@ -54,7 +53,7 @@ tp.bodyScroll = function () {
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
     tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS, true).then(res => {
-      tp.dispatch(scrollEnd(res.posts));
+      tp.store.dispatch(scrollEnd(res.posts));
       if(res.posts.length < PAGEROWS){
         console.log("Scroll has touched bottom")
         tp.isScrollLast = true;

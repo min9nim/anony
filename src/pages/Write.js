@@ -1,4 +1,5 @@
 import React from 'react';
+import shortid from "shortid";
 import {tp} from "../tp";
 import {addPost, viewMode} from "../redux/action";
 import { Link } from 'react-router-dom';
@@ -49,15 +50,21 @@ export default class Write extends React.Component {
       alert("내용을 입력하세요");
       return;
     }
+
+    this.state.key = shortid.generate();
     if(this.state.title === ""){
       this.state.title = this.state.content.substr(0,7);
     }
+    this.state.title = this.state.title.trim();
+    this.state.writer = this.state.writer.trim();
+    this.state.content = this.state.content.trim();
     this.state.date = Date.now();
 
-    const addAction = addPost(this.state);
-    tp.dispatch(addAction);
-    
-    this.props.history.push("/post/" + addAction.post.key);
+    tp.api.addPost(this.state).then(res => {
+      console.log("# " + res.message);
+      tp.store.dispatch(addPost(this.state));
+      this.props.history.push("/post/" + this.state.key);
+    });
   }
 
 
