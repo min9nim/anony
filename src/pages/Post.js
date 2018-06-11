@@ -39,11 +39,12 @@ export default class Post extends React.Component {
             <div className="post">
                 <div>
                     <div className="title h4">{this.props.post.title}</div>
-                    <div className="delete" onClick={this.deletePost}>...</div>
+                    <div className="delete" onClick={this.deletePost}>~</div>
                 </div>
                 <div className="meta">{this.props.post.writer} - {moment(this.props.post.date).format('MM/DD/YYYY dd HH:mm:ss')}</div>
                 <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
                 <Link to="/list"><Button bsStyle="success">List</Button></Link>
+                <Link to="/write"><Button bsStyle="success">Write</Button></Link>
             </div>
         );
     }

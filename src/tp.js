@@ -19,7 +19,9 @@ export let tp = {
 
 // application 의 상태변경이 필요할 때 호출
 tp.dispatch = function(action){
-
+/* store 상태관리와 서버상태관리를 한방에 하기 위해 더 좋은 구조는 무엇일따
+지금은 스토어 상태와 서버상태가 완전히 동일하지는 않기 때문에 자꾸 고민이 되는 상황인 건데....ㅠㅠ
+*/
     // 리덕스 store 상태 업데이트
     tp.store.dispatch(action);
 
@@ -35,6 +37,9 @@ tp.dispatch = function(action){
         break;
     }
 }
+
+
+
 
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;

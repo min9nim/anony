@@ -17,6 +17,7 @@ export default class Write extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     this.state = {
+      key: "",
       title: "",
       writer: "",
       content: "",
@@ -52,8 +53,11 @@ export default class Write extends React.Component {
       this.state.title = this.state.content.substr(0,7);
     }
     this.state.date = Date.now();
-    tp.dispatch(addPost(this.state));
-    this.props.history.push("/list");
+
+    const addAction = addPost(this.state);
+    tp.dispatch(addAction);
+    
+    this.props.history.push("/post/" + addAction.post.key);
   }
 
 

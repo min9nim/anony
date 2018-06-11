@@ -10,11 +10,11 @@ export const SCROLLEND = "SCROLLEND";
 export const VIEW = "VIEW";
 
 
-export function addPost({title, writer, content, date}) {
+export function addPost({key, title, writer, content, date}) {
   return {
     type: ADD,
     post: {
-      key: shortid.generate(),
+      key: key || shortid.generate(),
       title,
       writer,
       content,
