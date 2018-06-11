@@ -22,7 +22,8 @@ export default class Write extends React.Component {
       title: "",
       writer: "",
       content: "",
-      date : ""
+      date : "",
+      uuid : tp.uuid
     };
   }
 
@@ -56,12 +57,17 @@ export default class Write extends React.Component {
       title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
-      date : Date.now()
+      date : Date.now(),
+      uuid : tp.uuid
     };
 
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
-      tp.store.dispatch(addPost(newPost));
+      if(tp.store){
+        tp.store.dispatch(addPost(newPost));
+      }else{
+        // write 화면으로 직접 접근한 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+      }
       this.props.history.push("/post/" + newPost.key);
     });
   }

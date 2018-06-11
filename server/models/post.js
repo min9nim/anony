@@ -19,7 +19,8 @@ const postSchema = new Schema({
     title: String,
     writer: String,
     content: String,
-    date: Number
+    date: Number,
+    uuid: String
 });
 
 module.exports = mongoose.model('post', postSchema);

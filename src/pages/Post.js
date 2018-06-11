@@ -21,9 +21,14 @@ export default class Post extends React.Component {
 
     deletePost(){
         if(confirm("이 글을 삭제합니다")){
-            tp.dispatch(deletePost(this.props.post.key));
+            tp.api.deletePost({
+                key: this.state.key,
+                uuid: tp.uuid
+            }).then(res => {
+                tp.store.dispatch(deletePost(this.state.key));
+                history.back();
+            })
             //this.props.history.push("/list");
-            history.back();
         }
     }
 

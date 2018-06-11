@@ -19,7 +19,12 @@ export default class Excerpt extends React.Component {
 
     deletePost(){
         if(confirm("선택 항목을 삭제합니다")){
-            tp.dispatch(deletePost(this.props.post.key));
+            tp.api.deletePost({
+                key: this.props.post.key,
+                uuid: tp.uuid
+            }).then(res => {
+                tp.store.dispatch(deletePost(this.props.post.key))
+            })
         }
     }
 

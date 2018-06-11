@@ -2,6 +2,7 @@ console.log("tp.js start");
 
 import {ADD, DELETE, scrollEnd} from "./redux/action";
 import {api} from "./restful/api";
+import shortid from "shortid";
 import $m from "./util";
 import nprogress from "nprogress";
 
@@ -65,6 +66,11 @@ tp.bodyScroll = function () {
 
 
 tp.init = function () {
+  tp.uuid = localStorage.getItem("uuid");
+  if(!tp.uuid){
+    localStorage.setItem("uuid", shortid.generate());
+    tp.uuid = localStorage.getItem("uuid");
+  }
 
 };
 
