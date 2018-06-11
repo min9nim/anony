@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b1f7a88f6a3feefe0cde"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "82b0eeb238ab686bb4c4"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -29519,7 +29519,7 @@
 	    return _react2.default.createElement(
 	        _reactRouterDom.BrowserRouter,
 	        null,
-	        _react2.default.createElement(_App2.default, null)
+	        _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _App2.default })
 	    );
 	};
 
@@ -29532,9 +29532,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Root, 'Root', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(Root, 'Root', 'C:/Users/myData/project/talkplace/src/Root.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/Root.js');
 	}();
 
 	;
@@ -33308,6 +33308,10 @@
 
 	var _tp = __webpack_require__(675);
 
+	var _shortcut = __webpack_require__(829);
+
+	var _shortcut2 = _interopRequireDefault(_shortcut);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33326,9 +33330,29 @@
 
 	    console.log("App 생성자 호출..");
 
-	    // 초기상태 정의
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+	    var go = function go(page) {
+	      return function () {
+	        return _this.props.history.push("/" + page);
+	      };
+	    };
+	    var sa = function sa(keys, func) {
+	      return keys.split(",").forEach(function (key) {
+	        return _shortcut2.default.add(key, func);
+	      });
+	    };
+	    sa("Alt+W, Meta+W", go("write"));
+	    sa("Alt+L, Meta+L", go("List"));
+
+	    /*
+	    shortcut.add("Alt+W", go("write"));
+	    shortcut.add("Meta+W", go("write"));
+	    shortcut.add("Alt+L", go("list"));
+	    shortcut.add("Meta+L", go("list"));
+	    */
+
+	    // 초기상태 정의
 	    _this.state = {
 	      view: {
 	        mode: "list",
@@ -33341,16 +33365,16 @@
 	    _tp.tp.view.App = _this;
 
 	    _moment2.default.locale('ko');
-
 	    return _this;
 	  }
 
 	  _createClass(App, [{
 	    key: 'shouldComponentUpdate',
 	    value: function shouldComponentUpdate(prevProps, prevState) {
+	      var render = prevProps.location.pathname !== this.props.location.pathname || prevState !== this.state;
 	      // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-	      console.log("App.shouldComponentUpdate returns [" + true + "]");
-	      return true;
+	      console.log("App.shouldComponentUpdate returns [" + render + "]");
+	      return render;
 	    }
 	  }, {
 	    key: 'render',
@@ -33359,33 +33383,28 @@
 
 	      console.log("App 렌더링..,,");
 
+	      var renderList = function renderList(_ref) {
+	        var history = _ref.history;
+	        return _react2.default.createElement(_pages.List, { history: history, posts: _this2.state.data.posts });
+	      };
+	      var renderPost = function renderPost(_ref2) {
+	        var history = _ref2.history,
+	            match = _ref2.match;
+	        return _react2.default.createElement(_pages.Post, { history: history, post: _this2.state.data.posts.find(function (post) {
+	            return post.key === match.params.key;
+	          }) });
+	      };
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          _reactRouterDom.Switch,
 	          null,
-	          _react2.default.createElement(_reactRouterDom.Route, { path: '/post/:key', render: function render(_ref) {
-	              var match = _ref.match,
-	                  history = _ref.history,
-	                  location = _ref.location;
-	              return _react2.default.createElement(_pages.Post, { history: history, post: _this2.state.data.posts.find(function (post) {
-	                  return post.key === match.params.key;
-	                }) });
-	            } }),
+	          _react2.default.createElement(_reactRouterDom.Route, { path: '/post/:key', render: renderPost }),
 	          _react2.default.createElement(_reactRouterDom.Route, { path: '/write', component: _pages.Write }),
-	          _react2.default.createElement(_reactRouterDom.Route, { path: '/list', render: function render(_ref2) {
-	              var match = _ref2.match,
-	                  history = _ref2.history,
-	                  location = _ref2.location;
-	              return _react2.default.createElement(_pages.List, { posts: _this2.state.data.posts });
-	            } }),
-	          _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: function render(_ref3) {
-	              var match = _ref3.match,
-	                  history = _ref3.history,
-	                  location = _ref3.location;
-	              return _react2.default.createElement(_pages.List, { posts: _this2.state.data.posts });
-	            } })
+	          _react2.default.createElement(_reactRouterDom.Route, { path: '/list', render: renderList }),
+	          _react2.default.createElement(_reactRouterDom.Route, { path: '/', render: renderList })
 	        )
 	      );
 	    }
@@ -33403,9 +33422,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, 'App', '/Users/songmingu/Documents/project/talkplace/src/App.js');
+	  __REACT_HOT_LOADER__.register(App, 'App', 'C:/Users/myData/project/talkplace/src/App.js');
 
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/App.js');
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/App.js');
 	}();
 
 	;
@@ -33966,7 +33985,7 @@
 /* 411 */
 /***/ (function(module, exports) {
 
-	var core = module.exports = { version: '2.5.6' };
+	var core = module.exports = { version: '2.5.7' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -35644,7 +35663,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
+	  Copyright (c) 2017 Jed Watson.
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
@@ -35666,8 +35685,11 @@
 
 				if (argType === 'string' || argType === 'number') {
 					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
+				} else if (Array.isArray(arg) && arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
@@ -35681,6 +35703,7 @@
 		}
 
 		if (typeof module !== 'undefined' && module.exports) {
+			classNames.default = classNames;
 			module.exports = classNames;
 		} else if (true) {
 			// register as 'classnames', consistent with npm package name
@@ -37430,7 +37453,7 @@
 /* 513 */
 /***/ (function(module, exports) {
 
-	/** @license React v16.3.2
+	/** @license React v16.4.0
 	 * react-is.production.min.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37439,17 +37462,17 @@
 	 * LICENSE file in the root directory of this source tree.
 	 */
 
-	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol["for"],c=b?Symbol["for"]("react.element"):60103,d=b?Symbol["for"]("react.portal"):60106,e=b?Symbol["for"]("react.fragment"):60107,f=b?Symbol["for"]("react.strict_mode"):60108,g=b?Symbol["for"]("react.provider"):60109,h=b?Symbol["for"]("react.context"):60110,k=b?Symbol["for"]("react.async_mode"):60111,l=b?Symbol["for"]("react.forward_ref"):60112;
-	function m(a){if("object"===typeof a&&null!==a){var n=a.$$typeof;switch(n){case c:switch(a=a.type,a){case k:case e:case f:return a;default:switch(a=a&&a.$$typeof,a){case h:case l:case g:return a;default:return n}}case d:return n}}}exports.typeOf=m;exports.AsyncMode=k;exports.ContextConsumer=h;exports.ContextProvider=g;exports.Element=c;exports.ForwardRef=l;exports.Fragment=e;exports.Portal=d;exports.StrictMode=f;
-	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===k||a===f||"object"===typeof a&&null!==a&&(a.$$typeof===g||a.$$typeof===h||a.$$typeof===l)};exports.isAsyncMode=function(a){return m(a)===k};exports.isContextConsumer=function(a){return m(a)===h};exports.isContextProvider=function(a){return m(a)===g};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return m(a)===l};
-	exports.isFragment=function(a){return m(a)===e};exports.isPortal=function(a){return m(a)===d};exports.isStrictMode=function(a){return m(a)===f};
+	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.forward_ref"):60112,n=b?Symbol.for("react.timeout"):60113;
+	function q(a){if("object"===typeof a&&null!==a){var p=a.$$typeof;switch(p){case c:switch(a=a.type,a){case l:case e:case g:case f:return a;default:switch(a=a&&a.$$typeof,a){case k:case m:case h:return a;default:return p}}case d:return p}}}exports.typeOf=q;exports.AsyncMode=l;exports.ContextConsumer=k;exports.ContextProvider=h;exports.Element=c;exports.ForwardRef=m;exports.Fragment=e;exports.Profiler=g;exports.Portal=d;exports.StrictMode=f;
+	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===l||a===g||a===f||a===n||"object"===typeof a&&null!==a&&(a.$$typeof===h||a.$$typeof===k||a.$$typeof===m)};exports.isAsyncMode=function(a){return q(a)===l};exports.isContextConsumer=function(a){return q(a)===k};exports.isContextProvider=function(a){return q(a)===h};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return q(a)===m};
+	exports.isFragment=function(a){return q(a)===e};exports.isProfiler=function(a){return q(a)===g};exports.isPortal=function(a){return q(a)===d};exports.isStrictMode=function(a){return q(a)===f};
 
 
 /***/ }),
 /* 514 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.3.2
+	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.4.0
 	 * react-is.development.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37470,23 +37493,23 @@
 
 	// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 	// nor polyfill, then a plain number is used for performance.
-	var hasSymbol = typeof Symbol === 'function' && Symbol['for'];
+	var hasSymbol = typeof Symbol === 'function' && Symbol.for;
 
-	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol['for']('react.element') : 0xeac7;
-
-
-	var REACT_PORTAL_TYPE = hasSymbol ? Symbol['for']('react.portal') : 0xeaca;
-	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol['for']('react.fragment') : 0xeacb;
-	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol['for']('react.strict_mode') : 0xeacc;
-	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol['for']('react.provider') : 0xeacd;
-	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol['for']('react.context') : 0xeace;
-	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol['for']('react.async_mode') : 0xeacf;
-	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol['for']('react.forward_ref') : 0xead0;
+	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+	var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+	var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
+	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+	var REACT_TIMEOUT_TYPE = hasSymbol ? Symbol.for('react.timeout') : 0xead1;
 
 	function isValidElementType(type) {
 	  return typeof type === 'string' || typeof type === 'function' ||
 	  // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_STRICT_MODE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_TIMEOUT_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
 	}
 
 	function typeOf(object) {
@@ -37500,6 +37523,7 @@
 	        switch (type) {
 	          case REACT_ASYNC_MODE_TYPE:
 	          case REACT_FRAGMENT_TYPE:
+	          case REACT_PROFILER_TYPE:
 	          case REACT_STRICT_MODE_TYPE:
 	            return type;
 	          default:
@@ -37528,6 +37552,7 @@
 	var Element = REACT_ELEMENT_TYPE;
 	var ForwardRef = REACT_FORWARD_REF_TYPE;
 	var Fragment = REACT_FRAGMENT_TYPE;
+	var Profiler = REACT_PROFILER_TYPE;
 	var Portal = REACT_PORTAL_TYPE;
 	var StrictMode = REACT_STRICT_MODE_TYPE;
 
@@ -37549,6 +37574,9 @@
 	function isFragment(object) {
 	  return typeOf(object) === REACT_FRAGMENT_TYPE;
 	}
+	function isProfiler(object) {
+	  return typeOf(object) === REACT_PROFILER_TYPE;
+	}
 	function isPortal(object) {
 	  return typeOf(object) === REACT_PORTAL_TYPE;
 	}
@@ -37563,6 +37591,7 @@
 	exports.Element = Element;
 	exports.ForwardRef = ForwardRef;
 	exports.Fragment = Fragment;
+	exports.Profiler = Profiler;
 	exports.Portal = Portal;
 	exports.StrictMode = StrictMode;
 	exports.isValidElementType = isValidElementType;
@@ -37572,6 +37601,7 @@
 	exports.isElement = isElement;
 	exports.isForwardRef = isForwardRef;
 	exports.isFragment = isFragment;
+	exports.isProfiler = isProfiler;
 	exports.isPortal = isPortal;
 	exports.isStrictMode = isStrictMode;
 	  })();
@@ -54660,33 +54690,39 @@
 	    function List(props) {
 	        _classCallCheck(this, List);
 
+	        // 아씨 이거 모야  글보기화면에서 목록화면으로 이동할때마다 생성자가 계속 호출이 되는거였네
 	        console.log("List 생성자 호출");
 
-	        // List 최초 호출시 목록 가져와서 store 초기화
 	        var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
 
-	        _tp.tp.api.getPosts(0, 10).then(function (res) {
-	            // 기존 상태 복사
-	            var copy = JSON.parse(JSON.stringify(_tp.tp.view.App.state));
-
-	            // 신규상태
-	            copy.data.posts = res.posts;
-
-	            // 스토어 최초 한번 생성
-	            _tp.tp.store = (0, _redux.createStore)(_reducer.reducer, copy);
-
-	            // App 를 신규상태로 초기화
-	            _tp.tp.view.App.setState(_tp.tp.store.getState());
-
-	            // 이후 App 가 스토어 상태를 구독하도록 설정
-	            _tp.tp.store.subscribe(function () {
-	                _tp.tp.view.App.setState(_tp.tp.store.getState());
-	            });
-	        });
+	        if (_tp.tp.store === undefined) _this.initStore();
 	        return _this;
 	    }
 
 	    _createClass(List, [{
+	        key: 'initStore',
+	        value: function initStore() {
+	            // List 최초 호출시 목록 가져와서 store 초기화
+	            _tp.tp.api.getPosts(0, 10).then(function (res) {
+	                // 기존 상태 복사
+	                var copy = JSON.parse(JSON.stringify(_tp.tp.view.App.state));
+
+	                // 신규상태
+	                copy.data.posts = res.posts;
+
+	                // 스토어 최초 한번 생성
+	                _tp.tp.store = (0, _redux.createStore)(_reducer.reducer, copy);
+
+	                // App 를 신규상태로 초기화
+	                _tp.tp.view.App.setState(_tp.tp.store.getState());
+
+	                // 이후 App 가 스토어 상태를 구독하도록 설정
+	                _tp.tp.store.subscribe(function () {
+	                    _tp.tp.view.App.setState(_tp.tp.store.getState());
+	                });
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            console.log("List 렌더링..");
@@ -54725,9 +54761,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(List, 'List', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(List, 'List', 'C:/Users/myData/project/talkplace/src/pages/List.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/pages/List.js');
 	}();
 
 	;
@@ -54789,8 +54825,19 @@
 	    }, {
 	        key: "deletePost",
 	        value: function deletePost() {
+	            var _this2 = this;
+
 	            if (confirm("선택 항목을 삭제합니다")) {
-	                _tp.tp.dispatch((0, _action.deletePost)(this.props.post.key));
+	                _tp.tp.api.deletePost({
+	                    key: this.props.post.key,
+	                    uuid: _tp.tp.uuid
+	                }).then(function (res) {
+	                    if (res.status === "fail") {
+	                        alert(res.message);
+	                    } else {
+	                        _tp.tp.store.dispatch((0, _action.deletePost)(_this2.props.post.key));
+	                    }
+	                });
 	            }
 	        }
 	    }, {
@@ -54851,9 +54898,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 	}();
 
 	;
@@ -54872,6 +54919,10 @@
 	var _action = __webpack_require__(676);
 
 	var _api = __webpack_require__(687);
+
+	var _shortid = __webpack_require__(677);
+
+	var _shortid2 = _interopRequireDefault(_shortid);
 
 	var _util = __webpack_require__(689);
 
@@ -54941,7 +54992,13 @@
 	  }
 	};
 
-	tp.init = function () {};
+	tp.init = function () {
+	  tp.uuid = localStorage.getItem("uuid");
+	  if (!tp.uuid) {
+	    localStorage.setItem("uuid", _shortid2.default.generate());
+	    tp.uuid = localStorage.getItem("uuid");
+	  }
+	};
 
 	tp.init();
 	window.tp = tp;
@@ -54952,9 +55009,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "C:/Users/myData/project/talkplace/src/tp.js");
 
-	  __REACT_HOT_LOADER__.register(tp, "tp", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(tp, "tp", "C:/Users/myData/project/talkplace/src/tp.js");
 	}();
 
 	;
@@ -55032,21 +55089,21 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADD, "ADD", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEWKEY, "VIEWKEY", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(VIEWKEY, "VIEWKEY", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(addPost, "addPost", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(addPost, "addPost", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(scrollEnd, "scrollEnd", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(scrollEnd, "scrollEnd", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(deletePost, "deletePost", "C:/Users/myData/project/talkplace/src/redux/action.js");
 	}();
 
 	;
@@ -55476,8 +55533,12 @@
 	    }).then(errHandler);
 	};
 
-	api.deletePost = function (key, hideProgress) {
-	    return httpReq("/api/posts/" + key, {
+	api.deletePost = function (_ref) {
+	    var key = _ref.key,
+	        uuid = _ref.uuid,
+	        hideProgress = _ref.hideProgress;
+
+	    return httpReq("/api/posts/" + key + "/" + uuid, {
 	        method: "DELETE",
 	        hideProgress: hideProgress
 	    }).then(errHandler);
@@ -55489,11 +55550,11 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "C:/Users/myData/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "C:/Users/myData/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(api, "api", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(api, "api", "C:/Users/myData/project/talkplace/src/restful/api.js");
 	}();
 
 	;
@@ -56404,7 +56465,7 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register($m, "$m", "/Users/songmingu/Documents/project/talkplace/src/util.js");
+	    __REACT_HOT_LOADER__.register($m, "$m", "C:/Users/myData/project/talkplace/src/util.js");
 	}();
 
 	;
@@ -73830,11 +73891,11 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(reducer, "reducer", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(posts, "posts", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(posts, "posts", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(view, "view", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(view, "view", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 	}();
 
 	;
@@ -73956,8 +74017,10 @@
 	      title: "",
 	      writer: "",
 	      content: "",
-	      date: ""
+	      date: "",
+	      uuid: _tp.tp.uuid
 	    };
+
 	    return _this;
 	  }
 
@@ -73996,12 +74059,17 @@
 	        title: this.state.title === "" ? this.state.content.trim().substr(0, 7) : this.state.title.trim(),
 	        writer: this.state.writer.trim(),
 	        content: this.state.content.trim(),
-	        date: Date.now()
+	        date: Date.now(),
+	        uuid: _tp.tp.uuid
 	      };
 
 	      _tp.tp.api.addPost(newPost).then(function (res) {
 	        console.log("# " + res.message);
-	        _tp.tp.store.dispatch((0, _action.addPost)(newPost));
+	        if (_tp.tp.store) {
+	          _tp.tp.store.dispatch((0, _action.addPost)(newPost));
+	        } else {
+	          // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+	        }
 	        _this2.props.history.push("/post/" + newPost.key);
 	      });
 	    }
@@ -74068,9 +74136,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(Write, "Write", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
+	  __REACT_HOT_LOADER__.register(Write, "Write", "C:/Users/myData/project/talkplace/src/pages/Write.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Write.js");
 	}();
 
 	;
@@ -74201,16 +74269,27 @@
 	    }, {
 	        key: "deletePost",
 	        value: function deletePost() {
+	            var _this2 = this;
+
 	            if (confirm("이 글을 삭제합니다")) {
-	                _tp.tp.dispatch((0, _action.deletePost)(this.props.post.key));
-	                //this.props.history.push("/list");
-	                history.back();
+	                _tp.tp.api.deletePost({
+	                    key: this.state.key,
+	                    uuid: _tp.tp.uuid
+	                }).then(function (res) {
+	                    if (res.status === "fail") {
+	                        alert(res.message);
+	                    } else {
+	                        _tp.tp.store.dispatch((0, _action.deletePost)(_this2.state.key));
+	                        history.back();
+	                        //this.props.history.push("/list");
+	                    }
+	                });
 	            }
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            var _this2 = this;
+	            var _this3 = this;
 
 	            console.log("Post 렌더링");
 	            if (this.props.post) {
@@ -74222,7 +74301,7 @@
 	                // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
 	                var key = location.pathname.split("/")[2];
 	                _tp.tp.api.getPost(key).then(function (res) {
-	                    _this2.setState(res.posts[0]);
+	                    _this3.setState(res.posts[0]);
 	                });
 	                return _react2.default.createElement("div", null);
 	            }
@@ -74287,9 +74366,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Post, "Post", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
+	    __REACT_HOT_LOADER__.register(Post, "Post", "C:/Users/myData/project/talkplace/src/pages/Post.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Post.js");
 	}();
 
 	;
@@ -74357,6 +74436,238 @@
 
 	// exports
 
+
+/***/ }),
+/* 829 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * http://www.openjs.com/scripts/events/keyboard_shortcuts/
+	 * Version : 2.01.B
+	 * By Binny V A
+	 * License : BSD
+	 */
+	var shortcut = {
+		'all_shortcuts': {}, //All the shortcuts are stored in this array
+		'add': function add(shortcut_combination, callback, opt) {
+			//Provide a set of default options
+			var default_options = {
+				'type': 'keydown',
+				'propagate': false,
+				'disable_in_input': false,
+				'target': document,
+				'keycode': false
+			};
+			if (!opt) opt = default_options;else {
+				for (var dfo in default_options) {
+					if (typeof opt[dfo] == 'undefined') opt[dfo] = default_options[dfo];
+				}
+			}
+
+			var ele = opt.target;
+			if (typeof opt.target == 'string') ele = document.getElementById(opt.target);
+			var ths = this;
+			shortcut_combination = shortcut_combination.toLowerCase();
+
+			//The function to be called at keypress
+			var func = function func(e) {
+				var code, k;
+				e = e || window.event;
+
+				if (opt['disable_in_input']) {
+					//Don't enable shortcut keys in Input, Textarea fields
+					var element;
+					if (e.target) element = e.target;else if (e.srcElement) element = e.srcElement;
+					if (element.nodeType == 3) element = element.parentNode;
+
+					if (element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') return;
+				}
+
+				//Find Which key is pressed
+				if (e.keyCode) code = e.keyCode;else if (e.which) code = e.which;
+				var character = String.fromCharCode(code).toLowerCase();
+
+				if (code == 188) character = ","; //If the user presses , when the type is onkeydown
+				if (code == 190) character = "."; //If the user presses , when the type is onkeydown
+
+				var keys = shortcut_combination.split("+");
+				//Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
+				var kp = 0;
+
+				//Work around for stupid Shift key bug created by using lowercase - as a result the shift+num combination was broken
+				var shift_nums = {
+					"`": "~",
+					"1": "!",
+					"2": "@",
+					"3": "#",
+					"4": "$",
+					"5": "%",
+					"6": "^",
+					"7": "&",
+					"8": "*",
+					"9": "(",
+					"0": ")",
+					"-": "_",
+					"=": "+",
+					";": ":",
+					"'": "\"",
+					",": "<",
+					".": ">",
+					"/": "?",
+					"\\": "|"
+					//Special Keys - and their codes
+				};var special_keys = {
+					'esc': 27,
+					'escape': 27,
+					'tab': 9,
+					'space': 32,
+					'return': 13,
+					'enter': 13,
+					'backspace': 8,
+
+					'scrolllock': 145,
+					'scroll_lock': 145,
+					'scroll': 145,
+					'capslock': 20,
+					'caps_lock': 20,
+					'caps': 20,
+					'numlock': 144,
+					'num_lock': 144,
+					'num': 144,
+
+					'pause': 19,
+					'break': 19,
+
+					'insert': 45,
+					'home': 36,
+					'delete': 46,
+					'end': 35,
+
+					'pageup': 33,
+					'page_up': 33,
+					'pu': 33,
+
+					'pagedown': 34,
+					'page_down': 34,
+					'pd': 34,
+
+					'left': 37,
+					'up': 38,
+					'right': 39,
+					'down': 40,
+
+					'f1': 112,
+					'f2': 113,
+					'f3': 114,
+					'f4': 115,
+					'f5': 116,
+					'f6': 117,
+					'f7': 118,
+					'f8': 119,
+					'f9': 120,
+					'f10': 121,
+					'f11': 122,
+					'f12': 123
+				};
+
+				var modifiers = {
+					shift: { wanted: false, pressed: false },
+					ctrl: { wanted: false, pressed: false },
+					alt: { wanted: false, pressed: false },
+					meta: { wanted: false, pressed: false //Meta is Mac specific
+					} };
+
+				if (e.ctrlKey) modifiers.ctrl.pressed = true;
+				if (e.shiftKey) modifiers.shift.pressed = true;
+				if (e.altKey) modifiers.alt.pressed = true;
+				if (e.metaKey) modifiers.meta.pressed = true;
+
+				for (var i = 0; k = keys[i], i < keys.length; i++) {
+					//Modifiers
+					if (k == 'ctrl' || k == 'control') {
+						kp++;
+						modifiers.ctrl.wanted = true;
+					} else if (k == 'shift') {
+						kp++;
+						modifiers.shift.wanted = true;
+					} else if (k == 'alt') {
+						kp++;
+						modifiers.alt.wanted = true;
+					} else if (k == 'meta') {
+						kp++;
+						modifiers.meta.wanted = true;
+					} else if (k.length > 1) {
+						//If it is a special key
+						if (special_keys[k] == code) kp++;
+					} else if (opt['keycode']) {
+						if (opt['keycode'] == code) kp++;
+					} else {
+						//The special keys did not match
+						if (character == k) kp++;else {
+							if (shift_nums[character] && e.shiftKey) {
+								//Stupid Shift key bug created by using lowercase
+								character = shift_nums[character];
+								if (character == k) kp++;
+							}
+						}
+					}
+				}
+
+				if (kp == keys.length && modifiers.ctrl.pressed == modifiers.ctrl.wanted && modifiers.shift.pressed == modifiers.shift.wanted && modifiers.alt.pressed == modifiers.alt.wanted && modifiers.meta.pressed == modifiers.meta.wanted) {
+					callback(e);
+
+					if (!opt['propagate']) {
+						//Stop the event
+						//e.cancelBubble is supported by IE - this will kill the bubbling process.
+						e.cancelBubble = true;
+						e.returnValue = false;
+
+						//e.stopPropagation works in Firefox.
+						if (e.stopPropagation) {
+							e.stopPropagation();
+							e.preventDefault();
+						}
+						return false;
+					}
+				}
+			};
+			this.all_shortcuts[shortcut_combination] = {
+				'callback': func,
+				'target': ele,
+				'event': opt['type']
+			};
+			//Attach the function with the event
+			if (ele.addEventListener) ele.addEventListener(opt['type'], func, false);else if (ele.attachEvent) ele.attachEvent('on' + opt['type'], func);else ele['on' + opt['type']] = func;
+		},
+
+		//Remove the shortcut - just specify the shortcut and I will remove the binding
+		'remove': function remove(shortcut_combination) {
+			shortcut_combination = shortcut_combination.toLowerCase();
+			var binding = this.all_shortcuts[shortcut_combination];
+			delete this.all_shortcuts[shortcut_combination];
+			if (!binding) return;
+			var type = binding['event'];
+			var ele = binding['target'];
+			var callback = binding['callback'];
+
+			if (ele.detachEvent) ele.detachEvent('on' + type, callback);else if (ele.removeEventListener) ele.removeEventListener(type, callback, false);else ele['on' + type] = false;
+		}
+	};
+
+	module.exports = shortcut;
+	;
+
+	var _temp = function () {
+		if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+			return;
+		}
+
+		__REACT_HOT_LOADER__.register(shortcut, 'shortcut', 'C:/Users/myData/project/talkplace/src/ext/shortcut.js');
+	}();
+
+	;
 
 /***/ })
 /******/ ]);
