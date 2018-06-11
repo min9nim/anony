@@ -25,10 +25,14 @@ export default class Post extends React.Component {
                 key: this.state.key,
                 uuid: tp.uuid
             }).then(res => {
-                tp.store.dispatch(deletePost(this.state.key));
-                history.back();
+                if (res.status === "fail") {
+                    alert(res.message);
+                } else {
+                    tp.store.dispatch(deletePost(this.state.key));
+                    history.back();
+                    //this.props.history.push("/list");
+                }
             })
-            //this.props.history.push("/list");
         }
     }
 

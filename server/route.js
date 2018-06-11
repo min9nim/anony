@@ -39,7 +39,7 @@ router.post("/posts", (req, res) => {
             res.status(500).send(err);
         }
         res.send({
-            status: 'ok',
+            status: 'success',
             message: req.body.key + ' is saved'
         });
 
@@ -49,15 +49,18 @@ router.post("/posts", (req, res) => {
 // idx 번째부터 cnt 개수만큼 post 를 조회
 router.get("/posts/:idx/:cnt", (req, res) => {
     const idx = Number(req.params.idx);
-    if(isNan(idx)){
+    if(isNaN(idx)){
         console.log(":idx 가 숫자가 아닙니다");
         res.status(500).send(":idx 가 숫자가 아닙니다");
+        return;
     }
 
+
     let cnt = Number(req.params.cnt);
-    if(isNan(cnt)){
+    if(isNaN(cnt)){
         console.log(":cnt 가 숫자가 아닙니다");
         res.status(500).send(":cnt 가 숫자가 아닙니다");
+        return;
     }
 
     // 조회 최대 건수 제한
@@ -68,7 +71,7 @@ router.get("/posts/:idx/:cnt", (req, res) => {
         .skip(idx)
         .limit(cnt)
         .then(R.map(removeUuid))
-        .then(posts => res.send({posts : posts}))
+        .then(posts => res.send({status: "success", posts : posts}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
@@ -84,7 +87,7 @@ router.delete("/posts/:key/:uuid", (req, res) => {
                 Post.remove({ key: req.params.key })
                     .then(() => res.send({ message: req.params.key + " is deleted" }));
             }else{
-                res.send({ status : "fail", message: "pw is not matched" });
+                res.send({ status : "fail", message: "Not authorized" });
             }
         })
         .catch(err => {
@@ -97,7 +100,7 @@ router.delete("/posts/:key/:uuid", (req, res) => {
 router.get("/posts/:key", (req, res) => {
     Post.find({ key: req.params.key })
         .then(R.map(removeUuid))
-        .then(posts => res.send({posts : posts}))
+        .then(posts => res.send({status: "success", posts : posts}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);

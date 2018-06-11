@@ -23,7 +23,11 @@ export default class Excerpt extends React.Component {
                 key: this.props.post.key,
                 uuid: tp.uuid
             }).then(res => {
-                tp.store.dispatch(deletePost(this.props.post.key))
+                if(res.status === "fail"){
+                    alert(res.message);
+                }else{
+                    tp.store.dispatch(deletePost(this.props.post.key))
+                }
             })
         }
     }

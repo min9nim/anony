@@ -3,7 +3,6 @@ console.log("api.js start");
 import nprogress from "nprogress";
 
 function errHandler(res) {
-    debugger;
     nprogress.done(); // nprogress.status 가 null 이면 바로 종료됨
     if (!res.ok) throw Error(res.statusText);
     return res.json();
