@@ -12,9 +12,15 @@ import "./List.scss";
 
 export default class List extends React.Component {
     constructor(props) {
+        // 아씨 이거 모야  글보기화면에서 목록화면으로 이동할때마다 생성자가 계속 호출이 되는거였네
         console.log("List 생성자 호출");
         super(props);
 
+        if(tp.store === undefined) this.initStore();
+    }
+
+
+    initStore(){
         // List 최초 호출시 목록 가져와서 store 초기화
         tp.api.getPosts(0, 10).then(res => {
             // 기존 상태 복사
@@ -22,19 +28,20 @@ export default class List extends React.Component {
 
             // 신규상태
             copy.data.posts = res.posts
-        
+
             // 스토어 최초 한번 생성
             tp.store = createStore(reducer, copy);
-        
+
             // App 를 신규상태로 초기화
             tp.view.App.setState(tp.store.getState());
-    
+
             // 이후 App 가 스토어 상태를 구독하도록 설정
             tp.store.subscribe(() => {
                 tp.view.App.setState(tp.store.getState());
             });
-          })
+        });
     }
+
 
     render(){
         console.log("List 렌더링..");

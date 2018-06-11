@@ -52,7 +52,6 @@ export default class Post extends React.Component {
             return <div/>
         }
 
-
         const html = this.state.content.replace(/\n/g, "<br>");
         return (
             <div className="post">

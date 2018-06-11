@@ -25,6 +25,7 @@ export default class Write extends React.Component {
       date : "",
       uuid : tp.uuid
     };
+
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -66,7 +67,7 @@ export default class Write extends React.Component {
       if(tp.store){
         tp.store.dispatch(addPost(newPost));
       }else{
-        // write 화면으로 직접 접근한 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+        // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
       }
       this.props.history.push("/post/" + newPost.key);
     });
