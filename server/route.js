@@ -15,11 +15,24 @@ const MAXCNT = 10;
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
 function maskPost(post){
+    post.uuid = undefined;
+    post._id = undefined;
+    post.__v = undefined;
+    post.private = undefined;
+    // for(var i in post){
+    //     console.log(i + ", ");
+    // }
+    return post;
+    /* 아래와 같이 처리하면 난리납니다..
+    https://github.com/min9nim/talkplace/wiki/%5BMongoDB%5D-%EB%8B%A4%ED%81%90%EB%A8%BC%ED%8A%B8%EC%9D%98-%EC%9D%BC%EB%B6%80-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%A7%80%EC%9A%B0%EA%B3%A0%EC%9E%90-%ED%95%A0-%EB%95%8C
+    
     return Object.assign({}, post, {
         uuid: undefined,
         _id: undefined,
+        __v: undefined,
         private: undefined
     });
+    */
 }
 
 
@@ -71,7 +84,13 @@ router.get("/posts/get/:idx/:cnt", (req, res) => {
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)
-        .then(R.map(maskPost))
+        .then(posts => {
+            //console.log(JSON.stringify(posts, null,2));
+            let res = R.map(maskPost)(posts);
+            //console.log(JSON.stringify(res, null,2));
+            return res;
+
+        })
         .then(posts => res.send({status: "success", posts : posts}))
         .catch(err => {
             console.log(err);
