@@ -1,6 +1,9 @@
-import {ADD, DELETE, VIEW, SCROLLEND} from "./action";
+import {ADD, DELETE, VIEW, UPDATE, SCROLLEND} from "./action";
 
 export function reducer(state = {}, action) {
+  console.log("# reducer call");
+  console.log("state = " + JSON.stringify(state, null,2));
+  console.log("action = " + JSON.stringify(action, null,2));
   return {
     view: view(state.view, action),
     data: {posts: posts(state.data.posts, action)}
@@ -9,17 +12,27 @@ export function reducer(state = {}, action) {
 
 function posts(state = [], action) {
   switch (action.type) {
-    case ADD:
+    case ADD: {
       return [action.post, ...state];
-    case SCROLLEND:
+    }
+    case SCROLLEND: {
       return [...state, ...action.posts];
-    case DELETE:
-      const idx = state.findIndex(o => o.key === action.key);
-      const tmp = [...state]; // state 배열 복사
-      tmp.splice(idx, 1); // idx번째 요소 삭제
-      return tmp;
-    default:
+    }
+    case DELETE: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState.splice(idx, 1); // idx번째 요소 삭제
+      return afterState;
+    }
+    case UPDATE: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.post.key);
+      afterState.splice(idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
+      return afterState;
+    }
+    default: {
       return state;
+    }
   }
 }
 

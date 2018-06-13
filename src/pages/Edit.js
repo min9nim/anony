@@ -1,31 +1,22 @@
 import React from 'react';
-import shortid from "shortid";
 import {tp} from "../tp";
-import {addPost, viewMode} from "../redux/action";
+import {updatePost} from "../redux/action";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
-  HelpBlock,
-  ControlLabel,
   FormControl,
   Button
 } from 'react-bootstrap';
-import "./Write.scss";
+import "./Edit.scss";
 
-export default class Write extends React.Component {
+export default class Edit extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
-    this.state = {
-      key: "",
-      title: "",
-      writer: tp.user.writer,
-      content: "",
-      date : "",
-      uuid : tp.user.uuid
-    };
-
+    
+    this.state = this.props.post || tp.temp;
+    this.state.uuid = tp.user.uuid;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -53,8 +44,8 @@ export default class Write extends React.Component {
       return;
     }
 
-    const newPost = {
-      key : shortid.generate(),
+    const afterPost = {
+      key : this.state.key,
       title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
@@ -62,20 +53,19 @@ export default class Write extends React.Component {
       uuid : tp.user.uuid
     };
 
-    tp.api.addPost(newPost).then(res => {
+    tp.api.updatePost(afterPost).then(res => {
       console.log("# " + res.message);
       if(tp.store){
-        tp.store.dispatch(addPost(newPost));
-      }else{
-        // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+        tp.store.dispatch(updatePost(afterPost));
       }
-      debugger;
       
       // 사용자 정보 업데이트
-      tp.setUser({writer : newPost.writer});
+      tp.setUser({writer : afterPost.writer});
 
       // 작성된 글 바로 확인
-      this.props.history.push("/post/" + newPost.key);
+      this.props.history.push("/post/" + afterPost.key);
+
+
     });
   }
 

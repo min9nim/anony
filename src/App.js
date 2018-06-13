@@ -1,8 +1,7 @@
 console.log("App.js start");
 
 import React from 'react';
-import { Media, Button } from 'react-bootstrap';
-import { List, Write, Post } from "./pages";
+import { List, Write, Post, Edit } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import { tp } from "./tp";
@@ -15,18 +14,13 @@ export default class App extends React.Component {
     console.log("App 생성자 호출..");
     super(props);
 
+
     const go = (page) => () => this.props.history.push("/" + page);
     const sa = (keys, func) => keys.split(",").forEach(key => shortcut.add(key, func));
-    sa("Alt+W, Meta+W", go("write"));
-    sa("Alt+L, Meta+L", go("List"));
+    sa("Alt+W", go("write"));
+    sa("Alt+L", go("List"));
     
-    /*
-    shortcut.add("Alt+W", go("write"));
-    shortcut.add("Meta+W", go("write"));
-    shortcut.add("Alt+L", go("list"));
-    shortcut.add("Meta+L", go("list"));
-    */
-
+    
 
     // 초기상태 정의
     this.state = {
@@ -57,11 +51,13 @@ export default class App extends React.Component {
 
     const renderList = ({history}) => <List history={history} posts={this.state.data.posts} /> ;
     const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
+    const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
 
     return (
       <div>
         <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
           <Route path="/post/:key" render={renderPost} />
+          <Route path="/edit/:key" render={renderEdit} />
           <Route path="/write" component={Write} />
           <Route path="/list" render={renderList} />
           <Route path="/" render={renderList} />

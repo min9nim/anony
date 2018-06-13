@@ -1,7 +1,8 @@
 import React from 'react';
 import {tp} from "../tp";
-import {deletePost, viewMode} from "../redux/action";
+import {deletePost} from "../redux/action";
 import moment from "moment";
+import PostMenu from "../components/PostMenu";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -23,18 +24,22 @@ export default class Post extends React.Component {
         if(confirm("이 글을 삭제합니다")){
             tp.api.deletePost({
                 key: this.state.key,
-                uuid: tp.uuid
+                uuid: tp.user.uuid
             }).then(res => {
                 if (res.status === "fail") {
                     alert(res.message);
                 } else {
-                    tp.store.dispatch(deletePost(this.state.key));
+                    tp.store && tp.store.dispatch(deletePost(this.state.key));
                     history.back();
                     //this.props.history.push("/list");
                 }
             })
         }
     }
+
+    
+
+
 
     render(){
         console.log("Post 렌더링");
@@ -43,7 +48,7 @@ export default class Post extends React.Component {
             this.state = this.props.post
         }
         
-        if([null, undefined].includes(this.state)){
+        if([null, undefined].includes(this.state) || this.state.menu){
             // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
             const key = location.pathname.split("/")[2];
             tp.api.getPost(key).then(res => {
@@ -52,12 +57,14 @@ export default class Post extends React.Component {
             return <div/>
         }
 
-        const html = this.state.content.replace(/\n/g, "<br>");
+        //const html = this.state.content.replace(/\n/g, "<br>");
+        const html = tp.$m.txtToHtml(this.state.content)
+
         return (
             <div className="post">
                 <div>
                     <div className="title h4">{this.state.title}</div>
-                    <div className="delete" onClick={this.deletePost}>~</div>
+                    <PostMenu history={this.props.history} postKey={this.state.key}/>
                 </div>
                 <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm:ss')}</div>
                 <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>

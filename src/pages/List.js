@@ -48,7 +48,7 @@ export default class List extends React.Component {
         return (
             <div className="list">
                 {this.props.posts.map(
-                    post => <Excerpt key={post.key} post={post}/>
+                    post => <Excerpt history={this.props.history} key={post.key} post={post}/>
                 )}
                 <div className="writeBtn">
                     <Link to="/write"><Button bsStyle="success">Write</Button></Link>

@@ -274,6 +274,28 @@ $m.scrollTo = function(x, y) {
 };
 
 
+$m.txtToHtml = function(str, word){
+    if(word){
+        var reg = new RegExp("("+word+")", "gi");
+    }
+
+    return str.split("\n").map(function(val){
+        return val.split(" ").map(function(val){
+            let newval = val;
+            if(word){ // 매칭단어 하이라이트
+                newval = newval.replace(reg, '<span style="background-color:yellow;">$1</span>');
+            }
+            if(val.indexOf("http://") == 0 || val.indexOf("https://") == 0){
+                return `<a href="${val}" target="_blank">${newval}</a>`;
+            }else{
+                return newval;
+            }
+        }).join("&nbsp;");   // 공백문자 &nbsp; 치환
+    }).join("<br/>");   // 새줄문자 <br/> 치환
+}
+
+
+
 // 함수형 프로그래밍을 위한 함수 중심 API
 $m.html = function(selector, html) {
     return $m(selector).html(html);
