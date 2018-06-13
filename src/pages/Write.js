@@ -1,7 +1,6 @@
 import React from 'react';
 import shortid from "shortid";
 import {tp} from "../tp";
-import {addPost, viewMode} from "../redux/action";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
@@ -65,11 +64,10 @@ export default class Write extends React.Component {
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
       if(tp.store){
-        tp.store.dispatch(addPost(newPost));
+        tp.store.dispatch(tp.action.addPost(newPost));
       }else{
         // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
       }
-      debugger;
       
       // 사용자 정보 업데이트
       tp.setUser({writer : newPost.writer});

@@ -1,8 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
-import {deletePost} from "../redux/action";
 import moment from "moment";
-import PostMenu from "../components/PostMenu";
+import {PostMenu} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -29,17 +28,13 @@ export default class Post extends React.Component {
                 if (res.status === "fail") {
                     alert(res.message);
                 } else {
-                    tp.store && tp.store.dispatch(deletePost(this.state.key));
-                    history.back();
-                    //this.props.history.push("/list");
+                    tp.store && tp.store.dispatch(tp.action.deletePost(this.state.key));
+                    //history.back();
+                    this.props.history.push("/list");
                 }
             })
         }
     }
-
-    
-
-
 
     render(){
         console.log("Post 렌더링");

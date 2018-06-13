@@ -1,6 +1,5 @@
 import React from 'react';
 import {tp} from "../tp";
-import {updatePost} from "../redux/action";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
@@ -56,7 +55,7 @@ export default class Edit extends React.Component {
     tp.api.updatePost(afterPost).then(res => {
       console.log("# " + res.message);
       if(tp.store){
-        tp.store.dispatch(updatePost(afterPost));
+        tp.store.dispatch(tp.action.updatePost(afterPost));
       }
       
       // 사용자 정보 업데이트

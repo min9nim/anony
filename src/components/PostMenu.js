@@ -1,6 +1,5 @@
 import React from 'react';
 import {tp} from "../tp";
-import {deletePost, updatePost} from "../redux/action";
 import "./PostMenu.scss";
 
 export default class PostMenu extends React.Component {
@@ -9,6 +8,7 @@ export default class PostMenu extends React.Component {
         super(props);
         this.showMenu = this.showMenu.bind(this);
         this.editPost = this.editPost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
 
         this.state = {
             clicked : false
@@ -23,15 +23,15 @@ export default class PostMenu extends React.Component {
     deletePost(){
         if(confirm("Delete this?")){
             tp.api.deletePost({
-                key: this.props.key,
+                key: this.props.postKey,
                 uuid: tp.user.uuid
             }).then(res => {
                 if (res.status === "fail") {
                     alert(res.message);
                 } else {
-                    tp.store && tp.store.dispatch(deletePost(this.props.key));
-                    history.back();
-                    //this.props.history.push("/list");
+                    tp.store && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                    //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                    this.props.history.push("/list");
                 }
             })
         }

@@ -103,13 +103,14 @@ router.delete("/posts/delete/:key/:uuid", (req, res) => {
     Post.find({ key: req.params.key })
         .then(posts => posts[0].uuid)
         .then(uuid => {
+            console.log("# uuid = " + uuid);
             if(uuid === req.params.uuid){
                 Post.remove({ key: req.params.key })
                     .then(output => {
                         console.log(output);
                         res.send({
                             status: "success",
-                            message: req.params.key + " is deleted",
+                            message: `post(${req.params.key}) is deleted`,
                             output
                         });
                     });
@@ -126,6 +127,7 @@ router.delete("/posts/delete/:key/:uuid", (req, res) => {
 // key 에 해당하는 post 를 조회
 router.get("/posts/get/:key", (req, res) => {
     Post.find({ key: req.params.key })
+        .then(post => {console.log(post); return post;})
         .then(R.map(maskPost))
         .then(posts => res.send({status: "success", posts : posts}))
         .catch(err => {
@@ -138,8 +140,8 @@ router.get("/posts/get/:key", (req, res) => {
 // key에 해당하는 포스트의 작성자가 맞는지 확인
 router.get("/auth/:key/:uuid", (req, res) => {
     Post.find({ key: req.params.key })
-        .then(posts => {console.log("/auth/:key/:uuid => " + posts[0]); return posts;})
         .then(posts => {
+            console.log(posts);
             if(posts[0].uuid === req.params.uuid){
                 res.send({
                     status : "success",

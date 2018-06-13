@@ -13,8 +13,7 @@ export const VIEW = "VIEW";
 const action = {};
 export default action;
 
-action.addPost = addPost;
-export function addPost({key, title, writer, content, date}) {
+action.addPost = function({key, title, writer, content, date}) {
   return {
     type: ADD,
     post: {
@@ -27,8 +26,7 @@ export function addPost({key, title, writer, content, date}) {
   }
 }
 
-action.scrollEnd = scrollEnd;
-export function scrollEnd(posts) {
+action.scrollEnd = function(posts) {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
     type: SCROLLEND,
@@ -36,13 +34,11 @@ export function scrollEnd(posts) {
   }
 }
 
-action.deletePost = deletePost;
-export function deletePost(key) {
+action.deletePost = function(key) {
   return {type: DELETE, key}
 }
 
-action.updatePost = updatePost;
-export function updatePost({key, title, writer, content, date}) {
+action.updatePost = function({key, title, writer, content, date}) {
   return {
     type: UPDATE,
     post: {
@@ -54,9 +50,3 @@ export function updatePost({key, title, writer, content, date}) {
     }
   }
 }
-
-/* 리액트라우터를 적용하면서 필요없어짐
-export function viewMode(view) {
-  return {type: VIEW, view};
-}
-*/

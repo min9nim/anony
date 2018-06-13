@@ -1,7 +1,5 @@
 import React from 'react';
-import {tp} from "../tp";
-import {deletePost, viewMode} from "../redux/action";
-import PostMenu from "../components/PostMenu";
+import {PostMenu} from "../components";
 import moment from "moment";
 import { Link } from 'react-router-dom';
 import "./Excerpt.scss";
@@ -10,44 +8,10 @@ import "./Excerpt.scss";
 export default class Excerpt extends React.Component {
     constructor(props) {
         super(props);
-        this.deletePost = this.deletePost.bind(this);
-        this.editPost = this.editPost.bind(this);
     }
 
     shouldComponentUpdate(prevProps, prevState) {
         return prevProps !== this.props;
-    }
-
-    deletePost(){
-        if(confirm("Delete this?")){
-            tp.api.deletePost({
-                key: this.props.post.key,
-                uuid: tp.user.uuid
-            }).then(res => {
-                if(res.status === "fail"){
-                    alert(res.message);
-                }else{
-                    tp.store.dispatch(deletePost(this.props.post.key))
-                }
-            })
-        }
-    }
-
-    menuClick(){
-        
-    }
-
-    editPost(){
-        tp.api.authPost({
-            key: this.props.post.key,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if(res.status === "success"){
-                this.props.history.push("/edit/"+this.props.post.key);
-            }else{
-                alert(res.message);
-            }
-        })
     }
 
     render(){
