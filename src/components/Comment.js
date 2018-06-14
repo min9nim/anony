@@ -1,98 +1,81 @@
 import React from 'react';
-import {
-    FormGroup,
-    ControlLabel,
-    FormControl,
-    Button
-} from 'react-bootstrap';  
-import shortid from "shortid";
-import "./Comment.scss";
+import {tp} from "../tp";
+import moment from "moment";
+import {PostMenu, CommentWrite} from "../components";
+import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import "./Post.scss";
 
-
-export default class Comment extends React.Component {
+export default class Post extends React.Component {
     constructor(props) {
+        console.log("Post 생성자 호출");
         super(props);
-        this.handleChange = this.handleChange.bind(this);
-        this.saveComment = this.saveComment.bind(this);
-
-
         this.state = {
-            key: "",                    // key
-            writer: tp.user.writer,     // 작성자
-            content: "",                // 내용
-            uuid: tp.user.uuid,         // uuid
-            postKey: this.props.postKey,// 부모 포스트 id
-            commentKey: "",              // 부모 코멘트 id
-            date: ""                   // 작성시간
-        }
+            key: "",
+            title: "",
+            writer: "",
+            content: "",
+            date : "",
+            uuid : ""
+          };
+        this.deletePost = this.deletePost.bind(this);
     }
 
     shouldComponentUpdate(prevProps, prevState) {
+        // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+        console.log("Post.shouldComponentUpdate returns [" + true + "]");
         return true;
     }
 
-    handleChange(e) {
-        let state = {};
-        state[e.target.id] = e.target.value;
-        this.setState(state);
-        
-        if(e.target.id === "content"){
-            // https://zetawiki.com/wiki/HTML_textarea_자동_높이_조절
-            e.target.style.height = (2+e.target.scrollHeight)+"px";        
+    deletePost(){
+        if(confirm("이 글을 삭제합니다")){
+            tp.api.deletePost({
+                key: this.state.key,
+                uuid: tp.user.uuid
+            }).then(res => {
+                if (res.status === "fail") {
+                    alert(res.message);
+                } else {
+                    tp.store && tp.store.dispatch(tp.action.deletePost(this.state.key));
+                    //history.back();
+                    this.props.history.push("/list");
+                }
+            })
         }
     }
 
-    saveComment(){
-        if (this.state.content === "") {
-            alert("내용을 입력하세요");
-            return;
-          }
-      
-          const newComment = {
-            key : shortid.generate(),
-            writer : this.state.writer.trim(),
-            content : this.state.content.trim(),
-            uuid: this.state.uuid,
-            postKey: this.state.postKey,
-            date : Date.now(),
-            uuid : tp.user.uuid,
-            commentKey : ""
-          };
-      
-          tp.api.addComment(newComment).then(res => {
-            console.log("# " + res.message);
-            if(tp.store){
-              tp.store.dispatch(tp.action.addComment(newComment));
-            }else{
-              // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
-            }
-            
-            // 사용자 정보 업데이트
-            tp.setUser({writer : newComment.writer});
-      
-          });
-    }
-      
     render(){
-        console.log("Comment 렌더링..");
+        console.log("Post 렌더링");
+        if(this.props.post){
+            // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+            this.state = this.props.post
+        }
+        
+        if([null, undefined].includes(this.state) || this.state.menu){
+            // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
+            const key = location.pathname.split("/")[2];
+            tp.api.getPost(key).then(res => {
+                this.setState(res.posts[0]);
+            });
+            return <div/>
+        }
+
+        //const html = this.state.content.replace(/\n/g, "<br>");
+        const html = tp.$m.txtToHtml(this.state.content)
+
         return (
-            <div className="comment">
-                <div className="writer">
-                    <FormControl id="writer" 
-                        value = {this.state.writer}
-                        onChange = {this.handleChange}
-                        placeholder = "Writer.." />
+            <div>
+                <div className="post">
+                    <div>
+                        <div className="title h4">{this.state.title}</div>
+                        <PostMenu history={this.props.history} postKey={this.state.key}/>
+                    </div>
+                    <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
+                    <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
+                    <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                 </div>
-                <div className="content">
-                    <FormControl id="content"
-                        value = {this.state.content}
-                        onChange = {this.handleChange}
-                        componentClass = "textarea"
-                        placeholder = "Comment.." />
-                </div>
-                <div className="confirmBtn">
-                    <Button bsStyle="success" onClick={this.saveComment}>Confirm</Button>
-                </div>
+                <Comment postKey={this.state.key} />
             </div>
         );
     }

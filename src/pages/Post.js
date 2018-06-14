@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {PostMenu, Comment} from "../components";
+import {PostMenu, CommentWrite} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -50,8 +50,8 @@ export default class Post extends React.Component {
             // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
             this.state = this.props.post
         }
-        
-        if([null, undefined].includes(this.state) || this.state.menu){
+        //if([null, undefined].includes(this.state) || this.state.menu){
+        if(!this.state.key || this.state.menu){
             // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
             const key = location.pathname.split("/")[2];
             tp.api.getPost(key).then(res => {
@@ -75,7 +75,7 @@ export default class Post extends React.Component {
                     <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
                     <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                 </div>
-                <Comment postKey={this.state.key} />
+                <CommentWrite postKey={this.state.key} />
             </div>
         );
     }

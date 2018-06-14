@@ -53,7 +53,7 @@ export default class Write extends React.Component {
 
     const newPost = {
       key : shortid.generate(),
-      title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,15) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
@@ -84,7 +84,7 @@ export default class Write extends React.Component {
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
-                        autoFocus value = {this.state.title}
+                        value = {this.state.title}
                         onChange = {this.handleChange}
                         placeholder = "Title.." />
                 <FormControl.Feedback />
@@ -99,6 +99,7 @@ export default class Write extends React.Component {
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
                 <FormControl className="content"
+                        autoFocus
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"

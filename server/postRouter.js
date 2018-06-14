@@ -101,10 +101,9 @@ router.get("/get/:idx/:cnt", (req, res) => {
 // key 에 해당하는 post 를 삭제
 router.delete("/delete/:key/:uuid", (req, res) => {
     Post.find({ key: req.params.key })
-        .then(posts => posts[0].uuid)
-        .then(uuid => {
-            console.log("# uuid = " + uuid);
-            if(uuid === req.params.uuid){
+        .then(posts => {
+            console.log(`# valid-delete-url = /delete/${posts[0].key}/${posts[0].uuid}`);
+            if(posts[0].uuid === req.params.uuid){
                 Post.remove({ key: req.params.key })
                     .then(output => {
                         console.log(output);
