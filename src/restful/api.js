@@ -50,6 +50,17 @@ api.getPosts = function (idx, cnt, hideProgress) {
     ).then(errHandler);
 }
 
+api.getComments = function (postKey, hideProgress) {
+    return httpReq(
+        "/api/comments/get/" + postKey,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+
 api.getPost = function (key, hideProgress) {
     return httpReq(
         "/api/posts/get/" + key,
