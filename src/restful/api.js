@@ -27,6 +27,18 @@ api.addPost = function (post, hideProgress) {
     ).then(errHandler);
 }
 
+api.addComment = function (comment, hideProgress) {
+    return httpReq(
+        "/api/comments/add",
+        {
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify(comment, null, 2),
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
 
 api.getPosts = function (idx, cnt, hideProgress) {
     return httpReq(
@@ -62,7 +74,7 @@ api.deletePost = function ({key, uuid, hideProgress}) {
 
 api.authPost = function ({key, uuid, hideProgress}) {
     return httpReq(
-        "/api/auth/" + key + "/" + uuid,
+        "/api/posts/auth/" + key + "/" + uuid,
         {
             method: "GET",
             hideProgress

@@ -1,57 +1,37 @@
 // 라우팅 정의
-
 const express = require('express');
-const Post = require('./models/post');
-const R = require('ramda');
+const Comment = require('./models/comment');
 
+const R = require('ramda');
 
 const router = express.Router();
 
-// posts 조회 최대 개수
-const MAXCNT = 10;
 
-
-// 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
-// https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
-
-function maskPost(post){
-    post.uuid = undefined;
-    post._id = undefined;
-    post.__v = undefined;
-    post.private = undefined;
-    // for(var i in post){
-    //     console.log(i + ", ");
-    // }
-    return post;
-    /* 아래와 같이 처리하면 난리납니다..
-    https://github.com/min9nim/talkplace/wiki/%5BMongoDB%5D-%EB%8B%A4%ED%81%90%EB%A8%BC%ED%8A%B8%EC%9D%98-%EC%9D%BC%EB%B6%80-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%A7%80%EC%9A%B0%EA%B3%A0%EC%9E%90-%ED%95%A0-%EB%95%8C
-    
-    return Object.assign({}, post, {
-        uuid: undefined,
-        _id: undefined,
-        __v: undefined,
-        private: undefined
-    });
-    */
+function maskComment(comment){
+    comment.uuid = undefined;
+    comment._id = undefined;
+    comment.__v = undefined;
+    return comment;
 }
 
 
 // 신규 post 등록
-router.post("/posts/add", (req, res) => {
+router.post("/add", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
-    var post = new Post();
-    post.key = req.body.key;
-    post.title = req.body.title;
-    post.writer = req.body.writer;
-    post.content = req.body.content;
-    post.date = req.body.date;
-    post.uuid = req.body.uuid;
+    var comment = new Comment();
+    comment.key = req.body.key;
+    comment.writer = req.body.writer;
+    comment.content = req.body.content;
+    comment.uuid = req.body.uuid;
+    comment.postKey = req.body.postKey;
+    comment.commentKey = req.body.commentKey;
+    comment.date = req.body.date;
 
-    post.save().then(output => {
+    comment.save().then(output => {
         res.send({
             status: 'success',
-            message: req.body.key + ' is saved',
+            message: `comment(${req.body.key}) is saved`,
             output
         }).catch(err => {
             console.log(err);
@@ -60,8 +40,8 @@ router.post("/posts/add", (req, res) => {
     });   
 });
 
-// idx 번째부터 cnt 개수만큼 post 를 조회
-router.get("/posts/get/:idx/:cnt", (req, res) => {
+// idx 번째부터 cnt 개수만큼 comment 를 조회
+router.get("/get/:idx/:cnt", (req, res) => {
     const idx = Number(req.params.idx);
     if(isNaN(idx)){
         console.log(":idx 가 숫자가 아닙니다");
@@ -80,37 +60,37 @@ router.get("/posts/get/:idx/:cnt", (req, res) => {
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
-    Post.find()
+    Comment.find()
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)
-        .then(posts => {
-            //console.log(JSON.stringify(posts, null,2));
-            let res = R.map(maskPost)(posts);
+        .then(comments => {
+            //console.log(JSON.stringify(comments, null,2));
+            let res = R.map(maskComment)(comments);
             //console.log(JSON.stringify(res, null,2));
             return res;
 
         })
-        .then(posts => res.send({status: "success", posts : posts}))
+        .then(comments => res.send({status: "success", comments : comments}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
         });
 });
 
-// key 에 해당하는 post 를 삭제
-router.delete("/posts/delete/:key/:uuid", (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(posts => posts[0].uuid)
+// key 에 해당하는 comment 를 삭제
+router.delete("/delete/:key/:uuid", (req, res) => {
+    Comment.find({ key: req.params.key })
+        .then(comments => comments[0].uuid)
         .then(uuid => {
             console.log("# uuid = " + uuid);
             if(uuid === req.params.uuid){
-                Post.remove({ key: req.params.key })
+                Comment.remove({ key: req.params.key })
                     .then(output => {
                         console.log(output);
                         res.send({
                             status: "success",
-                            message: `post(${req.params.key}) is deleted`,
+                            message: `comment(${req.params.key}) is deleted`,
                             output
                         });
                     });
@@ -124,12 +104,12 @@ router.delete("/posts/delete/:key/:uuid", (req, res) => {
         });
 });
 
-// key 에 해당하는 post 를 조회
-router.get("/posts/get/:key", (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(post => {console.log(post); return post;})
-        .then(R.map(maskPost))
-        .then(posts => res.send({status: "success", posts : posts}))
+// key 에 해당하는 comment 를 조회
+router.get("/get/:key", (req, res) => {
+    Comment.find({ key: req.params.key })
+        .then(comment => {console.log(comment); return comment;})
+        .then(R.map(maskComment))
+        .then(comments => res.send({status: "success", comments : comments}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
@@ -139,14 +119,14 @@ router.get("/posts/get/:key", (req, res) => {
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
 router.get("/auth/:key/:uuid", (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(posts => {
-            console.log(posts);
-            if(posts[0].uuid === req.params.uuid){
+    Comment.find({ key: req.params.key })
+        .then(comments => {
+            console.log(comments);
+            if(comments[0].uuid === req.params.uuid){
                 res.send({
                     status : "success",
                     message: "Authorized successfully",
-                    post: maskPost(posts[0])
+                    comment: maskComment(comments[0])
                  });
             }else{
                 res.send({ status : "fail", message: "Not authorized" });
@@ -160,16 +140,16 @@ router.get("/auth/:key/:uuid", (req, res) => {
 
 
 // 기존 포스트 수정
-router.post("/posts/edit", (req, res) => {
+router.post("/edit", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
-    Post.update({ key: req.body.key}, { $set: req.body })
+    Comment.update({ key: req.body.key}, { $set: req.body })
         .then(output => {
             console.log(output);
             if(!output.n) throw Error("No rows updated. (No matched)");
             res.send({
                 statue: "success",
-                message: `post@${req.body.key} updated.`,
+                message: `comment@${req.body.key} updated.`,
                 output
             });
         })

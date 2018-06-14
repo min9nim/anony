@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {PostMenu} from "../components";
+import {PostMenu, Comment} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -10,6 +10,14 @@ export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
         super(props);
+        this.state = {
+            key: "",
+            title: "",
+            writer: "",
+            content: "",
+            date : "",
+            uuid : ""
+          };
         this.deletePost = this.deletePost.bind(this);
     }
 
@@ -56,15 +64,18 @@ export default class Post extends React.Component {
         const html = tp.$m.txtToHtml(this.state.content)
 
         return (
-            <div className="post">
-                <div>
-                    <div className="title h4">{this.state.title}</div>
-                    <PostMenu history={this.props.history} postKey={this.state.key}/>
+            <div>
+                <div className="post">
+                    <div>
+                        <div className="title h4">{this.state.title}</div>
+                        <PostMenu history={this.props.history} postKey={this.state.key}/>
+                    </div>
+                    <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
+                    <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
+                    <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                 </div>
-                <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm:ss')}</div>
-                <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
-                <Link to="/list"><Button bsStyle="success">List</Button></Link>
-                <Link to="/write"><Button bsStyle="success">Write</Button></Link>
+                <Comment postKey={this.state.key} />
             </div>
         );
     }

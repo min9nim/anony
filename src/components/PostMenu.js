@@ -67,7 +67,7 @@ export default class PostMenu extends React.Component {
                     <div onClick={this.editPost}>Edit</div> <div onClick={this.deletePost}>Delete</div>
                 </div>
                 :
-                <div className="menu" onClick={this.showMenu}>~</div>
+                <div className="menu" onClick={this.showMenu}>...</div>
                 }</div>
         );
     }
