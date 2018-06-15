@@ -1,0 +1,17 @@
+/* Comment component */
+.commentMenu {
+    display: inline-block;
+    cursor: pointer;
+    color : #aaa;
+    width: calc(100% - 160px);
+    text-align: right;
+    
+    .menu{
+        text-align: right;
+        font-size: 18px;
+        div {
+            font-size: 12px;
+            display: inline-block;
+        }
+    }
+}

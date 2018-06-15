@@ -3,6 +3,8 @@ import {tp} from "../tp";
 import moment from "moment";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {CommentMenu} from "../components";
+
 import "./Comment.scss";
 
 export default class Comment extends React.Component {
@@ -52,7 +54,10 @@ export default class Comment extends React.Component {
 
         return (
             <div className="comment">
-                <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD dd HH:mm')}</div>
+                <div>
+                    <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD dd HH:mm')}</div>
+                    <CommentMenu commentKey={this.state.key}/>
+                </div>
                 <div className="content">{this.state.content}</div>
             </div>
         );

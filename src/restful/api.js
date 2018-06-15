@@ -76,7 +76,18 @@ api.deletePost = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/posts/delete/" + key + "/" + uuid,
         {
-            method: "DELETEPOST",
+            method: "DELETE",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+
+api.deleteComment = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/comments/delete/" + key + "/" + uuid,
+        {
+            method: "DELETE",
             hideProgress
         }
     ).then(errHandler);
@@ -105,3 +116,4 @@ api.updatePost = function (post, hideProgress) {
         }
     ).then(errHandler);
 }
+

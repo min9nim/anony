@@ -50,6 +50,10 @@ action.deletePost = function(key) {
   return {type: DELETEPOST, key}
 }
 
+action.deleteComment = function(key) {
+  return {type: DELETECOMMENT, key}
+}
+
 action.updatePost = function({key, title, writer, content, date}) {
   return {
     type: UPDATEPOST,

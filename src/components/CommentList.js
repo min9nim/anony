@@ -17,7 +17,9 @@ export default class CommentList extends React.Component {
 
         // 이후 CommentList 가 스토어 상태를 구독하도록 설정
         tp.store.subscribe(() => {
-            this.setState({comments : tp.store.getState().data.comments});
+            this.setState({
+                comments : tp.store.getState().data.comments.filter(c => c.postKey === this.props.postKey)
+            });
         });
 
         
