@@ -93,14 +93,28 @@ router.get("/get/:idx/:cnt", (req, res) => {
 // key 에 해당하는 comment 를 삭제
 router.delete("/delete/:key/:uuid", (req, res) => {
     console.log(`/comments/delete/:key/:uuid call`);
-    Comment.find({ key: req.params.key })
-        .then(comments => comments[0].uuid)
-        .then(uuid => {
-            console.log("# uuid = " + uuid);
-            if(uuid === req.params.uuid){
+    Comment.findOne({ key: req.params.key })
+        .then(comment => {
+            console.log("# comments = " + JSON.stringify(comment, null, 2));
+            if(comment.uuid === req.params.uuid){
                 Comment.remove({ key: req.params.key })
                     .then(output => {
-                        console.log(output);
+                        // 부모post 의 댓글카운트 -1
+                        Post.findOne({key:comment.postKey}).then(post => {
+
+                            let commentCnt;
+                            Comment.find({postKey:post.key}).then(comments => {
+                                commentCnt = comments.length;
+    
+                                post.commentCnt = commentCnt;
+                                post.save().then(output => {
+                                    //console.log(output)
+                                    console.log(`post(${post.key})'s commentCnt -1`);
+                                });
+                            })
+                        });                        
+
+                        //console.log(output);
                         res.send({
                             status: "success",
                             message: `comment(${req.params.key}) is deleted`,
