@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {PostMenu, CommentWrite} from "../components";
+import {PostMenu, CommentWrite, CommentList} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -75,6 +75,7 @@ export default class Post extends React.Component {
                     <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
                     <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                 </div>
+                <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
                 <CommentWrite postKey={this.state.key} />
             </div>
         );

@@ -76,7 +76,7 @@ api.deletePost = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/posts/delete/" + key + "/" + uuid,
         {
-            method: "DELETE",
+            method: "DELETEPOST",
             hideProgress
         }
     ).then(errHandler);

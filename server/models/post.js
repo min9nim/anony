@@ -7,6 +7,7 @@ const postSchema = new Schema({
     writer: String,
     content: String,
     date: Number,
+    commentCnt : Number,
     uuid: String
 });
 

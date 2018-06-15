@@ -11,11 +11,11 @@ export default class Comment extends React.Component {
         super(props);
         this.state = {
             key: "",
-            title: "",
             writer: "",
             content: "",
-            date : "",
-            uuid : ""
+            date: "",
+            uuid: "",
+            postKey: ""
           };
         this.deleteComment = this.deleteComment.bind(this);
     }
@@ -45,36 +45,15 @@ export default class Comment extends React.Component {
 
     render(){
         console.log("Comment 렌더링");
-        if(this.props.Comment){
+        if(this.props.comment){
             // Comment 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-            this.state = this.props.Comment
+            this.state = this.props.comment
         }
-        
-        if([null, undefined].includes(this.state) || this.state.menu){
-            // 최초 렌더링 시에는 Comment 가 undefined 이므로 예외처리
-            const key = location.pathname.split("/")[2];
-            tp.api.getComment(key).then(res => {
-                this.setState(res.Comments[0]);
-            });
-            return <div/>
-        }
-
-        //const html = this.state.content.replace(/\n/g, "<br>");
-        const html = tp.$m.txtToHtml(this.state.content)
 
         return (
-            <div>
-                <div className="Comment">
-                    <div>
-                        <div className="title h4">{this.state.title}</div>
-                        <CommentMenu history={this.props.history} CommentKey={this.state.key}/>
-                    </div>
-                    <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                    <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
-                    <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
-                    <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
-                </div>
-                <Comment CommentKey={this.state.key} />
+            <div className="comment">
+                <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD dd HH:mm')}</div>
+                <div className="content">{this.state.content}</div>
             </div>
         );
     }

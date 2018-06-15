@@ -7,7 +7,7 @@
     "build": "node node_modules/webpack/bin/webpack.js",
     "build-watch": "node node_modules/webpack/bin/webpack.js --watch",
     "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "dev-express": "node node_modules/nodemon/bin/nodemon.js server/app.js",
+    "dev-express": "node node_modules/nodemon/bin/nodemon.js server/app.js 8080",
     "forever-start": "forever start server/app.js",
     "forever-dev-server": "forever start node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "forever-dev-express": "forever start node_modules/nodemon/bin/nodemon.js server/app.js"

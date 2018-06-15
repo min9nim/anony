@@ -41,10 +41,10 @@ tp.dispatch = function(action){
 
     // 디비에 변경내용을 반영해야 하는 경우만 아래 switch문에 등록한다
     switch(action.type){
-      case ADD : 
+      case ADDPOST : 
         tp.api.addPost(action.post);
         break;
-      case DELETE :
+      case DELETEPOST :
         tp.api.deletePost(action.key);
         break;
       default :

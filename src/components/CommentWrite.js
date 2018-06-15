@@ -76,7 +76,7 @@ export default class Comment extends React.Component {
     render(){
         console.log("Comment 렌더링..");
         return (
-            <div className="comment">
+            <div className="comment-write">
                 <div className="writer">
                     <FormControl id="writer" 
                         value = {this.state.writer}

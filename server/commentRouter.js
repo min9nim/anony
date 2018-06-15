@@ -1,6 +1,7 @@
 // 라우팅 정의
 const express = require('express');
 const Comment = require('./models/comment');
+const Post = require('./models/post');
 
 const R = require('ramda');
 
@@ -29,14 +30,25 @@ router.post("/add", (req, res) => {
     comment.date = req.body.date;
 
     comment.save().then(output => {
+
+        // 부모post 의 댓글카운트 증가
+        Post.findOne({key:req.body.postKey}).then(post => {
+            // 댓글 카운트 증가
+            post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1;    
+            post.save().then(output => {
+                console.log(output)
+                console.log(`post(${req.body.postKey})'s commentCnt +1`);
+            });
+        });
+
         res.send({
             status: 'success',
             message: `comment(${req.body.key}) is saved`,
             output
-        }).catch(err => {
-            console.log(err);
-            res.status(500).send(err);
         });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
     });   
 });
 
@@ -106,7 +118,7 @@ router.delete("/delete/:key/:uuid", (req, res) => {
 
 // key 에 해당하는 comment 를 조회
 router.get("/get/:key", (req, res) => {
-    Comment.find({ key: req.params.key })
+    Comment.find({ postKey: req.params.key })
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
         .then(comments => res.send({status: "success", comments : comments}))

@@ -9,11 +9,13 @@ const commentRouter = require('./commentRouter');
 const fallback = require('express-history-api-fallback');
 
 
+
 // 익스프레스 앱생성
 const app = express();
 
-// 상수정의
-const PORT = 8080;
+// 서비스 포트
+const PORT = process.argv[2] || 80;
+
 //const DATAFILE = __dirname + path.sep + "data.json"; // __dirname 는 app.js 가 위치한 경로
 
 

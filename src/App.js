@@ -4,8 +4,11 @@ import React from 'react';
 import { List, Write, Post, Edit } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
-import { tp } from "./tp";
 import shortcut from "./ext/shortcut";
+import {tp} from "./tp.js";
+import {createStore} from 'redux';
+import {reducer} from "./redux/reducer";
+
 
 
 export default class App extends React.Component {
@@ -29,11 +32,19 @@ export default class App extends React.Component {
         key: ""
       },
       data: {
-        posts: []
+        posts: [],
+        comments: []
       }
     };
     tp.view.App = this;
 
+    // 스토어 최초 한번 생성
+    tp.store = createStore(reducer, this.state);
+
+    // 이후 App 가 스토어 상태를 구독하도록 설정
+    tp.store.subscribe(() => {
+        this.setState(tp.store.getState());
+    });
     moment.locale('ko');
   }
 

@@ -1,21 +1,26 @@
 import shortid from "shortid";
 
-// 디비 CRUD까지 필요한 action
-export const ADD = "ADD";
-export const DELETE = "DELETE";
-export const UPDATE = "UPDATE";
 
-// store 상태만 변경하면 되는 action
+export const ADDPOST = "ADDPOST";
+export const ADDPOSTS = "ADDPOSTS";
+
+export const DELETEPOST = "DELETEPOST";
+export const UPDATEPOST = "UPDATEPOST";
+
+export const ADDCOMMENT = "ADDCOMMENT";
+export const ADDCOMMENTS = "ADDCOMMENTS";
+
+export const DELETECOMMENT = "DELETECOMMENT";
+export const UPDATECOMMENT = "UPDATECOMMENT";
+
 export const SCROLLEND = "SCROLLEND";
-export const VIEW = "VIEW";
-
 
 const action = {};
 export default action;
 
 action.addPost = function({key, title, writer, content, date}) {
   return {
-    type: ADD,
+    type: ADDPOST,
     post: {
       key: key || shortid.generate(),
       title,
@@ -34,13 +39,20 @@ action.scrollEnd = function(posts) {
   }
 }
 
+action.addPosts = function(posts) {
+  return {
+    type: ADDPOSTS,
+    posts
+  }
+}
+
 action.deletePost = function(key) {
-  return {type: DELETE, key}
+  return {type: DELETEPOST, key}
 }
 
 action.updatePost = function({key, title, writer, content, date}) {
   return {
-    type: UPDATE,
+    type: UPDATEPOST,
     post: {
       key,
       title,
@@ -48,5 +60,28 @@ action.updatePost = function({key, title, writer, content, date}) {
       content,
       date
     }
+  }
+}
+
+
+action.addComment = function({key, writer, content, date, uuid, postKey}) {
+  return {
+    type: ADDCOMMENT,
+    comment: {
+      key,
+      writer,
+      content,
+      date,
+      uuid,
+      postKey
+    }
+  }
+}
+
+
+action.addComments = function(comments) {
+  return {
+    type: ADDCOMMENTS,
+    comments: comments
   }
 }

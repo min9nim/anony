@@ -1,7 +1,7 @@
 console.log("CommentList.js start");
 
 import React from 'react';
-import Comment from "../components";
+import {Comment} from "../components";
 import {tp} from "../tp.js";
 import "./CommentList.scss";
 
@@ -11,19 +11,23 @@ export default class CommentList extends React.Component {
         console.log("CommentList 생성자 호출");
         super(props);
         this.state = {
-            comments: []
+            comments: tp.view.App.state.data.comments.filter(comment => comment.postKey === this.props.postKey)
         }
-        this.initState();
+        tp.view.CommentList = this;
 
-    }
-
-    initState(){
-        tp.api.getComments(this.props.postKey).then(res => {
-            this.setState({
-                comments: res.comments
-            });
+        // 이후 CommentList 가 스토어 상태를 구독하도록 설정
+        tp.store.subscribe(() => {
+            this.setState({comments : tp.store.getState().data.comments});
         });
+
+        
+        if(this.state.comments.length === 0 && this.props.commentCnt > 0){
+            tp.api.getComments(this.props.postKey).then(res => {
+                tp.store.dispatch(tp.action.addComments(res.comments));
+            });
+        }
     }
+
 
 
     render(){
