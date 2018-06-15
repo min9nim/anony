@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f38a879d894dd512bba8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d38ea817cd44cde058aa"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -29488,7 +29488,7 @@
 
 
 	// module
-	exports.push([module.id, "@charset \"UTF-8\";\n/* 공통 css 스타일 설정 */\n/* bootstrap.css 커스터마이징 */\n.form-control {\n  box-shadow: initial; }\n\n/* nprogress.css 커스터마이징 */\n#nprogress {\n  /*\r\n    .bar {\r\n        display: none;\r\n        position: absolute;\r\n        top: 30px;\r\n        background: #708c0c;\r\n    }\r\n    */ }\n  #nprogress .spinner {\n    top: 50%;\n    right: 50%; }\n\n/* 입력 컨트롤 테두리의 top쪽 그림자 제거 */\ninput, textarea {\n  -webkit-appearance: none; }\n", ""]);
+	exports.push([module.id, "@charset \"UTF-8\";\n/* 공통 css 스타일 설정 */\n/* bootstrap.css 커스터마이징 */\n.form-control {\n  box-shadow: initial; }\n\n.btn {\n  padding: 5px 6px; }\n\n/* nprogress.css 커스터마이징 */\n#nprogress {\n  /*\r\n    .bar {\r\n        display: none;\r\n        position: absolute;\r\n        top: 30px;\r\n        background: #708c0c;\r\n    }\r\n    */ }\n  #nprogress .spinner {\n    top: 50%;\n    right: 50%; }\n\n/* 입력 컨트롤 테두리의 top쪽 그림자 제거 */\ninput, textarea {\n  -webkit-appearance: none; }\n", ""]);
 
 	// exports
 
@@ -29532,9 +29532,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Root, 'Root', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(Root, 'Root', 'C:/Users/myData/project/talkplace/src/Root.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/Root.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/Root.js');
 	}();
 
 	;
@@ -33300,15 +33300,19 @@
 
 	var _reactRouterDom = __webpack_require__(360);
 
-	var _moment = __webpack_require__(694);
+	var _moment = __webpack_require__(704);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _tp = __webpack_require__(677);
-
-	var _shortcut = __webpack_require__(836);
+	var _shortcut = __webpack_require__(844);
 
 	var _shortcut2 = _interopRequireDefault(_shortcut);
+
+	var _tp = __webpack_require__(677);
+
+	var _redux = __webpack_require__(845);
+
+	var _reducer = __webpack_require__(848);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33350,11 +33354,19 @@
 	        key: ""
 	      },
 	      data: {
-	        posts: []
+	        posts: [],
+	        comments: []
 	      }
 	    };
 	    _tp.tp.view.App = _this;
 
+	    // 스토어 최초 한번 생성
+	    _tp.tp.store = (0, _redux.createStore)(_reducer.reducer, _this.state);
+
+	    // 이후 App 가 스토어 상태를 구독하도록 설정
+	    _tp.tp.store.subscribe(function () {
+	      _this.setState(_tp.tp.store.getState());
+	    });
 	    _moment2.default.locale('ko');
 	    return _this;
 	  }
@@ -33421,9 +33433,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(App, "App", "/Users/songmingu/Documents/project/talkplace/src/App.js");
+	  __REACT_HOT_LOADER__.register(App, "App", "C:/Users/myData/project/talkplace/src/App.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/App.js");
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/App.js");
 	}();
 
 	;
@@ -33447,7 +33459,7 @@
 	  }
 	});
 
-	var _Write = __webpack_require__(827);
+	var _Write = __webpack_require__(835);
 
 	Object.defineProperty(exports, 'Write', {
 	  enumerable: true,
@@ -33456,7 +33468,7 @@
 	  }
 	});
 
-	var _Post = __webpack_require__(830);
+	var _Post = __webpack_require__(838);
 
 	Object.defineProperty(exports, 'Post', {
 	  enumerable: true,
@@ -33465,7 +33477,7 @@
 	  }
 	});
 
-	var _Edit = __webpack_require__(833);
+	var _Edit = __webpack_require__(841);
 
 	Object.defineProperty(exports, 'Edit', {
 	  enumerable: true,
@@ -33510,13 +33522,9 @@
 
 	var _tp = __webpack_require__(677);
 
-	var _redux = __webpack_require__(821);
-
-	var _reducer = __webpack_require__(824);
-
 	var _reactRouterDom = __webpack_require__(360);
 
-	__webpack_require__(825);
+	__webpack_require__(833);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33539,34 +33547,15 @@
 
 	        var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
 
-	        if (_tp.tp.store === undefined) _this.initStore();
+	        if (_tp.tp.view.App.state.data.posts.length === 0) {
+	            _tp.tp.api.getPosts(0, 10).then(function (res) {
+	                _tp.tp.store.dispatch(_tp.tp.action.addPosts(res.posts));
+	            });
+	        }
 	        return _this;
 	    }
 
 	    _createClass(List, [{
-	        key: 'initStore',
-	        value: function initStore() {
-	            // List 최초 호출시 목록 가져와서 store 초기화
-	            _tp.tp.api.getPosts(0, 10).then(function (res) {
-	                // 기존 상태 복사
-	                var copy = JSON.parse(JSON.stringify(_tp.tp.view.App.state));
-
-	                // 신규상태
-	                copy.data.posts = res.posts;
-
-	                // 스토어 최초 한번 생성
-	                _tp.tp.store = (0, _redux.createStore)(_reducer.reducer, copy);
-
-	                // App 를 신규상태로 초기화
-	                _tp.tp.view.App.setState(_tp.tp.store.getState());
-
-	                // 이후 App 가 스토어 상태를 구독하도록 설정
-	                _tp.tp.store.subscribe(function () {
-	                    _tp.tp.view.App.setState(_tp.tp.store.getState());
-	                });
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this2 = this;
@@ -33607,9 +33596,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(List, 'List', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(List, 'List', 'C:/Users/myData/project/talkplace/src/pages/List.js');
 
-	    __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/pages/List.js');
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/pages/List.js');
 	}();
 
 	;
@@ -34170,7 +34159,7 @@
 /* 413 */
 /***/ (function(module, exports) {
 
-	var core = module.exports = { version: '2.5.6' };
+	var core = module.exports = { version: '2.5.7' };
 	if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
 
@@ -35848,7 +35837,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-	  Copyright (c) 2016 Jed Watson.
+	  Copyright (c) 2017 Jed Watson.
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
@@ -35870,8 +35859,11 @@
 
 				if (argType === 'string' || argType === 'number') {
 					classes.push(arg);
-				} else if (Array.isArray(arg)) {
-					classes.push(classNames.apply(null, arg));
+				} else if (Array.isArray(arg) && arg.length) {
+					var inner = classNames.apply(null, arg);
+					if (inner) {
+						classes.push(inner);
+					}
 				} else if (argType === 'object') {
 					for (var key in arg) {
 						if (hasOwn.call(arg, key) && arg[key]) {
@@ -35885,6 +35877,7 @@
 		}
 
 		if (typeof module !== 'undefined' && module.exports) {
+			classNames.default = classNames;
 			module.exports = classNames;
 		} else if (true) {
 			// register as 'classnames', consistent with npm package name
@@ -37634,7 +37627,7 @@
 /* 515 */
 /***/ (function(module, exports) {
 
-	/** @license React v16.3.2
+	/** @license React v16.4.0
 	 * react-is.production.min.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37643,17 +37636,17 @@
 	 * LICENSE file in the root directory of this source tree.
 	 */
 
-	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol["for"],c=b?Symbol["for"]("react.element"):60103,d=b?Symbol["for"]("react.portal"):60106,e=b?Symbol["for"]("react.fragment"):60107,f=b?Symbol["for"]("react.strict_mode"):60108,g=b?Symbol["for"]("react.provider"):60109,h=b?Symbol["for"]("react.context"):60110,k=b?Symbol["for"]("react.async_mode"):60111,l=b?Symbol["for"]("react.forward_ref"):60112;
-	function m(a){if("object"===typeof a&&null!==a){var n=a.$$typeof;switch(n){case c:switch(a=a.type,a){case k:case e:case f:return a;default:switch(a=a&&a.$$typeof,a){case h:case l:case g:return a;default:return n}}case d:return n}}}exports.typeOf=m;exports.AsyncMode=k;exports.ContextConsumer=h;exports.ContextProvider=g;exports.Element=c;exports.ForwardRef=l;exports.Fragment=e;exports.Portal=d;exports.StrictMode=f;
-	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===k||a===f||"object"===typeof a&&null!==a&&(a.$$typeof===g||a.$$typeof===h||a.$$typeof===l)};exports.isAsyncMode=function(a){return m(a)===k};exports.isContextConsumer=function(a){return m(a)===h};exports.isContextProvider=function(a){return m(a)===g};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return m(a)===l};
-	exports.isFragment=function(a){return m(a)===e};exports.isPortal=function(a){return m(a)===d};exports.isStrictMode=function(a){return m(a)===f};
+	'use strict';Object.defineProperty(exports,"__esModule",{value:!0});var b="function"===typeof Symbol&&Symbol.for,c=b?Symbol.for("react.element"):60103,d=b?Symbol.for("react.portal"):60106,e=b?Symbol.for("react.fragment"):60107,f=b?Symbol.for("react.strict_mode"):60108,g=b?Symbol.for("react.profiler"):60114,h=b?Symbol.for("react.provider"):60109,k=b?Symbol.for("react.context"):60110,l=b?Symbol.for("react.async_mode"):60111,m=b?Symbol.for("react.forward_ref"):60112,n=b?Symbol.for("react.timeout"):60113;
+	function q(a){if("object"===typeof a&&null!==a){var p=a.$$typeof;switch(p){case c:switch(a=a.type,a){case l:case e:case g:case f:return a;default:switch(a=a&&a.$$typeof,a){case k:case m:case h:return a;default:return p}}case d:return p}}}exports.typeOf=q;exports.AsyncMode=l;exports.ContextConsumer=k;exports.ContextProvider=h;exports.Element=c;exports.ForwardRef=m;exports.Fragment=e;exports.Profiler=g;exports.Portal=d;exports.StrictMode=f;
+	exports.isValidElementType=function(a){return"string"===typeof a||"function"===typeof a||a===e||a===l||a===g||a===f||a===n||"object"===typeof a&&null!==a&&(a.$$typeof===h||a.$$typeof===k||a.$$typeof===m)};exports.isAsyncMode=function(a){return q(a)===l};exports.isContextConsumer=function(a){return q(a)===k};exports.isContextProvider=function(a){return q(a)===h};exports.isElement=function(a){return"object"===typeof a&&null!==a&&a.$$typeof===c};exports.isForwardRef=function(a){return q(a)===m};
+	exports.isFragment=function(a){return q(a)===e};exports.isProfiler=function(a){return q(a)===g};exports.isPortal=function(a){return q(a)===d};exports.isStrictMode=function(a){return q(a)===f};
 
 
 /***/ }),
 /* 516 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.3.2
+	/* WEBPACK VAR INJECTION */(function(process) {/** @license React v16.4.0
 	 * react-is.development.js
 	 *
 	 * Copyright (c) 2013-present, Facebook, Inc.
@@ -37674,23 +37667,23 @@
 
 	// The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 	// nor polyfill, then a plain number is used for performance.
-	var hasSymbol = typeof Symbol === 'function' && Symbol['for'];
+	var hasSymbol = typeof Symbol === 'function' && Symbol.for;
 
-	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol['for']('react.element') : 0xeac7;
-
-
-	var REACT_PORTAL_TYPE = hasSymbol ? Symbol['for']('react.portal') : 0xeaca;
-	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol['for']('react.fragment') : 0xeacb;
-	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol['for']('react.strict_mode') : 0xeacc;
-	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol['for']('react.provider') : 0xeacd;
-	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol['for']('react.context') : 0xeace;
-	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol['for']('react.async_mode') : 0xeacf;
-	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol['for']('react.forward_ref') : 0xead0;
+	var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+	var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+	var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+	var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+	var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+	var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+	var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace;
+	var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for('react.async_mode') : 0xeacf;
+	var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+	var REACT_TIMEOUT_TYPE = hasSymbol ? Symbol.for('react.timeout') : 0xead1;
 
 	function isValidElementType(type) {
 	  return typeof type === 'string' || typeof type === 'function' ||
 	  // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
-	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_STRICT_MODE_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
+	  type === REACT_FRAGMENT_TYPE || type === REACT_ASYNC_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_TIMEOUT_TYPE || typeof type === 'object' && type !== null && (type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE);
 	}
 
 	function typeOf(object) {
@@ -37704,6 +37697,7 @@
 	        switch (type) {
 	          case REACT_ASYNC_MODE_TYPE:
 	          case REACT_FRAGMENT_TYPE:
+	          case REACT_PROFILER_TYPE:
 	          case REACT_STRICT_MODE_TYPE:
 	            return type;
 	          default:
@@ -37732,6 +37726,7 @@
 	var Element = REACT_ELEMENT_TYPE;
 	var ForwardRef = REACT_FORWARD_REF_TYPE;
 	var Fragment = REACT_FRAGMENT_TYPE;
+	var Profiler = REACT_PROFILER_TYPE;
 	var Portal = REACT_PORTAL_TYPE;
 	var StrictMode = REACT_STRICT_MODE_TYPE;
 
@@ -37753,6 +37748,9 @@
 	function isFragment(object) {
 	  return typeOf(object) === REACT_FRAGMENT_TYPE;
 	}
+	function isProfiler(object) {
+	  return typeOf(object) === REACT_PROFILER_TYPE;
+	}
 	function isPortal(object) {
 	  return typeOf(object) === REACT_PORTAL_TYPE;
 	}
@@ -37767,6 +37765,7 @@
 	exports.Element = Element;
 	exports.ForwardRef = ForwardRef;
 	exports.Fragment = Fragment;
+	exports.Profiler = Profiler;
 	exports.Portal = Portal;
 	exports.StrictMode = StrictMode;
 	exports.isValidElementType = isValidElementType;
@@ -37776,6 +37775,7 @@
 	exports.isElement = isElement;
 	exports.isForwardRef = isForwardRef;
 	exports.isFragment = isFragment;
+	exports.isProfiler = isProfiler;
 	exports.isPortal = isPortal;
 	exports.isStrictMode = isStrictMode;
 	  })();
@@ -54785,13 +54785,13 @@
 
 	var _components = __webpack_require__(675);
 
-	var _moment = __webpack_require__(694);
+	var _moment = __webpack_require__(704);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
 	var _reactRouterDom = __webpack_require__(360);
 
-	__webpack_require__(819);
+	__webpack_require__(831);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54864,9 +54864,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(Excerpt, "Excerpt", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/Excerpt.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Excerpt.js");
 	}();
 
 	;
@@ -54896,6 +54896,42 @@
 	  enumerable: true,
 	  get: function get() {
 	    return _interopRequireDefault(_PostMenu).default;
+	  }
+	});
+
+	var _CommentWrite = __webpack_require__(694);
+
+	Object.defineProperty(exports, 'CommentWrite', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_CommentWrite).default;
+	  }
+	});
+
+	var _CommentList = __webpack_require__(697);
+
+	Object.defineProperty(exports, 'CommentList', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_CommentList).default;
+	  }
+	});
+
+	var _CommentMenu = __webpack_require__(700);
+
+	Object.defineProperty(exports, 'CommentMenu', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_CommentMenu).default;
+	  }
+	});
+
+	var _Comment = __webpack_require__(703);
+
+	Object.defineProperty(exports, 'Comment', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Comment).default;
 	  }
 	});
 
@@ -55033,7 +55069,7 @@
 	                ) : _react2.default.createElement(
 	                    "div",
 	                    { className: "menu", onClick: this.showMenu },
-	                    "~"
+	                    "..."
 	                )
 	            );
 	        }
@@ -55051,9 +55087,9 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(PostMenu, "PostMenu", "/Users/songmingu/Documents/project/talkplace/src/components/PostMenu.js");
+	    __REACT_HOT_LOADER__.register(PostMenu, "PostMenu", "C:/Users/myData/project/talkplace/src/components/PostMenu.js");
 
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/components/PostMenu.js");
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/PostMenu.js");
 	}();
 
 	;
@@ -55123,10 +55159,10 @@
 
 	    // 디비에 변경내용을 반영해야 하는 경우만 아래 switch문에 등록한다
 	    switch(action.type){
-	      case ADD : 
+	      case ADDPOST : 
 	        tp.api.addPost(action.post);
 	        break;
-	      case DELETE :
+	      case DELETEPOST :
 	        tp.api.deletePost(action.key);
 	        break;
 	      default :
@@ -55175,9 +55211,9 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(PAGEROWS, "PAGEROWS", "C:/Users/myData/project/talkplace/src/tp.js");
 
-	  __REACT_HOT_LOADER__.register(tp, "tp", "/Users/songmingu/Documents/project/talkplace/src/tp.js");
+	  __REACT_HOT_LOADER__.register(tp, "tp", "C:/Users/myData/project/talkplace/src/tp.js");
 	}();
 
 	;
@@ -55191,7 +55227,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.VIEW = exports.SCROLLEND = exports.UPDATE = exports.DELETE = exports.ADD = undefined;
+	exports.SCROLLEND = exports.UPDATECOMMENT = exports.DELETECOMMENT = exports.ADDCOMMENTS = exports.ADDCOMMENT = exports.UPDATEPOST = exports.DELETEPOST = exports.ADDPOSTS = exports.ADDPOST = undefined;
 
 	var _shortid = __webpack_require__(679);
 
@@ -55199,14 +55235,19 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// 디비 CRUD까지 필요한 action
-	var ADD = exports.ADD = "ADD";
-	var DELETE = exports.DELETE = "DELETE";
-	var UPDATE = exports.UPDATE = "UPDATE";
+	var ADDPOST = exports.ADDPOST = "ADDPOST";
+	var ADDPOSTS = exports.ADDPOSTS = "ADDPOSTS";
 
-	// store 상태만 변경하면 되는 action
+	var DELETEPOST = exports.DELETEPOST = "DELETEPOST";
+	var UPDATEPOST = exports.UPDATEPOST = "UPDATEPOST";
+
+	var ADDCOMMENT = exports.ADDCOMMENT = "ADDCOMMENT";
+	var ADDCOMMENTS = exports.ADDCOMMENTS = "ADDCOMMENTS";
+
+	var DELETECOMMENT = exports.DELETECOMMENT = "DELETECOMMENT";
+	var UPDATECOMMENT = exports.UPDATECOMMENT = "UPDATECOMMENT";
+
 	var SCROLLEND = exports.SCROLLEND = "SCROLLEND";
-	var VIEW = exports.VIEW = "VIEW";
 
 	var action = {};
 	var _default = action;
@@ -55221,7 +55262,7 @@
 	      date = _ref.date;
 
 	  return {
-	    type: ADD,
+	    type: ADDPOST,
 	    post: {
 	      key: key || _shortid2.default.generate(),
 	      title: title,
@@ -55240,8 +55281,19 @@
 	  };
 	};
 
+	action.addPosts = function (posts) {
+	  return {
+	    type: ADDPOSTS,
+	    posts: posts
+	  };
+	};
+
 	action.deletePost = function (key) {
-	  return { type: DELETE, key: key };
+	  return { type: DELETEPOST, key: key };
+	};
+
+	action.deleteComment = function (key) {
+	  return { type: DELETECOMMENT, key: key };
 	};
 
 	action.updatePost = function (_ref2) {
@@ -55252,7 +55304,7 @@
 	      date = _ref2.date;
 
 	  return {
-	    type: UPDATE,
+	    type: UPDATEPOST,
 	    post: {
 	      key: key,
 	      title: title,
@@ -55262,6 +55314,34 @@
 	    }
 	  };
 	};
+
+	action.addComment = function (_ref3) {
+	  var key = _ref3.key,
+	      writer = _ref3.writer,
+	      content = _ref3.content,
+	      date = _ref3.date,
+	      uuid = _ref3.uuid,
+	      postKey = _ref3.postKey;
+
+	  return {
+	    type: ADDCOMMENT,
+	    comment: {
+	      key: key,
+	      writer: writer,
+	      content: content,
+	      date: date,
+	      uuid: uuid,
+	      postKey: postKey
+	    }
+	  };
+	};
+
+	action.addComments = function (comments) {
+	  return {
+	    type: ADDCOMMENTS,
+	    comments: comments
+	  };
+	};
 	;
 
 	var _temp = function () {
@@ -55269,19 +55349,27 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(ADD, "ADD", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADDPOST, "ADDPOST", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(DELETE, "DELETE", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADDPOSTS, "ADDPOSTS", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(UPDATE, "UPDATE", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(DELETEPOST, "DELETEPOST", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(UPDATEPOST, "UPDATEPOST", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(VIEW, "VIEW", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADDCOMMENT, "ADDCOMMENT", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(action, "action", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(ADDCOMMENTS, "ADDCOMMENTS", "C:/Users/myData/project/talkplace/src/redux/action.js");
 
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/redux/action.js");
+	  __REACT_HOT_LOADER__.register(DELETECOMMENT, "DELETECOMMENT", "C:/Users/myData/project/talkplace/src/redux/action.js");
+
+	  __REACT_HOT_LOADER__.register(UPDATECOMMENT, "UPDATECOMMENT", "C:/Users/myData/project/talkplace/src/redux/action.js");
+
+	  __REACT_HOT_LOADER__.register(SCROLLEND, "SCROLLEND", "C:/Users/myData/project/talkplace/src/redux/action.js");
+
+	  __REACT_HOT_LOADER__.register(action, "action", "C:/Users/myData/project/talkplace/src/redux/action.js");
+
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/redux/action.js");
 	}();
 
 	;
@@ -55697,8 +55785,24 @@
 	    }).then(errHandler);
 	};
 
+	api.addComment = function (comment, hideProgress) {
+	    return httpReq("/api/comments/add", {
+	        method: "POST",
+	        headers: new Headers({ "Content-Type": "application/json" }),
+	        body: JSON.stringify(comment, null, 2),
+	        hideProgress: hideProgress
+	    }).then(errHandler);
+	};
+
 	api.getPosts = function (idx, cnt, hideProgress) {
 	    return httpReq("/api/posts/get/" + idx + "/" + cnt, {
+	        method: "GET",
+	        hideProgress: hideProgress
+	    }).then(errHandler);
+	};
+
+	api.getComments = function (postKey, hideProgress) {
+	    return httpReq("/api/comments/get/" + postKey, {
 	        method: "GET",
 	        hideProgress: hideProgress
 	    }).then(errHandler);
@@ -55722,12 +55826,23 @@
 	    }).then(errHandler);
 	};
 
-	api.authPost = function (_ref2) {
+	api.deleteComment = function (_ref2) {
 	    var key = _ref2.key,
 	        uuid = _ref2.uuid,
 	        hideProgress = _ref2.hideProgress;
 
-	    return httpReq("/api/auth/" + key + "/" + uuid, {
+	    return httpReq("/api/comments/delete/" + key + "/" + uuid, {
+	        method: "DELETE",
+	        hideProgress: hideProgress
+	    }).then(errHandler);
+	};
+
+	api.authPost = function (_ref3) {
+	    var key = _ref3.key,
+	        uuid = _ref3.uuid,
+	        hideProgress = _ref3.hideProgress;
+
+	    return httpReq("/api/posts/auth/" + key + "/" + uuid, {
 	        method: "GET",
 	        hideProgress: hideProgress
 	    }).then(errHandler);
@@ -55748,11 +55863,11 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(errHandler, "errHandler", "C:/Users/myData/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(httpReq, "httpReq", "C:/Users/myData/project/talkplace/src/restful/api.js");
 
-	    __REACT_HOT_LOADER__.register(api, "api", "/Users/songmingu/Documents/project/talkplace/src/restful/api.js");
+	    __REACT_HOT_LOADER__.register(api, "api", "C:/Users/myData/project/talkplace/src/restful/api.js");
 	}();
 
 	;
@@ -56684,7 +56799,7 @@
 	        return;
 	    }
 
-	    __REACT_HOT_LOADER__.register($m, "$m", "/Users/songmingu/Documents/project/talkplace/src/util.js");
+	    __REACT_HOT_LOADER__.register($m, "$m", "C:/Users/myData/project/talkplace/src/util.js");
 	}();
 
 	;
@@ -56748,13 +56863,745 @@
 
 
 	// module
-	exports.push([module.id, "/* Post component */\n.postMenu {\n  display: inline-block;\n  cursor: pointer;\n  color: #aaa;\n  width: 100px;\n  text-align: right;\n  height: 32px; }\n  .postMenu .menu {\n    width: 100px;\n    text-align: right;\n    font-size: 20px; }\n    .postMenu .menu div {\n      font-size: 14px;\n      display: inline-block; }\n", ""]);
+	exports.push([module.id, "/* Post component */\n.postMenu {\n  display: inline-block;\n  cursor: pointer;\n  color: #aaa;\n  width: 100px;\n  text-align: right; }\n  .postMenu .menu {\n    text-align: right;\n    font-size: 20px; }\n    .postMenu .menu div {\n      font-size: 14px;\n      display: inline-block; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
 /* 694 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(405);
+
+	var _shortid = __webpack_require__(679);
+
+	var _shortid2 = _interopRequireDefault(_shortid);
+
+	__webpack_require__(695);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Comment = function (_React$Component) {
+	    _inherits(Comment, _React$Component);
+
+	    function Comment(props) {
+	        _classCallCheck(this, Comment);
+
+	        var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this, props));
+
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        _this.saveComment = _this.saveComment.bind(_this);
+
+	        _this.state = {
+	            key: "", // key
+	            writer: tp.user.writer, // 작성자
+	            content: "", // 내용
+	            uuid: tp.user.uuid, // uuid
+	            postKey: _this.props.postKey, // 부모 포스트 id
+	            commentKey: "", // 부모 코멘트 id
+	            date: "" // 작성시간
+	        };
+	        return _this;
+	    }
+
+	    _createClass(Comment, [{
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(prevProps, prevState) {
+	            return true;
+	        }
+	    }, {
+	        key: 'handleChange',
+	        value: function handleChange(e) {
+	            var state = {};
+	            state[e.target.id] = e.target.value;
+	            this.setState(state);
+
+	            if (e.target.id === "content") {
+	                // https://zetawiki.com/wiki/HTML_textarea_자동_높이_조절
+	                e.target.style.height = 2 + e.target.scrollHeight + "px";
+	            }
+	        }
+	    }, {
+	        key: 'saveComment',
+	        value: function saveComment() {
+	            var _newComment;
+
+	            if (this.state.content === "") {
+	                alert("내용을 입력하세요");
+	                return;
+	            }
+
+	            var newComment = (_newComment = {
+	                key: _shortid2.default.generate(),
+	                writer: this.state.writer.trim(),
+	                content: this.state.content.trim(),
+	                uuid: this.state.uuid,
+	                postKey: this.state.postKey,
+	                date: Date.now()
+	            }, _defineProperty(_newComment, 'uuid', tp.user.uuid), _defineProperty(_newComment, 'commentKey', ""), _newComment);
+
+	            tp.api.addComment(newComment).then(function (res) {
+	                console.log("# " + res.message);
+	                if (tp.store) {
+	                    tp.store.dispatch(tp.action.addComment(newComment));
+	                } else {}
+	                // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+
+
+	                // 사용자 정보 업데이트
+	                tp.setUser({ writer: newComment.writer });
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            console.log("Comment 렌더링..");
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'comment-write' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'writer' },
+	                    _react2.default.createElement(_reactBootstrap.FormControl, { id: 'writer',
+	                        value: this.state.writer,
+	                        onChange: this.handleChange,
+	                        placeholder: 'Writer..' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'content' },
+	                    _react2.default.createElement(_reactBootstrap.FormControl, { id: 'content',
+	                        value: this.state.content,
+	                        onChange: this.handleChange,
+	                        componentClass: 'textarea',
+	                        placeholder: 'Comment..' })
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'confirmBtn' },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Button,
+	                        { bsStyle: 'success', onClick: this.saveComment },
+	                        'Confirm'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Comment;
+	}(_react2.default.Component);
+
+	var _default = Comment;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	        return;
+	    }
+
+	    __REACT_HOT_LOADER__.register(Comment, 'Comment', 'C:/Users/myData/project/talkplace/src/components/CommentWrite.js');
+
+	    __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/components/CommentWrite.js');
+	}();
+
+	;
+
+/***/ }),
+/* 695 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(696);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(696, function() {
+			var newContent = __webpack_require__(696);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 696 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* Comment component */\n.comment-write {\n  margin: 20px; }\n  .comment-write .writer {\n    display: inline-block;\n    width: 100px;\n    margin-bottom: 0px; }\n  .comment-write .content {\n    position: absolute;\n    display: inline-block;\n    width: calc(100% - 220px);\n    margin: 0px 3px; }\n    .comment-write .content textarea {\n      position: absolute;\n      height: 34px;\n      overflow: visible; }\n    .comment-write .content textarea.autosize {\n      min-height: 34px; }\n  .comment-write .confirmBtn {\n    position: absolute;\n    right: 20px;\n    display: inline-block;\n    width: 70px;\n    margin: 1px 0px; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 697 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _components = __webpack_require__(675);
+
+	var _tp = __webpack_require__(677);
+
+	__webpack_require__(698);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	console.log("CommentList.js start");
+
+	var CommentList = function (_React$Component) {
+	    _inherits(CommentList, _React$Component);
+
+	    function CommentList(props) {
+	        _classCallCheck(this, CommentList);
+
+	        console.log("CommentList 생성자 호출");
+
+	        var _this = _possibleConstructorReturn(this, (CommentList.__proto__ || Object.getPrototypeOf(CommentList)).call(this, props));
+
+	        _this.state = {
+	            comments: _tp.tp.view.App.state.data.comments.filter(function (comment) {
+	                return comment.postKey === _this.props.postKey;
+	            })
+	        };
+	        _tp.tp.view.CommentList = _this;
+
+	        // 이후 CommentList 가 스토어 상태를 구독하도록 설정
+	        _tp.tp.store.subscribe(function () {
+	            _this.setState({
+	                comments: _tp.tp.store.getState().data.comments.filter(function (c) {
+	                    return c.postKey === _this.props.postKey;
+	                })
+	            });
+	        });
+
+	        if (_this.state.comments.length === 0 && _this.props.commentCnt > 0) {
+	            _tp.tp.api.getComments(_this.props.postKey).then(function (res) {
+	                _tp.tp.store.dispatch(_tp.tp.action.addComments(res.comments));
+	            });
+	        }
+	        return _this;
+	    }
+
+	    _createClass(CommentList, [{
+	        key: "render",
+	        value: function render() {
+	            var _this2 = this;
+
+	            console.log("CommentList 렌더링..");
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "CommentList" },
+	                this.state.comments.map(function (comment) {
+	                    return _react2.default.createElement(_components.Comment, { history: _this2.props.history, key: comment.key, comment: comment });
+	                })
+	            );
+	        }
+	    }]);
+
+	    return CommentList;
+	}(_react2.default.Component);
+
+	var _default = CommentList;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	        return;
+	    }
+
+	    __REACT_HOT_LOADER__.register(CommentList, "CommentList", "C:/Users/myData/project/talkplace/src/components/CommentList.js");
+
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/CommentList.js");
+	}();
+
+	;
+
+/***/ }),
+/* 698 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(699);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(699, function() {
+			var newContent = __webpack_require__(699);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 699 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* CommentList component */\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 700 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _tp = __webpack_require__(677);
+
+	__webpack_require__(701);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var CommentMenu = function (_React$Component) {
+	    _inherits(CommentMenu, _React$Component);
+
+	    function CommentMenu(props) {
+	        _classCallCheck(this, CommentMenu);
+
+	        console.log("CommentMenu 생성자 호출");
+
+	        var _this = _possibleConstructorReturn(this, (CommentMenu.__proto__ || Object.getPrototypeOf(CommentMenu)).call(this, props));
+
+	        _this.showMenu = _this.showMenu.bind(_this);
+	        _this.editComment = _this.editComment.bind(_this);
+	        _this.deleteComment = _this.deleteComment.bind(_this);
+
+	        _this.state = {
+	            clicked: false
+	        };
+	        return _this;
+	    }
+
+	    _createClass(CommentMenu, [{
+	        key: "shouldComponentUpdate",
+	        value: function shouldComponentUpdate(prevProps, prevState) {
+	            console.log("CommentMenu.shouldComponentUpdate returns [" + true + "]");
+	            return true;
+	        }
+	    }, {
+	        key: "deleteComment",
+	        value: function deleteComment() {
+	            var _this2 = this;
+
+	            if (confirm("Delete this?")) {
+	                _tp.tp.api.deleteComment({
+	                    key: this.props.commentKey,
+	                    uuid: _tp.tp.user.uuid
+	                }).then(function (res) {
+	                    if (res.status === "fail") {
+	                        alert(res.message);
+	                    } else {
+	                        _tp.tp.store && _tp.tp.store.dispatch(_tp.tp.action.deleteComment(_this2.props.commentKey));
+	                        //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+	                        //this.props.history.push("/list");
+	                    }
+	                });
+	            }
+	        }
+	    }, {
+	        key: "editComment",
+	        value: function editComment() {
+	            _tp.tp.api.authComment({
+	                key: this.props.commentKey,
+	                uuid: _tp.tp.user.uuid
+	            }).then(function (res) {
+	                if (res.status === "success") {
+	                    _tp.tp.temp = res.comment;
+	                    //this.props.history.push("/edit/"+this.props.commentKey);
+	                } else {
+	                    alert(res.message);
+	                }
+	            });
+	        }
+	    }, {
+	        key: "showMenu",
+	        value: function showMenu() {
+	            this.setState({
+	                clicked: true
+	            });
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            console.log("CommentMenu 렌더링");
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "commentMenu" },
+	                this.state.clicked ? _react2.default.createElement(
+	                    "div",
+	                    { className: "menu" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        { onClick: this.deleteComment },
+	                        "Delete"
+	                    )
+	                ) : _react2.default.createElement(
+	                    "div",
+	                    { className: "menu", onClick: this.showMenu },
+	                    "..."
+	                )
+	            );
+	        }
+	    }]);
+
+	    return CommentMenu;
+	}(_react2.default.Component);
+
+	var _default = CommentMenu;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	        return;
+	    }
+
+	    __REACT_HOT_LOADER__.register(CommentMenu, "CommentMenu", "C:/Users/myData/project/talkplace/src/components/CommentMenu.js");
+
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/CommentMenu.js");
+	}();
+
+	;
+
+/***/ }),
+/* 701 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(702);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(702, function() {
+			var newContent = __webpack_require__(702);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 702 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* Comment component */\n.commentMenu {\n  display: inline-block;\n  cursor: pointer;\n  color: #aaa;\n  width: calc(100% - 160px);\n  text-align: right; }\n  .commentMenu .menu {\n    text-align: right;\n    font-size: 18px; }\n    .commentMenu .menu div {\n      font-size: 12px;\n      display: inline-block; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 703 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _tp = __webpack_require__(677);
+
+	var _moment = __webpack_require__(704);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _reactBootstrap = __webpack_require__(405);
+
+	var _reactRouterDom = __webpack_require__(360);
+
+	var _components = __webpack_require__(675);
+
+	__webpack_require__(829);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Comment = function (_React$Component) {
+	    _inherits(Comment, _React$Component);
+
+	    function Comment(props) {
+	        _classCallCheck(this, Comment);
+
+	        console.log("Comment 생성자 호출");
+
+	        var _this = _possibleConstructorReturn(this, (Comment.__proto__ || Object.getPrototypeOf(Comment)).call(this, props));
+
+	        _this.state = {
+	            key: "",
+	            writer: "",
+	            content: "",
+	            date: "",
+	            uuid: "",
+	            postKey: ""
+	        };
+	        _this.deleteComment = _this.deleteComment.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Comment, [{
+	        key: "shouldComponentUpdate",
+	        value: function shouldComponentUpdate(prevProps, prevState) {
+	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+	            console.log("Comment.shouldComponentUpdate returns [" + true + "]");
+	            return true;
+	        }
+	    }, {
+	        key: "deleteComment",
+	        value: function deleteComment() {
+	            var _this2 = this;
+
+	            if (confirm("이 글을 삭제합니다")) {
+	                _tp.tp.api.deleteComment({
+	                    key: this.state.key,
+	                    uuid: _tp.tp.user.uuid
+	                }).then(function (res) {
+	                    if (res.status === "fail") {
+	                        alert(res.message);
+	                    } else {
+	                        _tp.tp.store && _tp.tp.store.dispatch(_tp.tp.action.deleteComment(_this2.state.key));
+	                        //history.back();
+	                        _this2.props.history.push("/list");
+	                    }
+	                });
+	            }
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            console.log("Comment 렌더링");
+	            if (this.props.comment) {
+	                // Comment 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+	                this.state = this.props.comment;
+	            }
+
+	            return _react2.default.createElement(
+	                "div",
+	                { className: "comment" },
+	                _react2.default.createElement(
+	                    "div",
+	                    null,
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "meta" },
+	                        this.state.writer,
+	                        " - ",
+	                        (0, _moment2.default)(this.state.date).format('MM/DD dd HH:mm')
+	                    ),
+	                    _react2.default.createElement(_components.CommentMenu, { commentKey: this.state.key })
+	                ),
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "content" },
+	                    this.state.content
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Comment;
+	}(_react2.default.Component);
+
+	var _default = Comment;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	        return;
+	    }
+
+	    __REACT_HOT_LOADER__.register(Comment, "Comment", "C:/Users/myData/project/talkplace/src/components/Comment.js");
+
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/components/Comment.js");
+	}();
+
+	;
+
+/***/ }),
+/* 704 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var require;/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
@@ -58592,7 +59439,7 @@
 	            try {
 	                oldLocale = globalLocale._abbr;
 	                var aliasedRequire = require;
-	                __webpack_require__(695)("./" + name);
+	                __webpack_require__(705)("./" + name);
 	                getSetGlobalLocale(oldLocale);
 	            } catch (e) {}
 	        }
@@ -61267,256 +62114,256 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(120)(module)))
 
 /***/ }),
-/* 695 */
+/* 705 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 696,
-		"./af.js": 696,
-		"./ar": 697,
-		"./ar-dz": 698,
-		"./ar-dz.js": 698,
-		"./ar-kw": 699,
-		"./ar-kw.js": 699,
-		"./ar-ly": 700,
-		"./ar-ly.js": 700,
-		"./ar-ma": 701,
-		"./ar-ma.js": 701,
-		"./ar-sa": 702,
-		"./ar-sa.js": 702,
-		"./ar-tn": 703,
-		"./ar-tn.js": 703,
-		"./ar.js": 697,
-		"./az": 704,
-		"./az.js": 704,
-		"./be": 705,
-		"./be.js": 705,
-		"./bg": 706,
-		"./bg.js": 706,
-		"./bm": 707,
-		"./bm.js": 707,
-		"./bn": 708,
-		"./bn.js": 708,
-		"./bo": 709,
-		"./bo.js": 709,
-		"./br": 710,
-		"./br.js": 710,
-		"./bs": 711,
-		"./bs.js": 711,
-		"./ca": 712,
-		"./ca.js": 712,
-		"./cs": 713,
-		"./cs.js": 713,
-		"./cv": 714,
-		"./cv.js": 714,
-		"./cy": 715,
-		"./cy.js": 715,
-		"./da": 716,
-		"./da.js": 716,
-		"./de": 717,
-		"./de-at": 718,
-		"./de-at.js": 718,
-		"./de-ch": 719,
-		"./de-ch.js": 719,
-		"./de.js": 717,
-		"./dv": 720,
-		"./dv.js": 720,
-		"./el": 721,
-		"./el.js": 721,
-		"./en-au": 722,
-		"./en-au.js": 722,
-		"./en-ca": 723,
-		"./en-ca.js": 723,
-		"./en-gb": 724,
-		"./en-gb.js": 724,
-		"./en-ie": 725,
-		"./en-ie.js": 725,
-		"./en-il": 726,
-		"./en-il.js": 726,
-		"./en-nz": 727,
-		"./en-nz.js": 727,
-		"./eo": 728,
-		"./eo.js": 728,
-		"./es": 729,
-		"./es-do": 730,
-		"./es-do.js": 730,
-		"./es-us": 731,
-		"./es-us.js": 731,
-		"./es.js": 729,
-		"./et": 732,
-		"./et.js": 732,
-		"./eu": 733,
-		"./eu.js": 733,
-		"./fa": 734,
-		"./fa.js": 734,
-		"./fi": 735,
-		"./fi.js": 735,
-		"./fo": 736,
-		"./fo.js": 736,
-		"./fr": 737,
-		"./fr-ca": 738,
-		"./fr-ca.js": 738,
-		"./fr-ch": 739,
-		"./fr-ch.js": 739,
-		"./fr.js": 737,
-		"./fy": 740,
-		"./fy.js": 740,
-		"./gd": 741,
-		"./gd.js": 741,
-		"./gl": 742,
-		"./gl.js": 742,
-		"./gom-latn": 743,
-		"./gom-latn.js": 743,
-		"./gu": 744,
-		"./gu.js": 744,
-		"./he": 745,
-		"./he.js": 745,
-		"./hi": 746,
-		"./hi.js": 746,
-		"./hr": 747,
-		"./hr.js": 747,
-		"./hu": 748,
-		"./hu.js": 748,
-		"./hy-am": 749,
-		"./hy-am.js": 749,
-		"./id": 750,
-		"./id.js": 750,
-		"./is": 751,
-		"./is.js": 751,
-		"./it": 752,
-		"./it.js": 752,
-		"./ja": 753,
-		"./ja.js": 753,
-		"./jv": 754,
-		"./jv.js": 754,
-		"./ka": 755,
-		"./ka.js": 755,
-		"./kk": 756,
-		"./kk.js": 756,
-		"./km": 757,
-		"./km.js": 757,
-		"./kn": 758,
-		"./kn.js": 758,
-		"./ko": 759,
-		"./ko.js": 759,
-		"./ky": 760,
-		"./ky.js": 760,
-		"./lb": 761,
-		"./lb.js": 761,
-		"./lo": 762,
-		"./lo.js": 762,
-		"./lt": 763,
-		"./lt.js": 763,
-		"./lv": 764,
-		"./lv.js": 764,
-		"./me": 765,
-		"./me.js": 765,
-		"./mi": 766,
-		"./mi.js": 766,
-		"./mk": 767,
-		"./mk.js": 767,
-		"./ml": 768,
-		"./ml.js": 768,
-		"./mn": 769,
-		"./mn.js": 769,
-		"./mr": 770,
-		"./mr.js": 770,
-		"./ms": 771,
-		"./ms-my": 772,
-		"./ms-my.js": 772,
-		"./ms.js": 771,
-		"./mt": 773,
-		"./mt.js": 773,
-		"./my": 774,
-		"./my.js": 774,
-		"./nb": 775,
-		"./nb.js": 775,
-		"./ne": 776,
-		"./ne.js": 776,
-		"./nl": 777,
-		"./nl-be": 778,
-		"./nl-be.js": 778,
-		"./nl.js": 777,
-		"./nn": 779,
-		"./nn.js": 779,
-		"./pa-in": 780,
-		"./pa-in.js": 780,
-		"./pl": 781,
-		"./pl.js": 781,
-		"./pt": 782,
-		"./pt-br": 783,
-		"./pt-br.js": 783,
-		"./pt.js": 782,
-		"./ro": 784,
-		"./ro.js": 784,
-		"./ru": 785,
-		"./ru.js": 785,
-		"./sd": 786,
-		"./sd.js": 786,
-		"./se": 787,
-		"./se.js": 787,
-		"./si": 788,
-		"./si.js": 788,
-		"./sk": 789,
-		"./sk.js": 789,
-		"./sl": 790,
-		"./sl.js": 790,
-		"./sq": 791,
-		"./sq.js": 791,
-		"./sr": 792,
-		"./sr-cyrl": 793,
-		"./sr-cyrl.js": 793,
-		"./sr.js": 792,
-		"./ss": 794,
-		"./ss.js": 794,
-		"./sv": 795,
-		"./sv.js": 795,
-		"./sw": 796,
-		"./sw.js": 796,
-		"./ta": 797,
-		"./ta.js": 797,
-		"./te": 798,
-		"./te.js": 798,
-		"./tet": 799,
-		"./tet.js": 799,
-		"./tg": 800,
-		"./tg.js": 800,
-		"./th": 801,
-		"./th.js": 801,
-		"./tl-ph": 802,
-		"./tl-ph.js": 802,
-		"./tlh": 803,
-		"./tlh.js": 803,
-		"./tr": 804,
-		"./tr.js": 804,
-		"./tzl": 805,
-		"./tzl.js": 805,
-		"./tzm": 806,
-		"./tzm-latn": 807,
-		"./tzm-latn.js": 807,
-		"./tzm.js": 806,
-		"./ug-cn": 808,
-		"./ug-cn.js": 808,
-		"./uk": 809,
-		"./uk.js": 809,
-		"./ur": 810,
-		"./ur.js": 810,
-		"./uz": 811,
-		"./uz-latn": 812,
-		"./uz-latn.js": 812,
-		"./uz.js": 811,
-		"./vi": 813,
-		"./vi.js": 813,
-		"./x-pseudo": 814,
-		"./x-pseudo.js": 814,
-		"./yo": 815,
-		"./yo.js": 815,
-		"./zh-cn": 816,
-		"./zh-cn.js": 816,
-		"./zh-hk": 817,
-		"./zh-hk.js": 817,
-		"./zh-tw": 818,
-		"./zh-tw.js": 818
+		"./af": 706,
+		"./af.js": 706,
+		"./ar": 707,
+		"./ar-dz": 708,
+		"./ar-dz.js": 708,
+		"./ar-kw": 709,
+		"./ar-kw.js": 709,
+		"./ar-ly": 710,
+		"./ar-ly.js": 710,
+		"./ar-ma": 711,
+		"./ar-ma.js": 711,
+		"./ar-sa": 712,
+		"./ar-sa.js": 712,
+		"./ar-tn": 713,
+		"./ar-tn.js": 713,
+		"./ar.js": 707,
+		"./az": 714,
+		"./az.js": 714,
+		"./be": 715,
+		"./be.js": 715,
+		"./bg": 716,
+		"./bg.js": 716,
+		"./bm": 717,
+		"./bm.js": 717,
+		"./bn": 718,
+		"./bn.js": 718,
+		"./bo": 719,
+		"./bo.js": 719,
+		"./br": 720,
+		"./br.js": 720,
+		"./bs": 721,
+		"./bs.js": 721,
+		"./ca": 722,
+		"./ca.js": 722,
+		"./cs": 723,
+		"./cs.js": 723,
+		"./cv": 724,
+		"./cv.js": 724,
+		"./cy": 725,
+		"./cy.js": 725,
+		"./da": 726,
+		"./da.js": 726,
+		"./de": 727,
+		"./de-at": 728,
+		"./de-at.js": 728,
+		"./de-ch": 729,
+		"./de-ch.js": 729,
+		"./de.js": 727,
+		"./dv": 730,
+		"./dv.js": 730,
+		"./el": 731,
+		"./el.js": 731,
+		"./en-au": 732,
+		"./en-au.js": 732,
+		"./en-ca": 733,
+		"./en-ca.js": 733,
+		"./en-gb": 734,
+		"./en-gb.js": 734,
+		"./en-ie": 735,
+		"./en-ie.js": 735,
+		"./en-il": 736,
+		"./en-il.js": 736,
+		"./en-nz": 737,
+		"./en-nz.js": 737,
+		"./eo": 738,
+		"./eo.js": 738,
+		"./es": 739,
+		"./es-do": 740,
+		"./es-do.js": 740,
+		"./es-us": 741,
+		"./es-us.js": 741,
+		"./es.js": 739,
+		"./et": 742,
+		"./et.js": 742,
+		"./eu": 743,
+		"./eu.js": 743,
+		"./fa": 744,
+		"./fa.js": 744,
+		"./fi": 745,
+		"./fi.js": 745,
+		"./fo": 746,
+		"./fo.js": 746,
+		"./fr": 747,
+		"./fr-ca": 748,
+		"./fr-ca.js": 748,
+		"./fr-ch": 749,
+		"./fr-ch.js": 749,
+		"./fr.js": 747,
+		"./fy": 750,
+		"./fy.js": 750,
+		"./gd": 751,
+		"./gd.js": 751,
+		"./gl": 752,
+		"./gl.js": 752,
+		"./gom-latn": 753,
+		"./gom-latn.js": 753,
+		"./gu": 754,
+		"./gu.js": 754,
+		"./he": 755,
+		"./he.js": 755,
+		"./hi": 756,
+		"./hi.js": 756,
+		"./hr": 757,
+		"./hr.js": 757,
+		"./hu": 758,
+		"./hu.js": 758,
+		"./hy-am": 759,
+		"./hy-am.js": 759,
+		"./id": 760,
+		"./id.js": 760,
+		"./is": 761,
+		"./is.js": 761,
+		"./it": 762,
+		"./it.js": 762,
+		"./ja": 763,
+		"./ja.js": 763,
+		"./jv": 764,
+		"./jv.js": 764,
+		"./ka": 765,
+		"./ka.js": 765,
+		"./kk": 766,
+		"./kk.js": 766,
+		"./km": 767,
+		"./km.js": 767,
+		"./kn": 768,
+		"./kn.js": 768,
+		"./ko": 769,
+		"./ko.js": 769,
+		"./ky": 770,
+		"./ky.js": 770,
+		"./lb": 771,
+		"./lb.js": 771,
+		"./lo": 772,
+		"./lo.js": 772,
+		"./lt": 773,
+		"./lt.js": 773,
+		"./lv": 774,
+		"./lv.js": 774,
+		"./me": 775,
+		"./me.js": 775,
+		"./mi": 776,
+		"./mi.js": 776,
+		"./mk": 777,
+		"./mk.js": 777,
+		"./ml": 778,
+		"./ml.js": 778,
+		"./mn": 779,
+		"./mn.js": 779,
+		"./mr": 780,
+		"./mr.js": 780,
+		"./ms": 781,
+		"./ms-my": 782,
+		"./ms-my.js": 782,
+		"./ms.js": 781,
+		"./mt": 783,
+		"./mt.js": 783,
+		"./my": 784,
+		"./my.js": 784,
+		"./nb": 785,
+		"./nb.js": 785,
+		"./ne": 786,
+		"./ne.js": 786,
+		"./nl": 787,
+		"./nl-be": 788,
+		"./nl-be.js": 788,
+		"./nl.js": 787,
+		"./nn": 789,
+		"./nn.js": 789,
+		"./pa-in": 790,
+		"./pa-in.js": 790,
+		"./pl": 791,
+		"./pl.js": 791,
+		"./pt": 792,
+		"./pt-br": 793,
+		"./pt-br.js": 793,
+		"./pt.js": 792,
+		"./ro": 794,
+		"./ro.js": 794,
+		"./ru": 795,
+		"./ru.js": 795,
+		"./sd": 796,
+		"./sd.js": 796,
+		"./se": 797,
+		"./se.js": 797,
+		"./si": 798,
+		"./si.js": 798,
+		"./sk": 799,
+		"./sk.js": 799,
+		"./sl": 800,
+		"./sl.js": 800,
+		"./sq": 801,
+		"./sq.js": 801,
+		"./sr": 802,
+		"./sr-cyrl": 803,
+		"./sr-cyrl.js": 803,
+		"./sr.js": 802,
+		"./ss": 804,
+		"./ss.js": 804,
+		"./sv": 805,
+		"./sv.js": 805,
+		"./sw": 806,
+		"./sw.js": 806,
+		"./ta": 807,
+		"./ta.js": 807,
+		"./te": 808,
+		"./te.js": 808,
+		"./tet": 809,
+		"./tet.js": 809,
+		"./tg": 810,
+		"./tg.js": 810,
+		"./th": 811,
+		"./th.js": 811,
+		"./tl-ph": 812,
+		"./tl-ph.js": 812,
+		"./tlh": 813,
+		"./tlh.js": 813,
+		"./tr": 814,
+		"./tr.js": 814,
+		"./tzl": 815,
+		"./tzl.js": 815,
+		"./tzm": 816,
+		"./tzm-latn": 817,
+		"./tzm-latn.js": 817,
+		"./tzm.js": 816,
+		"./ug-cn": 818,
+		"./ug-cn.js": 818,
+		"./uk": 819,
+		"./uk.js": 819,
+		"./ur": 820,
+		"./ur.js": 820,
+		"./uz": 821,
+		"./uz-latn": 822,
+		"./uz-latn.js": 822,
+		"./uz.js": 821,
+		"./vi": 823,
+		"./vi.js": 823,
+		"./x-pseudo": 824,
+		"./x-pseudo.js": 824,
+		"./yo": 825,
+		"./yo.js": 825,
+		"./zh-cn": 826,
+		"./zh-cn.js": 826,
+		"./zh-hk": 827,
+		"./zh-hk.js": 827,
+		"./zh-tw": 828,
+		"./zh-tw.js": 828
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -61529,17 +62376,17 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 695;
+	webpackContext.id = 705;
 
 
 /***/ }),
-/* 696 */
+/* 706 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61610,13 +62457,13 @@
 
 
 /***/ }),
-/* 697 */
+/* 707 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61749,13 +62596,13 @@
 
 
 /***/ }),
-/* 698 */
+/* 708 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61812,13 +62659,13 @@
 
 
 /***/ }),
-/* 699 */
+/* 709 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -61875,13 +62722,13 @@
 
 
 /***/ }),
-/* 700 */
+/* 710 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62001,13 +62848,13 @@
 
 
 /***/ }),
-/* 701 */
+/* 711 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62064,13 +62911,13 @@
 
 
 /***/ }),
-/* 702 */
+/* 712 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62172,13 +63019,13 @@
 
 
 /***/ }),
-/* 703 */
+/* 713 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62235,13 +63082,13 @@
 
 
 /***/ }),
-/* 704 */
+/* 714 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62344,13 +63191,13 @@
 
 
 /***/ }),
-/* 705 */
+/* 715 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62480,13 +63327,13 @@
 
 
 /***/ }),
-/* 706 */
+/* 716 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62574,13 +63421,13 @@
 
 
 /***/ }),
-/* 707 */
+/* 717 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62636,13 +63483,13 @@
 
 
 /***/ }),
-/* 708 */
+/* 718 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62759,13 +63606,13 @@
 
 
 /***/ }),
-/* 709 */
+/* 719 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62882,13 +63729,13 @@
 
 
 /***/ }),
-/* 710 */
+/* 720 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -62994,13 +63841,13 @@
 
 
 /***/ }),
-/* 711 */
+/* 721 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63149,13 +63996,13 @@
 
 
 /***/ }),
-/* 712 */
+/* 722 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63241,13 +64088,13 @@
 
 
 /***/ }),
-/* 713 */
+/* 723 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63424,13 +64271,13 @@
 
 
 /***/ }),
-/* 714 */
+/* 724 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63491,13 +64338,13 @@
 
 
 /***/ }),
-/* 715 */
+/* 725 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63575,13 +64422,13 @@
 
 
 /***/ }),
-/* 716 */
+/* 726 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63639,13 +64486,13 @@
 
 
 /***/ }),
-/* 717 */
+/* 727 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63719,13 +64566,13 @@
 
 
 /***/ }),
-/* 718 */
+/* 728 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63799,13 +64646,13 @@
 
 
 /***/ }),
-/* 719 */
+/* 729 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63879,13 +64726,13 @@
 
 
 /***/ }),
-/* 720 */
+/* 730 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -63982,13 +64829,13 @@
 
 
 /***/ }),
-/* 721 */
+/* 731 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64086,13 +64933,13 @@
 
 
 /***/ }),
-/* 722 */
+/* 732 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64157,13 +65004,13 @@
 
 
 /***/ }),
-/* 723 */
+/* 733 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64224,13 +65071,13 @@
 
 
 /***/ }),
-/* 724 */
+/* 734 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64295,13 +65142,13 @@
 
 
 /***/ }),
-/* 725 */
+/* 735 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64366,13 +65213,13 @@
 
 
 /***/ }),
-/* 726 */
+/* 736 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64432,13 +65279,13 @@
 
 
 /***/ }),
-/* 727 */
+/* 737 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64503,13 +65350,13 @@
 
 
 /***/ }),
-/* 728 */
+/* 738 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64578,13 +65425,13 @@
 
 
 /***/ }),
-/* 729 */
+/* 739 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64674,13 +65521,13 @@
 
 
 /***/ }),
-/* 730 */
+/* 740 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64770,13 +65617,13 @@
 
 
 /***/ }),
-/* 731 */
+/* 741 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64857,13 +65704,13 @@
 
 
 /***/ }),
-/* 732 */
+/* 742 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -64941,13 +65788,13 @@
 
 
 /***/ }),
-/* 733 */
+/* 743 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65011,13 +65858,13 @@
 
 
 /***/ }),
-/* 734 */
+/* 744 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65121,13 +65968,13 @@
 
 
 /***/ }),
-/* 735 */
+/* 745 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65234,13 +66081,13 @@
 
 
 /***/ }),
-/* 736 */
+/* 746 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65298,13 +66145,13 @@
 
 
 /***/ }),
-/* 737 */
+/* 747 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65385,13 +66232,13 @@
 
 
 /***/ }),
-/* 738 */
+/* 748 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65463,13 +66310,13 @@
 
 
 /***/ }),
-/* 739 */
+/* 749 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65545,13 +66392,13 @@
 
 
 /***/ }),
-/* 740 */
+/* 750 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65624,13 +66471,13 @@
 
 
 /***/ }),
-/* 741 */
+/* 751 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65704,13 +66551,13 @@
 
 
 /***/ }),
-/* 742 */
+/* 752 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65785,13 +66632,13 @@
 
 
 /***/ }),
-/* 743 */
+/* 753 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -65912,13 +66759,13 @@
 
 
 /***/ }),
-/* 744 */
+/* 754 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66040,13 +66887,13 @@
 
 
 /***/ }),
-/* 745 */
+/* 755 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66141,13 +66988,13 @@
 
 
 /***/ }),
-/* 746 */
+/* 756 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66269,13 +67116,13 @@
 
 
 /***/ }),
-/* 747 */
+/* 757 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66427,13 +67274,13 @@
 
 
 /***/ }),
-/* 748 */
+/* 758 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66541,13 +67388,13 @@
 
 
 /***/ }),
-/* 749 */
+/* 759 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66640,13 +67487,13 @@
 
 
 /***/ }),
-/* 750 */
+/* 760 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66726,13 +67573,13 @@
 
 
 /***/ }),
-/* 751 */
+/* 761 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66862,13 +67709,13 @@
 
 
 /***/ }),
-/* 752 */
+/* 762 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -66935,13 +67782,13 @@
 
 
 /***/ }),
-/* 753 */
+/* 763 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67031,13 +67878,13 @@
 
 
 /***/ }),
-/* 754 */
+/* 764 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67117,13 +67964,13 @@
 
 
 /***/ }),
-/* 755 */
+/* 765 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67210,13 +68057,13 @@
 
 
 /***/ }),
-/* 756 */
+/* 766 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67301,13 +68148,13 @@
 
 
 /***/ }),
-/* 757 */
+/* 767 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67415,13 +68262,13 @@
 
 
 /***/ }),
-/* 758 */
+/* 768 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67545,13 +68392,13 @@
 
 
 /***/ }),
-/* 759 */
+/* 769 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67630,13 +68477,13 @@
 
 
 /***/ }),
-/* 760 */
+/* 770 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67721,13 +68568,13 @@
 
 
 /***/ }),
-/* 761 */
+/* 771 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67861,13 +68708,13 @@
 
 
 /***/ }),
-/* 762 */
+/* 772 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -67935,13 +68782,13 @@
 
 
 /***/ }),
-/* 763 */
+/* 773 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68057,13 +68904,13 @@
 
 
 /***/ }),
-/* 764 */
+/* 774 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68158,13 +69005,13 @@
 
 
 /***/ }),
-/* 765 */
+/* 775 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68274,13 +69121,13 @@
 
 
 /***/ }),
-/* 766 */
+/* 776 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68342,13 +69189,13 @@
 
 
 /***/ }),
-/* 767 */
+/* 777 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68436,13 +69283,13 @@
 
 
 /***/ }),
-/* 768 */
+/* 778 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68521,13 +69368,13 @@
 
 
 /***/ }),
-/* 769 */
+/* 779 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68629,13 +69476,13 @@
 
 
 /***/ }),
-/* 770 */
+/* 780 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68793,13 +69640,13 @@
 
 
 /***/ }),
-/* 771 */
+/* 781 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68879,13 +69726,13 @@
 
 
 /***/ }),
-/* 772 */
+/* 782 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -68965,13 +69812,13 @@
 
 
 /***/ }),
-/* 773 */
+/* 783 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69029,13 +69876,13 @@
 
 
 /***/ }),
-/* 774 */
+/* 784 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69126,13 +69973,13 @@
 
 
 /***/ }),
-/* 775 */
+/* 785 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69192,13 +70039,13 @@
 
 
 /***/ }),
-/* 776 */
+/* 786 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69319,13 +70166,13 @@
 
 
 /***/ }),
-/* 777 */
+/* 787 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69410,13 +70257,13 @@
 
 
 /***/ }),
-/* 778 */
+/* 788 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69501,13 +70348,13 @@
 
 
 /***/ }),
-/* 779 */
+/* 789 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69565,13 +70412,13 @@
 
 
 /***/ }),
-/* 780 */
+/* 790 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69693,13 +70540,13 @@
 
 
 /***/ }),
-/* 781 */
+/* 791 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69823,13 +70670,13 @@
 
 
 /***/ }),
-/* 782 */
+/* 792 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69892,13 +70739,13 @@
 
 
 /***/ }),
-/* 783 */
+/* 793 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -69957,13 +70804,13 @@
 
 
 /***/ }),
-/* 784 */
+/* 794 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70036,13 +70883,13 @@
 
 
 /***/ }),
-/* 785 */
+/* 795 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70222,13 +71069,13 @@
 
 
 /***/ }),
-/* 786 */
+/* 796 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70324,13 +71171,13 @@
 
 
 /***/ }),
-/* 787 */
+/* 797 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70388,13 +71235,13 @@
 
 
 /***/ }),
-/* 788 */
+/* 798 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70463,13 +71310,13 @@
 
 
 /***/ }),
-/* 789 */
+/* 799 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70623,13 +71470,13 @@
 
 
 /***/ }),
-/* 790 */
+/* 800 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70800,13 +71647,13 @@
 
 
 /***/ }),
-/* 791 */
+/* 801 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70872,13 +71719,13 @@
 
 
 /***/ }),
-/* 792 */
+/* 802 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -70987,13 +71834,13 @@
 
 
 /***/ }),
-/* 793 */
+/* 803 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71102,13 +71949,13 @@
 
 
 /***/ }),
-/* 794 */
+/* 804 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71194,13 +72041,13 @@
 
 
 /***/ }),
-/* 795 */
+/* 805 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71267,13 +72114,13 @@
 
 
 /***/ }),
-/* 796 */
+/* 806 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71330,13 +72177,13 @@
 
 
 /***/ }),
-/* 797 */
+/* 807 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71463,13 +72310,13 @@
 
 
 /***/ }),
-/* 798 */
+/* 808 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71556,13 +72403,13 @@
 
 
 /***/ }),
-/* 799 */
+/* 809 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71627,13 +72474,13 @@
 
 
 /***/ }),
-/* 800 */
+/* 810 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71747,13 +72594,13 @@
 
 
 /***/ }),
-/* 801 */
+/* 811 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71818,13 +72665,13 @@
 
 
 /***/ }),
-/* 802 */
+/* 812 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -71884,13 +72731,13 @@
 
 
 /***/ }),
-/* 803 */
+/* 813 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72010,12 +72857,12 @@
 
 
 /***/ }),
-/* 804 */
+/* 814 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72108,13 +72955,13 @@
 
 
 /***/ }),
-/* 805 */
+/* 815 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72203,13 +73050,13 @@
 
 
 /***/ }),
-/* 806 */
+/* 816 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72265,13 +73112,13 @@
 
 
 /***/ }),
-/* 807 */
+/* 817 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72327,13 +73174,13 @@
 
 
 /***/ }),
-/* 808 */
+/* 818 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js language configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72450,13 +73297,13 @@
 
 
 /***/ }),
-/* 809 */
+/* 819 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72605,13 +73452,13 @@
 
 
 /***/ }),
-/* 810 */
+/* 820 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72707,13 +73554,13 @@
 
 
 /***/ }),
-/* 811 */
+/* 821 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72769,13 +73616,13 @@
 
 
 /***/ }),
-/* 812 */
+/* 822 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72831,13 +73678,13 @@
 
 
 /***/ }),
-/* 813 */
+/* 823 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72914,13 +73761,13 @@
 
 
 /***/ }),
-/* 814 */
+/* 824 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -72986,13 +73833,13 @@
 
 
 /***/ }),
-/* 815 */
+/* 825 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -73050,13 +73897,13 @@
 
 
 /***/ }),
-/* 816 */
+/* 826 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -73164,13 +74011,13 @@
 
 
 /***/ }),
-/* 817 */
+/* 827 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -73271,13 +74118,13 @@
 
 
 /***/ }),
-/* 818 */
+/* 828 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 
 	;(function (global, factory) {
-	    true ? factory(__webpack_require__(694)) :
+	    true ? factory(__webpack_require__(704)) :
 	   typeof define === 'function' && define.amd ? define(['../moment'], factory) :
 	   factory(global.moment)
 	}(this, (function (moment) { 'use strict';
@@ -73378,11 +74225,11 @@
 
 
 /***/ }),
-/* 819 */
+/* 829 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
-	var content = __webpack_require__(820);
+	var content = __webpack_require__(830);
 
 	if(typeof content === 'string') content = [[module.id, content, '']];
 
@@ -73401,8 +74248,8 @@
 	if(content.locals) module.exports = content.locals;
 
 	if(true) {
-		module.hot.accept(820, function() {
-			var newContent = __webpack_require__(820);
+		module.hot.accept(830, function() {
+			var newContent = __webpack_require__(830);
 
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 
@@ -73428,7 +74275,7 @@
 	}
 
 /***/ }),
-/* 820 */
+/* 830 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(354)(false);
@@ -73436,13 +74283,1096 @@
 
 
 	// module
-	exports.push([module.id, "/* Excerpt component */\n.excerpt {\n  display: inline-block;\n  margin-bottom: 40px;\n  width: 100%; }\n  .excerpt .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px; }\n    .excerpt .title a {\n      color: #555; }\n  .excerpt .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px; }\n  .excerpt .content {\n    color: #777; }\n", ""]);
+	exports.push([module.id, "/* Comment component */\n.comment {\n  margin: 10px 20px; }\n  .comment .meta {\n    color: #aaa;\n    text-align: left;\n    font-size: 12px;\n    display: inline-block; }\n  .comment .content {\n    color: #777;\n    font-size: 14px; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 821 */
+/* 831 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(832);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(832, function() {
+			var newContent = __webpack_require__(832);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 832 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* Excerpt component */\n.excerpt {\n  display: inline-block;\n  margin-bottom: 40px;\n  width: 100%; }\n  .excerpt .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px; }\n    .excerpt .title a {\n      color: #555; }\n  .excerpt .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 12px; }\n  .excerpt .content {\n    color: #777; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 833 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(834);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(834, function() {
+			var newContent = __webpack_require__(834);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 834 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* List component */\n.list {\n  margin: 20px; }\n  .list .writeBtn {\n    position: fixed;\n    margin-bottom: 0;\n    bottom: 25px;\n    right: 25px;\n    opacity: 0.7; }\n    .list .writeBtn .btn {\n      padding: 7px 12px; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 835 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _shortid = __webpack_require__(679);
+
+	var _shortid2 = _interopRequireDefault(_shortid);
+
+	var _tp = __webpack_require__(677);
+
+	var _reactRouterDom = __webpack_require__(360);
+
+	var _reactBootstrap = __webpack_require__(405);
+
+	__webpack_require__(836);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Write = function (_React$Component) {
+	  _inherits(Write, _React$Component);
+
+	  function Write(props, context) {
+	    _classCallCheck(this, Write);
+
+	    var _this = _possibleConstructorReturn(this, (Write.__proto__ || Object.getPrototypeOf(Write)).call(this, props, context));
+
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.savePost = _this.savePost.bind(_this);
+	    _this.state = {
+	      key: "",
+	      title: "",
+	      writer: _tp.tp.user.writer,
+	      content: "",
+	      date: "",
+	      uuid: _tp.tp.user.uuid
+	    };
+
+	    return _this;
+	  }
+
+	  _createClass(Write, [{
+	    key: "shouldComponentUpdate",
+	    value: function shouldComponentUpdate(prevProps, prevState) {
+	      return prevState !== this.state;
+	    }
+	  }, {
+	    key: "getValidationState",
+	    value: function getValidationState() {
+	      return;
+	      var length = this.state.title.length;
+	      if (length > 10) return 'success';else if (length > 5) return 'warning';else if (length > 0) return 'error';
+	      return null;
+	    }
+	  }, {
+	    key: "handleChange",
+	    value: function handleChange(e) {
+	      var state = {};
+	      state[e.target.id] = e.target.value;
+	      this.setState(state);
+	    }
+	  }, {
+	    key: "savePost",
+	    value: function savePost() {
+	      var _this2 = this;
+
+	      if (this.state.content === "") {
+	        alert("내용을 입력하세요");
+	        return;
+	      }
+
+	      var newPost = {
+	        key: _shortid2.default.generate(),
+	        title: this.state.title === "" ? this.state.content.trim().substr(0, 15) : this.state.title.trim(),
+	        writer: this.state.writer.trim(),
+	        content: this.state.content.trim(),
+	        date: Date.now(),
+	        uuid: _tp.tp.user.uuid
+	      };
+
+	      _tp.tp.api.addPost(newPost).then(function (res) {
+	        console.log("# " + res.message);
+	        if (_tp.tp.store) {
+	          _tp.tp.store.dispatch(_tp.tp.action.addPost(newPost));
+	        } else {}
+	        // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+
+
+	        // 사용자 정보 업데이트
+	        _tp.tp.setUser({ writer: newPost.writer });
+
+	        // 작성된 글 바로 확인
+	        _this2.props.history.push("/post/" + newPost.key);
+	      });
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      console.log("Write 렌더링..");
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "write" },
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: "title", validationState: this.getValidationState() },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
+	            value: this.state.title,
+	            onChange: this.handleChange,
+	            placeholder: "Title.." }),
+	          _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: "writer" },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
+	            value: this.state.writer,
+	            onChange: this.handleChange,
+	            placeholder: "Writer.." })
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: "content" },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { className: "content",
+	            autoFocus: true,
+	            value: this.state.content,
+	            onChange: this.handleChange,
+	            componentClass: "textarea",
+	            placeholder: "Content.." })
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          { bsStyle: "success", onClick: this.savePost },
+	          "Save"
+	        ),
+	        _react2.default.createElement(
+	          _reactRouterDom.Link,
+	          { to: "/list" },
+	          _react2.default.createElement(
+	            _reactBootstrap.Button,
+	            { className: "write-cancel-btn", bsStyle: "success" },
+	            "Cancel"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Write;
+	}(_react2.default.Component);
+
+	var _default = Write;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(Write, "Write", "C:/Users/myData/project/talkplace/src/pages/Write.js");
+
+	  __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Write.js");
+	}();
+
+	;
+
+/***/ }),
+/* 836 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(837);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(837, function() {
+			var newContent = __webpack_require__(837);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 837 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 838 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _tp = __webpack_require__(677);
+
+	var _moment = __webpack_require__(704);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _components = __webpack_require__(675);
+
+	var _reactBootstrap = __webpack_require__(405);
+
+	var _reactRouterDom = __webpack_require__(360);
+
+	__webpack_require__(839);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Post = function (_React$Component) {
+	    _inherits(Post, _React$Component);
+
+	    function Post(props) {
+	        _classCallCheck(this, Post);
+
+	        console.log("Post 생성자 호출");
+
+	        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+
+	        _this.state = {
+	            key: "",
+	            title: "",
+	            writer: "",
+	            content: "",
+	            date: "",
+	            uuid: ""
+	        };
+	        _this.deletePost = _this.deletePost.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(Post, [{
+	        key: "shouldComponentUpdate",
+	        value: function shouldComponentUpdate(prevProps, prevState) {
+	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
+	            console.log("Post.shouldComponentUpdate returns [" + true + "]");
+	            return true;
+	        }
+	    }, {
+	        key: "deletePost",
+	        value: function deletePost() {
+	            var _this2 = this;
+
+	            if (confirm("이 글을 삭제합니다")) {
+	                _tp.tp.api.deletePost({
+	                    key: this.state.key,
+	                    uuid: _tp.tp.user.uuid
+	                }).then(function (res) {
+	                    if (res.status === "fail") {
+	                        alert(res.message);
+	                    } else {
+	                        _tp.tp.store && _tp.tp.store.dispatch(_tp.tp.action.deletePost(_this2.state.key));
+	                        //history.back();
+	                        _this2.props.history.push("/list");
+	                    }
+	                });
+	            }
+	        }
+	    }, {
+	        key: "render",
+	        value: function render() {
+	            var _this3 = this;
+
+	            console.log("Post 렌더링");
+	            if (this.props.post) {
+	                // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+	                this.state = this.props.post;
+	            }
+	            //if([null, undefined].includes(this.state) || this.state.menu){
+	            if (!this.state.key || this.state.menu) {
+	                // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
+	                var key = location.pathname.split("/")[2];
+	                _tp.tp.api.getPost(key).then(function (res) {
+	                    _this3.setState(res.posts[0]);
+	                });
+	                return _react2.default.createElement("div", null);
+	            }
+
+	            //const html = this.state.content.replace(/\n/g, "<br>");
+	            var html = _tp.tp.$m.txtToHtml(this.state.content);
+
+	            return _react2.default.createElement(
+	                "div",
+	                null,
+	                _react2.default.createElement(
+	                    "div",
+	                    { className: "post" },
+	                    _react2.default.createElement(
+	                        "div",
+	                        null,
+	                        _react2.default.createElement(
+	                            "div",
+	                            { className: "title h4" },
+	                            this.state.title
+	                        ),
+	                        _react2.default.createElement(_components.PostMenu, { history: this.props.history, postKey: this.state.key })
+	                    ),
+	                    _react2.default.createElement(
+	                        "div",
+	                        { className: "meta" },
+	                        this.state.writer,
+	                        " - ",
+	                        (0, _moment2.default)(this.state.date).format('MM/DD/YYYY dd HH:mm')
+	                    ),
+	                    _react2.default.createElement("div", { className: "content", dangerouslySetInnerHTML: { __html: html } }),
+	                    _react2.default.createElement(
+	                        _reactRouterDom.Link,
+	                        { to: "/list" },
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { bsStyle: "success", className: "listBtn" },
+	                            "List"
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactRouterDom.Link,
+	                        { to: "/write" },
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { bsStyle: "success", className: "writeBtn" },
+	                            "Write"
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(_components.CommentList, { postKey: this.state.key, commentCnt: this.state.commentCnt }),
+	                _react2.default.createElement(_components.CommentWrite, { postKey: this.state.key })
+	            );
+	        }
+	    }]);
+
+	    return Post;
+	}(_react2.default.Component);
+
+	var _default = Post;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	        return;
+	    }
+
+	    __REACT_HOT_LOADER__.register(Post, "Post", "C:/Users/myData/project/talkplace/src/pages/Post.js");
+
+	    __REACT_HOT_LOADER__.register(_default, "default", "C:/Users/myData/project/talkplace/src/pages/Post.js");
+	}();
+
+	;
+
+/***/ }),
+/* 839 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(840);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(840, function() {
+			var newContent = __webpack_require__(840);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 840 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post .btn {\n    margin-top: 30px;\n    margin-right: 3px;\n    padding: 4px 10px; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 841 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _tp = __webpack_require__(677);
+
+	var _reactRouterDom = __webpack_require__(360);
+
+	var _reactBootstrap = __webpack_require__(405);
+
+	__webpack_require__(842);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Edit = function (_React$Component) {
+	  _inherits(Edit, _React$Component);
+
+	  function Edit(props, context) {
+	    _classCallCheck(this, Edit);
+
+	    var _this = _possibleConstructorReturn(this, (Edit.__proto__ || Object.getPrototypeOf(Edit)).call(this, props, context));
+
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    _this.savePost = _this.savePost.bind(_this);
+
+	    _this.state = _this.props.post || _tp.tp.temp;
+	    _this.state.uuid = _tp.tp.user.uuid;
+	    return _this;
+	  }
+
+	  _createClass(Edit, [{
+	    key: 'shouldComponentUpdate',
+	    value: function shouldComponentUpdate(prevProps, prevState) {
+	      return prevState !== this.state;
+	    }
+	  }, {
+	    key: 'getValidationState',
+	    value: function getValidationState() {
+	      return;
+	      var length = this.state.title.length;
+	      if (length > 10) return 'success';else if (length > 5) return 'warning';else if (length > 0) return 'error';
+	      return null;
+	    }
+	  }, {
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      var state = {};
+	      state[e.target.id] = e.target.value;
+	      this.setState(state);
+	    }
+	  }, {
+	    key: 'savePost',
+	    value: function savePost() {
+	      var _this2 = this;
+
+	      if (this.state.content === "") {
+	        alert("내용을 입력하세요");
+	        return;
+	      }
+
+	      var afterPost = {
+	        key: this.state.key,
+	        title: this.state.title === "" ? this.state.content.trim().substr(0, 7) : this.state.title.trim(),
+	        writer: this.state.writer.trim(),
+	        content: this.state.content.trim(),
+	        date: Date.now(),
+	        uuid: _tp.tp.user.uuid
+	      };
+
+	      _tp.tp.api.updatePost(afterPost).then(function (res) {
+	        console.log("# " + res.message);
+	        if (_tp.tp.store) {
+	          _tp.tp.store.dispatch(_tp.tp.action.updatePost(afterPost));
+	        }
+
+	        // 사용자 정보 업데이트
+	        _tp.tp.setUser({ writer: afterPost.writer });
+
+	        // 작성된 글 바로 확인
+	        _this2.props.history.push("/post/" + afterPost.key);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log("Write 렌더링..");
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'write' },
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: 'title', validationState: this.getValidationState() },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text',
+	            autoFocus: true, value: this.state.title,
+	            onChange: this.handleChange,
+	            placeholder: 'Title..' }),
+	          _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: 'writer' },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text',
+	            value: this.state.writer,
+	            onChange: this.handleChange,
+	            placeholder: 'Writer..' })
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.FormGroup,
+	          { controlId: 'content' },
+	          _react2.default.createElement(_reactBootstrap.FormControl, { className: 'content',
+	            value: this.state.content,
+	            onChange: this.handleChange,
+	            componentClass: 'textarea',
+	            placeholder: 'Content..' })
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.Button,
+	          { bsStyle: 'success', onClick: this.savePost },
+	          'Save'
+	        ),
+	        _react2.default.createElement(
+	          _reactRouterDom.Link,
+	          { to: '/list' },
+	          _react2.default.createElement(
+	            _reactBootstrap.Button,
+	            { className: 'write-cancel-btn', bsStyle: 'success' },
+	            'Cancel'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Edit;
+	}(_react2.default.Component);
+
+	var _default = Edit;
+	exports.default = _default;
+	;
+
+	var _temp = function () {
+	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+	    return;
+	  }
+
+	  __REACT_HOT_LOADER__.register(Edit, 'Edit', 'C:/Users/myData/project/talkplace/src/pages/Edit.js');
+
+	  __REACT_HOT_LOADER__.register(_default, 'default', 'C:/Users/myData/project/talkplace/src/pages/Edit.js');
+	}();
+
+	;
+
+/***/ }),
+/* 842 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	
+	var content = __webpack_require__(843);
+
+	if(typeof content === 'string') content = [[module.id, content, '']];
+
+	var transform;
+	var insertInto;
+
+
+
+	var options = {"hmr":true}
+
+	options.transform = transform
+	options.insertInto = undefined;
+
+	var update = __webpack_require__(355)(content, options);
+
+	if(content.locals) module.exports = content.locals;
+
+	if(true) {
+		module.hot.accept(843, function() {
+			var newContent = __webpack_require__(843);
+
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+
+			var locals = (function(a, b) {
+				var key, idx = 0;
+
+				for(key in a) {
+					if(!b || a[key] !== b[key]) return false;
+					idx++;
+				}
+
+				for(key in b) idx--;
+
+				return idx === 0;
+			}(content.locals, newContent.locals));
+
+			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
+
+			update(newContent);
+		});
+
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ }),
+/* 843 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(354)(false);
+	// imports
+
+
+	// module
+	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
+
+	// exports
+
+
+/***/ }),
+/* 844 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	/**
+	 * http://www.openjs.com/scripts/events/keyboard_shortcuts/
+	 * Version : 2.01.B
+	 * By Binny V A
+	 * License : BSD
+	 */
+	var shortcut = {
+		'all_shortcuts': {}, //All the shortcuts are stored in this array
+		'add': function add(shortcut_combination, callback, opt) {
+			//Provide a set of default options
+			var default_options = {
+				'type': 'keydown',
+				'propagate': false,
+				'disable_in_input': false,
+				'target': document,
+				'keycode': false
+			};
+			if (!opt) opt = default_options;else {
+				for (var dfo in default_options) {
+					if (typeof opt[dfo] == 'undefined') opt[dfo] = default_options[dfo];
+				}
+			}
+
+			var ele = opt.target;
+			if (typeof opt.target == 'string') ele = document.getElementById(opt.target);
+			var ths = this;
+			shortcut_combination = shortcut_combination.toLowerCase();
+
+			//The function to be called at keypress
+			var func = function func(e) {
+				var code, k;
+				e = e || window.event;
+
+				if (opt['disable_in_input']) {
+					//Don't enable shortcut keys in Input, Textarea fields
+					var element;
+					if (e.target) element = e.target;else if (e.srcElement) element = e.srcElement;
+					if (element.nodeType == 3) element = element.parentNode;
+
+					if (element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') return;
+				}
+
+				//Find Which key is pressed
+				if (e.keyCode) code = e.keyCode;else if (e.which) code = e.which;
+				var character = String.fromCharCode(code).toLowerCase();
+
+				if (code == 188) character = ","; //If the user presses , when the type is onkeydown
+				if (code == 190) character = "."; //If the user presses , when the type is onkeydown
+
+				var keys = shortcut_combination.split("+");
+				//Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
+				var kp = 0;
+
+				//Work around for stupid Shift key bug created by using lowercase - as a result the shift+num combination was broken
+				var shift_nums = {
+					"`": "~",
+					"1": "!",
+					"2": "@",
+					"3": "#",
+					"4": "$",
+					"5": "%",
+					"6": "^",
+					"7": "&",
+					"8": "*",
+					"9": "(",
+					"0": ")",
+					"-": "_",
+					"=": "+",
+					";": ":",
+					"'": "\"",
+					",": "<",
+					".": ">",
+					"/": "?",
+					"\\": "|"
+					//Special Keys - and their codes
+				};var special_keys = {
+					'esc': 27,
+					'escape': 27,
+					'tab': 9,
+					'space': 32,
+					'return': 13,
+					'enter': 13,
+					'backspace': 8,
+
+					'scrolllock': 145,
+					'scroll_lock': 145,
+					'scroll': 145,
+					'capslock': 20,
+					'caps_lock': 20,
+					'caps': 20,
+					'numlock': 144,
+					'num_lock': 144,
+					'num': 144,
+
+					'pause': 19,
+					'break': 19,
+
+					'insert': 45,
+					'home': 36,
+					'delete': 46,
+					'end': 35,
+
+					'pageup': 33,
+					'page_up': 33,
+					'pu': 33,
+
+					'pagedown': 34,
+					'page_down': 34,
+					'pd': 34,
+
+					'left': 37,
+					'up': 38,
+					'right': 39,
+					'down': 40,
+
+					'f1': 112,
+					'f2': 113,
+					'f3': 114,
+					'f4': 115,
+					'f5': 116,
+					'f6': 117,
+					'f7': 118,
+					'f8': 119,
+					'f9': 120,
+					'f10': 121,
+					'f11': 122,
+					'f12': 123
+				};
+
+				var modifiers = {
+					shift: { wanted: false, pressed: false },
+					ctrl: { wanted: false, pressed: false },
+					alt: { wanted: false, pressed: false },
+					meta: { wanted: false, pressed: false //Meta is Mac specific
+					} };
+
+				if (e.ctrlKey) modifiers.ctrl.pressed = true;
+				if (e.shiftKey) modifiers.shift.pressed = true;
+				if (e.altKey) modifiers.alt.pressed = true;
+				if (e.metaKey) modifiers.meta.pressed = true;
+
+				for (var i = 0; k = keys[i], i < keys.length; i++) {
+					//Modifiers
+					if (k == 'ctrl' || k == 'control') {
+						kp++;
+						modifiers.ctrl.wanted = true;
+					} else if (k == 'shift') {
+						kp++;
+						modifiers.shift.wanted = true;
+					} else if (k == 'alt') {
+						kp++;
+						modifiers.alt.wanted = true;
+					} else if (k == 'meta') {
+						kp++;
+						modifiers.meta.wanted = true;
+					} else if (k.length > 1) {
+						//If it is a special key
+						if (special_keys[k] == code) kp++;
+					} else if (opt['keycode']) {
+						if (opt['keycode'] == code) kp++;
+					} else {
+						//The special keys did not match
+						if (character == k) kp++;else {
+							if (shift_nums[character] && e.shiftKey) {
+								//Stupid Shift key bug created by using lowercase
+								character = shift_nums[character];
+								if (character == k) kp++;
+							}
+						}
+					}
+				}
+
+				if (kp == keys.length && modifiers.ctrl.pressed == modifiers.ctrl.wanted && modifiers.shift.pressed == modifiers.shift.wanted && modifiers.alt.pressed == modifiers.alt.wanted && modifiers.meta.pressed == modifiers.meta.wanted) {
+					callback(e);
+
+					if (!opt['propagate']) {
+						//Stop the event
+						//e.cancelBubble is supported by IE - this will kill the bubbling process.
+						e.cancelBubble = true;
+						e.returnValue = false;
+
+						//e.stopPropagation works in Firefox.
+						if (e.stopPropagation) {
+							e.stopPropagation();
+							e.preventDefault();
+						}
+						return false;
+					}
+				}
+			};
+			this.all_shortcuts[shortcut_combination] = {
+				'callback': func,
+				'target': ele,
+				'event': opt['type']
+			};
+			//Attach the function with the event
+			if (ele.addEventListener) ele.addEventListener(opt['type'], func, false);else if (ele.attachEvent) ele.attachEvent('on' + opt['type'], func);else ele['on' + opt['type']] = func;
+		},
+
+		//Remove the shortcut - just specify the shortcut and I will remove the binding
+		'remove': function remove(shortcut_combination) {
+			shortcut_combination = shortcut_combination.toLowerCase();
+			var binding = this.all_shortcuts[shortcut_combination];
+			delete this.all_shortcuts[shortcut_combination];
+			if (!binding) return;
+			var type = binding['event'];
+			var ele = binding['target'];
+			var callback = binding['callback'];
+
+			if (ele.detachEvent) ele.detachEvent('on' + type, callback);else if (ele.removeEventListener) ele.removeEventListener(type, callback, false);else ele['on' + type] = false;
+		}
+	};
+
+	module.exports = shortcut;
+	;
+
+	var _temp = function () {
+		if (typeof __REACT_HOT_LOADER__ === 'undefined') {
+			return;
+		}
+
+		__REACT_HOT_LOADER__.register(shortcut, 'shortcut', 'C:/Users/myData/project/talkplace/src/ext/shortcut.js');
+	}();
+
+	;
+
+/***/ }),
+/* 845 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -73451,7 +75381,7 @@
 
 	function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-	var $$observable = _interopDefault(__webpack_require__(822));
+	var $$observable = _interopDefault(__webpack_require__(846));
 
 	/**
 	 * These are private action types reserved by Redux.
@@ -74048,7 +75978,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 822 */
+/* 846 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
@@ -74057,7 +75987,7 @@
 	  value: true
 	});
 
-	var _ponyfill = __webpack_require__(823);
+	var _ponyfill = __webpack_require__(847);
 
 	var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -74083,7 +76013,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(120)(module)))
 
 /***/ }),
-/* 823 */
+/* 847 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -74111,7 +76041,7 @@
 	};
 
 /***/ }),
-/* 824 */
+/* 848 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -74134,7 +76064,10 @@
 	  console.log("action = " + JSON.stringify(action, null, 2));
 	  return {
 	    view: view(state.view, action),
-	    data: { posts: posts(state.data.posts, action) }
+	    data: {
+	      posts: posts(state.data.posts, action),
+	      comments: comments(state.data.comments, action)
+	    }
 	  };
 	}
 
@@ -74143,7 +76076,7 @@
 	  var action = arguments[1];
 
 	  switch (action.type) {
-	    case _action.ADD:
+	    case _action.ADDPOST:
 	      {
 	        return [action.post].concat(_toConsumableArray(state));
 	      }
@@ -74151,7 +76084,11 @@
 	      {
 	        return [].concat(_toConsumableArray(state), _toConsumableArray(action.posts));
 	      }
-	    case _action.DELETE:
+	    case _action.ADDPOSTS:
+	      {
+	        return [].concat(_toConsumableArray(state), _toConsumableArray(action.posts));
+	      }
+	    case _action.DELETEPOST:
 	      {
 	        var afterState = [].concat(_toConsumableArray(state)); // state 배열 복사
 	        var idx = afterState.findIndex(function (o) {
@@ -74160,7 +76097,7 @@
 	        afterState.splice(idx, 1); // idx번째 요소 삭제
 	        return afterState;
 	      }
-	    case _action.UPDATE:
+	    case _action.UPDATEPOST:
 	      {
 	        var _afterState = [].concat(_toConsumableArray(state)); // state 배열 복사
 	        var _idx = _afterState.findIndex(function (o) {
@@ -74168,6 +76105,44 @@
 	        });
 	        _afterState.splice(_idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
 	        return _afterState;
+	      }
+	    default:
+	      {
+	        return state;
+	      }
+	  }
+	}
+
+	function comments() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var action = arguments[1];
+
+	  switch (action.type) {
+	    case _action.ADDCOMMENT:
+	      {
+	        return [].concat(_toConsumableArray(state), [action.comment]);
+	      }
+	    case _action.ADDCOMMENTS:
+	      {
+	        return [].concat(_toConsumableArray(state), _toConsumableArray(action.comments));
+	      }
+	    case _action.DELETECOMMENT:
+	      {
+	        var afterState = [].concat(_toConsumableArray(state)); // state 배열 복사
+	        var idx = afterState.findIndex(function (o) {
+	          return o.key === action.key;
+	        });
+	        afterState.splice(idx, 1); // idx번째 요소 삭제
+	        return afterState;
+	      }
+	    case _action.UPDATECOMMENT:
+	      {
+	        var _afterState2 = [].concat(_toConsumableArray(state)); // state 배열 복사
+	        var _idx2 = _afterState2.findIndex(function (o) {
+	          return o.key === action.comment.key;
+	        });
+	        _afterState2.splice(_idx2, 1, action.comment); // idx번째 요소 삭제하고 comment 추가
+	        return _afterState2;
 	      }
 	    default:
 	      {
@@ -74194,1015 +76169,13 @@
 	    return;
 	  }
 
-	  __REACT_HOT_LOADER__.register(reducer, "reducer", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(reducer, "reducer", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(posts, "posts", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
+	  __REACT_HOT_LOADER__.register(posts, "posts", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 
-	  __REACT_HOT_LOADER__.register(view, "view", "/Users/songmingu/Documents/project/talkplace/src/redux/reducer.js");
-	}();
+	  __REACT_HOT_LOADER__.register(comments, "comments", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 
-	;
-
-/***/ }),
-/* 825 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	
-	var content = __webpack_require__(826);
-
-	if(typeof content === 'string') content = [[module.id, content, '']];
-
-	var transform;
-	var insertInto;
-
-
-
-	var options = {"hmr":true}
-
-	options.transform = transform
-	options.insertInto = undefined;
-
-	var update = __webpack_require__(355)(content, options);
-
-	if(content.locals) module.exports = content.locals;
-
-	if(true) {
-		module.hot.accept(826, function() {
-			var newContent = __webpack_require__(826);
-
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-			var locals = (function(a, b) {
-				var key, idx = 0;
-
-				for(key in a) {
-					if(!b || a[key] !== b[key]) return false;
-					idx++;
-				}
-
-				for(key in b) idx--;
-
-				return idx === 0;
-			}(content.locals, newContent.locals));
-
-			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-			update(newContent);
-		});
-
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 826 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(354)(false);
-	// imports
-
-
-	// module
-	exports.push([module.id, "/* List component */\n.list {\n  margin: 20px; }\n\n.writeBtn {\n  position: fixed;\n  margin-bottom: 0;\n  bottom: 25px;\n  right: 25px;\n  opacity: 0.7; }\n  .writeBtn button {\n    height: 40px; }\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 827 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _shortid = __webpack_require__(679);
-
-	var _shortid2 = _interopRequireDefault(_shortid);
-
-	var _tp = __webpack_require__(677);
-
-	var _reactRouterDom = __webpack_require__(360);
-
-	var _reactBootstrap = __webpack_require__(405);
-
-	__webpack_require__(828);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Write = function (_React$Component) {
-	  _inherits(Write, _React$Component);
-
-	  function Write(props, context) {
-	    _classCallCheck(this, Write);
-
-	    var _this = _possibleConstructorReturn(this, (Write.__proto__ || Object.getPrototypeOf(Write)).call(this, props, context));
-
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.savePost = _this.savePost.bind(_this);
-	    _this.state = {
-	      key: "",
-	      title: "",
-	      writer: _tp.tp.user.writer,
-	      content: "",
-	      date: "",
-	      uuid: _tp.tp.user.uuid
-	    };
-
-	    return _this;
-	  }
-
-	  _createClass(Write, [{
-	    key: "shouldComponentUpdate",
-	    value: function shouldComponentUpdate(prevProps, prevState) {
-	      return prevState !== this.state;
-	    }
-	  }, {
-	    key: "getValidationState",
-	    value: function getValidationState() {
-	      return;
-	      var length = this.state.title.length;
-	      if (length > 10) return 'success';else if (length > 5) return 'warning';else if (length > 0) return 'error';
-	      return null;
-	    }
-	  }, {
-	    key: "handleChange",
-	    value: function handleChange(e) {
-	      var state = {};
-	      state[e.target.id] = e.target.value;
-	      this.setState(state);
-	    }
-	  }, {
-	    key: "savePost",
-	    value: function savePost() {
-	      var _this2 = this;
-
-	      if (this.state.content === "") {
-	        alert("내용을 입력하세요");
-	        return;
-	      }
-
-	      var newPost = {
-	        key: _shortid2.default.generate(),
-	        title: this.state.title === "" ? this.state.content.trim().substr(0, 7) : this.state.title.trim(),
-	        writer: this.state.writer.trim(),
-	        content: this.state.content.trim(),
-	        date: Date.now(),
-	        uuid: _tp.tp.user.uuid
-	      };
-
-	      _tp.tp.api.addPost(newPost).then(function (res) {
-	        console.log("# " + res.message);
-	        if (_tp.tp.store) {
-	          _tp.tp.store.dispatch(_tp.tp.action.addPost(newPost));
-	        } else {}
-	        // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
-
-
-	        // 사용자 정보 업데이트
-	        _tp.tp.setUser({ writer: newPost.writer });
-
-	        // 작성된 글 바로 확인
-	        _this2.props.history.push("/post/" + newPost.key);
-	      });
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      console.log("Write 렌더링..");
-	      return _react2.default.createElement(
-	        "div",
-	        { className: "write" },
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: "title", validationState: this.getValidationState() },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
-	            autoFocus: true, value: this.state.title,
-	            onChange: this.handleChange,
-	            placeholder: "Title.." }),
-	          _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: "writer" },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
-	            value: this.state.writer,
-	            onChange: this.handleChange,
-	            placeholder: "Writer.." })
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: "content" },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { className: "content",
-	            value: this.state.content,
-	            onChange: this.handleChange,
-	            componentClass: "textarea",
-	            placeholder: "Content.." })
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          { bsStyle: "success", onClick: this.savePost },
-	          "Save"
-	        ),
-	        _react2.default.createElement(
-	          _reactRouterDom.Link,
-	          { to: "/list" },
-	          _react2.default.createElement(
-	            _reactBootstrap.Button,
-	            { className: "write-cancel-btn", bsStyle: "success" },
-	            "Cancel"
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Write;
-	}(_react2.default.Component);
-
-	var _default = Write;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(Write, "Write", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
-
-	  __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Write.js");
-	}();
-
-	;
-
-/***/ }),
-/* 828 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	
-	var content = __webpack_require__(829);
-
-	if(typeof content === 'string') content = [[module.id, content, '']];
-
-	var transform;
-	var insertInto;
-
-
-
-	var options = {"hmr":true}
-
-	options.transform = transform
-	options.insertInto = undefined;
-
-	var update = __webpack_require__(355)(content, options);
-
-	if(content.locals) module.exports = content.locals;
-
-	if(true) {
-		module.hot.accept(829, function() {
-			var newContent = __webpack_require__(829);
-
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-			var locals = (function(a, b) {
-				var key, idx = 0;
-
-				for(key in a) {
-					if(!b || a[key] !== b[key]) return false;
-					idx++;
-				}
-
-				for(key in b) idx--;
-
-				return idx === 0;
-			}(content.locals, newContent.locals));
-
-			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-			update(newContent);
-		});
-
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 829 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(354)(false);
-	// imports
-
-
-	// module
-	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 830 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _tp = __webpack_require__(677);
-
-	var _moment = __webpack_require__(694);
-
-	var _moment2 = _interopRequireDefault(_moment);
-
-	var _components = __webpack_require__(675);
-
-	var _reactBootstrap = __webpack_require__(405);
-
-	var _reactRouterDom = __webpack_require__(360);
-
-	__webpack_require__(831);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Post = function (_React$Component) {
-	    _inherits(Post, _React$Component);
-
-	    function Post(props) {
-	        _classCallCheck(this, Post);
-
-	        console.log("Post 생성자 호출");
-
-	        var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
-
-	        _this.deletePost = _this.deletePost.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(Post, [{
-	        key: "shouldComponentUpdate",
-	        value: function shouldComponentUpdate(prevProps, prevState) {
-	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-	            console.log("Post.shouldComponentUpdate returns [" + true + "]");
-	            return true;
-	        }
-	    }, {
-	        key: "deletePost",
-	        value: function deletePost() {
-	            var _this2 = this;
-
-	            if (confirm("이 글을 삭제합니다")) {
-	                _tp.tp.api.deletePost({
-	                    key: this.state.key,
-	                    uuid: _tp.tp.user.uuid
-	                }).then(function (res) {
-	                    if (res.status === "fail") {
-	                        alert(res.message);
-	                    } else {
-	                        _tp.tp.store && _tp.tp.store.dispatch(_tp.tp.action.deletePost(_this2.state.key));
-	                        //history.back();
-	                        _this2.props.history.push("/list");
-	                    }
-	                });
-	            }
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
-	            var _this3 = this;
-
-	            console.log("Post 렌더링");
-	            if (this.props.post) {
-	                // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-	                this.state = this.props.post;
-	            }
-
-	            if ([null, undefined].includes(this.state) || this.state.menu) {
-	                // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
-	                var key = location.pathname.split("/")[2];
-	                _tp.tp.api.getPost(key).then(function (res) {
-	                    _this3.setState(res.posts[0]);
-	                });
-	                return _react2.default.createElement("div", null);
-	            }
-
-	            //const html = this.state.content.replace(/\n/g, "<br>");
-	            var html = _tp.tp.$m.txtToHtml(this.state.content);
-
-	            return _react2.default.createElement(
-	                "div",
-	                { className: "post" },
-	                _react2.default.createElement(
-	                    "div",
-	                    null,
-	                    _react2.default.createElement(
-	                        "div",
-	                        { className: "title h4" },
-	                        this.state.title
-	                    ),
-	                    _react2.default.createElement(_components.PostMenu, { history: this.props.history, postKey: this.state.key })
-	                ),
-	                _react2.default.createElement(
-	                    "div",
-	                    { className: "meta" },
-	                    this.state.writer,
-	                    " - ",
-	                    (0, _moment2.default)(this.state.date).format('MM/DD/YYYY dd HH:mm:ss')
-	                ),
-	                _react2.default.createElement("div", { className: "content", dangerouslySetInnerHTML: { __html: html } }),
-	                _react2.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: "/list" },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Button,
-	                        { bsStyle: "success" },
-	                        "List"
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: "/write" },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Button,
-	                        { bsStyle: "success" },
-	                        "Write"
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Post;
-	}(_react2.default.Component);
-
-	var _default = Post;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	        return;
-	    }
-
-	    __REACT_HOT_LOADER__.register(Post, "Post", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
-
-	    __REACT_HOT_LOADER__.register(_default, "default", "/Users/songmingu/Documents/project/talkplace/src/pages/Post.js");
-	}();
-
-	;
-
-/***/ }),
-/* 831 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	
-	var content = __webpack_require__(832);
-
-	if(typeof content === 'string') content = [[module.id, content, '']];
-
-	var transform;
-	var insertInto;
-
-
-
-	var options = {"hmr":true}
-
-	options.transform = transform
-	options.insertInto = undefined;
-
-	var update = __webpack_require__(355)(content, options);
-
-	if(content.locals) module.exports = content.locals;
-
-	if(true) {
-		module.hot.accept(832, function() {
-			var newContent = __webpack_require__(832);
-
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-			var locals = (function(a, b) {
-				var key, idx = 0;
-
-				for(key in a) {
-					if(!b || a[key] !== b[key]) return false;
-					idx++;
-				}
-
-				for(key in b) idx--;
-
-				return idx === 0;
-			}(content.locals, newContent.locals));
-
-			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-			update(newContent);
-		});
-
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 832 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(354)(false);
-	// imports
-
-
-	// module
-	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post button {\n    margin-top: 30px;\n    margin-right: 3px; }\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 833 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _tp = __webpack_require__(677);
-
-	var _reactRouterDom = __webpack_require__(360);
-
-	var _reactBootstrap = __webpack_require__(405);
-
-	__webpack_require__(834);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Edit = function (_React$Component) {
-	  _inherits(Edit, _React$Component);
-
-	  function Edit(props, context) {
-	    _classCallCheck(this, Edit);
-
-	    var _this = _possibleConstructorReturn(this, (Edit.__proto__ || Object.getPrototypeOf(Edit)).call(this, props, context));
-
-	    _this.handleChange = _this.handleChange.bind(_this);
-	    _this.savePost = _this.savePost.bind(_this);
-
-	    _this.state = _this.props.post || _tp.tp.temp;
-	    _this.state.uuid = _tp.tp.user.uuid;
-	    return _this;
-	  }
-
-	  _createClass(Edit, [{
-	    key: 'shouldComponentUpdate',
-	    value: function shouldComponentUpdate(prevProps, prevState) {
-	      return prevState !== this.state;
-	    }
-	  }, {
-	    key: 'getValidationState',
-	    value: function getValidationState() {
-	      return;
-	      var length = this.state.title.length;
-	      if (length > 10) return 'success';else if (length > 5) return 'warning';else if (length > 0) return 'error';
-	      return null;
-	    }
-	  }, {
-	    key: 'handleChange',
-	    value: function handleChange(e) {
-	      var state = {};
-	      state[e.target.id] = e.target.value;
-	      this.setState(state);
-	    }
-	  }, {
-	    key: 'savePost',
-	    value: function savePost() {
-	      var _this2 = this;
-
-	      if (this.state.content === "") {
-	        alert("내용을 입력하세요");
-	        return;
-	      }
-
-	      var afterPost = {
-	        key: this.state.key,
-	        title: this.state.title === "" ? this.state.content.trim().substr(0, 7) : this.state.title.trim(),
-	        writer: this.state.writer.trim(),
-	        content: this.state.content.trim(),
-	        date: Date.now(),
-	        uuid: _tp.tp.user.uuid
-	      };
-
-	      _tp.tp.api.updatePost(afterPost).then(function (res) {
-	        console.log("# " + res.message);
-	        if (_tp.tp.store) {
-	          _tp.tp.store.dispatch(_tp.tp.action.updatePost(afterPost));
-	        }
-
-	        // 사용자 정보 업데이트
-	        _tp.tp.setUser({ writer: afterPost.writer });
-
-	        // 작성된 글 바로 확인
-	        _this2.props.history.push("/post/" + afterPost.key);
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      console.log("Write 렌더링..");
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'write' },
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: 'title', validationState: this.getValidationState() },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text',
-	            autoFocus: true, value: this.state.title,
-	            onChange: this.handleChange,
-	            placeholder: 'Title..' }),
-	          _react2.default.createElement(_reactBootstrap.FormControl.Feedback, null)
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: 'writer' },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text',
-	            value: this.state.writer,
-	            onChange: this.handleChange,
-	            placeholder: 'Writer..' })
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.FormGroup,
-	          { controlId: 'content' },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { className: 'content',
-	            value: this.state.content,
-	            onChange: this.handleChange,
-	            componentClass: 'textarea',
-	            placeholder: 'Content..' })
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.Button,
-	          { bsStyle: 'success', onClick: this.savePost },
-	          'Save'
-	        ),
-	        _react2.default.createElement(
-	          _reactRouterDom.Link,
-	          { to: '/list' },
-	          _react2.default.createElement(
-	            _reactBootstrap.Button,
-	            { className: 'write-cancel-btn', bsStyle: 'success' },
-	            'Cancel'
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Edit;
-	}(_react2.default.Component);
-
-	var _default = Edit;
-	exports.default = _default;
-	;
-
-	var _temp = function () {
-	  if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-	    return;
-	  }
-
-	  __REACT_HOT_LOADER__.register(Edit, 'Edit', '/Users/songmingu/Documents/project/talkplace/src/pages/Edit.js');
-
-	  __REACT_HOT_LOADER__.register(_default, 'default', '/Users/songmingu/Documents/project/talkplace/src/pages/Edit.js');
-	}();
-
-	;
-
-/***/ }),
-/* 834 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	
-	var content = __webpack_require__(835);
-
-	if(typeof content === 'string') content = [[module.id, content, '']];
-
-	var transform;
-	var insertInto;
-
-
-
-	var options = {"hmr":true}
-
-	options.transform = transform
-	options.insertInto = undefined;
-
-	var update = __webpack_require__(355)(content, options);
-
-	if(content.locals) module.exports = content.locals;
-
-	if(true) {
-		module.hot.accept(835, function() {
-			var newContent = __webpack_require__(835);
-
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-
-			var locals = (function(a, b) {
-				var key, idx = 0;
-
-				for(key in a) {
-					if(!b || a[key] !== b[key]) return false;
-					idx++;
-				}
-
-				for(key in b) idx--;
-
-				return idx === 0;
-			}(content.locals, newContent.locals));
-
-			if(!locals) throw new Error('Aborting CSS HMR due to changed css-modules locals.');
-
-			update(newContent);
-		});
-
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ }),
-/* 835 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(354)(false);
-	// imports
-
-
-	// module
-	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
-
-	// exports
-
-
-/***/ }),
-/* 836 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	/**
-	 * http://www.openjs.com/scripts/events/keyboard_shortcuts/
-	 * Version : 2.01.B
-	 * By Binny V A
-	 * License : BSD
-	 */
-	var shortcut = {
-		'all_shortcuts': {}, //All the shortcuts are stored in this array
-		'add': function add(shortcut_combination, callback, opt) {
-			//Provide a set of default options
-			var default_options = {
-				'type': 'keydown',
-				'propagate': false,
-				'disable_in_input': false,
-				'target': document,
-				'keycode': false
-			};
-			if (!opt) opt = default_options;else {
-				for (var dfo in default_options) {
-					if (typeof opt[dfo] == 'undefined') opt[dfo] = default_options[dfo];
-				}
-			}
-
-			var ele = opt.target;
-			if (typeof opt.target == 'string') ele = document.getElementById(opt.target);
-			var ths = this;
-			shortcut_combination = shortcut_combination.toLowerCase();
-
-			//The function to be called at keypress
-			var func = function func(e) {
-				var code, k;
-				e = e || window.event;
-
-				if (opt['disable_in_input']) {
-					//Don't enable shortcut keys in Input, Textarea fields
-					var element;
-					if (e.target) element = e.target;else if (e.srcElement) element = e.srcElement;
-					if (element.nodeType == 3) element = element.parentNode;
-
-					if (element.tagName == 'INPUT' || element.tagName == 'TEXTAREA') return;
-				}
-
-				//Find Which key is pressed
-				if (e.keyCode) code = e.keyCode;else if (e.which) code = e.which;
-				var character = String.fromCharCode(code).toLowerCase();
-
-				if (code == 188) character = ","; //If the user presses , when the type is onkeydown
-				if (code == 190) character = "."; //If the user presses , when the type is onkeydown
-
-				var keys = shortcut_combination.split("+");
-				//Key Pressed - counts the number of valid keypresses - if it is same as the number of keys, the shortcut function is invoked
-				var kp = 0;
-
-				//Work around for stupid Shift key bug created by using lowercase - as a result the shift+num combination was broken
-				var shift_nums = {
-					"`": "~",
-					"1": "!",
-					"2": "@",
-					"3": "#",
-					"4": "$",
-					"5": "%",
-					"6": "^",
-					"7": "&",
-					"8": "*",
-					"9": "(",
-					"0": ")",
-					"-": "_",
-					"=": "+",
-					";": ":",
-					"'": "\"",
-					",": "<",
-					".": ">",
-					"/": "?",
-					"\\": "|"
-					//Special Keys - and their codes
-				};var special_keys = {
-					'esc': 27,
-					'escape': 27,
-					'tab': 9,
-					'space': 32,
-					'return': 13,
-					'enter': 13,
-					'backspace': 8,
-
-					'scrolllock': 145,
-					'scroll_lock': 145,
-					'scroll': 145,
-					'capslock': 20,
-					'caps_lock': 20,
-					'caps': 20,
-					'numlock': 144,
-					'num_lock': 144,
-					'num': 144,
-
-					'pause': 19,
-					'break': 19,
-
-					'insert': 45,
-					'home': 36,
-					'delete': 46,
-					'end': 35,
-
-					'pageup': 33,
-					'page_up': 33,
-					'pu': 33,
-
-					'pagedown': 34,
-					'page_down': 34,
-					'pd': 34,
-
-					'left': 37,
-					'up': 38,
-					'right': 39,
-					'down': 40,
-
-					'f1': 112,
-					'f2': 113,
-					'f3': 114,
-					'f4': 115,
-					'f5': 116,
-					'f6': 117,
-					'f7': 118,
-					'f8': 119,
-					'f9': 120,
-					'f10': 121,
-					'f11': 122,
-					'f12': 123
-				};
-
-				var modifiers = {
-					shift: { wanted: false, pressed: false },
-					ctrl: { wanted: false, pressed: false },
-					alt: { wanted: false, pressed: false },
-					meta: { wanted: false, pressed: false //Meta is Mac specific
-					} };
-
-				if (e.ctrlKey) modifiers.ctrl.pressed = true;
-				if (e.shiftKey) modifiers.shift.pressed = true;
-				if (e.altKey) modifiers.alt.pressed = true;
-				if (e.metaKey) modifiers.meta.pressed = true;
-
-				for (var i = 0; k = keys[i], i < keys.length; i++) {
-					//Modifiers
-					if (k == 'ctrl' || k == 'control') {
-						kp++;
-						modifiers.ctrl.wanted = true;
-					} else if (k == 'shift') {
-						kp++;
-						modifiers.shift.wanted = true;
-					} else if (k == 'alt') {
-						kp++;
-						modifiers.alt.wanted = true;
-					} else if (k == 'meta') {
-						kp++;
-						modifiers.meta.wanted = true;
-					} else if (k.length > 1) {
-						//If it is a special key
-						if (special_keys[k] == code) kp++;
-					} else if (opt['keycode']) {
-						if (opt['keycode'] == code) kp++;
-					} else {
-						//The special keys did not match
-						if (character == k) kp++;else {
-							if (shift_nums[character] && e.shiftKey) {
-								//Stupid Shift key bug created by using lowercase
-								character = shift_nums[character];
-								if (character == k) kp++;
-							}
-						}
-					}
-				}
-
-				if (kp == keys.length && modifiers.ctrl.pressed == modifiers.ctrl.wanted && modifiers.shift.pressed == modifiers.shift.wanted && modifiers.alt.pressed == modifiers.alt.wanted && modifiers.meta.pressed == modifiers.meta.wanted) {
-					callback(e);
-
-					if (!opt['propagate']) {
-						//Stop the event
-						//e.cancelBubble is supported by IE - this will kill the bubbling process.
-						e.cancelBubble = true;
-						e.returnValue = false;
-
-						//e.stopPropagation works in Firefox.
-						if (e.stopPropagation) {
-							e.stopPropagation();
-							e.preventDefault();
-						}
-						return false;
-					}
-				}
-			};
-			this.all_shortcuts[shortcut_combination] = {
-				'callback': func,
-				'target': ele,
-				'event': opt['type']
-			};
-			//Attach the function with the event
-			if (ele.addEventListener) ele.addEventListener(opt['type'], func, false);else if (ele.attachEvent) ele.attachEvent('on' + opt['type'], func);else ele['on' + opt['type']] = func;
-		},
-
-		//Remove the shortcut - just specify the shortcut and I will remove the binding
-		'remove': function remove(shortcut_combination) {
-			shortcut_combination = shortcut_combination.toLowerCase();
-			var binding = this.all_shortcuts[shortcut_combination];
-			delete this.all_shortcuts[shortcut_combination];
-			if (!binding) return;
-			var type = binding['event'];
-			var ele = binding['target'];
-			var callback = binding['callback'];
-
-			if (ele.detachEvent) ele.detachEvent('on' + type, callback);else if (ele.removeEventListener) ele.removeEventListener(type, callback, false);else ele['on' + type] = false;
-		}
-	};
-
-	module.exports = shortcut;
-	;
-
-	var _temp = function () {
-		if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-			return;
-		}
-
-		__REACT_HOT_LOADER__.register(shortcut, 'shortcut', '/Users/songmingu/Documents/project/talkplace/src/ext/shortcut.js');
+	  __REACT_HOT_LOADER__.register(view, "view", "C:/Users/myData/project/talkplace/src/redux/reducer.js");
 	}();
 
 	;
