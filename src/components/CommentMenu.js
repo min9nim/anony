@@ -16,7 +16,7 @@ export default class CommentMenu extends React.Component {
     }
 
     shouldComponentUpdate(prevProps, prevState) {
-        console.log("CommentMenu.shouldComponentUpdate returns [" + true + "]");
+        //console.log("CommentMenu.shouldComponentUpdate returns [" + true + "]");
         return true;
     }
 

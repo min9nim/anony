@@ -108,7 +108,7 @@ router.delete("/delete/:key/:uuid", (req, res) => {
     
                                 post.commentCnt = commentCnt;
                                 post.save().then(output => {
-                                    //console.log(output)
+                                    console.log(output)
                                     console.log(`post(${post.key})'s commentCnt -1`);
                                 });
                             })

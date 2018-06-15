@@ -18,7 +18,7 @@ export const SCROLLEND = "SCROLLEND";
 const action = {};
 export default action;
 
-action.addPost = function({key, title, writer, content, date}) {
+action.addPost = function({key, title, writer, content, date, isPrivate}) {
   return {
     type: ADDPOST,
     post: {
@@ -26,7 +26,8 @@ action.addPost = function({key, title, writer, content, date}) {
       title,
       writer,
       content,
-      date
+      date,
+      isPrivate
     }
   }
 }
@@ -54,31 +55,18 @@ action.deleteComment = function(key) {
   return {type: DELETECOMMENT, key}
 }
 
-action.updatePost = function({key, title, writer, content, date}) {
+action.updatePost = function(post) {
   return {
     type: UPDATEPOST,
-    post: {
-      key,
-      title,
-      writer,
-      content,
-      date
-    }
+    post
   }
 }
 
 
-action.addComment = function({key, writer, content, date, uuid, postKey}) {
+action.addComment = function(comment) {
   return {
     type: ADDCOMMENT,
-    comment: {
-      key,
-      writer,
-      content,
-      date,
-      uuid,
-      postKey
-    }
+    comment
   }
 }
 

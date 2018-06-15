@@ -23,7 +23,7 @@ export default class Post extends React.Component {
 
     shouldComponentUpdate(prevProps, prevState) {
         // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-        console.log("Post.shouldComponentUpdate returns [" + true + "]");
+        //console.log("Post.shouldComponentUpdate returns [" + true + "]");
         return true;
     }
 
@@ -67,7 +67,7 @@ export default class Post extends React.Component {
             <div>
                 <div className="post">
                     <div>
-                        <div className="title h4">{this.state.title}</div>
+                        <div className="title h4">{this.state.title} {this.state.isPrivate && <sup>- Private -</sup>}</div>
                         <PostMenu history={this.props.history} postKey={this.state.key}/>
                     </div>
                     <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>

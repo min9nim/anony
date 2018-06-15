@@ -16,7 +16,7 @@ export default class PostMenu extends React.Component {
     }
 
     shouldComponentUpdate(prevProps, prevState) {
-        console.log("PostMenu.shouldComponentUpdate returns [" + true + "]");
+        //console.log("PostMenu.shouldComponentUpdate returns [" + true + "]");
         return true;
     }
 

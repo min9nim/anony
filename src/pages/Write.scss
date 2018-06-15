@@ -1,6 +1,20 @@
 
 .write {
     margin: 20px;
+    .writer {
+        display: inline-block;
+        width: calc(100% - 90px);
+    }
+
+    .checkbox{
+        margin: 0px 10px;
+        vertical-align: text-bottom;
+        display: inline-block;
+        input[type="checkbox"] {
+            -webkit-appearance: checkbox;
+        }
+    }
+
     .content {
         font-size: 20px;
         height: 200px;
@@ -8,8 +22,8 @@
     input {
         font-size: 20px;
     }
+    .write-cancel-btn {
+        margin-left: 3px;
+    }    
 }
 
-.write-cancel-btn {
-    margin-left: 3px;
-}

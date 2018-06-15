@@ -11,7 +11,7 @@ export default class CommentList extends React.Component {
         console.log("CommentList 생성자 호출");
         super(props);
         this.state = {
-            comments: tp.view.App.state.data.comments.filter(comment => comment.postKey === this.props.postKey)
+            comments: tp.view.App.state.data.comments.filter(c => c.postKey === this.props.postKey)
         }
         tp.view.CommentList = this;
 

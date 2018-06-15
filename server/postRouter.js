@@ -15,10 +15,9 @@ const MAXCNT = 10;
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
 function maskPost(post){
-    post.uuid = undefined;      // uuid 는 이렇게 해도 해당 정보가 화면까지 내려가는 것 같다
-    post._id = undefined;
+    post.uuid = undefined;
+    post._id = undefined;       // _id 는 이렇게 해도 해당 정보가 화면까지 내려가는 것 같다
     post.__v = undefined;
-    post.private = undefined;
     // for(var i in post){
     //     console.log(i + ", ");
     // }
@@ -30,7 +29,6 @@ function maskPost(post){
         uuid: undefined,
         _id: undefined,
         __v: undefined,
-        private: undefined
     });
     */
 }
@@ -46,6 +44,7 @@ router.post("/add", (req, res) => {
     post.writer = req.body.writer;
     post.content = req.body.content;
     post.date = req.body.date;
+    post.isPrivate = req.body.isPrivate;
     post.uuid = req.body.uuid;
 
     post.save().then(output => {
@@ -53,11 +52,11 @@ router.post("/add", (req, res) => {
             status: 'success',
             message: `post(${req.body.key}) is saved`,
             output
-        }).catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
-    });   
+        })
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });;   
 });
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
@@ -80,7 +79,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
-    Post.find()
+    Post.find({isPrivate:{$in: [ false, undefined ]}})
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)

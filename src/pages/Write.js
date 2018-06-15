@@ -4,7 +4,7 @@ import {tp} from "../tp";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
-  ControlLabel,
+  Checkbox,
   FormControl,
   Button
 } from 'react-bootstrap';
@@ -21,6 +21,7 @@ export default class Write extends React.Component {
       writer: tp.user.writer,
       content: "",
       date : "",
+      isPrivate: false,
       uuid : tp.user.uuid
     };
 
@@ -40,9 +41,13 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
-    let state = {};
-    state[e.target.id] = e.target.value;
-    this.setState(state);
+    if(e.target.getAttribute("type")==="checkbox"){
+      this.setState({isPrivate : e.target.checked});
+    }else{
+      const state = {};
+      state[e.target.id] = e.target.value;
+      this.setState(state);
+    }
   }
 
   savePost() {
@@ -57,7 +62,9 @@ export default class Write extends React.Component {
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
+      isPrivate : this.state.isPrivate,
       uuid : tp.user.uuid
+
     };
 
     tp.api.addPost(newPost).then(res => {
@@ -91,10 +98,11 @@ export default class Write extends React.Component {
             </FormGroup>
             <FormGroup controlId = "writer" >
                 {/*<ControlLabel> Writer </ControlLabel> */}
-                <FormControl type = "text"
+                <FormControl type = "text" className="writer"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} value={this.state.isPrivate}>Private</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}

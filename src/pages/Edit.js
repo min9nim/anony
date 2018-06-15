@@ -3,6 +3,7 @@ import {tp} from "../tp";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
+  Checkbox,
   FormControl,
   Button
 } from 'react-bootstrap';
@@ -16,6 +17,7 @@ export default class Edit extends React.Component {
     
     this.state = this.props.post || tp.temp;
     this.state.uuid = tp.user.uuid;
+
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -32,9 +34,13 @@ export default class Edit extends React.Component {
   }
 
   handleChange(e) {
-    let state = {};
-    state[e.target.id] = e.target.value;
-    this.setState(state);
+    if(e.target.getAttribute("type")==="checkbox"){
+      this.setState({isPrivate : e.target.checked});
+    }else{
+      const state = {};
+      state[e.target.id] = e.target.value;
+      this.setState(state);
+    }
   }
 
   savePost() {
@@ -49,6 +55,7 @@ export default class Edit extends React.Component {
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
+      isPrivate : this.state.isPrivate,
       uuid : tp.user.uuid
     };
 
@@ -72,7 +79,7 @@ export default class Edit extends React.Component {
   render() {
     console.log("Write 렌더링..");
     return (
-        <div className="write">
+        <div className="edit">
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
@@ -83,10 +90,11 @@ export default class Edit extends React.Component {
             </FormGroup>
             <FormGroup controlId = "writer" >
                 {/*<ControlLabel> Writer </ControlLabel> */}
-                <FormControl type = "text"
+                <FormControl type = "text" className="writer"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} checked={this.state.isPrivate}>Private</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
