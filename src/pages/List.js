@@ -14,7 +14,7 @@ export default class List extends React.Component {
         console.log("List 생성자 호출");
         super(props);
 
-        if(tp.view.App.state.data.posts.length === 0){
+        if(tp.view.App.state.data.posts.length < 10){
             tp.api.getPosts(0, 10).then(res => {
                 tp.store.dispatch(tp.action.addPosts(res.posts));
             });

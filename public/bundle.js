@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "d38ea817cd44cde058aa"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f5c11a37288db9cfbcb9"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -33376,7 +33376,7 @@
 	    value: function shouldComponentUpdate(prevProps, prevState) {
 	      var render = prevProps.location.pathname !== this.props.location.pathname || prevState !== this.state;
 	      // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-	      console.log("App.shouldComponentUpdate returns [" + render + "]");
+	      //console.log("App.shouldComponentUpdate returns [" + render + "]");
 	      return render;
 	    }
 	  }, {
@@ -33547,7 +33547,7 @@
 
 	        var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
 
-	        if (_tp.tp.view.App.state.data.posts.length === 0) {
+	        if (_tp.tp.view.App.state.data.posts.length < 10) {
 	            _tp.tp.api.getPosts(0, 10).then(function (res) {
 	                _tp.tp.store.dispatch(_tp.tp.action.addPosts(res.posts));
 	            });
@@ -54998,7 +54998,7 @@
 	    _createClass(PostMenu, [{
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
-	            console.log("PostMenu.shouldComponentUpdate returns [" + true + "]");
+	            //console.log("PostMenu.shouldComponentUpdate returns [" + true + "]");
 	            return true;
 	        }
 	    }, {
@@ -55259,7 +55259,8 @@
 	      title = _ref.title,
 	      writer = _ref.writer,
 	      content = _ref.content,
-	      date = _ref.date;
+	      date = _ref.date,
+	      isPrivate = _ref.isPrivate;
 
 	  return {
 	    type: ADDPOST,
@@ -55268,7 +55269,8 @@
 	      title: title,
 	      writer: writer,
 	      content: content,
-	      date: date
+	      date: date,
+	      isPrivate: isPrivate
 	    }
 	  };
 	};
@@ -55296,43 +55298,17 @@
 	  return { type: DELETECOMMENT, key: key };
 	};
 
-	action.updatePost = function (_ref2) {
-	  var key = _ref2.key,
-	      title = _ref2.title,
-	      writer = _ref2.writer,
-	      content = _ref2.content,
-	      date = _ref2.date;
-
+	action.updatePost = function (post) {
 	  return {
 	    type: UPDATEPOST,
-	    post: {
-	      key: key,
-	      title: title,
-	      writer: writer,
-	      content: content,
-	      date: date
-	    }
+	    post: post
 	  };
 	};
 
-	action.addComment = function (_ref3) {
-	  var key = _ref3.key,
-	      writer = _ref3.writer,
-	      content = _ref3.content,
-	      date = _ref3.date,
-	      uuid = _ref3.uuid,
-	      postKey = _ref3.postKey;
-
+	action.addComment = function (comment) {
 	  return {
 	    type: ADDCOMMENT,
-	    comment: {
-	      key: key,
-	      writer: writer,
-	      content: content,
-	      date: date,
-	      uuid: uuid,
-	      postKey: postKey
-	    }
+	    comment: comment
 	  };
 	};
 
@@ -57136,8 +57112,8 @@
 	        var _this = _possibleConstructorReturn(this, (CommentList.__proto__ || Object.getPrototypeOf(CommentList)).call(this, props));
 
 	        _this.state = {
-	            comments: _tp.tp.view.App.state.data.comments.filter(function (comment) {
-	                return comment.postKey === _this.props.postKey;
+	            comments: _tp.tp.view.App.state.data.comments.filter(function (c) {
+	                return c.postKey === _this.props.postKey;
 	            })
 	        };
 	        _tp.tp.view.CommentList = _this;
@@ -57309,7 +57285,7 @@
 	    _createClass(CommentMenu, [{
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
-	            console.log("CommentMenu.shouldComponentUpdate returns [" + true + "]");
+	            //console.log("CommentMenu.shouldComponentUpdate returns [" + true + "]");
 	            return true;
 	        }
 	    }, {
@@ -57525,7 +57501,7 @@
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
 	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-	            console.log("Comment.shouldComponentUpdate returns [" + true + "]");
+	            //console.log("Comment.shouldComponentUpdate returns [" + true + "]");
 	            return true;
 	        }
 	    }, {
@@ -74468,6 +74444,7 @@
 	      writer: _tp.tp.user.writer,
 	      content: "",
 	      date: "",
+	      isPrivate: false,
 	      uuid: _tp.tp.user.uuid
 	    };
 
@@ -74490,9 +74467,13 @@
 	  }, {
 	    key: "handleChange",
 	    value: function handleChange(e) {
-	      var state = {};
-	      state[e.target.id] = e.target.value;
-	      this.setState(state);
+	      if (e.target.getAttribute("type") === "checkbox") {
+	        this.setState({ isPrivate: e.target.checked });
+	      } else {
+	        var state = {};
+	        state[e.target.id] = e.target.value;
+	        this.setState(state);
+	      }
 	    }
 	  }, {
 	    key: "savePost",
@@ -74510,7 +74491,9 @@
 	        writer: this.state.writer.trim(),
 	        content: this.state.content.trim(),
 	        date: Date.now(),
+	        isPrivate: this.state.isPrivate,
 	        uuid: _tp.tp.user.uuid
+
 	      };
 
 	      _tp.tp.api.addPost(newPost).then(function (res) {
@@ -74547,10 +74530,15 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.FormGroup,
 	          { controlId: "writer" },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: "text", className: "writer",
 	            value: this.state.writer,
 	            onChange: this.handleChange,
-	            placeholder: "Writer.." })
+	            placeholder: "Writer.." }),
+	          _react2.default.createElement(
+	            _reactBootstrap.Checkbox,
+	            { onChange: this.handleChange, value: this.state.isPrivate },
+	            "Private"
+	          )
 	        ),
 	        _react2.default.createElement(
 	          _reactBootstrap.FormGroup,
@@ -74658,7 +74646,7 @@
 
 
 	// module
-	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
+	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .writer {\n    display: inline-block;\n    width: calc(100% - 90px); }\n  .write .checkbox {\n    margin: 0px 10px;\n    vertical-align: text-bottom;\n    display: inline-block; }\n    .write .checkbox input[type=\"checkbox\"] {\n      -webkit-appearance: checkbox; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n  .write .write-cancel-btn {\n    margin-left: 3px; }\n", ""]);
 
 	// exports
 
@@ -74727,7 +74715,7 @@
 	        key: "shouldComponentUpdate",
 	        value: function shouldComponentUpdate(prevProps, prevState) {
 	            // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-	            console.log("Post.shouldComponentUpdate returns [" + true + "]");
+	            //console.log("Post.shouldComponentUpdate returns [" + true + "]");
 	            return true;
 	        }
 	    }, {
@@ -74785,7 +74773,13 @@
 	                        _react2.default.createElement(
 	                            "div",
 	                            { className: "title h4" },
-	                            this.state.title
+	                            this.state.title,
+	                            " ",
+	                            this.state.isPrivate && _react2.default.createElement(
+	                                "sup",
+	                                null,
+	                                "- Private -"
+	                            )
 	                        ),
 	                        _react2.default.createElement(_components.PostMenu, { history: this.props.history, postKey: this.state.key })
 	                    ),
@@ -74900,7 +74894,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post .btn {\n    margin-top: 30px;\n    margin-right: 3px;\n    padding: 4px 10px; }\n", ""]);
+	exports.push([module.id, "/* Post component */\n.post {\n  margin: 20px; }\n  .post .title {\n    display: inline-block;\n    width: calc(100% - 100px);\n    margin: 0px;\n    color: #555;\n    font-size: 30px; }\n    .post .title sup {\n      font-size: 14px;\n      margin-left: 20px;\n      color: #999; }\n  .post .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 14px;\n    margin-bottom: 20px; }\n  .post .content {\n    color: #777;\n    font-size: 20px; }\n  .post .btn {\n    margin-top: 30px;\n    margin-right: 3px;\n    padding: 4px 10px; }\n", ""]);
 
 	// exports
 
@@ -74950,6 +74944,7 @@
 
 	    _this.state = _this.props.post || _tp.tp.temp;
 	    _this.state.uuid = _tp.tp.user.uuid;
+
 	    return _this;
 	  }
 
@@ -74969,9 +74964,13 @@
 	  }, {
 	    key: 'handleChange',
 	    value: function handleChange(e) {
-	      var state = {};
-	      state[e.target.id] = e.target.value;
-	      this.setState(state);
+	      if (e.target.getAttribute("type") === "checkbox") {
+	        this.setState({ isPrivate: e.target.checked });
+	      } else {
+	        var state = {};
+	        state[e.target.id] = e.target.value;
+	        this.setState(state);
+	      }
 	    }
 	  }, {
 	    key: 'savePost',
@@ -74989,6 +74988,7 @@
 	        writer: this.state.writer.trim(),
 	        content: this.state.content.trim(),
 	        date: Date.now(),
+	        isPrivate: this.state.isPrivate,
 	        uuid: _tp.tp.user.uuid
 	      };
 
@@ -75011,7 +75011,7 @@
 	      console.log("Write 렌더링..");
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'write' },
+	        { className: 'edit' },
 	        _react2.default.createElement(
 	          _reactBootstrap.FormGroup,
 	          { controlId: 'title', validationState: this.getValidationState() },
@@ -75024,10 +75024,15 @@
 	        _react2.default.createElement(
 	          _reactBootstrap.FormGroup,
 	          { controlId: 'writer' },
-	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text',
+	          _react2.default.createElement(_reactBootstrap.FormControl, { type: 'text', className: 'writer',
 	            value: this.state.writer,
 	            onChange: this.handleChange,
-	            placeholder: 'Writer..' })
+	            placeholder: 'Writer..' }),
+	          _react2.default.createElement(
+	            _reactBootstrap.Checkbox,
+	            { onChange: this.handleChange, checked: this.state.isPrivate },
+	            'Private'
+	          )
 	        ),
 	        _react2.default.createElement(
 	          _reactBootstrap.FormGroup,
@@ -75134,7 +75139,7 @@
 
 
 	// module
-	exports.push([module.id, ".write {\n  margin: 20px; }\n  .write .content {\n    font-size: 20px;\n    height: 200px; }\n  .write input {\n    font-size: 20px; }\n\n.write-cancel-btn {\n  margin-left: 3px; }\n", ""]);
+	exports.push([module.id, ".edit {\n  margin: 20px; }\n  .edit .writer {\n    display: inline-block;\n    width: calc(100% - 90px); }\n  .edit .checkbox {\n    margin: 0px 10px;\n    vertical-align: text-bottom;\n    display: inline-block; }\n    .edit .checkbox input[type=\"checkbox\"] {\n      -webkit-appearance: checkbox; }\n  .edit .content {\n    font-size: 20px;\n    height: 200px; }\n  .edit input {\n    font-size: 20px; }\n  .edit .write-cancel-btn {\n    margin-left: 3px; }\n", ""]);
 
 	// exports
 
@@ -76059,9 +76064,9 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 	  var action = arguments[1];
 
-	  console.log("# reducer call");
-	  console.log("state = " + JSON.stringify(state, null, 2));
-	  console.log("action = " + JSON.stringify(action, null, 2));
+	  // console.log("# reducer call");
+	  // console.log("state = " + JSON.stringify(state, null,2));
+	  // console.log("action = " + JSON.stringify(action, null,2));
 	  return {
 	    view: view(state.view, action),
 	    data: {
@@ -76078,7 +76083,11 @@
 	  switch (action.type) {
 	    case _action.ADDPOST:
 	      {
-	        return [action.post].concat(_toConsumableArray(state));
+	        if (action.post.isPrivate) {
+	          return state;
+	        } else {
+	          return [action.post].concat(_toConsumableArray(state));
+	        }
 	      }
 	    case _action.SCROLLEND:
 	      {
@@ -76103,7 +76112,20 @@
 	        var _idx = _afterState.findIndex(function (o) {
 	          return o.key === action.post.key;
 	        });
-	        _afterState.splice(_idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
+	        if (action.post.isPrivate) {
+	          if (_idx < 0) {
+	            // 해당 글이 목록에 포함되어 있지 않을 경우 기존 상태 유지
+	          } else {
+	            _afterState.splice(_idx, 1); // 비밀글로 설정한 경우 그냥 목록에서 제거
+	          }
+	        } else {
+	          if (_idx < 0) {
+	            _afterState.splice(0, 0, action.post); // 비밀글에서 공개글로 설정한 경우는 목록의 가장 앞단에 추가
+	          } else {
+	            _afterState.splice(_idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
+	          }
+	        }
+
 	        return _afterState;
 	      }
 	    default:
