@@ -74,8 +74,13 @@ export default class Post extends React.Component {
                         <PostMenu history={this.props.history} postKey={this.state.key}/>
                     </div>
                     <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
-                    <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
-                    <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
+                    {this.state.isPrivate || (
+                        <div>
+                            <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
+                            <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
+                        </div>
+                    )}
+
                 </div>
                 {this.state.hasComment && (
                     <div>
