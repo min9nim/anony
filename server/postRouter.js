@@ -33,6 +33,12 @@ function maskPost(post){
     */
 }
 
+function setHasComment(post){
+    // hasComment 기능이 추가되기 전 데이터들에 대한 값 보정, 2018/06/16
+    post.hasComment = post.hasComment === undefined ? true : post.hasComment;
+    return post;
+}
+
 
 // 신규 post 등록
 router.post("/add", (req, res) => {
@@ -45,6 +51,7 @@ router.post("/add", (req, res) => {
     post.content = req.body.content;
     post.date = req.body.date;
     post.isPrivate = req.body.isPrivate;
+    post.hasComment = req.body.hasComment;
     post.uuid = req.body.uuid;
 
     post.save().then(output => {
@@ -83,6 +90,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)
+        .then(R.map(setHasComment))
         .then(posts => {
             //console.log(JSON.stringify(posts, null,2));
             let res = R.map(maskPost)(posts);
@@ -124,10 +132,10 @@ router.delete("/delete/:key/:uuid", (req, res) => {
 
 // key 에 해당하는 post 를 조회
 router.get("/get/:key", (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(post => {console.log(post); return post;})
-        .then(R.map(maskPost))
-        .then(posts => res.send({status: "success", posts : posts}))
+    Post.findOne({ key: req.params.key })
+        .then(maskPost)
+        .then(setHasComment)
+        .then(post => res.send({status: "success", posts : [post]}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);

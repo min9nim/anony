@@ -18,7 +18,7 @@ export const SCROLLEND = "SCROLLEND";
 const action = {};
 export default action;
 
-action.addPost = function({key, title, writer, content, date, isPrivate}) {
+action.addPost = function({key, title, writer, content, date, isPrivate, hasComment}) {
   return {
     type: ADDPOST,
     post: {
@@ -27,7 +27,8 @@ action.addPost = function({key, title, writer, content, date, isPrivate}) {
       writer,
       content,
       date,
-      isPrivate
+      isPrivate,
+      hasComment
     }
   }
 }

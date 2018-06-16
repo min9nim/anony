@@ -66,9 +66,9 @@ export default class Comment extends React.Component {
             }else{
               // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
             }
-            
-            // 사용자 정보 업데이트
-            tp.setUser({writer : newComment.writer});
+
+            this.setState({content: ""});       // 기존 입력한 내용 초기화
+            tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트
       
           });
     }

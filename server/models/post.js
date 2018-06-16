@@ -8,6 +8,7 @@ const postSchema = new Schema({
     content: String,
     date: Number,
     isPrivate: Boolean,
+    hasComment: Boolean,
     commentCnt : Number,
     uuid: String
 });

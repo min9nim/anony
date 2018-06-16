@@ -22,8 +22,11 @@ export default class Write extends React.Component {
       content: "",
       date : "",
       isPrivate: false,
+      hasComment: true,
       uuid : tp.user.uuid
     };
+
+    tp.view.Write = this;
 
   }
 
@@ -41,13 +44,9 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
-    if(e.target.getAttribute("type")==="checkbox"){
-      this.setState({isPrivate : e.target.checked});
-    }else{
-      const state = {};
-      state[e.target.id] = e.target.value;
-      this.setState(state);
-    }
+    const state = {};
+    state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
+    this.setState(state);
   }
 
   savePost() {
@@ -63,6 +62,7 @@ export default class Write extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      hasComment : this.state.hasComment,
       uuid : tp.user.uuid
 
     };
@@ -102,7 +102,8 @@ export default class Write extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
-                <Checkbox onChange={this.handleChange} value={this.state.isPrivate}>Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}

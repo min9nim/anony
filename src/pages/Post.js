@@ -75,8 +75,12 @@ export default class Post extends React.Component {
                     <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
                     <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                 </div>
-                <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
-                <CommentWrite postKey={this.state.key} />
+                {this.state.hasComment && (
+                    <div>
+                        <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
+                        <CommentWrite postKey={this.state.key} />
+                    </div>
+                )}
             </div>
         );
     }

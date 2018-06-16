@@ -15,8 +15,10 @@ export default class CommentList extends React.Component {
         }
         tp.view.CommentList = this;
 
+        
         // 이후 CommentList 가 스토어 상태를 구독하도록 설정
-        tp.store.subscribe(() => {
+        this.unsubscribe = tp.store.subscribe(() => {
+            console.log("# CommentList setState called..");
             this.setState({
                 comments : tp.store.getState().data.comments.filter(c => c.postKey === this.props.postKey)
             });
@@ -30,6 +32,10 @@ export default class CommentList extends React.Component {
         }
     }
 
+    componentWillUnmount(){
+        console.log("# CommentList unsubscribe store..");
+        this.unsubscribe();
+    }
 
 
     render(){

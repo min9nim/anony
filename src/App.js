@@ -42,7 +42,7 @@ export default class App extends React.Component {
     tp.store = createStore(reducer, this.state);
 
     // 이후 App 가 스토어 상태를 구독하도록 설정
-    tp.store.subscribe(() => {
+    this.unsubscribe = tp.store.subscribe(() => {
         this.setState(tp.store.getState());
     });
     moment.locale('ko');
@@ -55,10 +55,15 @@ export default class App extends React.Component {
     return render;
   }
 
+  componentWillUnmount(){
+    console.log("# App unsubscribe store..");
+    this.unsubscribe();
+  }
+
 
 
   render() {
-    console.log("App 렌더링..,,");
+    console.log("App 렌더링..");
 
     const renderList = ({history}) => <List history={history} posts={this.state.data.posts} /> ;
     const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;

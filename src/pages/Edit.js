@@ -33,14 +33,11 @@ export default class Edit extends React.Component {
     return null;
   }
 
+
   handleChange(e) {
-    if(e.target.getAttribute("type")==="checkbox"){
-      this.setState({isPrivate : e.target.checked});
-    }else{
-      const state = {};
-      state[e.target.id] = e.target.value;
-      this.setState(state);
-    }
+    const state = {};
+    state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
+    this.setState(state);
   }
 
   savePost() {
@@ -56,6 +53,7 @@ export default class Edit extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      hasComment : this.state.hasComment,
       uuid : tp.user.uuid
     };
 
@@ -94,7 +92,8 @@ export default class Edit extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
-                <Checkbox onChange={this.handleChange} checked={this.state.isPrivate}>Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}

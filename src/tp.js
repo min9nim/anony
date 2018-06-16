@@ -27,7 +27,13 @@ tp.setUser = function(obj){
     uuid: shortid.generate(),
     writer: ""
   }
-  const user = obj ? Object.assign(tp.user, obj) : initValue ;
+
+  let user;
+  if(typeof obj === "string"){
+    user = Object.assign(tp.user, {uuid: obj});
+  }else{
+    user = obj ? Object.assign(tp.user, obj) : initValue ;
+  }
   localStorage.setItem("user", JSON.stringify(user));
 
   return user;
