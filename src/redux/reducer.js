@@ -31,7 +31,8 @@ function posts(state = [], action) {
     case DELETEPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
-      afterState.splice(idx, 1); // idx번째 요소 삭제
+      //afterState.splice(idx, 1); // idx번째 요소 삭제
+      afterState[idx].deleted = true;
       return afterState;
     }
     case UPDATEPOST: {
@@ -70,7 +71,8 @@ function comments(state = [], action) {
     case DELETECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
-      afterState.splice(idx, 1); // idx번째 요소 삭제
+      //afterState.splice(idx, 1); // idx번째 요소 삭제
+      afterState[idx].deleted = true;
       return afterState;
     }
     case UPDATECOMMENT: {

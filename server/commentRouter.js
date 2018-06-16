@@ -97,30 +97,62 @@ router.delete("/delete/:key/:uuid", (req, res) => {
         .then(comment => {
             console.log("# comments = " + JSON.stringify(comment, null, 2));
             if(comment.uuid === req.params.uuid){
-                Comment.remove({ key: req.params.key })
-                    .then(output => {
-                        // 부모post 의 댓글카운트 -1
-                        Post.findOne({key:comment.postKey}).then(post => {
 
-                            let commentCnt;
-                            Comment.find({postKey:post.key}).then(comments => {
-                                commentCnt = comments.length;
-    
-                                post.commentCnt = commentCnt;
-                                post.save().then(output => {
-                                    console.log(output)
-                                    console.log(`post(${post.key})'s commentCnt -1`);
-                                });
-                            })
-                        });                        
+                comment.deleted = true;
+                comment.save().then(output => {
+                    // // 부모post 의 댓글카운트 -1
+                    // Post.findOne({key:comment.postKey}).then(post => {
 
-                        //console.log(output);
-                        res.send({
-                            status: "success",
-                            message: `comment(${req.params.key}) is deleted`,
-                            output
-                        });
+                    //     let commentCnt;
+                    //     Comment.find({postKey:post.key}).then(comments => {
+                    //         commentCnt = comments.length;
+
+                    //         post.commentCnt = commentCnt;
+                    //         post.save().then(output => {
+                    //             console.log(output);
+                    //             console.log(`post(${post.key})'s commentCnt -1`);
+                    //         });
+                    //     })
+                    // });                        
+
+                    //console.log(output);
+                    res.send({
+                        status: "success",
+                        message: `comment(${req.params.key}) is deleted`,
+                        output
                     });
+                });
+
+
+
+                // Comment.remove({ key: req.params.key })
+                //     .then(output => {
+                //         // 부모post 의 댓글카운트 -1
+                //         Post.findOne({key:comment.postKey}).then(post => {
+
+                //             let commentCnt;
+                //             Comment.find({postKey:post.key}).then(comments => {
+                //                 commentCnt = comments.length;
+    
+                //                 post.commentCnt = commentCnt;
+                //                 post.save().then(output => {
+                //                     console.log(output);
+                //                     console.log(`post(${post.key})'s commentCnt -1`);
+                //                 });
+                //             })
+                //         });                        
+
+                //         //console.log(output);
+                //         res.send({
+                //             status: "success",
+                //             message: `comment(${req.params.key}) is deleted`,
+                //             output
+                //         });
+                //     });
+
+
+
+
             }else{
                 res.send({ status : "fail", message: "Not authorized" });
             }

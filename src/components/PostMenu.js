@@ -29,9 +29,10 @@ export default class PostMenu extends React.Component {
                 if (res.status === "fail") {
                     alert(res.message);
                 } else {
-                    tp.store && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                    (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                     //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                    this.props.history.push("/list");
+                    //this.props.history.push("/list");
+                    tp.view.Post.setState({deleted : true});
                 }
             })
         }
@@ -50,7 +51,11 @@ export default class PostMenu extends React.Component {
                 alert(res.message);
             }
         })
-    }    
+    }
+    
+    postHistory(){
+        alert("in working");
+    }
 
 
     showMenu(){
@@ -61,14 +66,23 @@ export default class PostMenu extends React.Component {
 
     render(){
         console.log("PostMenu 렌더링");
-        return (<div className="postMenu">{
-                this.state.clicked ? 
+        return (
+            <div className="postMenu">{
+                this.state.clicked
+                ? 
                 <div className="menu">
-                    <div onClick={this.editPost}>Edit</div> <div onClick={this.deletePost}>Delete</div>
+                    <div onClick={this.postHistory}>History</div>
+                    {this.props.postDeleted || (
+                        <div>
+                            <div onClick={this.editPost}>Edit</div>
+                            <div onClick={this.deletePost}>Delete</div>
+                        </div>
+                    )}
+                    
                 </div>
                 :
                 <div className="menu" onClick={this.showMenu}>...</div>
-                }</div>
+            }</div>
         );
     }
 }

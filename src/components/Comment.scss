@@ -12,5 +12,9 @@
     .content {
         color: #777;
         font-size: 14px;
+    }
+    .deleted {
+        text-decoration:line-through;
+        color: #ccc;
     }    
 }

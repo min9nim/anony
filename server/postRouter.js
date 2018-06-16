@@ -1,6 +1,8 @@
 // 라우팅 정의
 const express = require('express');
 const Post = require('./models/post');
+const shortid = require("shortid");
+
 const Comment = require('./models/comment');
 
 const R = require('ramda');
@@ -15,6 +17,7 @@ const MAXCNT = 10;
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
 function maskPost(post){
+    post.origin = undefined;
     post.uuid = undefined;
     post._id = undefined;       // _id 는 이렇게 해도 해당 정보가 화면까지 내려가는 것 같다
     post.__v = undefined;
@@ -107,19 +110,31 @@ router.get("/get/:idx/:cnt", (req, res) => {
 
 // key 에 해당하는 post 를 삭제
 router.delete("/delete/:key/:uuid", (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(posts => {
-            console.log(`# valid-delete-url = /delete/${posts[0].key}/${posts[0].uuid}`);
-            if(posts[0].uuid === req.params.uuid){
-                Post.remove({ key: req.params.key })
-                    .then(output => {
-                        console.log(output);
-                        res.send({
-                            status: "success",
-                            message: `post(${req.params.key}) is deleted`,
-                            output
-                        });
-                    });
+    Post.findOne({ key: req.params.key })
+        .then(post => {
+            console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`);
+            if(post.uuid === req.params.uuid){
+
+                post.deleted = true;
+                post.save().then(output => {
+                    console.log(output);
+                    res.send({
+                        status: "success",
+                        message: `post(${req.params.key}) is deleted`,
+                        output
+                    });                    
+                });
+
+                // Post.remove({ key: req.params.key })
+                //     .then(output => {
+                //         console.log(output);
+                //         res.send({
+                //             status: "success",
+                //             message: `post(${req.params.key}) is deleted`,
+                //             output
+                //         });
+                //     });
+
             }else{
                 res.send({ status : "fail", message: "Not authorized" });
             }
@@ -169,20 +184,54 @@ router.get("/auth/:key/:uuid", (req, res) => {
 router.post("/edit", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
-    Post.update({ key: req.body.key}, { $set: req.body })
-        .then(output => {
+    Post.findOne({key: req.body.key}).then(post => {
+
+        // 기존 내용 백업
+        var prevPost = new Post();
+        prevPost.origin = post.key;
+        prevPost.key = shortid.generate(),
+        prevPost.title = post.title;
+        prevPost.writer = post.writer;
+        prevPost.content = post.content;
+        prevPost.date = post.date;
+        prevPost.isPrivate = post.isPrivate;
+        prevPost.hasComment = post.hasComment;
+        prevPost.uuid = post.uuid;
+        prevPost.save().then(output => {
+            console.log("# prevPost is saved");
             console.log(output);
-            if(!output.n) throw Error("No rows updated. (No matched)");
+        })
+        
+        // 신규내용으로 업데이트
+        Object.assign(post, req.body);
+        post.save().then(output => {
+            console.log(output);
             res.send({
                 statue: "success",
                 message: `post@${req.body.key} updated.`,
                 output
             });
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).send(err);
         });
+    }).catch(err =>{
+        console.log(err);
+        res.status(500).send(err);
+    });    
+
+
+    // Post.update({ key: req.body.key}, { $set: req.body })
+    //     .then(output => {
+    //         console.log(output);
+    //         if(!output.n) throw Error("No rows updated. (No matched)");
+    //         res.send({
+    //             statue: "success",
+    //             message: `post@${req.body.key} updated.`,
+    //             output
+    //         });
+    //     })
+    //     .catch(err =>{
+    //         console.log(err);
+    //         res.status(500).send(err);
+    //     });
 });
 
 module.exports = router;

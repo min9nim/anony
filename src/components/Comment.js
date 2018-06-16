@@ -58,9 +58,9 @@ export default class Comment extends React.Component {
             <div className="comment">
                 <div>
                     <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD dd HH:mm')}</div>
-                    <CommentMenu commentKey={this.state.key}/>
+                    {this.state.deleted || <CommentMenu commentKey={this.state.key}/>}
                 </div>
-                <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
+                <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: html}}></div>
             </div>
         );
     }

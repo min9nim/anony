@@ -2,6 +2,7 @@ const mongoose = require("./dbConnect");
 
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
+    origin: String,
     key: String,
     title: String,
     writer: String,
@@ -10,6 +11,7 @@ const postSchema = new Schema({
     isPrivate: Boolean,
     hasComment: Boolean,
     commentCnt : Number,
+    deleted: Boolean,
     uuid: String
 });
 

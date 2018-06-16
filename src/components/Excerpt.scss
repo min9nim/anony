@@ -17,7 +17,7 @@
     .meta {
         color: #aaa;
         text-align: right;
-        font-size: 12px;
+        font-size: 14px;
         display: inline-block;
         margin: 10px 0px;
     }
@@ -29,4 +29,10 @@
     .content {
         color: #777;
     }
+    
+    .deleted {
+        text-decoration:line-through;
+        color: #ccc;
+    }
+
 }

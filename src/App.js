@@ -28,12 +28,12 @@ export default class App extends React.Component {
     // 초기상태 정의
     this.state = {
       view: {
-        mode: "list",
-        key: ""
+        post:{}     //  글보기 화면 직접 접근했을 때 데이터는 이 곳에 넣어야지.. 그럼 더 좋을까?? 음음...
       },
       data: {
         posts: [],
-        comments: []
+        comments: [],
+        postHistory: {}
       }
     };
     tp.view.App = this;
@@ -45,7 +45,8 @@ export default class App extends React.Component {
     this.unsubscribe = tp.store.subscribe(() => {
         this.setState(tp.store.getState());
     });
-    moment.locale('ko');
+    //moment.locale('ko');
+    moment.locale('en');
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -68,11 +69,13 @@ export default class App extends React.Component {
     const renderList = ({history}) => <List history={history} posts={this.state.data.posts} /> ;
     const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
     const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
+    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory[match.params.key]} /> ;
 
     return (
       <div>
         <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
           <Route path="/post/:key" render={renderPost} />
+          <Route path="/postHistory/:key" render={renderPostHistory} />
           <Route path="/edit/:key" render={renderEdit} />
           <Route path="/write" component={Write} />
           <Route path="/list" render={renderList} />

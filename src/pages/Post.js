@@ -16,32 +16,16 @@ export default class Post extends React.Component {
             writer: "",
             content: "",
             date : "",
+            deleted : false,
             uuid : ""
           };
-        this.deletePost = this.deletePost.bind(this);
+        tp.view.Post = this;
     }
 
     shouldComponentUpdate(prevProps, prevState) {
         // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
         //console.log("Post.shouldComponentUpdate returns [" + true + "]");
         return true;
-    }
-
-    deletePost(){
-        if(confirm("이 글을 삭제합니다")){
-            tp.api.deletePost({
-                key: this.state.key,
-                uuid: tp.user.uuid
-            }).then(res => {
-                if (res.status === "fail") {
-                    alert(res.message);
-                } else {
-                    tp.store && tp.store.dispatch(tp.action.deletePost(this.state.key));
-                    //history.back();
-                    this.props.history.push("/list");
-                }
-            })
-        }
     }
 
     render(){
@@ -55,25 +39,30 @@ export default class Post extends React.Component {
             // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
             const key = location.pathname.split("/")[2];
             tp.api.getPost(key).then(res => {
-                this.setState(res.posts[0]);
+                const post = res.posts[0];
+                // if(post.deleted){
+                //     post.title = "<strike>" + post.title + "</strike>";
+                //     post.content = "<strike>" + post.content + "</strike>";
+                // }
+                this.setState(post);
             });
             return <div/>
         }
 
-        //const html = this.state.content.replace(/\n/g, "<br>");
-        const html = tp.$m.txtToHtml(this.state.content)
+        const title = this.state.title + " " + (this.state.isPrivate ? <sup>- Private -</sup> : "")
+        const content = tp.$m.txtToHtml(this.state.content);
 
         return (
             <div>
                 <div className="post">
                     <div>
-                        <div className="title h4">{this.state.title} {this.state.isPrivate && <sup>- Private -</sup>}</div>
+                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}>{title}</div>
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                        <PostMenu history={this.props.history} postKey={this.state.key}/>
+                        <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted}/>
                     </div>
-                    <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
+                    <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
                     {this.state.isPrivate || (
                         <div>
                             <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
@@ -85,7 +74,7 @@ export default class Post extends React.Component {
                 {this.state.hasComment && (
                     <div>
                         <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
-                        <CommentWrite postKey={this.state.key} />
+                        {this.state.deleted || <CommentWrite postKey={this.state.key} /> }
                     </div>
                 )}
             </div>

@@ -8,6 +8,7 @@ const commentSchema = new Schema({
     uuid: String,
     postKey: String,
     commentKey: String,
+    deleted: Boolean,
     date: Number
 });
 
