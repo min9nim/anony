@@ -1,5 +1,5 @@
-//const webpack = require('webpack');
-console.log("webpack.prod.js called..");
+const webpack = require('webpack');
+console.log("webpack.prod.js called");
 
 module.exports = {
     entry: ['./src/index.js'] ,
@@ -26,4 +26,8 @@ module.exports = {
             }
         ]
     },
+
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({ mangle: true })
+    ]
 };
