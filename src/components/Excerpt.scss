@@ -7,7 +7,8 @@
         
     .title {
         display: inline-block;
-        width: calc(100% - 100px);
+        text-align: right;
+        width: 100%;
         margin: 0px;
         a {
             color: #555;
@@ -17,7 +18,14 @@
         color: #aaa;
         text-align: right;
         font-size: 12px;
+        display: inline-block;
+        margin: 10px 0px;
     }
+    
+    .postMenu {
+        margin-top: -3px;
+    }
+
     .content {
         color: #777;
     }
