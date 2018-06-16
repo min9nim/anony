@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-console.log("webpack.prod.js called");
+//console.log("webpack.prod.js called");
 
 module.exports = {
     entry: ['./src/index.js'] ,

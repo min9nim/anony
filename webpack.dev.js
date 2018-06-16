@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-console.log("webpack.dev.js called..");
+//console.log("webpack.dev.js called..");
 
 module.exports = {
     entry: ['react-hot-loader/patch', './src/index.js'] ,
