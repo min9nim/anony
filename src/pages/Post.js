@@ -68,9 +68,11 @@ export default class Post extends React.Component {
                 <div className="post">
                     <div>
                         <div className="title h4">{this.state.title} {this.state.isPrivate && <sup>- Private -</sup>}</div>
+                    </div>
+                    <div>
+                        <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
                         <PostMenu history={this.props.history} postKey={this.state.key}/>
                     </div>
-                    <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
                     <div className="content" dangerouslySetInnerHTML={{__html: html}}></div>
                     <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
                     <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>

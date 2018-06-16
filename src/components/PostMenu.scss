@@ -1,13 +1,10 @@
 /* Post component */
 .postMenu {
-    display: inline-block;
+    float: right;
     cursor: pointer;
     color : #aaa;
-    width: 100px;
-    text-align: right;
-    
+    margin: 13px 0px;
     .menu{
-        text-align: right;
         font-size: 20px;
         div {
             font-size: 14px;
