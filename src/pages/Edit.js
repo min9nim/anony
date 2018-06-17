@@ -59,7 +59,7 @@ export default class Edit extends React.Component {
 
     tp.api.updatePost(afterPost).then(res => {
       console.log("# " + res.message);
-      if(tp.store){
+      if(tp.view.App.state.data.posts.length > 0){
         tp.store.dispatch(tp.action.updatePost(afterPost));
       }
       

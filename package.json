@@ -7,7 +7,7 @@
     "stop": "sudo forever stop node_modules/nodemon/bin/nodemon.js",
     "dev-build": "node node_modules/webpack/bin/webpack.js --config webpack.dev.js",
     "prod-build": "node node_modules/webpack/bin/webpack.js --config webpack.prod.js",
-    "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.dev.js",
     "dev-express": "node node_modules/nodemon/bin/nodemon.js server/app.js 8080"
   },
   "author": "",
