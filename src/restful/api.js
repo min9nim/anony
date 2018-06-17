@@ -117,3 +117,13 @@ api.updatePost = function (post, hideProgress) {
     ).then(errHandler);
 }
 
+api.getPostHistory = function (key, hideProgress) {
+    return httpReq(
+        "/api/posts/getHistory/" + key,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+

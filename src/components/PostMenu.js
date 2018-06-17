@@ -9,6 +9,7 @@ export default class PostMenu extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.postHistory = this.postHistory.bind(this);
 
         this.state = {
             clicked : false
@@ -54,7 +55,14 @@ export default class PostMenu extends React.Component {
     }
     
     postHistory(){
-        alert("in working");
+        tp.api.getPostHistory(this.props.postKey).then(res => {
+            if(res.posts.length > 0){
+                tp.store.dispatch(tp.action.setPostHistory(res.posts));
+                this.props.history.push("/postHistory/" + this.props.postKey);
+            }else{
+                alert("Have no changes");
+            }
+        })
     }
 
 

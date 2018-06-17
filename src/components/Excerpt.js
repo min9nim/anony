@@ -23,7 +23,7 @@ export default class Excerpt extends React.Component {
                 </div>
                 <div>
                     <div className="meta" onClick={this.editPost}>{this.props.post.writer} - {moment(this.props.post.date).fromNow()}</div>
-                    <PostMenu history={this.props.history} postKey={this.props.post.key} postDeleted={this.props.post.deleted}/>
+                    {/postHistory/.test(location.pathname) || <PostMenu history={this.props.history} postKey={this.props.post.key} postDeleted={this.props.post.deleted}/>}
                 </div>
                 <div className={this.props.post.deleted ? "content deleted" : "content"}>{this.props.post.content.substr(0,100)}</div>
             </div>

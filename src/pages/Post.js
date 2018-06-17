@@ -49,29 +49,31 @@ export default class Post extends React.Component {
             return <div/>
         }
 
-        const title = this.state.title + " " + (this.state.isPrivate ? <sup>- Private -</sup> : "")
         const content = tp.$m.txtToHtml(this.state.content);
 
         return (
             <div>
                 <div className="post">
                     <div>
-                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}>{title}</div>
+                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}>
+                            {this.state.title} {this.state.isPrivate && <sup>- Private -</sup>}
+                        </div>
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                        <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted}/>
+                        {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted}/>}
                     </div>
                     <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
-                    {this.state.isPrivate || (
+                    {!!this.state.origin || this.state.isPrivate || (
                         <div>
                             <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
                             <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                         </div>
                     )}
+                    {this.state.origin && <Link to={"/postHistory/"+this.state.origin}><Button bsStyle="success" className="writeBtn">History</Button></Link>}
 
                 </div>
-                {this.state.hasComment && (
+                {!this.state.origin && this.state.hasComment && (
                     <div>
                         <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
                         {this.state.deleted || <CommentWrite postKey={this.state.key} /> }

@@ -17,7 +17,7 @@ const MAXCNT = 10;
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
 function maskPost(post){
-    post.origin = undefined;
+    //post.origin = undefined;  // Post 에서 댓글출력여부 판단시 필요함
     post.uuid = undefined;
     post._id = undefined;       // _id 는 이렇게 해도 해당 정보가 화면까지 내려가는 것 같다
     post.__v = undefined;
@@ -89,7 +89,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
-    Post.find({isPrivate:{$in: [ false, undefined ]}})
+    Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}]})
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)
@@ -180,27 +180,29 @@ router.get("/auth/:key/:uuid", (req, res) => {
 });
 
 
-// 기존 포스트 수정
+// 글내용 수정
 router.post("/edit", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     Post.findOne({key: req.body.key}).then(post => {
 
-        // 기존 내용 백업
-        var prevPost = new Post();
-        prevPost.origin = post.key;
-        prevPost.key = shortid.generate(),
-        prevPost.title = post.title;
-        prevPost.writer = post.writer;
-        prevPost.content = post.content;
-        prevPost.date = post.date;
-        prevPost.isPrivate = post.isPrivate;
-        prevPost.hasComment = post.hasComment;
-        prevPost.uuid = post.uuid;
-        prevPost.save().then(output => {
-            console.log("# prevPost is saved");
-            console.log(output);
-        })
+        if(post.title !== req.body.title || post.content !== req.body.content){
+            // 제목이나 내용이 변경된 경우에만 기존 내용 백업
+            var prevPost = new Post();
+            prevPost.origin = post.key;
+            prevPost.key = shortid.generate(),
+            prevPost.title = post.title;
+            prevPost.writer = post.writer;
+            prevPost.content = post.content;
+            prevPost.date = post.date;
+            prevPost.isPrivate = post.isPrivate;
+            prevPost.hasComment = post.hasComment;
+            prevPost.uuid = post.uuid;
+            prevPost.save().then(output => {
+                console.log("# prevPost is saved");
+                console.log(output);
+            })
+        }
         
         // 신규내용으로 업데이트
         Object.assign(post, req.body);
@@ -233,5 +235,20 @@ router.post("/edit", (req, res) => {
     //         res.status(500).send(err);
     //     });
 });
+
+
+
+// key 에 해당하는 post 를 조회
+router.get("/getHistory/:key", (req, res) => {
+    Post.find({ origin: req.params.key })
+        .then(R.map(maskPost))
+        .then(R.map(setHasComment))
+        .then(posts => res.send({status: "success", posts}))
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+});
+
 
 module.exports = router;

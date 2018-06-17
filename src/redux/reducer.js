@@ -1,4 +1,5 @@
-import {ADDPOST, ADDPOSTS, DELETEPOST, VIEW, UPDATEPOST, SCROLLEND, ADDCOMMENT, ADDCOMMENTS, DELETECOMMENT, UPDATECOMMENT} from "./action";
+import action from "./action";
+const at = action.type;
 
 export function reducer(state = {}, action) {
   // console.log("# reducer call");
@@ -8,34 +9,35 @@ export function reducer(state = {}, action) {
     view: view(state.view, action),
     data: {
       posts: posts(state.data.posts, action),
-      comments: comments(state.data.comments, action)
+      comments: comments(state.data.comments, action),
+      postHistory: postHistory(state.data.postHistory, action)
     }
   }
 }
 
 function posts(state = [], action) {
   switch (action.type) {
-    case ADDPOST: {
+    case at.ADDPOST: {
       if(action.post.isPrivate){
         return state;
       }else{
         return [action.post, ...state];
       }
     }
-    case SCROLLEND: {
+    case at.SCROLLEND: {
       return [...state, ...action.posts];
     }
-    case ADDPOSTS: {
+    case at.ADDPOSTS: {
       return [...state, ...action.posts];
     }
-    case DELETEPOST: {
+    case at.DELETEPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
       //afterState.splice(idx, 1); // idx번째 요소 삭제
       afterState[idx].deleted = true;
       return afterState;
     }
-    case UPDATEPOST: {
+    case at.UPDATEPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.post.key);
       if(action.post.isPrivate){
@@ -62,20 +64,20 @@ function posts(state = [], action) {
 
 function comments(state = [], action) {
   switch (action.type) {
-    case ADDCOMMENT: {
+    case at.ADDCOMMENT: {
       return [...state, action.comment];
     }
-    case ADDCOMMENTS: {
+    case at.ADDCOMMENTS: {
       return [...state, ...action.comments];
     }
-    case DELETECOMMENT: {
+    case at.DELETECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
       //afterState.splice(idx, 1); // idx번째 요소 삭제
       afterState[idx].deleted = true;
       return afterState;
     }
-    case UPDATECOMMENT: {
+    case at.UPDATECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.comment.key);
       afterState.splice(idx, 1, action.comment); // idx번째 요소 삭제하고 comment 추가
@@ -87,9 +89,23 @@ function comments(state = [], action) {
   }
 }
 
+
+function postHistory(state = [], action) {
+  switch (action.type) {
+    case at.SETPOSTHISTORY: {
+      // 모든 글의 변경사항들을 지속적으로 관리하기 어려움이 있어
+      // 히스토리 조회시 최신상태를 유지하기 위해 하나의 건에 대한 정보만 담기로 한다
+      return action.phist;
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 function view(state = {}, action) {
   switch (action.type) {
-    case VIEW:
+    case at.VIEW:
       return action.view
     default:
       return state;

@@ -16,40 +16,56 @@ function maskComment(comment){
 }
 
 
-// 신규 post 등록
+// 신규 댓글 등록
 router.post("/add", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
-    var comment = new Comment();
-    comment.key = req.body.key;
-    comment.writer = req.body.writer;
-    comment.content = req.body.content;
-    comment.uuid = req.body.uuid;
-    comment.postKey = req.body.postKey;
-    comment.commentKey = req.body.commentKey;
-    comment.date = req.body.date;
-
-    comment.save().then(output => {
-
-        // 부모post 의 댓글카운트 증가
-        Post.findOne({key:req.body.postKey}).then(post => {
-            // 댓글 카운트 증가
-            post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1;    
-            post.save().then(output => {
-                console.log(output)
-                console.log(`post(${req.body.postKey})'s commentCnt +1`);
+    // post 상태가 삭제된 상태라면 댓글 등록 불가
+    Post.findOne({key:req.body.postKey}).then(post => {
+        if(post.deleted){
+            throw Error(`post(${req.body.postKey}) is deleted`);
+        }
+    })
+    .then(()=>{
+        var comment = new Comment();
+        comment.key = req.body.key;
+        comment.writer = req.body.writer;
+        comment.content = req.body.content;
+        comment.uuid = req.body.uuid;
+        comment.postKey = req.body.postKey;
+        comment.commentKey = req.body.commentKey;
+        comment.date = req.body.date;
+    
+        comment.save().then(output => {
+    
+            // 부모post 의 댓글카운트 증가
+            Post.findOne({key:req.body.postKey}).then(post => {
+                // 댓글 카운트 증가
+                post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1;    
+                post.save().then(output => {
+                    console.log(output)
+                    console.log(`post(${req.body.postKey})'s commentCnt +1`);
+                });
             });
-        });
-
-        res.send({
-            status: 'success',
-            message: `comment(${req.body.key}) is saved`,
-            output
-        });
-    }).catch(err => {
+    
+            res.send({
+                status: 'success',
+                message: `comment(${req.body.key}) is saved`,
+                output
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });           
+    })
+    .catch(err => {
         console.log(err);
         res.status(500).send(err);
-    });   
+    });;
+        
+        
+
 });
 
 // idx 번째부터 cnt 개수만큼 comment 를 조회

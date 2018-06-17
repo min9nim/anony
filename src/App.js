@@ -1,7 +1,7 @@
 console.log("App.js start");
 
 import React from 'react';
-import { List, Write, Post, Edit } from "./pages";
+import { List, Write, Post, Edit, PostHistory } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
@@ -33,7 +33,7 @@ export default class App extends React.Component {
       data: {
         posts: [],
         comments: [],
-        postHistory: {}
+        postHistory: []
       }
     };
     tp.view.App = this;
@@ -69,7 +69,7 @@ export default class App extends React.Component {
     const renderList = ({history}) => <List history={history} posts={this.state.data.posts} /> ;
     const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
     const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
-    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory[match.params.key]} /> ;
+    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory} /> ;
 
     return (
       <div>

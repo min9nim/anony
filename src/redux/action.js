@@ -1,26 +1,25 @@
 import shortid from "shortid";
 
-
-export const ADDPOST = "ADDPOST";
-export const ADDPOSTS = "ADDPOSTS";
-
-export const DELETEPOST = "DELETEPOST";
-export const UPDATEPOST = "UPDATEPOST";
-
-export const ADDCOMMENT = "ADDCOMMENT";
-export const ADDCOMMENTS = "ADDCOMMENTS";
-
-export const DELETECOMMENT = "DELETECOMMENT";
-export const UPDATECOMMENT = "UPDATECOMMENT";
-
-export const SCROLLEND = "SCROLLEND";
-
 const action = {};
 export default action;
 
+
+const at = action.type = {
+  ADDPOST : "ADDPOST",
+  ADDPOSTS : "ADDPOSTS",
+  DELETEPOST : "DELETEPOST",
+  UPDATEPOST : "UPDATEPOST",
+  ADDCOMMENT : "ADDCOMMENT",
+  ADDCOMMENTS : "ADDCOMMENTS",
+  DELETECOMMENT : "DELETECOMMENT",
+  UPDATECOMMENT : "UPDATECOMMENT",
+  SCROLLEND : "SCROLLEND",
+  SETPOSTHISTORY : "SETPOSTHISTORY"
+}
+
 action.addPost = function({key, title, writer, content, date, isPrivate, hasComment}) {
   return {
-    type: ADDPOST,
+    type:  at.ADDPOST,
     post: {
       key: key || shortid.generate(),
       title,
@@ -36,29 +35,29 @@ action.addPost = function({key, title, writer, content, date, isPrivate, hasComm
 action.scrollEnd = function(posts) {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
-    type: SCROLLEND,
+    type:  at.SCROLLEND,
     posts
   }
 }
 
 action.addPosts = function(posts) {
   return {
-    type: ADDPOSTS,
+    type:  at.ADDPOSTS,
     posts
   }
 }
 
 action.deletePost = function(key) {
-  return {type: DELETEPOST, key}
+  return {type:  at.DELETEPOST, key}
 }
 
 action.deleteComment = function(key) {
-  return {type: DELETECOMMENT, key}
+  return {type:  at.DELETECOMMENT, key}
 }
 
 action.updatePost = function(post) {
   return {
-    type: UPDATEPOST,
+    type:  at.UPDATEPOST,
     post
   }
 }
@@ -66,7 +65,7 @@ action.updatePost = function(post) {
 
 action.addComment = function(comment) {
   return {
-    type: ADDCOMMENT,
+    type:  at.ADDCOMMENT,
     comment
   }
 }
@@ -74,7 +73,16 @@ action.addComment = function(comment) {
 
 action.addComments = function(comments) {
   return {
-    type: ADDCOMMENTS,
-    comments: comments
+    type:  at.ADDCOMMENTS,
+    comments
+  }
+}
+
+
+
+action.setPostHistory = function(phist) {
+  return {
+    type:  at.SETPOSTHISTORY,
+    phist
   }
 }

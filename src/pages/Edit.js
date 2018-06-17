@@ -48,7 +48,7 @@ export default class Edit extends React.Component {
 
     const afterPost = {
       key : this.state.key,
-      title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,17) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
