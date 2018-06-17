@@ -2,8 +2,10 @@ const express = require("express");
 const bodyParser = require('body-parser')
 const morgan = require('morgan');
 //const fs = require("fs");
-const path = require("path");
-const route = require('./route');
+//const path = require("path");
+const postRouter = require('./postRouter');
+const commentRouter = require('./commentRouter');
+
 const fallback = require('express-history-api-fallback');
 
 
@@ -25,7 +27,8 @@ app.use(express.static(staticPath));       // 정적리소스 서비스
 
 
 // RESTful API 라우터 등록
-app.use('/api', route);
+app.use('/api/posts', postRouter);
+app.use('/api/comments', commentRouter);
 
 
 // history-api-fallback 등록,

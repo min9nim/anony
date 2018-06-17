@@ -1,1 +1,40 @@
 /* 공통 css 스타일 설정 */
+
+/* bootstrap.css 커스터마이징 */
+.form-control {// 입력 컨트롤에 그림자효과 제거
+    box-shadow: initial;
+}
+
+.btn {
+    padding: 5px 6px;
+}
+
+
+
+/* nprogress.css 커스터마이징 */
+#nprogress {
+    /*
+    .bar {
+        display: none;
+        position: absolute;
+        top: 30px;
+        background: #708c0c;
+    }
+    */
+    .spinner {
+        top: 50%;
+        right: 50%;
+    }
+}
+
+
+/* 입력 컨트롤 테두리의 top쪽 그림자 제거 */
+input, textarea {
+    -webkit-appearance: none;
+}
+
+
+
+
+
+

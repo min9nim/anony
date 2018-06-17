@@ -1,7 +1,13 @@
 
-
 .write {
     margin: 20px;
+    .content {
+        font-size: 20px;
+        height: 200px;
+    }
+    input {
+        font-size: 20px;
+    }
 }
 
 .write-cancel-btn {

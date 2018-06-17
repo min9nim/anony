@@ -1,10 +1,9 @@
 import React from 'react';
+import shortid from "shortid";
 import {tp} from "../tp";
-import {addPost, viewMode} from "../redux/action";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
-  HelpBlock,
   ControlLabel,
   FormControl,
   Button
@@ -17,11 +16,14 @@ export default class Write extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     this.state = {
+      key: "",
       title: "",
-      writer: "",
+      writer: tp.user.writer,
       content: "",
-      date : ""
+      date : "",
+      uuid : tp.user.uuid
     };
+
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -48,12 +50,30 @@ export default class Write extends React.Component {
       alert("내용을 입력하세요");
       return;
     }
-    if(this.state.title === ""){
-      this.state.title = this.state.content.substr(0,7);
-    }
-    this.state.date = Date.now();
-    tp.dispatch(addPost(this.state));
-    this.props.history.push("/list");
+
+    const newPost = {
+      key : shortid.generate(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,15) : this.state.title.trim(),
+      writer : this.state.writer.trim(),
+      content : this.state.content.trim(),
+      date : Date.now(),
+      uuid : tp.user.uuid
+    };
+
+    tp.api.addPost(newPost).then(res => {
+      console.log("# " + res.message);
+      if(tp.store){
+        tp.store.dispatch(tp.action.addPost(newPost));
+      }else{
+        // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
+      }
+      
+      // 사용자 정보 업데이트
+      tp.setUser({writer : newPost.writer});
+
+      // 작성된 글 바로 확인
+      this.props.history.push("/post/" + newPost.key);
+    });
   }
 
 
@@ -62,27 +82,28 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
-                <ControlLabel> Title </ControlLabel>
+                {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
-                        autoFocus value = {this.state.title}
+                        value = {this.state.title}
                         onChange = {this.handleChange}
-                        placeholder = "제목을 입력하세요.." />
+                        placeholder = "Title.." />
                 <FormControl.Feedback />
             </FormGroup>
             <FormGroup controlId = "writer" >
-                <ControlLabel> Writer </ControlLabel>
+                {/*<ControlLabel> Writer </ControlLabel> */}
                 <FormControl type = "text"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
-                      placeholder = "별명을 입력하세요.." />
+                      placeholder = "Writer.." />
             </FormGroup>
             <FormGroup controlId = "content">
-                <ControlLabel> Content </ControlLabel>
-                <FormControl  style = {{height: "100px"}}
+                {/*<ControlLabel> Content </ControlLabel>*/}
+                <FormControl className="content"
+                        autoFocus
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
-                        placeholder = "내용을 입력하세요.." />
+                        placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
             <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>

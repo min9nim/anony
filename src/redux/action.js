@@ -3,18 +3,21 @@ import shortid from "shortid";
 // 디비 CRUD까지 필요한 action
 export const ADD = "ADD";
 export const DELETE = "DELETE";
-export const VIEWKEY = "VIEWKEY";
+export const UPDATE = "UPDATE";
 
 // store 상태만 변경하면 되는 action
 export const SCROLLEND = "SCROLLEND";
 export const VIEW = "VIEW";
 
 
-export function addPost({title, writer, content, date}) {
+const action = {};
+export default action;
+
+action.addPost = function({key, title, writer, content, date}) {
   return {
     type: ADD,
     post: {
-      key: shortid.generate(),
+      key: key || shortid.generate(),
       title,
       writer,
       content,
@@ -23,7 +26,7 @@ export function addPost({title, writer, content, date}) {
   }
 }
 
-export function scrollEnd(posts) {
+action.scrollEnd = function(posts) {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
     type: SCROLLEND,
@@ -31,10 +34,19 @@ export function scrollEnd(posts) {
   }
 }
 
-export function deletePost(key) {
+action.deletePost = function(key) {
   return {type: DELETE, key}
 }
 
-export function viewMode(view) {
-  return {type: VIEW, view};
+action.updatePost = function({key, title, writer, content, date}) {
+  return {
+    type: UPDATE,
+    post: {
+      key,
+      title,
+      writer,
+      content,
+      date
+    }
+  }
 }

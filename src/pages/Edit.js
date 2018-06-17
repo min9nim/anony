@@ -17,7 +17,6 @@ export default class Edit extends React.Component {
     
     this.state = this.props.post || tp.temp;
     this.state.uuid = tp.user.uuid;
-
   }
 
   shouldComponentUpdate(prevProps, prevState) {

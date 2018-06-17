@@ -7,23 +7,16 @@
         
     .title {
         display: inline-block;
-        width: calc(100% - 30px);
+        width: calc(100% - 100px);
         margin: 0px;
         a {
             color: #555;
         }
     }
-    .delete {
-        display: inline-block;
-        cursor: pointer;
-        color : #aaa;
-        width: 30px;
-        text-align: right;        
-    }
     .meta {
         color: #aaa;
         text-align: right;
-        font-size: 14px;
+        font-size: 12px;
     }
     .content {
         color: #777;

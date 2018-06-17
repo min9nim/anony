@@ -1,21 +1,41 @@
-import {createStore} from 'redux';
-import {reducer} from "./redux/reducer";
-import {ADD, DELETE, scrollEnd} from "./redux/action";
+console.log("tp.js start");
+
+import action from "./redux/action";
 import {api} from "./restful/api";
+import shortid from "shortid";
+import $m from "./util";
+import nprogress from "nprogress";
 
 const PAGEROWS = 10;
 
 export let tp = {
-  view : {},
-  api : api
+  view : {},          // 전역에서 관리될 필요가 있는 리액트 뷰들
+  action,             // store 상태업데이트시 전달될 action
+  store: undefined,   // List 컴포넌트가 호출될 때 store 가 초기화된다.
+  user: undefined,    // 로컬스토리지에 저장된 사용자 정보
+  api,                // RESTful API
+  nprogress,          // 서버통신시 진행표시
+  temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
+  $m                  // 기본 유틸함수
 };
 
-console.log("tp.js called..");
 
 
+
+tp.setUser = function(obj){
+  const initValue = {
+    uuid: shortid.generate(),
+    writer: ""
+  }
+  const user = obj ? Object.assign(tp.user, obj) : initValue ;
+  localStorage.setItem("user", JSON.stringify(user));
+
+  return user;
+}
+
+/*
 // application 의 상태변경이 필요할 때 호출
 tp.dispatch = function(action){
-
     // 리덕스 store 상태 업데이트
     tp.store.dispatch(action);
 
@@ -31,9 +51,13 @@ tp.dispatch = function(action){
         break;
     }
 }
+*/
+
 
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;
+  if(!["/", "/list"].includes(location.pathname)) return;
+
   //현재문서의 높이
   const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
   //현재 스크롤탑의 값
@@ -42,8 +66,10 @@ tp.bodyScroll = function () {
   const clientHeight = document.documentElement.clientHeight;
 
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
-    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS).then(res => {
-      tp.dispatch(scrollEnd(res.posts));
+    nprogress.start();
+    $m("#nprogress .spinner").css("top", "95%");
+    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS, true).then(res => {
+      tp.store.dispatch(tp.action.scrollEnd(res.posts));
       if(res.posts.length < PAGEROWS){
         console.log("Scroll has touched bottom")
         tp.isScrollLast = true;
@@ -54,30 +80,9 @@ tp.bodyScroll = function () {
 };
 
 
-tp.init = function () {
-  tp.api.getPosts(0, PAGEROWS).then(res => {
-    //console.log("getPosts success : " + JSON.stringify(res, null, 2));
-
-    // store생성
-    let copy = JSON.parse(JSON.stringify(tp.view.App.state));
-    copy.data.posts = res.posts
-
-    //tp.store = createStore(reducer, { mode: "list", posts: res.posts });
-    tp.store = createStore(reducer, copy);
-
-    if(tp.view.App){
-      // App.js 상태를 서버에서 로드한 데이터로 초기화
-      tp.view.App.setState(tp.store.getState());
-
-      // App.js 컴포넌트가 스토어를 구독하도록 설정
-      tp.store.subscribe(() => {
-        tp.view.App.setState(tp.store.getState());
-      });
-    }else{
-      throw Error("tp.view.App 가 아직 정의되지 않았습니다");
-    }
-  })
-};
+tp.init = function(){
+  tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
+}
 
 tp.init();
-window.tp = tp;
+window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출
