@@ -1,0 +1,20 @@
+/* Comment component */
+
+.comment {
+    margin: 10px 20px;
+
+    .meta {
+        color: #aaa;
+        text-align: left;
+        font-size: 12px;
+        display: inline-block;
+    }
+    .content {
+        color: #777;
+        font-size: 14px;
+    }
+    .deleted {
+        text-decoration:line-through;
+        color: #ccc;
+    }    
+}

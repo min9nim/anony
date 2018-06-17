@@ -1,0 +1,16 @@
+/* Post component */
+.postMenu {
+    float: right;
+    cursor: pointer;
+    color : #aaa;
+    .menu{
+        font-size: 20px;
+        div {
+            font-size: 14px;
+            display: inline-block;
+            div {
+                margin-left: 10px;
+            }
+        }
+    }
+}
