@@ -39,6 +39,13 @@ function posts(state = [], action) {
       afterState[idx].deleted = true;   // idx번째 요소 삭제표시
       return afterState;
     }
+    case at.RESTOREPOST: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState[idx].deleted = false;
+      return afterState;
+    }
+
     case at.REMOVEPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);

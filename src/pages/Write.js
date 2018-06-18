@@ -18,7 +18,7 @@ export default class Write extends React.Component {
     this.state = {
       key: "",
       title: "",
-      writer: tp.user.writer,
+      writer: tp.user.uuid,
       content: "",
       date : "",
       isPrivate: false,

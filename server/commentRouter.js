@@ -117,7 +117,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
 });
 
 // key 에 해당하는 comment 를 삭제
-router.delete("/delete/:key/:uuid", (req, res) => {
+router.get("/delete/:key/:uuid", (req, res) => {
     console.log(`/comments/delete/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
         .then(comment => {

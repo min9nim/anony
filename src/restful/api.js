@@ -76,7 +76,7 @@ api.deletePost = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/posts/delete/" + key + "/" + uuid,
         {
-            method: "DELETE",
+            method: "GET",
             hideProgress
         }
     ).then(errHandler);
@@ -87,7 +87,17 @@ api.removePost = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/posts/remove/" + key + "/" + uuid,
         {
-            method: "DELETE",
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+api.restorePost = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/posts/restore/" + key + "/" + uuid,
+        {
+            method: "GET",
             hideProgress
         }
     ).then(errHandler);
@@ -98,7 +108,7 @@ api.deleteComment = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/comments/delete/" + key + "/" + uuid,
         {
-            method: "DELETE",
+            method: "GET",
             hideProgress
         }
     ).then(errHandler);
@@ -130,7 +140,7 @@ api.updatePost = function (post, hideProgress) {
 
 api.getPostHistory = function (key, hideProgress) {
     return httpReq(
-        "/api/posts/getHistory/" + key,
+        "/api/posts/history/" + key,
         {
             method: "GET",
             hideProgress

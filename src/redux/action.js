@@ -11,6 +11,7 @@ const at = action.type = {
   DELETEPOST : "DELETEPOST",
   UPDATEPOST : "UPDATEPOST",
   REMOVEPOST : "REMOVEPOST",
+  RESTOREPOST : "RESTOREPOST",
 
   ADDCOMMENT : "ADDCOMMENT",
   ADDCOMMENTS : "ADDCOMMENTS",
@@ -57,6 +58,10 @@ action.deletePost = function(key) {
 
 action.removePost = function(key) {
   return {type:  at.REMOVEPOST, key}
+}
+
+action.restorePost = function(key) {
+  return {type:  at.RESTOREPOST, key}
 }
 
 action.deleteComment = function(key) {
