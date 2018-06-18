@@ -24,6 +24,7 @@ export default class PostMenu extends React.Component {
     }
 
     deletePost(){
+<<<<<<< HEAD
         if(!confirm("Delete this?")) return;
         tp.api.deletePost({
             key: this.props.postKey,
@@ -38,6 +39,23 @@ export default class PostMenu extends React.Component {
                 tp.view.Post.setState({deleted : true});
             }
         })
+=======
+        if(confirm("Delete this?")){
+            tp.api.deletePost({
+                key: this.props.postKey,
+                uuid: tp.user.uuid
+            }).then(res => {
+                if (res.status === "fail") {
+                    alert(res.message);
+                } else {
+                    (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                    //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                    //this.props.history.push("/list");
+                    tp.view.Post.setState({deleted : true});
+                }
+            })
+        }
+>>>>>>> a0e0d0ddcbdf586d11e1f9af8166a52ee91e5097
     }
 
 
@@ -94,6 +112,7 @@ export default class PostMenu extends React.Component {
     }
     
     postHistory(){
+<<<<<<< HEAD
         tp.api.getPostHistory(this.props.postKey).then(res => {
             if(res.posts.length > 0){
                 tp.store.dispatch(tp.action.setPostHistory(res.posts));
@@ -102,6 +121,9 @@ export default class PostMenu extends React.Component {
                 alert("Have no changes");
             }
         })
+=======
+        alert("in working");
+>>>>>>> a0e0d0ddcbdf586d11e1f9af8166a52ee91e5097
     }
 
 
@@ -119,6 +141,7 @@ export default class PostMenu extends React.Component {
                 ? 
                 <div className="menu">
                     <div onClick={this.postHistory}>History</div>
+<<<<<<< HEAD
                     {this.props.postDeleted ? (
                         <div>
                             <div onClick={this.removePost}>Remove</div>
@@ -132,6 +155,14 @@ export default class PostMenu extends React.Component {
                         </div>
                     )
                     }
+=======
+                    {this.props.postDeleted || (
+                        <div>
+                            <div onClick={this.editPost}>Edit</div>
+                            <div onClick={this.deletePost}>Delete</div>
+                        </div>
+                    )}
+>>>>>>> a0e0d0ddcbdf586d11e1f9af8166a52ee91e5097
                     
                 </div>
                 :
