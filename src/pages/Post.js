@@ -40,15 +40,10 @@ export default class Post extends React.Component {
             const key = location.pathname.split("/")[2];
             tp.api.getPost(key).then(res => {
                 const post = res.posts[0];
-                // if(post.deleted){
-                //     post.title = "<strike>" + post.title + "</strike>";
-                //     post.content = "<strike>" + post.content + "</strike>";
-                // }
-                this.setState(post);
+                tp.store.dispatch(tp.action.addPost(post));
             });
             return <div/>
         }
-
         const content = tp.$m.txtToHtml(this.state.content);
 
         return (
@@ -64,6 +59,7 @@ export default class Post extends React.Component {
                         {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted}/>}
                     </div>
                     <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
+                    <div className="meta2">Comments: {this.state.commentCnt || 0}</div>
                     {!!this.state.origin || this.state.isPrivate || (
                         <div>
                             <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
@@ -71,11 +67,12 @@ export default class Post extends React.Component {
                         </div>
                     )}
                     {this.state.origin && <Link to={"/postHistory/"+this.state.origin}><Button bsStyle="success" className="writeBtn">History</Button></Link>}
-
+                     
                 </div>
+
                 {!this.state.origin && this.state.hasComment && (
                     <div>
-                        <CommentList postKey={this.state.key} commentCnt={this.state.commentCnt} />
+                        <CommentList postKey={this.state.key} ff="ff" commentCnt={this.state.commentCnt} />
                         {this.state.deleted || <CommentWrite postKey={this.state.key} /> }
                     </div>
                 )}

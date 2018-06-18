@@ -30,11 +30,19 @@ function posts(state = [], action) {
     case at.ADDPOSTS: {
       return [...state, ...action.posts];
     }
+    case at.INITPOSTS: {
+      return [];
+    }
     case at.DELETEPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
-      //afterState.splice(idx, 1); // idx번째 요소 삭제
-      afterState[idx].deleted = true;
+      afterState[idx].deleted = true;   // idx번째 요소 삭제표시
+      return afterState;
+    }
+    case at.REMOVEPOST: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState.splice(idx, 1); // idx번째 요소 삭제
       return afterState;
     }
     case at.UPDATEPOST: {

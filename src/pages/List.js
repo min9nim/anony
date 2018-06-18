@@ -15,6 +15,10 @@ export default class List extends React.Component {
         super(props);
 
         if(tp.view.App.state.data.posts.length < 10){
+            // posts 목록을 초기화하고
+            tp.store.dispatch(tp.action.initPosts());
+
+            // 다시 세팅
             tp.api.getPosts(0, 10).then(res => {
                 tp.store.dispatch(tp.action.addPosts(res.posts));
             });

@@ -63,8 +63,8 @@ export default class Write extends React.Component {
       date : Date.now(),
       isPrivate : this.state.isPrivate,
       hasComment : this.state.hasComment,
-      uuid : tp.user.uuid
-
+      uuid : tp.user.uuid,
+      commentCnt : 0,
     };
 
     tp.api.addPost(newPost).then(res => {

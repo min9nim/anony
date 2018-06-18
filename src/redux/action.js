@@ -7,28 +7,32 @@ export default action;
 const at = action.type = {
   ADDPOST : "ADDPOST",
   ADDPOSTS : "ADDPOSTS",
+  INITPOSTS : "INITPOSTS",
   DELETEPOST : "DELETEPOST",
   UPDATEPOST : "UPDATEPOST",
+  REMOVEPOST : "REMOVEPOST",
+
   ADDCOMMENT : "ADDCOMMENT",
   ADDCOMMENTS : "ADDCOMMENTS",
   DELETECOMMENT : "DELETECOMMENT",
   UPDATECOMMENT : "UPDATECOMMENT",
+  
+  SETPOSTHISTORY : "SETPOSTHISTORY",
+  
   SCROLLEND : "SCROLLEND",
-  SETPOSTHISTORY : "SETPOSTHISTORY"
 }
 
-action.addPost = function({key, title, writer, content, date, isPrivate, hasComment}) {
+action.addPost = function(post) {
+  post.key = post.key || shortid.generate();
   return {
     type:  at.ADDPOST,
-    post: {
-      key: key || shortid.generate(),
-      title,
-      writer,
-      content,
-      date,
-      isPrivate,
-      hasComment
-    }
+    post
+  }
+}
+
+action.initPosts = function(){
+  return {
+    type:  at.INITPOSTS,
   }
 }
 
@@ -49,6 +53,10 @@ action.addPosts = function(posts) {
 
 action.deletePost = function(key) {
   return {type:  at.DELETEPOST, key}
+}
+
+action.removePost = function(key) {
+  return {type:  at.REMOVEPOST, key}
 }
 
 action.deleteComment = function(key) {

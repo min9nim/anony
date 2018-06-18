@@ -9,6 +9,7 @@ export default class PostMenu extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.removePost = this.removePost.bind(this);
         this.postHistory = this.postHistory.bind(this);
 
         this.state = {
@@ -27,7 +28,7 @@ export default class PostMenu extends React.Component {
                 key: this.props.postKey,
                 uuid: tp.user.uuid
             }).then(res => {
-                if (res.status === "fail") {
+                if (res.status === "Fail") {
                     alert(res.message);
                 } else {
                     (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
@@ -40,12 +41,31 @@ export default class PostMenu extends React.Component {
     }
 
 
+    removePost(){
+        if(confirm("Remove this?")){
+            tp.api.removePost({
+                key: this.props.postKey,
+                uuid: tp.user.uuid
+            }).then(res => {
+                if (res.status === "Fail") {
+                    alert(JSON.stringify(res, null, 2));
+                } else {
+                    //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                    tp.store.dispatch(tp.action.removePost(this.props.postKey));
+                    //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                    this.props.history.push("/list");
+                    //tp.view.Post.setState({deleted : true});
+                }
+            })
+        }
+    }
+
     editPost(){
         tp.api.authPost({
             key: this.props.postKey,
             uuid: tp.user.uuid
         }).then(res => {
-            if(res.status === "success"){
+            if(res.status === "Success"){
                 tp.temp = res.post;
                 this.props.history.push("/edit/"+this.props.postKey);
             }else{
@@ -84,6 +104,7 @@ export default class PostMenu extends React.Component {
                         <div>
                             <div onClick={this.editPost}>Edit</div>
                             <div onClick={this.deletePost}>Delete</div>
+                            <div onClick={this.removePost}>Remove</div>
                         </div>
                     )}
                     

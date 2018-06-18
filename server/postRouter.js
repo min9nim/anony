@@ -59,7 +59,7 @@ router.post("/add", (req, res) => {
 
     post.save().then(output => {
         res.send({
-            status: 'success',
+            status: 'Success',
             message: `post(${req.body.key}) is saved`,
             output
         })
@@ -101,14 +101,14 @@ router.get("/get/:idx/:cnt", (req, res) => {
             return res;
 
         })
-        .then(posts => res.send({status: "success", posts : posts}))
+        .then(posts => res.send({status: "Success", posts : posts}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
         });
 });
 
-// key 에 해당하는 post 를 삭제
+// key 에 해당하는 post 를 delete
 router.delete("/delete/:key/:uuid", (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
@@ -119,24 +119,14 @@ router.delete("/delete/:key/:uuid", (req, res) => {
                 post.save().then(output => {
                     console.log(output);
                     res.send({
-                        status: "success",
+                        status: "Success",
                         message: `post(${req.params.key}) is deleted`,
                         output
                     });                    
                 });
 
-                // Post.remove({ key: req.params.key })
-                //     .then(output => {
-                //         console.log(output);
-                //         res.send({
-                //             status: "success",
-                //             message: `post(${req.params.key}) is deleted`,
-                //             output
-                //         });
-                //     });
-
             }else{
-                res.send({ status : "fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized" });
             }
         })
         .catch(err => {
@@ -145,12 +135,48 @@ router.delete("/delete/:key/:uuid", (req, res) => {
         });
 });
 
+
+// key 에 해당하는 post 를 remove
+router.delete("/remove/:key/:uuid", (req, res) => {
+    Post.findOne({ key: req.params.key })
+        .then(post => {
+            console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`);
+            if(post.uuid === req.params.uuid){
+                if(post.commentCnt){
+                    res.send({
+                        status: "Fail",
+                        message: `post(${req.params.key}) has comments`,
+                    });
+                }else{
+                    Comment.remove({postKey : req.params.key}).then(output => {
+                        console.log(output);
+                        Post.remove({ key: req.params.key }).then(output => {
+                                console.log(output);
+                                res.send({
+                                    status: "Success",
+                                    message: `post(${req.params.key}) is removed`,
+                                    output
+                                });
+                            });
+                    });
+                }
+            }else{
+                res.send({ status : "Fail", message: "Not authorized" });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+});
+
+
 // key 에 해당하는 post 를 조회
 router.get("/get/:key", (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(maskPost)
         .then(setHasComment)
-        .then(post => res.send({status: "success", posts : [post]}))
+        .then(post => res.send({status: "Success", posts : [post]}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
@@ -165,12 +191,12 @@ router.get("/auth/:key/:uuid", (req, res) => {
             console.log(posts);
             if(posts[0].uuid === req.params.uuid){
                 res.send({
-                    status : "success",
-                    message: "Authorized successfully",
+                    status : "Success",
+                    message: "Authorized ok",
                     post: maskPost(posts[0])
                  });
             }else{
-                res.send({ status : "fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized" });
             }
         })
         .catch(err => {
@@ -209,7 +235,7 @@ router.post("/edit", (req, res) => {
         post.save().then(output => {
             console.log(output);
             res.send({
-                statue: "success",
+                statue: "Success",
                 message: `post@${req.body.key} updated.`,
                 output
             });
@@ -225,7 +251,7 @@ router.post("/edit", (req, res) => {
     //         console.log(output);
     //         if(!output.n) throw Error("No rows updated. (No matched)");
     //         res.send({
-    //             statue: "success",
+    //             statue: "Success",
     //             message: `post@${req.body.key} updated.`,
     //             output
     //         });
@@ -243,7 +269,7 @@ router.get("/getHistory/:key", (req, res) => {
     Post.find({ origin: req.params.key })
         .then(R.map(maskPost))
         .then(R.map(setHasComment))
-        .then(posts => res.send({status: "success", posts}))
+        .then(posts => res.send({status: "Success", posts}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);

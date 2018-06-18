@@ -16,6 +16,22 @@ function maskComment(comment){
 }
 
 
+// 부모글의 댓글카운트 세팅
+function setPostCommentCnt(postKey){
+    return Post.findOne({key:postKey}).then(post => {
+        Comment.find({$and:[{postKey:post.key}, {deleted : {$ne : true}}]}).then(comments => {
+            post.commentCnt = comments.length;
+            post.save().then(output => {
+                console.log(output);
+                console.log(`set post(${post.key})'s commentCnt : ${post.commentCnt}`);
+            });
+        });
+    });                        
+}
+
+
+
+
 // 신규 댓글 등록
 router.post("/add", (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
@@ -38,21 +54,15 @@ router.post("/add", (req, res) => {
     
         comment.save().then(output => {
     
-            // 부모post 의 댓글카운트 증가
-            Post.findOne({key:req.body.postKey}).then(post => {
-                // 댓글 카운트 증가
-                post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1;    
-                post.save().then(output => {
-                    console.log(output)
-                    console.log(`post(${req.body.postKey})'s commentCnt +1`);
-                });
-            });
-    
+            // 부모post 댓글카운트 set
+            setPostCommentCnt(req.body.postKey);
+            
             res.send({
                 status: 'success',
                 message: `comment(${req.body.key}) is saved`,
                 output
             });
+            
         })
         .catch(err => {
             console.log(err);
@@ -99,7 +109,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
             return res;
 
         })
-        .then(comments => res.send({status: "success", comments : comments}))
+        .then(comments => res.send({status: "Success", comments : comments}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
@@ -116,61 +126,18 @@ router.delete("/delete/:key/:uuid", (req, res) => {
 
                 comment.deleted = true;
                 comment.save().then(output => {
-                    // // 부모post 의 댓글카운트 -1
-                    // Post.findOne({key:comment.postKey}).then(post => {
 
-                    //     let commentCnt;
-                    //     Comment.find({postKey:post.key}).then(comments => {
-                    //         commentCnt = comments.length;
+                    // 댓글 카운트 set
+                    setPostCommentCnt(comment.postKey)
 
-                    //         post.commentCnt = commentCnt;
-                    //         post.save().then(output => {
-                    //             console.log(output);
-                    //             console.log(`post(${post.key})'s commentCnt -1`);
-                    //         });
-                    //     })
-                    // });                        
-
-                    //console.log(output);
                     res.send({
-                        status: "success",
+                        status: "Success",
                         message: `comment(${req.params.key}) is deleted`,
                         output
                     });
                 });
-
-
-
-                // Comment.remove({ key: req.params.key })
-                //     .then(output => {
-                //         // 부모post 의 댓글카운트 -1
-                //         Post.findOne({key:comment.postKey}).then(post => {
-
-                //             let commentCnt;
-                //             Comment.find({postKey:post.key}).then(comments => {
-                //                 commentCnt = comments.length;
-    
-                //                 post.commentCnt = commentCnt;
-                //                 post.save().then(output => {
-                //                     console.log(output);
-                //                     console.log(`post(${post.key})'s commentCnt -1`);
-                //                 });
-                //             })
-                //         });                        
-
-                //         //console.log(output);
-                //         res.send({
-                //             status: "success",
-                //             message: `comment(${req.params.key}) is deleted`,
-                //             output
-                //         });
-                //     });
-
-
-
-
             }else{
-                res.send({ status : "fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized" });
             }
         })
         .catch(err => {
@@ -179,12 +146,14 @@ router.delete("/delete/:key/:uuid", (req, res) => {
         });
 });
 
+
+
 // key 에 해당하는 comment 를 조회
 router.get("/get/:key", (req, res) => {
     Comment.find({ postKey: req.params.key })
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
-        .then(comments => res.send({status: "success", comments : comments}))
+        .then(comments => res.send({status: "Success", comments : comments}))
         .catch(err => {
             console.log(err);
             res.status(500).send(err);
@@ -199,12 +168,12 @@ router.get("/auth/:key/:uuid", (req, res) => {
             console.log(comments);
             if(comments[0].uuid === req.params.uuid){
                 res.send({
-                    status : "success",
+                    status : "Success",
                     message: "Authorized successfully",
                     comment: maskComment(comments[0])
                  });
             }else{
-                res.send({ status : "fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized" });
             }
         })
         .catch(err => {
@@ -213,25 +182,5 @@ router.get("/auth/:key/:uuid", (req, res) => {
         });
 });
 
-
-// 기존 포스트 수정
-router.post("/edit", (req, res) => {
-    console.log("received data = " + JSON.stringify(req.body, null, 2));
-
-    Comment.update({ key: req.body.key}, { $set: req.body })
-        .then(output => {
-            console.log(output);
-            if(!output.n) throw Error("No rows updated. (No matched)");
-            res.send({
-                statue: "success",
-                message: `comment@${req.body.key} updated.`,
-                output
-            });
-        })
-        .catch(err =>{
-            console.log(err);
-            res.status(500).send(err);
-        });
-});
 
 module.exports = router;
