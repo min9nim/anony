@@ -26,6 +26,7 @@ export default class CommentMenu extends React.Component {
                 key: this.props.commentKey,
                 uuid: tp.user.uuid
             }).then(res => {
+
                 if (res.status === "Fail") {
                     alert(res.message);
                 } else {

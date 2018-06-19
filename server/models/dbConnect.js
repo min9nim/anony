@@ -15,10 +15,9 @@ if (process.env.NODE_ENV !== 'production') {
     console.log("개발모드 : " + process.env.NODE_ENV);
   }else{
     console.log("운영모드 : " + process.env.NODE_ENV);
-  }
+}
 
-if(process.argv[2]){
-    // 개발모드
+if(process.argv[2] === "8080"){
 //mongoose.connect('mongodb://localhost/talkplace');
 //mongoose.connect('mongodb://13.209.69.12/talkplace'); // 아니 이건 안되고 아래꺼는 되네 허허.. 
     mongoose.connect('mongodb://ec2-13-209-69-12.ap-northeast-2.compute.amazonaws.com/talkplace');

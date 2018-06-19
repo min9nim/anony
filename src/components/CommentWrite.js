@@ -68,7 +68,6 @@ export default class Comment extends React.Component {
             let post = tp.store.getState().data.posts.find(p => p.key === this.state.postKey);
             post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1 ;
             tp.store.dispatch(tp.action.updatePost(post));
-
             this.setState({content: ""});       // 기존 입력한 내용 초기화
             tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트
       
