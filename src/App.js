@@ -66,19 +66,30 @@ export default class App extends React.Component {
   render() {
     console.log("App 렌더링..");
 
-    const renderList = ({history}) => <List history={history} posts={this.state.data.posts} /> ;
-    const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
-    const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} /> ;
-    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory} /> ;
+    const renderList = ({history, match}) => <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
+    const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    const renderWrite = ({history, match}) => <Write history={history} context={match.params.context} /> ;
+    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory} context={match.params.context}/> ;
 
     return (
       <div>
         <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
+        {/* public */}
           <Route path="/post/:key" render={renderPost} />
           <Route path="/postHistory/:key" render={renderPostHistory} />
           <Route path="/edit/:key" render={renderEdit} />
           <Route path="/write" component={Write} />
           <Route path="/list" render={renderList} />
+
+        {/* context */}
+          <Route path="/:context/post/:key" render={renderPost} />
+          <Route path="/:context/postHistory/:key" render={renderPostHistory} />
+          <Route path="/:context/edit/:key" render={renderEdit} />
+          <Route path="/:context/write" render={renderWrite} />
+          <Route path="/:context/list" render={renderList} />
+          <Route path="/:context" render={renderList} />
+
           <Route path="/" render={renderList} />
         </Switch>
       </div>

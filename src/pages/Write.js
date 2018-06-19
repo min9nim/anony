@@ -27,7 +27,7 @@ export default class Write extends React.Component {
     };
 
     tp.view.Write = this;
-
+    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -64,6 +64,7 @@ export default class Write extends React.Component {
       isPrivate : this.state.isPrivate,
       hasComment : this.state.hasComment,
       uuid : tp.user.uuid,
+      context : this.props.context,
       commentCnt : 0,
     };
 
@@ -115,7 +116,7 @@ export default class Write extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to={"/list"}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Link to={this.contextPath + "/list"}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }

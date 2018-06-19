@@ -12,7 +12,8 @@ const postSchema = new Schema({
     hasComment: Boolean,
     commentCnt : Number,
     deleted: Boolean,
-    uuid: String
+    uuid: String,
+    context: String
 });
 
 module.exports = mongoose.model('post', postSchema);

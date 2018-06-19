@@ -19,6 +19,9 @@ export default class Post extends React.Component {
             deleted : false,
             uuid : ""
           };
+
+        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
         tp.view.Post = this;
     }
 
@@ -62,11 +65,11 @@ export default class Post extends React.Component {
                     <div className="meta2">Comments: {this.state.commentCnt || 0}</div>
                     {!!this.state.origin || this.state.isPrivate || (
                         <div>
-                            <Link to="/list"><Button bsStyle="success" className="listBtn">List</Button></Link>
-                            <Link to="/write"><Button bsStyle="success" className="writeBtn">Write</Button></Link>
+                            <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>
+                            <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                         </div>
                     )}
-                    {this.state.origin && <Link to={"/postHistory/"+this.state.origin}><Button bsStyle="success" className="writeBtn">History</Button></Link>}
+                    {this.state.origin && <Link to={this.contextPath + "/postHistory/" + this.state.origin}><Button bsStyle="success" className="writeBtn">History</Button></Link>}
                      
                 </div>
 

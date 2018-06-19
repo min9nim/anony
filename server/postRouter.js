@@ -26,6 +26,7 @@ post.add = (req, res) => {
     post.isPrivate = req.body.isPrivate;
     post.hasComment = req.body.hasComment;
     post.uuid = req.body.uuid;
+    post.context = req.body.context;
 
     post.save().then(output => {
         res.send({
@@ -58,6 +59,7 @@ post.edit = (req, res) => {
             prevPost.isPrivate = post.isPrivate;
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
+            prevPost.context = post.context;
             prevPost.save().then(output => {
                 console.log("# prevPost is saved");
                 console.log(output);
@@ -98,7 +100,7 @@ post.edit = (req, res) => {
 
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
-get.get_$idx_$cnt = (req, res) => {
+get["/get/:context/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
     const MAXCNT = 10;  // posts 조회 최대 개수
 
@@ -119,7 +121,7 @@ get.get_$idx_$cnt = (req, res) => {
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
-    Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}]})
+    Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context === "root" ? undefined : req.params.context}]})
         .sort({"date" : -1})
         .skip(idx)
         .limit(cnt)
@@ -314,7 +316,7 @@ function setHasComment(post){
 router.post("/add", post.add);
 router.post("/edit", post.edit);
 
-router.get("/get/:idx/:cnt", get.get_$idx_$cnt);
+router.get("/get/:context/:idx/:cnt", get["/get/:context/:idx/:cnt"]);
 router.get("/delete/:key/:uuid", get.delete_$key_$uuid);
 router.get("/restore/:key/:uuid", get.restore_$key_$uuid);
 router.get("/remove/:key/:uuid", get.remove_$key_$uuid);

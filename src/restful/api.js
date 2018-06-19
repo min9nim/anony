@@ -40,9 +40,9 @@ api.addComment = function (comment, hideProgress) {
 }
 
 
-api.getPosts = function (idx, cnt, hideProgress) {
+api.getPosts = function ({idx, cnt, context, hideProgress}) {
     return httpReq(
-        "/api/posts/get/" + idx + "/" + cnt,
+        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
         {
             method: "GET",
             hideProgress

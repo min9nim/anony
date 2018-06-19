@@ -19,10 +19,13 @@ export default class List extends React.Component {
             tp.store.dispatch(tp.action.initPosts());
 
             // 다시 세팅
-            tp.api.getPosts(0, 10).then(res => {
+            tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context}).then(res => {
                 tp.store.dispatch(tp.action.addPosts(res.posts));
             });
         }
+
+        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
     }
 
 
@@ -31,10 +34,10 @@ export default class List extends React.Component {
         return (
             <div className="list">
                 {this.props.posts.map(
-                    post => <Excerpt history={this.props.history} key={post.key} post={post}/>
+                    post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
                 <div className="writeBtn">
-                    <Link to="/write"><Button bsStyle="success">Write</Button></Link>
+                    <Link to={this.contextPath + "/write"}><Button bsStyle="success">Write</Button></Link>
                 </div>
             </div>
         );

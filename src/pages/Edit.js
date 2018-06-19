@@ -54,7 +54,8 @@ export default class Edit extends React.Component {
       date : Date.now(),
       isPrivate : this.state.isPrivate,
       hasComment : this.state.hasComment,
-      uuid : tp.user.uuid
+      uuid : tp.user.uuid,
+      context : this.state.context
     };
 
     tp.api.updatePost(afterPost).then(res => {

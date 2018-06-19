@@ -8,6 +8,7 @@ import "./Excerpt.scss";
 export default class Excerpt extends React.Component {
     constructor(props) {
         super(props);
+        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
     }
 
     shouldComponentUpdate(prevProps, prevState) {
@@ -16,10 +17,12 @@ export default class Excerpt extends React.Component {
 
     render(){
         console.log("Excerpt 렌더링..");
+        
+
         return (
             <div id={this.props.post.key} className="excerpt">
                 <div className="title1">
-                    <Link to={"/post/" + this.props.post.key}><div className={this.props.post.deleted ? "title h4 deleted" : "title h4"}>{this.props.post.title}</div></Link>
+                    <Link to={ this.contextPath + "/post/" + this.props.post.key}><div className={this.props.post.deleted ? "title h4 deleted" : "title h4"}>{this.props.post.title}</div></Link>
                 </div>
                 <div>
                     <div className="meta" onClick={this.editPost}>
