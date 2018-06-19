@@ -34,18 +34,19 @@ post.add = (req, res) => {
             message: `post(${req.body.key}) is saved`,
             output
         })
-    }).catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-    });;   
+    }).catch(errHandler(res));;   
 }
 
 
 // 글내용 수정
-post.edit = (req, res) => {
+post["/edit/:uuid"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     Post.findOne({key: req.body.key}).then(post => {
+        if(post.uuid !== req.params.uuid){
+            res.send({ status : "Fail", message: "Not authorized" });
+            return;
+        }
 
         if(post.title !== req.body.title || post.content !== req.body.content){
             // 제목이나 내용이 변경된 경우에만 기존 내용 백업
@@ -76,10 +77,7 @@ post.edit = (req, res) => {
                 output
             });
         });
-    }).catch(err =>{
-        console.log(err);
-        res.status(500).send(err);
-    });    
+    }).catch(errHandler(res));    
 
 
     // Post.update({ key: req.body.key}, { $set: req.body })
@@ -134,10 +132,7 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
 
         })
         .then(posts => res.send({status: "Success", posts : posts}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -162,10 +157,7 @@ get.delete_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 };
 
 
@@ -188,10 +180,7 @@ get.restore_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -224,10 +213,7 @@ get.remove_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 };
 
 
@@ -237,10 +223,7 @@ get.get_$key = (req, res) => {
         .then(maskPost)
         .then(setHasComment)
         .then(post => res.send({status: "Success", posts : [post]}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -259,10 +242,7 @@ get.auth_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -274,10 +254,7 @@ get["/history/:key"] = (req, res) => {
         .then(R.map(maskPost))
         .then(R.map(setHasComment))
         .then(posts => res.send({status: "Success", posts}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -313,8 +290,17 @@ function setHasComment(post){
 }
 
 
+function errHandler(res){
+    return err => {
+        console.log(err);
+        res.status(500).send(err.toString());
+    }
+}
+
+
+
 router.post("/add", post.add);
-router.post("/edit", post.edit);
+router.post("/edit/:uuid", post["/edit/:uuid"]);
 
 router.get("/get/:context/:idx/:cnt", get["/get/:context/:idx/:cnt"]);
 router.get("/delete/:key/:uuid", get.delete_$key_$uuid);

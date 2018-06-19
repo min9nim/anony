@@ -67,8 +67,8 @@ export default class App extends React.Component {
     console.log("App 렌더링..");
 
     const renderList = ({history, match}) => <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
-    const renderPost = ({history, match}) => <Post history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-    const renderEdit = ({history, match}) => <Edit history={history} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    const renderPost = ({history, match}) => <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    const renderEdit = ({history, match}) => <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     const renderWrite = ({history, match}) => <Write history={history} context={match.params.context} /> ;
     const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory} context={match.params.context}/> ;
 
@@ -79,7 +79,7 @@ export default class App extends React.Component {
           <Route path="/post/:key" render={renderPost} />
           <Route path="/postHistory/:key" render={renderPostHistory} />
           <Route path="/edit/:key" render={renderEdit} />
-          <Route path="/write" component={Write} />
+          <Route path="/write" render={renderWrite} />
           <Route path="/list" render={renderList} />
 
         {/* context */}

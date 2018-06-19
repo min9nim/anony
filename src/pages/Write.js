@@ -18,7 +18,7 @@ export default class Write extends React.Component {
     this.state = {
       key: "",
       title: "",
-      writer: tp.user.uuid,
+      writer: tp.user.writer,
       content: "",
       date : "",
       isPrivate: false,
@@ -80,7 +80,7 @@ export default class Write extends React.Component {
       tp.setUser({writer : newPost.writer});
 
       // 작성된 글 바로 확인
-      this.props.history.push("/post/" + newPost.key);
+      this.props.history.push(this.contextPath + "/post/" + newPost.key);
     });
   }
 

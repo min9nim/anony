@@ -39,25 +39,6 @@ tp.setUser = function(obj){
   return user;
 }
 
-/*
-// application 의 상태변경이 필요할 때 호출
-tp.dispatch = function(action){
-    // 리덕스 store 상태 업데이트
-    tp.store.dispatch(action);
-
-    // 디비에 변경내용을 반영해야 하는 경우만 아래 switch문에 등록한다
-    switch(action.type){
-      case ADDPOST : 
-        tp.api.addPost(action.post);
-        break;
-      case DELETEPOST :
-        tp.api.deletePost(action.key);
-        break;
-      default :
-        break;
-    }
-}
-*/
 
 
 tp.bodyScroll = function () {

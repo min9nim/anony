@@ -16,6 +16,8 @@ export default class PostMenu extends React.Component {
         this.state = {
             clicked : false
         }
+        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
     }
 
     shouldComponentUpdate(prevProps, prevState) {
@@ -53,7 +55,7 @@ export default class PostMenu extends React.Component {
                 //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                 tp.store.dispatch(tp.action.removePost(this.props.postKey));
                 //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                this.props.history.push("/list");
+                this.props.history.push(this.contextPath + "/list");
                 //tp.view.Post.setState({deleted : true});
             }
         })
@@ -85,8 +87,7 @@ export default class PostMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if(res.status === "Success"){
-                tp.temp = res.post;
-                this.props.history.push("/edit/"+this.props.postKey);
+                this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
                 alert(res.message);
             }
@@ -97,7 +98,7 @@ export default class PostMenu extends React.Component {
         tp.api.getPostHistory(this.props.postKey).then(res => {
             if(res.posts.length > 0){
                 tp.store.dispatch(tp.action.setPostHistory(res.posts));
-                this.props.history.push("/postHistory/" + this.props.postKey);
+                this.props.history.push(this.contextPath + "/postHistory/" + this.props.postKey);
             }else{
                 alert("Have no changes");
             }
