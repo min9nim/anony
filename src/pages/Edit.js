@@ -104,7 +104,7 @@ export default class Edit extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Link to={"/post/"+this.state.key}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }
