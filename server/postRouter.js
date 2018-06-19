@@ -199,7 +199,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
                 }else{
                     Comment.remove({postKey : req.params.key}).then(output => {
                         console.log(output);
-                        Post.remove({ key: req.params.key }).then(output => {
+                        Post.remove({$or : [{key: req.params.key},{origin: req.params.key}]}).then(output => {
                                 console.log(output);
                                 res.send({
                                     status: "Success",

@@ -66,11 +66,26 @@ export default class App extends React.Component {
   render() {
     console.log("App 렌더링..");
 
-    const renderList = ({history, match}) => <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
-    const renderPost = ({history, match}) => <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-    const renderEdit = ({history, match}) => <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-    const renderWrite = ({history, match}) => <Write history={history} context={match.params.context} /> ;
-    const renderPostHistory = ({history, match}) => <PostHistory history={history} phist={this.state.data.postHistory} context={match.params.context}/> ;
+    const renderList = ({history, match}) => {
+      tp.thispage = "List";
+      return <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
+    }
+    const renderPost = ({history, match}) => {
+      tp.thispage = "Post";
+      return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    }
+    const renderEdit = ({history, match}) => {
+      tp.thispage = "Edit";
+      return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+    }
+    const renderWrite = ({history, match}) => {
+      tp.thispage = "Write";
+      return <Write history={history} context={match.params.context} /> ;
+    }
+    const renderPostHistory = ({history, match}) => {
+      tp.thispage = "PostHistory";
+      return <PostHistory history={history} phist={this.state.data.postHistory} context={match.params.context}/> ;
+    }
 
     return (
       <div>

@@ -43,7 +43,7 @@ tp.setUser = function(obj){
 
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;
-  if(!["/", "/list"].includes(location.pathname)) return;
+  if(tp.thispage !== "List") return;
 
   //현재문서의 높이
   const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
@@ -55,7 +55,7 @@ tp.bodyScroll = function () {
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
-    tp.api.getPosts(tp.view.App.state.data.posts.length, PAGEROWS, true).then(res => {
+    tp.api.getPosts({idx: tp.view.App.state.data.posts.length, cnt: PAGEROWS, hideProgress: true, context: tp.context}).then(res => {
       tp.store.dispatch(tp.action.scrollEnd(res.posts));
       if(res.posts.length < PAGEROWS){
         console.log("Scroll has touched bottom")
