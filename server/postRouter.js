@@ -15,7 +15,7 @@ const get = {};
 
 
 // 신규 post 등록
-post.add = (req, res) => {
+post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
     post.key = req.body.key;
@@ -137,7 +137,7 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
 
 
 // key 에 해당하는 post 를 delete
-get.delete_$key_$uuid = (req, res) => {
+get["/delete/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`);
@@ -162,7 +162,7 @@ get.delete_$key_$uuid = (req, res) => {
 
 
 // delete 된 글을 복원
-get.restore_$key_$uuid = (req, res) => {
+get["/restore/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             if(post.uuid === req.params.uuid){
@@ -186,7 +186,7 @@ get.restore_$key_$uuid = (req, res) => {
 
 
 // key 에 해당하는 post 를 remove
-get.remove_$key_$uuid = (req, res) => {
+get["/remove/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`);
@@ -218,7 +218,7 @@ get.remove_$key_$uuid = (req, res) => {
 
 
 // key 에 해당하는 post 를 조회
-get.get_$key = (req, res) => {
+get["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(maskPost)
         .then(setHasComment)
@@ -228,7 +228,7 @@ get.get_$key = (req, res) => {
 
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
-get.auth_$key_$uuid = (req, res) => {
+get["/auth/:key/:uuid"] = (req, res) => {
     Post.find({ key: req.params.key })
         .then(posts => {
             console.log(posts);
@@ -299,13 +299,13 @@ function errHandler(res){
 
 
 
-router.post("/add", post.add);
+router.post("/add", post["/add"]);
 router.post("/edit/:uuid", post["/edit/:uuid"]);
 
 router.get("/get/:context/:idx/:cnt", get["/get/:context/:idx/:cnt"]);
-router.get("/delete/:key/:uuid", get.delete_$key_$uuid);
-router.get("/restore/:key/:uuid", get.restore_$key_$uuid);
-router.get("/remove/:key/:uuid", get.remove_$key_$uuid);
-router.get("/get/:key", get.get_$key);
-router.get("/auth/:key/:uuid", get.auth_$key_$uuid);
+router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
+router.get("/restore/:key/:uuid", get["/restore/:key/:uuid"]);
+router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
+router.get("/get/:key", get["/get/:key"]);
+router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
