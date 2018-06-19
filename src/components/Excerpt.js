@@ -18,7 +18,7 @@ export default class Excerpt extends React.Component {
         console.log("Excerpt 렌더링..");
         return (
             <div id={this.props.post.key} className="excerpt">
-                <div>
+                <div className="title1">
                     <Link to={"/post/" + this.props.post.key}><div className={this.props.post.deleted ? "title h4 deleted" : "title h4"}>{this.props.post.title}</div></Link>
                 </div>
                 <div>
