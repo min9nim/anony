@@ -11,6 +11,12 @@ db.once('open', function () {
 console.log("== argv ==")
 console.log(process.argv);
 
+if (process.env.NODE_ENV !== 'production') {
+    console.log("개발모드 : " + process.env.NODE_ENV);
+  }else{
+    console.log("운영모드 : " + process.env.NODE_ENV);
+  }
+
 if(process.argv[2]){
     // 개발모드
 //mongoose.connect('mongodb://localhost/talkplace');
