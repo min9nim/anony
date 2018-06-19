@@ -18,7 +18,7 @@ export default class Comment extends React.Component {
 
         this.state = {
             key: "",                    // key
-            writer: tp.user.writer,     // 작성자
+            writer: tp.user.uuid,     // 작성자
             content: "",                // 내용
             uuid: tp.user.uuid,         // uuid
             postKey: this.props.postKey,// 부모 포스트 id
@@ -61,11 +61,13 @@ export default class Comment extends React.Component {
       
           tp.api.addComment(newComment).then(res => {
             console.log("# " + res.message);
-            if(tp.store){
-              tp.store.dispatch(tp.action.addComment(newComment));
-            }else{
-              // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
-            }
+
+
+            tp.store.dispatch(tp.action.addComment(newComment));
+            // 부모post의 댓글 카운트 1증가            
+            let post = tp.store.getState().data.posts.find(p => p.key === this.state.postKey);
+            post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1 ;
+            tp.store.dispatch(tp.action.updatePost(post));
 
             this.setState({content: ""});       // 기존 입력한 내용 초기화
             tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트

@@ -40,15 +40,26 @@ api.addComment = function (comment, hideProgress) {
 }
 
 
-api.getPosts = function (idx, cnt, hideProgress) {
+api.getPosts = function ({idx, cnt, context, hideProgress}) {
     return httpReq(
-        "/api/posts/get/" + idx + "/" + cnt,
+        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
         {
             method: "GET",
             hideProgress
         }
     ).then(errHandler);
 }
+
+api.getComments = function (postKey, hideProgress) {
+    return httpReq(
+        "/api/comments/get/" + postKey,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
 
 api.getPost = function (key, hideProgress) {
     return httpReq(
@@ -65,7 +76,39 @@ api.deletePost = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/posts/delete/" + key + "/" + uuid,
         {
-            method: "DELETE",
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+
+api.removePost = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/posts/remove/" + key + "/" + uuid,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+api.restorePost = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/posts/restore/" + key + "/" + uuid,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+
+api.deleteComment = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/comments/delete/" + key + "/" + uuid,
+        {
+            method: "GET",
             hideProgress
         }
     ).then(errHandler);
@@ -85,7 +128,7 @@ api.authPost = function ({key, uuid, hideProgress}) {
 
 api.updatePost = function (post, hideProgress) {
     return httpReq(
-        "/api/posts/edit",
+        "/api/posts/edit/" + tp.user.uuid,
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
@@ -94,3 +137,14 @@ api.updatePost = function (post, hideProgress) {
         }
     ).then(errHandler);
 }
+
+api.getPostHistory = function (key, hideProgress) {
+    return httpReq(
+        "/api/posts/history/" + key,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+

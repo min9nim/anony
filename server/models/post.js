@@ -2,12 +2,18 @@ const mongoose = require("./dbConnect");
 
 const Schema = mongoose.Schema;
 const postSchema = new Schema({
+    origin: String,
     key: String,
     title: String,
     writer: String,
     content: String,
     date: Number,
-    uuid: String
+    isPrivate: Boolean,
+    hasComment: Boolean,
+    commentCnt : Number,
+    deleted: Boolean,
+    uuid: String,
+    context: String
 });
 
 module.exports = mongoose.model('post', postSchema);

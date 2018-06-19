@@ -34,7 +34,7 @@ export default class Comment extends React.Component {
                 key: this.state.key,
                 uuid: tp.user.uuid
             }).then(res => {
-                if (res.status === "fail") {
+                if (res.status === "Fail") {
                     alert(res.message);
                 } else {
                     tp.store && tp.store.dispatch(tp.action.deleteComment(this.state.key));

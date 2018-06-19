@@ -4,7 +4,7 @@ import {tp} from "../tp";
 import { Link } from 'react-router-dom';
 import {
   FormGroup,
-  ControlLabel,
+  Checkbox,
   FormControl,
   Button
 } from 'react-bootstrap';
@@ -21,9 +21,13 @@ export default class Write extends React.Component {
       writer: tp.user.writer,
       content: "",
       date : "",
+      isPrivate: false,
+      hasComment: true,
       uuid : tp.user.uuid
     };
 
+    tp.view.Write = this;
+    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -40,8 +44,8 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
-    let state = {};
-    state[e.target.id] = e.target.value;
+    const state = {};
+    state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
     this.setState(state);
   }
 
@@ -53,16 +57,20 @@ export default class Write extends React.Component {
 
     const newPost = {
       key : shortid.generate(),
-      title : this.state.title === "" ? this.state.content.trim().substr(0,15) : this.state.title.trim(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,17) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
-      uuid : tp.user.uuid
+      isPrivate : this.state.isPrivate,
+      hasComment : this.state.hasComment,
+      uuid : tp.user.uuid,
+      context : this.props.context,
+      commentCnt : 0,
     };
 
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
-      if(tp.store){
+      if(tp.view.App.state.data.posts.length > 0){
         tp.store.dispatch(tp.action.addPost(newPost));
       }else{
         // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
@@ -72,7 +80,7 @@ export default class Write extends React.Component {
       tp.setUser({writer : newPost.writer});
 
       // 작성된 글 바로 확인
-      this.props.history.push("/post/" + newPost.key);
+      this.props.history.push(this.contextPath + "/post/" + newPost.key);
     });
   }
 
@@ -91,10 +99,12 @@ export default class Write extends React.Component {
             </FormGroup>
             <FormGroup controlId = "writer" >
                 {/*<ControlLabel> Writer </ControlLabel> */}
-                <FormControl type = "text"
+                <FormControl type = "text" className="writer"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
@@ -106,7 +116,7 @@ export default class Write extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Link to={this.contextPath + "/list"}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }

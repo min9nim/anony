@@ -9,10 +9,15 @@ export default class PostMenu extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.removePost = this.removePost.bind(this);
+        this.restorePost = this.restorePost.bind(this);
+        this.postHistory = this.postHistory.bind(this);
 
         this.state = {
             clicked : false
         }
+        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
     }
 
     shouldComponentUpdate(prevProps, prevState) {
@@ -21,32 +26,68 @@ export default class PostMenu extends React.Component {
     }
 
     deletePost(){
-        if(confirm("Delete this?")){
-            tp.api.deletePost({
-                key: this.props.postKey,
-                uuid: tp.user.uuid
-            }).then(res => {
-                if (res.status === "fail") {
-                    alert(res.message);
-                } else {
-                    (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-                    //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                    //this.props.history.push("/list");
-                    tp.view.Post.setState({deleted : true});
-                }
-            })
-        }
+        if(!confirm("Delete this?")) return;
+        tp.api.deletePost({
+            key: this.props.postKey,
+            uuid: tp.user.uuid
+        }).then(res => {
+            if (res.status === "Fail") {
+                alert(res.message);
+            } else {
+                (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                //this.props.history.push("/list");
+                tp.view.Post.setState({deleted : true});
+            }
+        })
     }
 
+
+    removePost(){
+        if(!confirm("Remove this?")) return;
+        tp.api.removePost({
+            key: this.props.postKey,
+            uuid: tp.user.uuid
+        }).then(res => {
+            if (res.status === "Fail") {
+                alert(JSON.stringify(res, null, 2));
+            } else {
+                //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                tp.store.dispatch(tp.action.removePost(this.props.postKey));
+                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                this.props.history.push(this.contextPath + "/list");
+                //tp.view.Post.setState({deleted : true});
+            }
+        })
+        
+    }
+
+    restorePost(){
+        if(!confirm("Restore this?")) return;
+        
+        tp.api.restorePost({
+            key: this.props.postKey,
+            uuid: tp.user.uuid
+        }).then(res => {
+            if (res.status === "Fail") {
+                alert(JSON.stringify(res, null, 2));
+            } else {
+                //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                tp.store.dispatch(tp.action.restorePost(this.props.postKey));
+                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                //this.props.history.push("/list");
+                //tp.view.Post.setState({deleted : true});
+            }
+        })
+    }    
 
     editPost(){
         tp.api.authPost({
             key: this.props.postKey,
             uuid: tp.user.uuid
         }).then(res => {
-            if(res.status === "success"){
-                tp.temp = res.post;
-                this.props.history.push("/edit/"+this.props.postKey);
+            if(res.status === "Success"){
+                this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
                 alert(res.message);
             }
@@ -54,7 +95,14 @@ export default class PostMenu extends React.Component {
     }
     
     postHistory(){
-        alert("in working");
+        tp.api.getPostHistory(this.props.postKey).then(res => {
+            if(res.posts.length > 0){
+                tp.store.dispatch(tp.action.setPostHistory(res.posts));
+                this.props.history.push(this.contextPath + "/postHistory/" + this.props.postKey);
+            }else{
+                alert("Have no changes");
+            }
+        })
     }
 
 
@@ -72,12 +120,19 @@ export default class PostMenu extends React.Component {
                 ? 
                 <div className="menu">
                     <div onClick={this.postHistory}>History</div>
-                    {this.props.postDeleted || (
+                    {this.props.postDeleted ? (
+                        <div>
+                            <div onClick={this.removePost}>Remove</div>
+                            <div onClick={this.restorePost}>Restore</div>
+                        </div>
+                    ) : (
                         <div>
                             <div onClick={this.editPost}>Edit</div>
                             <div onClick={this.deletePost}>Delete</div>
+                            <div onClick={this.removePost}>Remove</div>
                         </div>
-                    )}
+                    )
+                    }
                     
                 </div>
                 :

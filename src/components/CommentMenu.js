@@ -26,12 +26,15 @@ export default class CommentMenu extends React.Component {
                 key: this.props.commentKey,
                 uuid: tp.user.uuid
             }).then(res => {
-                if (res.status === "fail") {
+                if (res.status === "Fail") {
                     alert(res.message);
                 } else {
-                    tp.store && tp.store.dispatch(tp.action.deleteComment(this.props.commentKey));
-                    //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                    //this.props.history.push("/list");
+                    tp.store.dispatch(tp.action.deleteComment(this.props.commentKey));
+                    // 부모post의 댓글 카운트 1증가  
+                    const postKey = location.pathname.split("/")[2];          
+                    let post = tp.store.getState().data.posts.find(p => p.key === postKey);
+                    post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
+                    tp.store.dispatch(tp.action.updatePost(post));
                 }
             })
         }
@@ -43,7 +46,7 @@ export default class CommentMenu extends React.Component {
             key: this.props.commentKey,
             uuid: tp.user.uuid
         }).then(res => {
-            if(res.status === "success"){
+            if(res.status === "Success"){
                 tp.temp = res.comment;
                 //this.props.history.push("/edit/"+this.props.commentKey);
             }else{

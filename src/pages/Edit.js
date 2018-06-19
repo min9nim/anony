@@ -15,12 +15,22 @@ export default class Edit extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     
-    this.state = this.props.post || tp.temp;
-    this.state.uuid = tp.user.uuid;
+    if(this.props.post){
+      this.state = this.props.post;
+      this.state.uuid = tp.user.uuid;
+    }else{
+      tp.api.getPost(this.props.postKey).then(res => {
+        this.state = res.posts[0];
+        this.state.uuid = tp.user.uuid;  
+        tp.store.dispatch(tp.action.addPost(res.posts[0]));
+    });
+
+    }
+    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
-    return prevState !== this.state;
+    return true;
   }
 
   getValidationState() {
@@ -47,16 +57,21 @@ export default class Edit extends React.Component {
 
     const afterPost = {
       key : this.state.key,
-      title : this.state.title === "" ? this.state.content.trim().substr(0,7) : this.state.title.trim(),
+      title : this.state.title === "" ? this.state.content.trim().substr(0,17) : this.state.title.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
       hasComment : this.state.hasComment,
-      uuid : tp.user.uuid
+      uuid : tp.user.uuid,
+      context : this.state.context
     };
 
     tp.api.updatePost(afterPost).then(res => {
+      if(res.status === "Fail"){
+        alert(JSON.stringify(res, null, 2));
+        return;
+      }
       console.log("# " + res.message);
       if(tp.view.App.state.data.posts.length > 0){
         tp.store.dispatch(tp.action.updatePost(afterPost));
@@ -66,7 +81,7 @@ export default class Edit extends React.Component {
       tp.setUser({writer : afterPost.writer});
 
       // 작성된 글 바로 확인
-      this.props.history.push("/post/" + afterPost.key);
+      this.props.history.push(this.contextPath + "/post/" + afterPost.key);
 
 
     });
@@ -75,6 +90,9 @@ export default class Edit extends React.Component {
 
   render() {
     console.log("Write 렌더링..");
+
+    if(!this.state) return <div/>;
+
     return (
         <div className="edit">
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
@@ -103,7 +121,7 @@ export default class Edit extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to="/list"><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Link to={this.contextPath + "/post/"+this.state.key}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }

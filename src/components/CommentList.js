@@ -43,7 +43,7 @@ export default class CommentList extends React.Component {
         return (
             <div className="CommentList">
                 {this.state.comments.map(
-                    comment => <Comment history={this.props.history} key={comment.key} comment={comment}/>
+                    comment => <Comment history={this.props.history} key={comment.key} comment={comment} context={this.props.context}/>
                 )}
             </div>
         );
