@@ -17,7 +17,8 @@ const at = action.type = {
   ADDCOMMENTS : "ADDCOMMENTS",
   DELETECOMMENT : "DELETECOMMENT",
   UPDATECOMMENT : "UPDATECOMMENT",
-  
+  REMOVECOMMENT : "REMOVECOMMENT",
+
   SETPOSTHISTORY : "SETPOSTHISTORY",
   
   SCROLLEND : "SCROLLEND",
@@ -66,6 +67,10 @@ action.restorePost = function(key) {
 
 action.deleteComment = function(key) {
   return {type:  at.DELETECOMMENT, key}
+}
+
+action.removeComment = function(key) {
+  return {type:  at.REMOVECOMMENT, key}
 }
 
 action.updatePost = function(post) {

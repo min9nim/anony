@@ -9,6 +9,7 @@ export default class CommentMenu extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.editComment = this.editComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
+        this.removeComment = this.removeComment.bind(this);
 
         this.state = {
             clicked : false
@@ -23,32 +24,48 @@ export default class CommentMenu extends React.Component {
     deleteComment(){
         if(confirm("Delete this?")){
             tp.api.deleteComment({
-                key: this.props.commentKey,
+                key: this.props.comment.key,
                 uuid: tp.user.uuid
             }).then(res => {
                 if (res.status === "Fail") {
                     alert(res.message);
                 } else {
-                    tp.store.dispatch(tp.action.deleteComment(this.props.commentKey));
-                    // 부모post의 댓글 카운트 1증가  
-                    const postKey = location.pathname.split("/")[2];          
+                    tp.store.dispatch(tp.action.deleteComment(this.props.comment.key));
+                }
+            })
+        }
+    }
+    
+    removeComment(){
+        if(confirm("Remove this?")){
+            tp.api.removeComment({
+                key: this.props.comment.key,
+                uuid: tp.user.uuid
+            }).then(res => {
+                if (res.status === "Fail") {
+                    alert(res.message);
+                } else {
+                    tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
+
+                    // 부모 글의 commentCnt 1감소
+                    const postKey = this.props.comment.postKey;
                     let post = tp.store.getState().data.posts.find(p => p.key === postKey);
                     post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
                     tp.store.dispatch(tp.action.updatePost(post));
                 }
             })
         }
-    }
+    }    
 
 
     editComment(){
         tp.api.authComment({
-            key: this.props.commentKey,
+            key: this.props.comment.key,
             uuid: tp.user.uuid
         }).then(res => {
             if(res.status === "Success"){
                 tp.temp = res.comment;
-                //this.props.history.push("/edit/"+this.props.commentKey);
+                //this.props.history.push("/edit/"+this.props.comment.key);
             }else{
                 alert(res.message);
             }
@@ -67,7 +84,11 @@ export default class CommentMenu extends React.Component {
         return (<div className="commentMenu">{
                 this.state.clicked ? 
                 <div className="menu">
-                    <div onClick={this.deleteComment}>Delete</div>
+                    {
+                        this.props.comment.deleted ? 
+                        <div onClick={this.removeComment}>Remove</div> :
+                        <div onClick={this.deleteComment}>Delete</div>
+                    }
                 </div>
                 :
                 <div className="menu" onClick={this.showMenu}>...</div>

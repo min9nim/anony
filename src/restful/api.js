@@ -114,6 +114,16 @@ api.deleteComment = function ({key, uuid, hideProgress}) {
     ).then(errHandler);
 }
 
+api.removeComment = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/comments/remove/" + key + "/" + uuid,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
 
 api.authPost = function ({key, uuid, hideProgress}) {
     return httpReq(

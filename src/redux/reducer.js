@@ -88,10 +88,16 @@ function comments(state = [], action) {
     case at.DELETECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
-      //afterState.splice(idx, 1); // idx번째 요소 삭제
       afterState[idx].deleted = true;
       return afterState;
     }
+    case at.REMOVECOMMENT: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState.splice(idx, 1); // idx번째 요소 삭제
+      return afterState;
+    }
+
     case at.UPDATECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.comment.key);

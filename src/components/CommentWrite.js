@@ -71,6 +71,8 @@ export default class Comment extends React.Component {
 
             this.setState({content: ""});       // 기존 입력한 내용 초기화
             tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트
+
+            document.getElementById("content").style.height = "";   // 댓글 입력 textarea 높이 초기화
       
           });
     }

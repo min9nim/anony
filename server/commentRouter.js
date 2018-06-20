@@ -19,7 +19,7 @@ function maskComment(comment){
 // 부모글의 댓글카운트 세팅
 function setPostCommentCnt(postKey){
     return Post.findOne({key:postKey}).then(post => {
-        Comment.find({$and:[{postKey:post.key}, {deleted : {$ne : true}}]}).then(comments => {
+        Comment.find({$and:[{postKey:post.key}]}).then(comments => {
             post.commentCnt = comments.length;
             post.save().then(output => {
                 console.log(output);
@@ -123,10 +123,8 @@ router.get("/delete/:key/:uuid", (req, res) => {
         .then(comment => {
             console.log("# comments = " + JSON.stringify(comment, null, 2));
             if(comment.uuid === req.params.uuid){
-
                 comment.deleted = true;
                 comment.save().then(output => {
-
                     // 댓글 카운트 set
                     setPostCommentCnt(comment.postKey)
 
@@ -136,6 +134,35 @@ router.get("/delete/:key/:uuid", (req, res) => {
                         output
                     });
                 });
+            }else{
+                res.send({ status : "Fail", message: "Not authorized" });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
+});
+
+
+// key 에 해당하는 comment 를 삭제
+router.get("/remove/:key/:uuid", (req, res) => {
+    console.log(`/comments/remove/:key/:uuid call`);
+    Comment.findOne({ key: req.params.key })
+        .then(comment => {
+            console.log("# comments = " + JSON.stringify(comment, null, 2));
+            if(comment.uuid === req.params.uuid){
+                Comment.remove({key: req.params.key}).then(output => {
+
+                    // 댓글 카운트 set
+                    setPostCommentCnt(comment.postKey)
+
+                    res.send({
+                        status: "Success",
+                        message: `comment(${req.params.key}) is deleted`,
+                        output
+                    });
+                })
             }else{
                 res.send({ status : "Fail", message: "Not authorized" });
             }
