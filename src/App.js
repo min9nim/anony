@@ -18,7 +18,11 @@ export default class App extends React.Component {
     super(props);
 
 
-    const go = (page) => () => this.props.history.push("/" + page);
+    const go = (page) => () =>{
+      let context = location.pathname.split("/")[1];
+      context = ["", "list", "post", "edit", "postHistory", "write"].includes(context) ? "" : "/" + context;
+      return this.props.history.push(context + "/" + page);
+    }
     const sa = (keys, func) => keys.split(",").forEach(key => shortcut.add(key, func));
     sa("Alt+W", go("write"));
     sa("Alt+L", go("List"));
