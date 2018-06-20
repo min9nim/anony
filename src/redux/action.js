@@ -65,6 +65,7 @@ action.restorePost = function(key) {
   return {type:  at.RESTOREPOST, key}
 }
 
+
 action.deleteComment = function(key) {
   return {type:  at.DELETECOMMENT, key}
 }

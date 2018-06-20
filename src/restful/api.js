@@ -103,6 +103,16 @@ api.restorePost = function ({key, uuid, hideProgress}) {
     ).then(errHandler);
 }
 
+api.viewPost = function (key) {
+    return httpReq(
+        "/api/posts/view/" + key,
+        {
+            method: "GET",
+        }
+    ).then(errHandler);
+}
+
+
 
 api.deleteComment = function ({key, uuid, hideProgress}) {
     return httpReq(

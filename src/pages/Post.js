@@ -22,6 +22,9 @@ export default class Post extends React.Component {
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
+        // view 카운트 1증가
+        tp.api.viewPost(this.props.postKey);
+
         tp.view.Post = this;
     }
 

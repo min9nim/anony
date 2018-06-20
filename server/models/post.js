@@ -11,6 +11,7 @@ const postSchema = new Schema({
     isPrivate: Boolean,
     hasComment: Boolean,
     commentCnt : Number,
+    viewCnt : Number,
     deleted: Boolean,
     uuid: String,
     context: String
