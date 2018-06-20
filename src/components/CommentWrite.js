@@ -18,7 +18,7 @@ export default class Comment extends React.Component {
 
         this.state = {
             key: "",                    // key
-            writer: tp.user.uuid,     // 작성자
+            writer: tp.user.writer,     // 작성자
             content: "",                // 내용
             uuid: tp.user.uuid,         // uuid
             postKey: this.props.postKey,// 부모 포스트 id
