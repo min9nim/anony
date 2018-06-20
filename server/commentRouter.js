@@ -16,6 +16,14 @@ function maskComment(comment){
 }
 
 
+function errHandler(res){
+    return err => {
+        console.log(err);
+        res.status(500).send(err.toString());
+    }
+}
+
+
 // 부모글의 댓글카운트 세팅
 function setPostCommentCnt(postKey){
     return Post.findOne({key:postKey}).then(post => {
@@ -64,34 +72,27 @@ router.post("/add", (req, res) => {
             });
             
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });           
+        .catch(errHandler(res));           
     })
-    .catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-    });;
-        
-        
-
+    .catch(errHandler(res));;
 });
 
 // idx 번째부터 cnt 개수만큼 comment 를 조회
 router.get("/get/:idx/:cnt", (req, res) => {
     const idx = Number(req.params.idx);
     if(isNaN(idx)){
-        console.log(":idx 가 숫자가 아닙니다");
-        res.status(500).send(":idx 가 숫자가 아닙니다");
+        //console.log(":idx 가 숫자가 아닙니다");
+        //res.status(500).send(":idx 가 숫자가 아닙니다");
+        errHandler(res)(Error(":idx 가 숫자가 아닙니다"));
         return;
     }
 
 
     let cnt = Number(req.params.cnt);
     if(isNaN(cnt)){
-        console.log(":cnt 가 숫자가 아닙니다");
-        res.status(500).send(":cnt 가 숫자가 아닙니다");
+        //console.log(":cnt 가 숫자가 아닙니다");
+        //res.status(500).send(":cnt 가 숫자가 아닙니다");
+        errHandler(res)(Error(":cnt 가 숫자가 아닙니다"));
         return;
     }
 
@@ -110,10 +111,7 @@ router.get("/get/:idx/:cnt", (req, res) => {
 
         })
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 });
 
 // key 에 해당하는 comment 를 삭제
@@ -138,10 +136,7 @@ router.get("/delete/:key/:uuid", (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 });
 
 
@@ -167,10 +162,7 @@ router.get("/remove/:key/:uuid", (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 });
 
 
@@ -181,10 +173,7 @@ router.get("/get/:key", (req, res) => {
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 });
 
 
@@ -203,10 +192,7 @@ router.get("/auth/:key/:uuid", (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 });
 
 

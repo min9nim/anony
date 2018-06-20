@@ -127,7 +127,6 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
         return;
     }
 
-
     let cnt = Number(req.params.cnt);
     if(isNaN(cnt)){
         console.log(":cnt 가 숫자가 아닙니다");
@@ -171,7 +170,6 @@ get["/delete/:key/:uuid"] = (req, res) => {
                         output
                     });                    
                 });
-
             }else{
                 res.send({ status : "Fail", message: "Not authorized" });
             }
