@@ -40,10 +40,8 @@ export default class Post extends React.Component {
         //if([null, undefined].includes(this.state) || this.state.menu){
         if(!this.state.key || this.state.menu){
             // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
-            const key = location.pathname.split("/")[2];
-            tp.api.getPost(key).then(res => {
-                const post = res.posts[0];
-                tp.store.dispatch(tp.action.addPost(post));
+            tp.api.getPost(this.props.postKey).then(res => {
+                tp.store.dispatch(tp.action.addPost(res.posts[0]));
             });
             return <div/>
         }
@@ -59,7 +57,7 @@ export default class Post extends React.Component {
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                        {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted}/>}
+                        {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>}
                     </div>
                     <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
                     <div className="meta2">Comments: {this.state.commentCnt || 0}</div>

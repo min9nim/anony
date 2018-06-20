@@ -23,6 +23,7 @@ export default class List extends React.Component {
                 tp.store.dispatch(tp.action.addPosts(res.posts));
             });
         }
+        tp.context = this.props.context;
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 

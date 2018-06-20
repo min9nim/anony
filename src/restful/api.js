@@ -128,7 +128,7 @@ api.authPost = function ({key, uuid, hideProgress}) {
 
 api.updatePost = function (post, hideProgress) {
     return httpReq(
-        "/api/posts/edit",
+        "/api/posts/edit/" + tp.user.uuid,
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),

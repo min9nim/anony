@@ -15,7 +15,7 @@ const get = {};
 
 
 // 신규 post 등록
-post.add = (req, res) => {
+post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
     post.key = req.body.key;
@@ -34,18 +34,19 @@ post.add = (req, res) => {
             message: `post(${req.body.key}) is saved`,
             output
         })
-    }).catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-    });;   
+    }).catch(errHandler(res));;   
 }
 
 
 // 글내용 수정
-post.edit = (req, res) => {
+post["/edit/:uuid"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     Post.findOne({key: req.body.key}).then(post => {
+        if(post.uuid !== req.params.uuid){
+            res.send({ status : "Fail", message: "Not authorized" });
+            return;
+        }
 
         if(post.title !== req.body.title || post.content !== req.body.content){
             // 제목이나 내용이 변경된 경우에만 기존 내용 백업
@@ -76,10 +77,7 @@ post.edit = (req, res) => {
                 output
             });
         });
-    }).catch(err =>{
-        console.log(err);
-        res.status(500).send(err);
-    });    
+    }).catch(errHandler(res));    
 
 
     // Post.update({ key: req.body.key}, { $set: req.body })
@@ -134,15 +132,12 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
 
         })
         .then(posts => res.send({status: "Success", posts : posts}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
 // key 에 해당하는 post 를 delete
-get.delete_$key_$uuid = (req, res) => {
+get["/delete/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`);
@@ -162,15 +157,12 @@ get.delete_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 };
 
 
 // delete 된 글을 복원
-get.restore_$key_$uuid = (req, res) => {
+get["/restore/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             if(post.uuid === req.params.uuid){
@@ -188,16 +180,13 @@ get.restore_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
 
 // key 에 해당하는 post 를 remove
-get.remove_$key_$uuid = (req, res) => {
+get["/remove/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`);
@@ -210,7 +199,7 @@ get.remove_$key_$uuid = (req, res) => {
                 }else{
                     Comment.remove({postKey : req.params.key}).then(output => {
                         console.log(output);
-                        Post.remove({ key: req.params.key }).then(output => {
+                        Post.remove({$or : [{key: req.params.key},{origin: req.params.key}]}).then(output => {
                                 console.log(output);
                                 res.send({
                                     status: "Success",
@@ -224,28 +213,22 @@ get.remove_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 };
 
 
 // key 에 해당하는 post 를 조회
-get.get_$key = (req, res) => {
+get["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(maskPost)
         .then(setHasComment)
         .then(post => res.send({status: "Success", posts : [post]}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
-get.auth_$key_$uuid = (req, res) => {
+get["/auth/:key/:uuid"] = (req, res) => {
     Post.find({ key: req.params.key })
         .then(posts => {
             console.log(posts);
@@ -259,10 +242,7 @@ get.auth_$key_$uuid = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -274,10 +254,7 @@ get["/history/:key"] = (req, res) => {
         .then(R.map(maskPost))
         .then(R.map(setHasComment))
         .then(posts => res.send({status: "Success", posts}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+        .catch(errHandler(res));
 }
 
 
@@ -313,13 +290,22 @@ function setHasComment(post){
 }
 
 
-router.post("/add", post.add);
-router.post("/edit", post.edit);
+function errHandler(res){
+    return err => {
+        console.log(err);
+        res.status(500).send(err.toString());
+    }
+}
+
+
+
+router.post("/add", post["/add"]);
+router.post("/edit/:uuid", post["/edit/:uuid"]);
 
 router.get("/get/:context/:idx/:cnt", get["/get/:context/:idx/:cnt"]);
-router.get("/delete/:key/:uuid", get.delete_$key_$uuid);
-router.get("/restore/:key/:uuid", get.restore_$key_$uuid);
-router.get("/remove/:key/:uuid", get.remove_$key_$uuid);
-router.get("/get/:key", get.get_$key);
-router.get("/auth/:key/:uuid", get.auth_$key_$uuid);
+router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
+router.get("/restore/:key/:uuid", get["/restore/:key/:uuid"]);
+router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
+router.get("/get/:key", get["/get/:key"]);
+router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
