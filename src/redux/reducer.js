@@ -68,6 +68,7 @@ function posts(state = [], action) {
           afterState.splice(idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
         }
       }
+      afterState.sort((a,b)=>b.date - a.date);  // 최종수정일 기준 내림차순 정렬
       
       return afterState;
     }

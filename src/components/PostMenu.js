@@ -7,6 +7,7 @@ export default class PostMenu extends React.Component {
         console.log("PostMenu 생성자 호출");
         super(props);
         this.showMenu = this.showMenu.bind(this);
+        this.cancelMenu = this.cancelMenu.bind(this);
         this.editPost = this.editPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.removePost = this.removePost.bind(this);
@@ -37,8 +38,10 @@ export default class PostMenu extends React.Component {
                 (tp.view.App.state.data.posts.length > 0 ) && tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                 //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
                 //this.props.history.push("/list");
-                tp.view.Post.setState({deleted : true});
+                //tp.view.Post.setState({deleted : true});
             }
+
+            this.cancelMenu();
         })
     }
 
@@ -78,6 +81,7 @@ export default class PostMenu extends React.Component {
                 //this.props.history.push("/list");
                 //tp.view.Post.setState({deleted : true});
             }
+            this.cancelMenu();
         })
     }    
 
@@ -105,6 +109,12 @@ export default class PostMenu extends React.Component {
         })
     }
 
+    cancelMenu(){
+        this.setState({
+            clicked: false
+        })
+    }
+
 
     showMenu(){
         this.setState({
@@ -124,12 +134,13 @@ export default class PostMenu extends React.Component {
                         <div>
                             <div onClick={this.removePost}>Remove</div>
                             <div onClick={this.restorePost}>Restore</div>
+                            <div onClick={this.cancelMenu}>Cancel</div>
                         </div>
                     ) : (
                         <div>
                             <div onClick={this.editPost}>Edit</div>
                             <div onClick={this.deletePost}>Delete</div>
-                            <div onClick={this.removePost}>Remove</div>
+                            <div onClick={this.cancelMenu}>Cancel</div>
                         </div>
                     )
                     }

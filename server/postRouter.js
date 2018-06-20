@@ -120,7 +120,7 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
     Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context === "root" ? undefined : req.params.context}]})
-        .sort({"date" : -1})
+        .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(idx)
         .limit(cnt)
         .then(R.map(setHasComment))
