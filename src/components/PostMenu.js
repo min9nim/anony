@@ -54,6 +54,7 @@ export default class PostMenu extends React.Component {
         }).then(res => {
             if (res.status === "Fail") {
                 alert(JSON.stringify(res, null, 2));
+                this.cancelMenu();
             } else {
                 //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                 tp.store.dispatch(tp.action.removePost(this.props.postKey));
@@ -94,6 +95,7 @@ export default class PostMenu extends React.Component {
                 this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
                 alert(res.message);
+                this.cancelMenu();
             }
         })
     }
@@ -105,6 +107,8 @@ export default class PostMenu extends React.Component {
                 this.props.history.push(this.contextPath + "/postHistory/" + this.props.postKey);
             }else{
                 alert("Have no changes");
+                this.cancelMenu();
+
             }
         })
     }
