@@ -39,6 +39,14 @@ function posts(state = [], action) {
       afterState[idx].deleted = true;   // idx번째 요소 삭제표시
       return afterState;
     }
+    case at.VIEWPOST: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      // 기존상태의 값을 변경하면 안될 것 같아서 아래와 같이 처리함
+      afterState[idx] = Object.assign({}, afterState[idx]); // 객체 복사
+      afterState[idx].viewCnt = afterState[idx].viewCnt ? afterState[idx].viewCnt + 1 : 1;
+      return afterState;
+    }    
     case at.RESTOREPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);

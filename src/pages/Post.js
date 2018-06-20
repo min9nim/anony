@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {PostMenu, CommentWrite, CommentList} from "../components";
+import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -23,7 +23,11 @@ export default class Post extends React.Component {
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
         // view 카운트 1증가
-        tp.api.viewPost(this.props.postKey);
+        tp.api.viewPost(this.props.postKey).then(res => {
+            if(res.status === "Success"){
+                tp.store.dispatch(tp.action.viewPost(this.props.postKey));
+            };
+        });
 
         tp.view.Post = this;
     }
@@ -63,7 +67,7 @@ export default class Post extends React.Component {
                         {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>}
                     </div>
                     <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
-                    <div className="meta2">Comments: {this.state.commentCnt || 0}</div>
+                    <PostMeta post={this.state}/>
                     {!!this.state.origin || this.state.isPrivate || (
                         <div>
                             <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>

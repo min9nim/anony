@@ -1,5 +1,5 @@
 import React from 'react';
-import {PostMenu} from "../components";
+import {PostMenu, PostMeta} from "../components";
 import moment from "moment";
 import { Link } from 'react-router-dom';
 import "./Excerpt.scss";
@@ -31,7 +31,7 @@ export default class Excerpt extends React.Component {
                     {/postHistory/.test(location.pathname) || <PostMenu history={this.props.history} context={this.props.context} postKey={this.props.post.key} postDeleted={this.props.post.deleted}/>}
                 </div>
                 <div className={this.props.post.deleted ? "content deleted" : "content"}>{this.props.post.content.substr(0,100)}</div>
-                {/*<div className="meta2">Comments: {this.props.post.commentCnt || 0}</div>*/}
+                <PostMeta post={this.props.post} />
             </div>
         );
     }

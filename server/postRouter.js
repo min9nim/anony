@@ -25,6 +25,7 @@ post["/add"] = (req, res) => {
     post.date = req.body.date;
     post.isPrivate = req.body.isPrivate;
     post.hasComment = req.body.hasComment;
+    post.viewCnt = 0;
     post.uuid = req.body.uuid;
     post.context = req.body.context;
 
@@ -36,6 +37,7 @@ post["/add"] = (req, res) => {
         })
     }).catch(errHandler(res));;   
 }
+
 
 
 // 글내용 수정
@@ -72,7 +74,7 @@ post["/edit/:uuid"] = (req, res) => {
         post.save().then(output => {
             console.log(output);
             res.send({
-                statue: "Success",
+                status: "Success",
                 message: `post@${req.body.key} updated.`,
                 output
             });
@@ -85,7 +87,7 @@ post["/edit/:uuid"] = (req, res) => {
     //         console.log(output);
     //         if(!output.n) throw Error("No rows updated. (No matched)");
     //         res.send({
-    //             statue: "Success",
+    //             status: "Success",
     //             message: `post@${req.body.key} updated.`,
     //             output
     //         });
@@ -95,6 +97,23 @@ post["/edit/:uuid"] = (req, res) => {
     //         res.status(500).send(err);
     //     });
 }
+
+
+// 글내용 수정
+get["/view/:key"] = (req, res) => {
+    Post.findOne({key: req.params.key}).then(post => {
+        post.viewCnt = post.viewCnt ? post.viewCnt + 1 : 1;
+        post.save().then(output => {
+            console.log(output);
+            res.send({
+                status: "Success",
+                message: `post@${req.body.key} viewCnt + 1.`,
+                output
+            });
+        });
+    }).catch(errHandler(res));    
+}
+
 
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
@@ -309,3 +328,5 @@ router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
 router.get("/get/:key", get["/get/:key"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
+router.get("/view/:key", get["/view/:key"]);
+
