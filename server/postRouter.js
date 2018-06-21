@@ -73,6 +73,7 @@ post["/edit/:uuid"] = (req, res) => {
         // 신규내용으로 업데이트
         Object.assign(post, req.body);
         post.save().then(output => {
+            console.log("# afterPost is saved");
             console.log(output);
             res.send({
                 status: "Success",

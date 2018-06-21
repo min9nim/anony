@@ -63,6 +63,7 @@ export default class Edit extends React.Component {
       date : Date.now(),
       isPrivate : this.state.isPrivate,
       hasComment : this.state.hasComment,
+      viewCnt : this.state.viewCnt,
       uuid : tp.user.uuid,
       context : this.state.context
     };
