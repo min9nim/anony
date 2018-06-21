@@ -24,8 +24,14 @@ export default class Post extends React.Component {
 
         // view 카운트 1증가
         tp.api.viewPost(this.props.postKey).then(res => {
+            console.log("## api.viewPost 콜백.." + JSON.stringify(this.props.post));
             if(res.status === "Success"){
-                tp.store.dispatch(tp.action.viewPost(this.props.postKey));
+                if(this.props.post){
+                    // List에서 제목 클릭해서 넘어온 경우에만 스토어를 업데이트 하도록 한다
+                    tp.store.dispatch(tp.action.viewPost(this.props.postKey));
+                }else{
+                    // url로 직접 access 한 경우에는 이미 viewCnt가 증가된 값이 화면에 출력되기 때문에 스토어를 따로 업데이트 하지 않음
+                }                
             };
         })
 
