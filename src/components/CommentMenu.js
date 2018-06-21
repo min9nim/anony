@@ -7,6 +7,7 @@ export default class CommentMenu extends React.Component {
         console.log("CommentMenu 생성자 호출");
         super(props);
         this.showMenu = this.showMenu.bind(this);
+        this.hideMenu = this.hideMenu.bind(this);
         this.editComment = this.editComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.removeComment = this.removeComment.bind(this);
@@ -34,27 +35,32 @@ export default class CommentMenu extends React.Component {
                 }
             })
         }
+        this.hideMenu();
+
     }
     
     removeComment(){
-        if(confirm("Remove this?")){
-            tp.api.removeComment({
-                key: this.props.comment.key,
-                uuid: tp.user.uuid
-            }).then(res => {
-                if (res.status === "Fail") {
-                    alert(res.message);
-                } else {
-                    tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
-
-                    // 부모 글의 commentCnt 1감소
-                    const postKey = this.props.comment.postKey;
-                    let post = tp.store.getState().data.posts.find(p => p.key === postKey);
-                    post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
-                    tp.store.dispatch(tp.action.updatePost(post));
-                }
-            })
+        if(!confirm("Remove this?")){
+            this.hideMenu();
+            return;
         }
+        
+        tp.api.removeComment({
+            key: this.props.comment.key,
+            uuid: tp.user.uuid
+        }).then(res => {
+            if (res.status === "Fail") {
+                alert(res.message);
+            } else {
+                tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
+
+                // 부모 글의 commentCnt 1감소
+                const postKey = this.props.comment.postKey;
+                let post = tp.store.getState().data.posts.find(p => p.key === postKey);
+                post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
+                tp.store.dispatch(tp.action.updatePost(post));
+            }
+        })
     }    
 
 
@@ -72,6 +78,11 @@ export default class CommentMenu extends React.Component {
         })
     }    
 
+    hideMenu(){
+        this.setState({
+            clicked: false
+        })
+    }
 
     showMenu(){
         this.setState({
