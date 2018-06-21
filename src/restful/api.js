@@ -10,7 +10,9 @@ function errHandler(res) {
 
 function httpReq(path, opt) {
     opt.hideProgress || nprogress.start();
-    return fetch(path, opt);
+    return fetch(path, Object.assign({}, {
+        credentials : "omit"
+    }, opt));
 }
 
 export const api = {};
@@ -103,10 +105,30 @@ api.restorePost = function ({key, uuid, hideProgress}) {
     ).then(errHandler);
 }
 
+api.viewPost = function (key) {
+    return httpReq(
+        "/api/posts/view/" + key,
+        {
+            method: "GET",
+        }
+    ).then(errHandler);
+}
+
+
 
 api.deleteComment = function ({key, uuid, hideProgress}) {
     return httpReq(
         "/api/comments/delete/" + key + "/" + uuid,
+        {
+            method: "GET",
+            hideProgress
+        }
+    ).then(errHandler);
+}
+
+api.removeComment = function ({key, uuid, hideProgress}) {
+    return httpReq(
+        "/api/comments/remove/" + key + "/" + uuid,
         {
             method: "GET",
             hideProgress

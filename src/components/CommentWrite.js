@@ -18,7 +18,7 @@ export default class Comment extends React.Component {
 
         this.state = {
             key: "",                    // key
-            writer: tp.user.uuid,     // 작성자
+            writer: tp.user.writer,     // 작성자
             content: "",                // 내용
             uuid: tp.user.uuid,         // uuid
             postKey: this.props.postKey,// 부모 포스트 id
@@ -70,6 +70,8 @@ export default class Comment extends React.Component {
             tp.store.dispatch(tp.action.updatePost(post));
             this.setState({content: ""});       // 기존 입력한 내용 초기화
             tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트
+
+            document.getElementById("content").style.height = "";   // 댓글 입력 textarea 높이 초기화
       
           });
     }

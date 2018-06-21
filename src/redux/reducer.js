@@ -39,6 +39,14 @@ function posts(state = [], action) {
       afterState[idx].deleted = true;   // idx번째 요소 삭제표시
       return afterState;
     }
+    case at.VIEWPOST: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      // 기존상태의 값을 변경하면 안될 것 같아서 아래와 같이 처리함
+      afterState[idx] = Object.assign({}, afterState[idx]); // 객체 복사
+      afterState[idx].viewCnt = afterState[idx].viewCnt ? afterState[idx].viewCnt + 1 : 1;
+      return afterState;
+    }    
     case at.RESTOREPOST: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
@@ -68,6 +76,7 @@ function posts(state = [], action) {
           afterState.splice(idx, 1, action.post); // idx번째 요소 삭제하고 post 추가
         }
       }
+      afterState.sort((a,b)=>b.date - a.date);  // 최종수정일 기준 내림차순 정렬
       
       return afterState;
     }
@@ -88,10 +97,16 @@ function comments(state = [], action) {
     case at.DELETECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.key);
-      //afterState.splice(idx, 1); // idx번째 요소 삭제
       afterState[idx].deleted = true;
       return afterState;
     }
+    case at.REMOVECOMMENT: {
+      const afterState = [...state]; // state 배열 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState.splice(idx, 1); // idx번째 요소 삭제
+      return afterState;
+    }
+
     case at.UPDATECOMMENT: {
       const afterState = [...state]; // state 배열 복사
       const idx = afterState.findIndex(o => o.key === action.comment.key);

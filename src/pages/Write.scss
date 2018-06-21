@@ -1,6 +1,9 @@
 
 .write {
     margin: 20px;
+    div {
+        margin-bottom: 5px;
+    }
     .writer {
         display: inline-block;
         width: calc(100% - 170px);
@@ -17,7 +20,7 @@
 
     .content {
         font-size: 20px;
-        height: 200px;
+        height: 210px;
     }
     input {
         font-size: 20px;

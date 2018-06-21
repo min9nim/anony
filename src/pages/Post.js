@@ -1,7 +1,7 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {PostMenu, CommentWrite, CommentList} from "../components";
+import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
@@ -21,6 +21,19 @@ export default class Post extends React.Component {
           };
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
+        // view 카운트 1증가
+        tp.api.viewPost(this.props.postKey).then(res => {
+            console.log("## api.viewPost 콜백.." + JSON.stringify(this.props.post));
+            if(res.status === "Success"){
+                if(this.props.post){
+                    // List에서 제목 클릭해서 넘어온 경우에만 스토어를 업데이트 하도록 한다
+                    tp.store.dispatch(tp.action.viewPost(this.props.postKey));
+                }else{
+                    // url로 직접 access 한 경우에는 이미 viewCnt가 증가된 값이 화면에 출력되기 때문에 스토어를 따로 업데이트 하지 않음
+                }                
+            };
+        })
 
         tp.view.Post = this;
     }
@@ -60,7 +73,7 @@ export default class Post extends React.Component {
                         {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>}
                     </div>
                     <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
-                    <div className="meta2">Comments: {this.state.commentCnt || 0}</div>
+                    <PostMeta post={this.state}/>
                     {!!this.state.origin || this.state.isPrivate || (
                         <div>
                             <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>

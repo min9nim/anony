@@ -6,6 +6,7 @@ const Post = require('./models/post');
 const R = require('ramda');
 
 const router = express.Router();
+module.exports = router;
 
 
 function maskComment(comment){
@@ -16,10 +17,22 @@ function maskComment(comment){
 }
 
 
+function errHandler(res){
+    return err => {
+        console.log(err);
+        res.status(500).send(err.toString());
+    }
+}
+
+const post = {};
+const get = {};
+
+
+
 // 부모글의 댓글카운트 세팅
 function setPostCommentCnt(postKey){
     return Post.findOne({key:postKey}).then(post => {
-        Comment.find({$and:[{postKey:post.key}, {deleted : {$ne : true}}]}).then(comments => {
+        Comment.find({$and:[{postKey:post.key}]}).then(comments => {
             post.commentCnt = comments.length;
             post.save().then(output => {
                 console.log(output);
@@ -31,9 +44,8 @@ function setPostCommentCnt(postKey){
 
 
 
-
 // 신규 댓글 등록
-router.post("/add", (req, res) => {
+post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     // post 상태가 삭제된 상태라면 댓글 등록 불가
@@ -64,34 +76,28 @@ router.post("/add", (req, res) => {
             });
             
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });           
+        .catch(errHandler(res));           
     })
-    .catch(err => {
-        console.log(err);
-        res.status(500).send(err);
-    });;
-        
-        
+    .catch(errHandler(res));;
+}
 
-});
 
 // idx 번째부터 cnt 개수만큼 comment 를 조회
-router.get("/get/:idx/:cnt", (req, res) => {
+get["/get/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
     if(isNaN(idx)){
-        console.log(":idx 가 숫자가 아닙니다");
-        res.status(500).send(":idx 가 숫자가 아닙니다");
+        //console.log(":idx 가 숫자가 아닙니다");
+        //res.status(500).send(":idx 가 숫자가 아닙니다");
+        errHandler(res)(Error(":idx 가 숫자가 아닙니다"));
         return;
     }
 
 
     let cnt = Number(req.params.cnt);
     if(isNaN(cnt)){
-        console.log(":cnt 가 숫자가 아닙니다");
-        res.status(500).send(":cnt 가 숫자가 아닙니다");
+        //console.log(":cnt 가 숫자가 아닙니다");
+        //res.status(500).send(":cnt 가 숫자가 아닙니다");
+        errHandler(res)(Error(":cnt 가 숫자가 아닙니다"));
         return;
     }
 
@@ -110,23 +116,18 @@ router.get("/get/:idx/:cnt", (req, res) => {
 
         })
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
-});
+        .catch(errHandler(res));
+};
 
 // key 에 해당하는 comment 를 삭제
-router.get("/delete/:key/:uuid", (req, res) => {
+get["/delete/:key/:uuid"] = (req, res) => {
     console.log(`/comments/delete/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
         .then(comment => {
             console.log("# comments = " + JSON.stringify(comment, null, 2));
             if(comment.uuid === req.params.uuid){
-
                 comment.deleted = true;
                 comment.save().then(output => {
-
                     // 댓글 카운트 set
                     setPostCommentCnt(comment.postKey)
 
@@ -140,29 +141,49 @@ router.get("/delete/:key/:uuid", (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
-});
+        .catch(errHandler(res));
+};
+
+
+// key 에 해당하는 comment 를 삭제
+get["/remove/:key/:uuid"] = (req, res) => {
+    console.log(`/comments/remove/:key/:uuid call`);
+    Comment.findOne({ key: req.params.key })
+        .then(comment => {
+            console.log("# comments = " + JSON.stringify(comment, null, 2));
+            if(comment.uuid === req.params.uuid){
+                Comment.remove({key: req.params.key}).then(output => {
+
+                    // 댓글 카운트 set
+                    setPostCommentCnt(comment.postKey)
+
+                    res.send({
+                        status: "Success",
+                        message: `comment(${req.params.key}) is deleted`,
+                        output
+                    });
+                })
+            }else{
+                res.send({ status : "Fail", message: "Not authorized" });
+            }
+        })
+        .catch(errHandler(res));
+};
 
 
 
 // key 에 해당하는 comment 를 조회
-router.get("/get/:key", (req, res) => {
+get["/get/:key"] = (req, res) => {
     Comment.find({ postKey: req.params.key })
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
-});
+        .catch(errHandler(res));
+};
 
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
-router.get("/auth/:key/:uuid", (req, res) => {
+get["/auth/:key/:uuid"] = (req, res) => {
     Comment.find({ key: req.params.key })
         .then(comments => {
             console.log(comments);
@@ -176,11 +197,16 @@ router.get("/auth/:key/:uuid", (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
-});
+        .catch(errHandler(res));
+}
 
 
-module.exports = router;
+
+router.post("/add", post["/add"]);
+router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
+router.get("/get/:key", get["/get/:key"]);
+router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
+router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
+router.get("/get/:idx/:cnt", get["/get/:idx/:cnt"]);
+
+

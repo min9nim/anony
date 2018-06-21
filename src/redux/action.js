@@ -12,12 +12,15 @@ const at = action.type = {
   UPDATEPOST : "UPDATEPOST",
   REMOVEPOST : "REMOVEPOST",
   RESTOREPOST : "RESTOREPOST",
+  VIEWPOST : "VIEWPOST",
+
 
   ADDCOMMENT : "ADDCOMMENT",
   ADDCOMMENTS : "ADDCOMMENTS",
   DELETECOMMENT : "DELETECOMMENT",
   UPDATECOMMENT : "UPDATECOMMENT",
-  
+  REMOVECOMMENT : "REMOVECOMMENT",
+
   SETPOSTHISTORY : "SETPOSTHISTORY",
   
   SCROLLEND : "SCROLLEND",
@@ -26,51 +29,60 @@ const at = action.type = {
 action.addPost = function(post) {
   post.key = post.key || shortid.generate();
   return {
-    type:  at.ADDPOST,
+    type: at.ADDPOST,
     post
   }
 }
 
 action.initPosts = function(){
   return {
-    type:  at.INITPOSTS,
+    type: at.INITPOSTS,
   }
 }
 
 action.scrollEnd = function(posts) {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
-    type:  at.SCROLLEND,
+    type: at.SCROLLEND,
     posts
   }
 }
 
 action.addPosts = function(posts) {
   return {
-    type:  at.ADDPOSTS,
+    type: at.ADDPOSTS,
     posts
   }
 }
 
 action.deletePost = function(key) {
-  return {type:  at.DELETEPOST, key}
+  return {type: at.DELETEPOST, key}
 }
 
 action.removePost = function(key) {
-  return {type:  at.REMOVEPOST, key}
+  return {type: at.REMOVEPOST, key}
+}
+
+action.viewPost = function(key) {
+  return {type: at.VIEWPOST, key}
 }
 
 action.restorePost = function(key) {
-  return {type:  at.RESTOREPOST, key}
+  return {type: at.RESTOREPOST, key}
 }
 
+
 action.deleteComment = function(key) {
-  return {type:  at.DELETECOMMENT, key}
+  return {type: at.DELETECOMMENT, key}
+}
+
+action.removeComment = function(key) {
+  return {type: at.REMOVECOMMENT, key}
 }
 
 action.updatePost = function(post) {
   return {
-    type:  at.UPDATEPOST,
+    type: at.UPDATEPOST,
     post
   }
 }
@@ -78,7 +90,7 @@ action.updatePost = function(post) {
 
 action.addComment = function(comment) {
   return {
-    type:  at.ADDCOMMENT,
+    type: at.ADDCOMMENT,
     comment
   }
 }
@@ -86,7 +98,7 @@ action.addComment = function(comment) {
 
 action.addComments = function(comments) {
   return {
-    type:  at.ADDCOMMENTS,
+    type: at.ADDCOMMENTS,
     comments
   }
 }
@@ -95,7 +107,7 @@ action.addComments = function(comments) {
 
 action.setPostHistory = function(phist) {
   return {
-    type:  at.SETPOSTHISTORY,
+    type: at.SETPOSTHISTORY,
     phist
   }
 }

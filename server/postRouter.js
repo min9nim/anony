@@ -31,6 +31,7 @@ post["/add"] = (req, res) => {
     post.date = req.body.date;
     post.isPrivate = req.body.isPrivate;
     post.hasComment = req.body.hasComment;
+    post.viewCnt = 0;
     post.uuid = req.body.uuid;
     post.context = req.body.context;
 
@@ -42,6 +43,7 @@ post["/add"] = (req, res) => {
         })
     }).catch(errHandler(res));;   
 }
+
 
 
 // 글내용 수정
@@ -66,6 +68,7 @@ post["/edit/:uuid"] = (req, res) => {
             prevPost.isPrivate = post.isPrivate;
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
+            prevPost.viewCnt = post.viewCnt;
             prevPost.context = post.context;
             prevPost.save().then(output => {
                 console.log("# prevPost is saved");
@@ -76,31 +79,40 @@ post["/edit/:uuid"] = (req, res) => {
         // 신규내용으로 업데이트
         Object.assign(post, req.body);
         post.save().then(output => {
+            console.log("# afterPost is saved");
             console.log(output);
             res.send({
-                statue: "Success",
+                status: "Success",
                 message: `post@${req.body.key} updated.`,
                 output
             });
         });
     }).catch(errHandler(res));    
-
-
-    // Post.update({ key: req.body.key}, { $set: req.body })
-    //     .then(output => {
-    //         console.log(output);
-    //         if(!output.n) throw Error("No rows updated. (No matched)");
-    //         res.send({
-    //             statue: "Success",
-    //             message: `post@${req.body.key} updated.`,
-    //             output
-    //         });
-    //     })
-    //     .catch(err =>{
-    //         console.log(err);
-    //         res.status(500).send(err);
-    //     });
 }
+
+
+// 글내용 수정
+get["/view/:key"] = (req, res) => {
+    Post.findOne({key: req.params.key}).then(post => {
+        if(post.origin) {
+            res.send({
+                status: "Fail",
+                message: `edited Post@${req.params.key} cannot increased viewCnt`,
+            });
+        }else{
+            post.viewCnt = post.viewCnt ? post.viewCnt + 1 : 1;
+            post.save().then(output => {
+                console.log(output);
+                res.send({
+                    status: "Success",
+                    message: `post@${req.params.key} viewCnt + 1.`,
+                    output
+                });
+            });    
+        }
+    }).catch(errHandler(res));    
+}
+
 
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
@@ -114,7 +126,6 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
         return;
     }
 
-
     let cnt = Number(req.params.cnt);
     if(isNaN(cnt)){
         console.log(":cnt 가 숫자가 아닙니다");
@@ -126,7 +137,7 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
     Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context === "root" ? undefined : req.params.context}]})
-        .sort({"date" : -1})
+        .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(idx)
         .limit(cnt)
         .then(R.map(setHasComment))
@@ -158,7 +169,6 @@ get["/delete/:key/:uuid"] = (req, res) => {
                         output
                     });                    
                 });
-
             }else{
                 res.send({ status : "Fail", message: "Not authorized" });
             }
@@ -299,7 +309,7 @@ function setHasComment(post){
 function errHandler(res){
     return err => {
         console.log(err);
-        res.status(500).send(err.toString());
+        res.status(500).send({status: "Fail", message: err.toString()});
     }
 }
 
@@ -315,3 +325,5 @@ router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
 router.get("/get/:key", get["/get/:key"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
+router.get("/view/:key", get["/view/:key"]);
+
