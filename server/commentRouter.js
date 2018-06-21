@@ -6,6 +6,7 @@ const Post = require('./models/post');
 const R = require('ramda');
 
 const router = express.Router();
+module.exports = router;
 
 
 function maskComment(comment){
@@ -23,6 +24,10 @@ function errHandler(res){
     }
 }
 
+const post = {};
+const get = {};
+
+
 
 // 부모글의 댓글카운트 세팅
 function setPostCommentCnt(postKey){
@@ -39,9 +44,8 @@ function setPostCommentCnt(postKey){
 
 
 
-
 // 신규 댓글 등록
-router.post("/add", (req, res) => {
+post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     // post 상태가 삭제된 상태라면 댓글 등록 불가
@@ -75,10 +79,11 @@ router.post("/add", (req, res) => {
         .catch(errHandler(res));           
     })
     .catch(errHandler(res));;
-});
+}
+
 
 // idx 번째부터 cnt 개수만큼 comment 를 조회
-router.get("/get/:idx/:cnt", (req, res) => {
+get["/get/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
     if(isNaN(idx)){
         //console.log(":idx 가 숫자가 아닙니다");
@@ -112,10 +117,10 @@ router.get("/get/:idx/:cnt", (req, res) => {
         })
         .then(comments => res.send({status: "Success", comments : comments}))
         .catch(errHandler(res));
-});
+};
 
 // key 에 해당하는 comment 를 삭제
-router.get("/delete/:key/:uuid", (req, res) => {
+get["/delete/:key/:uuid"] = (req, res) => {
     console.log(`/comments/delete/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
         .then(comment => {
@@ -137,11 +142,11 @@ router.get("/delete/:key/:uuid", (req, res) => {
             }
         })
         .catch(errHandler(res));
-});
+};
 
 
 // key 에 해당하는 comment 를 삭제
-router.get("/remove/:key/:uuid", (req, res) => {
+get["/remove/:key/:uuid"] = (req, res) => {
     console.log(`/comments/remove/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
         .then(comment => {
@@ -163,22 +168,22 @@ router.get("/remove/:key/:uuid", (req, res) => {
             }
         })
         .catch(errHandler(res));
-});
+};
 
 
 
 // key 에 해당하는 comment 를 조회
-router.get("/get/:key", (req, res) => {
+get["/get/:key"] = (req, res) => {
     Comment.find({ postKey: req.params.key })
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
         .then(comments => res.send({status: "Success", comments : comments}))
         .catch(errHandler(res));
-});
+};
 
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
-router.get("/auth/:key/:uuid", (req, res) => {
+get["/auth/:key/:uuid"] = (req, res) => {
     Comment.find({ key: req.params.key })
         .then(comments => {
             console.log(comments);
@@ -193,7 +198,15 @@ router.get("/auth/:key/:uuid", (req, res) => {
             }
         })
         .catch(errHandler(res));
-});
+}
 
 
-module.exports = router;
+
+router.post("/add", post["/add"]);
+router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
+router.get("/get/:key", get["/get/:key"]);
+router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
+router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
+router.get("/get/:idx/:cnt", get["/get/:idx/:cnt"]);
+
+
