@@ -290,7 +290,7 @@ $m.txtToHtml = function(str, word){
             }else{
                 return newval;
             }
-        }).join("&nbsp;");   // 공백문자 &nbsp; 치환
+        }).join(" ");   // html태그를 사용하기 위해 html태그 밖에서만 공백문자를 &nbsp; 치환할 수 있도록 수정 필요
     }).join("<br/>");   // 새줄문자 <br/> 치환
 }
 
