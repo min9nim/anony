@@ -27,7 +27,7 @@ export default class Post extends React.Component {
             if(res.status === "Success"){
                 tp.store.dispatch(tp.action.viewPost(this.props.postKey));
             };
-        });
+        })
 
         tp.view.Post = this;
     }

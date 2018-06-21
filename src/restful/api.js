@@ -10,7 +10,9 @@ function errHandler(res) {
 
 function httpReq(path, opt) {
     opt.hideProgress || nprogress.start();
-    return fetch(path, opt);
+    return fetch(path, Object.assign({}, {
+        credentials : "omit"
+    }, opt));
 }
 
 export const api = {};

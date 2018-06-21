@@ -62,6 +62,7 @@ post["/edit/:uuid"] = (req, res) => {
             prevPost.isPrivate = post.isPrivate;
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
+            prevPost.viewCnt = post.viewCnt;
             prevPost.context = post.context;
             prevPost.save().then(output => {
                 console.log("# prevPost is saved");
@@ -80,37 +81,28 @@ post["/edit/:uuid"] = (req, res) => {
             });
         });
     }).catch(errHandler(res));    
-
-
-    // Post.update({ key: req.body.key}, { $set: req.body })
-    //     .then(output => {
-    //         console.log(output);
-    //         if(!output.n) throw Error("No rows updated. (No matched)");
-    //         res.send({
-    //             status: "Success",
-    //             message: `post@${req.body.key} updated.`,
-    //             output
-    //         });
-    //     })
-    //     .catch(err =>{
-    //         console.log(err);
-    //         res.status(500).send(err);
-    //     });
 }
 
 
 // 글내용 수정
 get["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
-        post.viewCnt = post.viewCnt ? post.viewCnt + 1 : 1;
-        post.save().then(output => {
-            console.log(output);
+        if(post.origin) {
             res.send({
-                status: "Success",
-                message: `post@${req.body.key} viewCnt + 1.`,
-                output
+                status: "Fail",
+                message: `edited Post@${req.params.key} cannot increased viewCnt`,
             });
-        });
+        }else{
+            post.viewCnt = post.viewCnt ? post.viewCnt + 1 : 1;
+            post.save().then(output => {
+                console.log(output);
+                res.send({
+                    status: "Success",
+                    message: `post@${req.params.key} viewCnt + 1.`,
+                    output
+                });
+            });    
+        }
     }).catch(errHandler(res));    
 }
 
@@ -310,7 +302,7 @@ function setHasComment(post){
 function errHandler(res){
     return err => {
         console.log(err);
-        res.status(500).send(err.toString());
+        res.status(500).send({status: "Fail", message: err.toString()});
     }
 }
 
