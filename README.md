@@ -8,7 +8,13 @@
 ```
 <br>
 
-### 개발모드 시작
+### 개발버젼 빌드
+```
+~/talkplace $ npm run dev-build
+```
+<br>
+
+### 개발서버 시작
 
 ```
 ~/talkplace $ npm run dev-server
@@ -22,12 +28,19 @@ http://localhost:7777
 
 <br>
 
-### 운영모드 시작
+### 운영버젼 빌드
+```
+~/talkplace $ npm run prod-build
+```
+
+<br>
+
+### 운영서버 시작
 
 ```
 ~/talkplace $ npm start
 ```
-터미널 종료 후에도 서비스를 계속 해야할 경우에는 아래와 같이 forever 를 이용한다
+터미널 종료 후에도 서비스를 계속 해야할 경우에는 forever 이용
 
 1. forever 설치
     ```
@@ -45,4 +58,3 @@ http://localhost:7777
     ```
     forever stop server/app.js
     ```
-
