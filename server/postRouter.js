@@ -24,16 +24,12 @@ function setHasComment(post){
 post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
-    post.key = req.body.key;
-    post.title = req.body.title;
-    post.writer = req.body.writer;
-    post.content = req.body.content;
-    post.date = req.body.date;
-    post.isPrivate = req.body.isPrivate;
-    post.hasComment = req.body.hasComment;
-    post.viewCnt = 0;
-    post.uuid = req.body.uuid;
-    post.context = req.body.context;
+    Object.assign(post, req.body);
+    // 글최초 등록하면 바로 글보기 화면으로 가면서 카운트가 1 증가하는데
+    // 최초 등록 후 글이 보여질 때는 view를 0으로 맞추기 위해
+    // 아래와 같이 명시적으로 처음에 undefined 값을 할당한다.
+    // get["/view/:key"] 함수와 연계하여 생각해 본다
+    post.viewCnt = undefined;     
 
     post.save().then(output => {
         res.send({
@@ -69,7 +65,10 @@ post["/edit/:uuid"] = (req, res) => {
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
             prevPost.viewCnt = post.viewCnt;
-            prevPost.context = post.context;
+            prevPost.context = post.context;                        
+            // 근데 여기서 Object.assign 을 사용하면 오류 발생ㅠ
+            // https://gist.github.com/min9nim/8f3c3895bf2e41e26921eb1002649306
+
             prevPost.save().then(output => {
                 console.log("# prevPost is saved");
                 console.log(output);
@@ -86,12 +85,12 @@ post["/edit/:uuid"] = (req, res) => {
                 message: `post@${req.body.key} updated.`,
                 output
             });
-        });
+        }).catch(errHandler(res));
     }).catch(errHandler(res));    
 }
 
 
-// 글내용 수정
+// 조회수 1증가
 get["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
         if(post.origin) {
@@ -100,7 +99,7 @@ get["/view/:key"] = (req, res) => {
                 message: `edited Post@${req.params.key} cannot increased viewCnt`,
             });
         }else{
-            post.viewCnt = post.viewCnt ? post.viewCnt + 1 : 1;
+            post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
             post.save().then(output => {
                 console.log(output);
                 res.send({

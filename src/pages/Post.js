@@ -22,18 +22,45 @@ export default class Post extends React.Component {
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
-        // view 카운트 1증가
-        tp.api.viewPost(this.props.postKey).then(res => {
-            console.log("## api.viewPost 콜백.." + JSON.stringify(this.props.post));
-            if(res.status === "Success"){
-                if(this.props.post){
-                    // List에서 제목 클릭해서 넘어온 경우에만 스토어를 업데이트 하도록 한다
-                    tp.store.dispatch(tp.action.viewPost(this.props.postKey));
-                }else{
-                    // url로 직접 access 한 경우에는 이미 viewCnt가 증가된 값이 화면에 출력되기 때문에 스토어를 따로 업데이트 하지 않음
-                }                
-            };
-        })
+/*
+        1. List 에서 글 선택해서 들어온 경우
+        - viewPost 호출한 후에 store업데이트 필요
+      
+      2. 직접URL로 치고 들어온 경우
+        - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
+        - store 업데이트 필요없음
+      
+      3. Write 후 들어온 경우
+        - viewPost 필요없고 그냥 내용 보여주면 됨, store 업데이트도 필요없음
+  */    
+    
+        if(this.props.post){
+            const diff = Date.now() - this.props.post.date;
+            console.log("# diff = " + diff)
+            if(diff < 1000){
+                // 1. 글등록이나 수정하고 바로 들어온 경우
+                // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
+            }else{
+                // 2. List 에서 글 선택해서 들어온 경우
+                // - viewPost 호출한 후에 store 업데이트 필요
+                tp.api.viewPost(this.props.postKey).then(res => {
+                    if(res.status === "Success"){
+                        tp.store.dispatch(tp.action.viewPost(this.props.postKey));
+                    };
+                })
+            }
+        }else{
+            // 3. 직접URL로 치고 들어온 경우
+            // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
+            // - store 업데이트 필요없음
+            tp.api.viewPost(this.props.postKey).then(res => {
+                if(res.status === "Success"){
+                    return tp.api.getPost(this.props.postKey);        
+                }
+            }).then(res => {
+                tp.store.dispatch(tp.action.addPost(res.posts[0]));
+            })
+        }
 
         tp.view.Post = this;
     }
@@ -49,15 +76,10 @@ export default class Post extends React.Component {
         if(this.props.post){
             // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
             this.state = this.props.post
+        }else{
+            return <div/> ;
         }
-        //if([null, undefined].includes(this.state) || this.state.menu){
-        if(!this.state.key || this.state.menu){
-            // 최초 렌더링 시에는 post 가 undefined 이므로 예외처리
-            tp.api.getPost(this.props.postKey).then(res => {
-                tp.store.dispatch(tp.action.addPost(res.posts[0]));
-            });
-            return <div/>
-        }
+        
         const content = tp.$m.txtToHtml(this.state.content);
 
         return (
