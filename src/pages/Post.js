@@ -5,7 +5,6 @@ import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./Post.scss";
-
 export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
@@ -22,18 +21,6 @@ export default class Post extends React.Component {
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
-/*
-        1. List 에서 글 선택해서 들어온 경우
-        - viewPost 호출한 후에 store업데이트 필요
-      
-      2. 직접URL로 치고 들어온 경우
-        - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
-        - store 업데이트 필요없음
-      
-      3. Write 후 들어온 경우
-        - viewPost 필요없고 그냥 내용 보여주면 됨, store 업데이트도 필요없음
-  */    
-    
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
             console.log("# diff = " + diff)
@@ -43,32 +30,22 @@ export default class Post extends React.Component {
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
                 // - viewPost 호출한 후에 store 업데이트 필요
-                tp.api.viewPost(this.props.postKey).then(res => {
-                    if(res.status === "Success"){
-                        tp.store.dispatch(tp.action.viewPost(this.props.postKey));
-                    };
-                })
+                tp.api.viewPost(this.props.postKey)
+                    .then(tp.checkStatus)
+                    .then(res => tp.store.dispatch(tp.action.viewPost(this.props.postKey)));
             }
         }else{
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
-            tp.api.viewPost(this.props.postKey).then(res => {
-                if(res.status === "Success"){
-                    return tp.api.getPost(this.props.postKey);        
-                }
-            }).then(res => {
-                tp.store.dispatch(tp.action.addPost(res.posts[0]));
-            })
+            tp.api.viewPost(this.props.postKey)
+                .then(tp.checkStatus)
+                .then(res => {
+                    tp.store.dispatch(tp.action.addPost(res.output));
+                })
         }
 
         tp.view.Post = this;
-    }
-
-    shouldComponentUpdate(prevProps, prevState) {
-        // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-        //console.log("Post.shouldComponentUpdate returns [" + true + "]");
-        return true;
     }
 
     render(){

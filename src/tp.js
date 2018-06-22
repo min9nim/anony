@@ -33,7 +33,7 @@ tp.setUser = function(obj){
     user = obj ? Object.assign(tp.user, obj) : initValue ;
   }
   //localStorage.setItem("user", JSON.stringify(user));
-  $m.setCookie("user", JSON.stringify(user))
+  tp.setCookie("user", JSON.stringify(user))
 
   return user;
 }
@@ -66,13 +66,49 @@ tp.bodyScroll = function () {
 };
 
 
-tp.init = function(){
-  //tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
-  tp.user = $m.getCookie("user") ? JSON.parse($m.getCookie("user")) :  tp.setUser();
+tp.checkStatus = function(res){
+  if(res.status === "Success"){
+    return res;
+  }else{
+    // 정상적인 경우가 아니라 간주하고 예외 발생시킴
+    alert(res.message);
+    throw Error(res.message);
+  }
+}
+
+
+
+tp.setCookie = function (cname, cvalue, exdays=1000) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+
+tp.getCookie = function (cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+      }
+  }
+  return "";
 }
 
 
 
 
+
+tp.init = function(){
+  //tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
+  tp.user = tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+}
 tp.init();
 window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출

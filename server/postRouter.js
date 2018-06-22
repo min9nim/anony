@@ -35,7 +35,7 @@ post["/add"] = (req, res) => {
         res.send({
             status: 'Success',
             message: `post(${req.body.key}) is saved`,
-            output
+            output: maskPost(output)
         })
     }).catch(errHandler(res));;   
 }
@@ -83,7 +83,7 @@ post["/edit/:uuid"] = (req, res) => {
             res.send({
                 status: "Success",
                 message: `post@${req.body.key} updated.`,
-                output
+                output: maskPost(output)
             });
         }).catch(errHandler(res));
     }).catch(errHandler(res));    
@@ -105,7 +105,7 @@ get["/view/:key"] = (req, res) => {
                 res.send({
                     status: "Success",
                     message: `post@${req.params.key} viewCnt + 1.`,
-                    output
+                    output: maskPost(output)
                 });
             });    
         }
@@ -165,7 +165,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
                     res.send({
                         status: "Success",
                         message: `post(${req.params.key}) is deleted`,
-                        output
+                        output: maskPost(output)
                     });                    
                 });
             }else{
@@ -187,7 +187,7 @@ get["/restore/:key/:uuid"] = (req, res) => {
                     res.send({
                         status: "Success",
                         message: `post(${req.params.key}) is restored`,
-                        output
+                        output: maskPost(output)
                     });                    
                 });
 
@@ -212,17 +212,18 @@ get["/remove/:key/:uuid"] = (req, res) => {
                         message: `post(${req.params.key}) has comments`,
                     });
                 }else{
-                    Comment.remove({postKey : req.params.key}).then(output => {
-                        console.log(output);
-                        Post.remove({$or : [{key: req.params.key},{origin: req.params.key}]}).then(output => {
-                                console.log(output);
-                                res.send({
-                                    status: "Success",
-                                    message: `post(${req.params.key}) is removed`,
-                                    output
-                                });
+                    Comment.remove({postKey: req.params.key})
+                        .then(output => {
+                            console.log(output);
+                            return Post.remove({$or: [{key: req.params.key}, {origin: req.params.key}]});
+                        }).then(output => {
+                            console.log(output);
+                            res.send({
+                                status: "Success",
+                                message: `post(${req.params.key}) is removed`,
+                                output
                             });
-                    });
+                        })
                 }
             }else{
                 res.send({ status : "Fail", message: "Not authorized" });
@@ -281,7 +282,9 @@ get["/history/:key"] = (req, res) => {
 function maskPost(post){
     //post.origin = undefined;  // Post 에서 댓글출력여부 판단시 필요함
     post.uuid = undefined;
-    post._id = undefined;       // _id 는 이렇게 해도 해당 정보가 화면까지 내려가는 것 같다
+
+    // _id 는 아래와 같이 해도 다른 값이 다시 세팅이 됨. _id속성에 setter 가 설정 되어있는듯
+    post._id = undefined;       
     post.__v = undefined;
     // for(var i in post){
     //     console.log(i + ", ");

@@ -19,9 +19,9 @@ export default class List extends React.Component {
             tp.store.dispatch(tp.action.initPosts());
 
             // 다시 세팅
-            tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context}).then(res => {
-                tp.store.dispatch(tp.action.addPosts(res.posts));
-            });
+            tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context})
+                .then(tp.checkStatus)
+                .then(res => tp.store.dispatch(tp.action.addPosts(res.posts)));
         }
         tp.context = this.props.context;
 
