@@ -31,17 +31,21 @@ export default class Post extends React.Component {
                 // 2. List 에서 글 선택해서 들어온 경우
                 // - viewPost 호출한 후에 store 업데이트 필요
                 tp.api.viewPost(this.props.postKey)
-                    .then(tp.checkStatus)
-                    .then(res => tp.store.dispatch(tp.action.viewPost(this.props.postKey)));
+                    .then(res => {
+                        if(res.status == "Success"){
+                            tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                        }
+                    })
             }
         }else{
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
             tp.api.viewPost(this.props.postKey)
-                .then(tp.checkStatus)
                 .then(res => {
-                    tp.store.dispatch(tp.action.addPost(res.output));
+                    if(res.status == "Success"){
+                        tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                    }
                 })
         }
 
