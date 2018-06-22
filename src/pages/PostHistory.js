@@ -15,8 +15,10 @@ export default class PostHistory extends React.Component {
 
 
         if(this.props.phist.length === 0){
-            const postKey = location.pathname.split("/")[2];
-            tp.api.getPostHistory(postKey).then(res => {
+            const postKey = this.props.postKey;
+            tp.api.getPostHistory(postKey)
+                .then(tp.checkStatus)
+                .then(res => {
                 if(res.posts.length > 0){
                     tp.store.dispatch(tp.action.setPostHistory(res.posts));
                 }else{
@@ -38,7 +40,7 @@ export default class PostHistory extends React.Component {
             <div className="postHistory">
                 <div className="context">{this.props.context || "Anony"}</div>
                 {this.props.phist.map(
-                    post => <Excerpt history={this.props.history} key={post.key} post={post}/>
+                    post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
                 <Link to={this.contextPath + location.pathname.replace("History", "")}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
             </div>

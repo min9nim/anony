@@ -11,13 +11,8 @@ export default class Excerpt extends React.Component {
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
     }
 
-    shouldComponentUpdate(prevProps, prevState) {
-        return prevProps !== this.props;
-    }
-
     render(){
         console.log("Excerpt 렌더링..");
-        
 
         return (
             <div id={this.props.post.key} className="excerpt">

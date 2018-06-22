@@ -88,7 +88,7 @@ export default class App extends React.Component {
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
-      return <PostHistory history={history} phist={this.state.data.postHistory} context={match.params.context}/> ;
+      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.postHistory} context={match.params.context}/> ;
     }
 
     return (
