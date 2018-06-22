@@ -2,23 +2,23 @@
 
 ### 설치
 ```
-~ $ git clone https://github.com/min9nim/talkplace.git
-~ $ cd talkplace
-~/talkplace $ npm install
+~ $ git clone https://github.com/min9nim/anony.git
+~ $ cd anony
+~/anony $ npm install
 ```
 <br>
 
 ### 개발버젼 빌드
 ```
-~/talkplace $ npm run dev-build
+~/anony $ npm run dev-build
 ```
 <br>
 
 ### 개발서버 시작
 
 ```
-~/talkplace $ npm run dev-server
-~/talkplace $ npm run dev-express
+~/anony $ npm run dev-server
+~/anony $ npm run dev-express
 ```
 
 <br>
@@ -30,7 +30,7 @@ http://localhost:7777
 
 ### 운영버젼 빌드
 ```
-~/talkplace $ npm run prod-build
+~/anony $ npm run prod-build
 ```
 
 <br>
@@ -38,7 +38,7 @@ http://localhost:7777
 ### 운영서버 시작
 
 ```
-~/talkplace $ npm start
+~/anony $ npm start
 ```
 터미널 종료 후에도 서비스를 계속 해야할 경우에는 forever 이용
 
