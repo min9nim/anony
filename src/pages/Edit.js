@@ -96,7 +96,7 @@ export default class Edit extends React.Component {
 
     return (
         <div className="edit">
-            <div className="context">{this.props.context}</div>
+            <div className="context">{this.props.context || "Anony"}</div>
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
