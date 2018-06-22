@@ -238,7 +238,7 @@ get["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(maskPost)
         .then(setHasComment)
-        .then(post => res.send({status: "Success", posts : [post]}))
+        .then(post => res.send({status: "Success", post}))
         .catch(errHandler(res));
 }
 

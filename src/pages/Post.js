@@ -20,6 +20,24 @@ export default class Post extends React.Component {
           };
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+        tp.view.Post = this;
+
+
+
+        function viewGetPost(postKey){
+            tp.api.viewPost(postKey)
+                .then(res => {
+                    if(res.status == "Success"){
+                        tp.store.dispatch(tp.action.viewPost(postKey))
+                    }else{
+                        tp.api.getPost(postKey)
+                            .then(tp.checkStatus)
+                            .then(R.pipe(tp.action.addPost, tp.store.dispatch))
+                            //.then(post => tp.store.dispatch(tp.action.addPost(post)))
+                    }
+                })
+        }
+
 
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
@@ -30,26 +48,15 @@ export default class Post extends React.Component {
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
                 // - viewPost 호출한 후에 store 업데이트 필요
-                tp.api.viewPost(this.props.postKey)
-                    .then(res => {
-                        if(res.status == "Success"){
-                            tp.store.dispatch(tp.action.viewPost(this.props.postKey))
-                        }
-                    })
+                viewGetPost(this.props.postKey);
             }
         }else{
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
-            tp.api.viewPost(this.props.postKey)
-                .then(res => {
-                    if(res.status == "Success"){
-                        tp.store.dispatch(tp.action.viewPost(this.props.postKey))
-                    }
-                })
+            viewGetPost(this.props.postKey);
         }
 
-        tp.view.Post = this;
     }
 
     render(){

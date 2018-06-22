@@ -63,44 +63,40 @@ api.getComments = function (postKey, hideProgress) {
 }
 
 
-api.getPost = function (key, hideProgress) {
+api.getPost = function (key) {
     return httpReq(
         "/api/posts/get/" + key,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
 
 
-api.deletePost = function ({key, uuid, hideProgress}) {
+api.deletePost = function ({key, uuid}) {
     return httpReq(
         "/api/posts/delete/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
 
 
-api.removePost = function ({key, uuid, hideProgress}) {
+api.removePost = function ({key, uuid}) {
     return httpReq(
         "/api/posts/remove/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
 
-api.restorePost = function ({key, uuid, hideProgress}) {
+api.restorePost = function ({key, uuid}) {
     return httpReq(
         "/api/posts/restore/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
@@ -116,33 +112,30 @@ api.viewPost = function (key) {
 
 
 
-api.deleteComment = function ({key, uuid, hideProgress}) {
+api.deleteComment = function ({key, uuid}) {
     return httpReq(
         "/api/comments/delete/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
 
-api.removeComment = function ({key, uuid, hideProgress}) {
+api.removeComment = function ({key, uuid}) {
     return httpReq(
         "/api/comments/remove/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
 
 
-api.authPost = function ({key, uuid, hideProgress}) {
+api.authPost = function ({key, uuid}) {
     return httpReq(
         "/api/posts/auth/" + key + "/" + uuid,
         {
-            method: "GET",
-            hideProgress
+            method: "GET"
         }
     ).then(errHandler);
 }
