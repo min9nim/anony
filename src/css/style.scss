@@ -1,4 +1,12 @@
 /* 공통 css 스타일 설정 */
+.context {
+    font-size: 120px;
+    opacity: 0.02;
+    font-weight: bold;
+    position: absolute;
+    left: 0px;
+    top: -40px;
+}
 
 
 
@@ -6,8 +14,6 @@
 input, textarea {
     -webkit-appearance: none;
 }
-
-
 
 
 

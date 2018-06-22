@@ -89,6 +89,7 @@ export default class Write extends React.Component {
     console.log("Write 렌더링..");
     return (
         <div className="write">
+            <div className="context">{this.props.context}</div>
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"

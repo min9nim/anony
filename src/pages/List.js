@@ -34,6 +34,7 @@ export default class List extends React.Component {
         console.log("List 렌더링..");
         return (
             <div className="list">
+                <div className="context">{this.props.context}</div>
                 {this.props.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
