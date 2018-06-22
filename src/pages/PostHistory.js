@@ -25,6 +25,9 @@ export default class PostHistory extends React.Component {
             })        
         }
 
+        this.contextPath = this.props.context ? "/" + this.props.context : "" ;
+
+
 
         // 화면을 새로고침하거나 url을 통해 직접 access 한 경우에 대한 예외처리는 생략 18.06.18
     }
@@ -37,7 +40,7 @@ export default class PostHistory extends React.Component {
                 {this.props.phist.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post}/>
                 )}
-                <Link to={location.pathname.replace("History", "")}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
+                <Link to={this.contextPath + location.pathname.replace("History", "")}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
             </div>
             
         );
