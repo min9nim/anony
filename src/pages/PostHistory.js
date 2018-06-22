@@ -42,7 +42,7 @@ export default class PostHistory extends React.Component {
                 {this.props.phist.map(
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
-                <Link to={this.contextPath + location.pathname.replace("History", "")}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
+                <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
             </div>
             
         );
