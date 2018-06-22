@@ -1,5 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
+import R from "ramda";
 import moment from "moment";
 import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
@@ -31,9 +32,7 @@ export default class Post extends React.Component {
                         tp.store.dispatch(tp.action.viewPost(postKey))
                     }else{
                         tp.api.getPost(postKey)
-                            .then(tp.checkStatus)
-                            .then(R.pipe(tp.action.addPost, tp.store.dispatch))
-                            //.then(post => tp.store.dispatch(tp.action.addPost(post)))
+                            .then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
                     }
                 })
         }
