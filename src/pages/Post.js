@@ -25,18 +25,8 @@ export default class Post extends React.Component {
 
 
 
-        function viewGetPost(postKey){
-            tp.api.viewPost(postKey)
-                .then(res => {
-                    if(res.status == "Success"){
-                        tp.store.dispatch(tp.action.viewPost(postKey))
-                    }else{
-                        tp.api.getPost(postKey)
-                            .then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
-                    }
-                })
-        }
 
+      
 
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
@@ -47,13 +37,32 @@ export default class Post extends React.Component {
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
                 // - viewPost 호출한 후에 store 업데이트 필요
-                viewGetPost(this.props.postKey);
+                tp.api.viewPost(this.props.postKey)
+                    .then(res => {
+                        if(res.status == "Success"){
+                            // 일반post 인 경우
+                            tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                        }else{
+                            // 수정내역post 인 경우
+                        }
+                    })
+
             }
         }else{
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
-            viewGetPost(this.props.postKey);
+            tp.api.viewPost(this.props.postKey)
+                .then(res => {
+                    if(res.status == "Success"){
+                        // 일반post 인 경우
+                        tp.store.dispatch(tp.action.addPost(res.output))
+                    }else{
+                        // 수정내역post 인 경우
+                        tp.api.getPost(this.props.postKey)
+                            .then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
+                    }
+                })
         }
 
     }

@@ -21,8 +21,6 @@ const at = action.type = {
   UPDATECOMMENT : "UPDATECOMMENT",
   REMOVECOMMENT : "REMOVECOMMENT",
 
-  SETPOSTHISTORY : "SETPOSTHISTORY",
-  
   SCROLLEND : "SCROLLEND",
 }
 
@@ -59,8 +57,8 @@ action.deletePost = function(key) {
   return {type: at.DELETEPOST, key}
 }
 
-action.removePost = function(key) {
-  return {type: at.REMOVEPOST, key}
+action.removePost = function(fn) {
+  return {type: at.REMOVEPOST, predi: fn}
 }
 
 action.viewPost = function(key) {
@@ -103,11 +101,3 @@ action.addComments = function(comments) {
   }
 }
 
-
-
-action.setPostHistory = function(phist) {
-  return {
-    type: at.SETPOSTHISTORY,
-    phist
-  }
-}

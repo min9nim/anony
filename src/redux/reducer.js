@@ -9,8 +9,7 @@ export function reducer(state = {}, action) {
     view: view(state.view, action),
     data: {
       posts: posts(state.data.posts, action),
-      comments: comments(state.data.comments, action),
-      postHistory: postHistory(state.data.postHistory, action)
+      comments: comments(state.data.comments, action)
     }
   }
 }
@@ -56,9 +55,10 @@ function posts(state = [], action) {
 
     case at.REMOVEPOST: {
       const afterState = [...state]; // state 배열 복사
-      const idx = afterState.findIndex(o => o.key === action.key);
-      afterState.splice(idx, 1); // idx번째 요소 삭제
-      return afterState;
+      //const idx = afterState.findIndex(o => o.key === action.key);
+      //afterState.splice(idx, 1); // idx번째 요소 삭제
+      //return afterState;
+      return afterState.filter(p => !action.predi(p));
     }
     case at.UPDATEPOST: {
       const afterState = [...state]; // state 배열 복사
@@ -112,20 +112,6 @@ function comments(state = [], action) {
       const idx = afterState.findIndex(o => o.key === action.comment.key);
       afterState.splice(idx, 1, action.comment); // idx번째 요소 삭제하고 comment 추가
       return afterState;
-    }
-    default: {
-      return state;
-    }
-  }
-}
-
-
-function postHistory(state = [], action) {
-  switch (action.type) {
-    case at.SETPOSTHISTORY: {
-      // 모든 글의 변경사항들을 지속적으로 관리하기 어려움이 있어
-      // 히스토리 조회시 최신상태를 유지하기 위해 하나의 건에 대한 정보만 담기로 한다
-      return action.phist;
     }
     default: {
       return state;

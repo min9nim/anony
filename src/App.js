@@ -35,9 +35,8 @@ export default class App extends React.Component {
         post:{}     //  글보기 화면 직접 접근했을 때 데이터는 이 곳에 넣어야지.. 그럼 더 좋을까?? 음음...
       },
       data: {
-        posts: [],
-        comments: [],
-        postHistory: []
+        posts: [],        // 전체 글
+        comments: []     // 전체 댓글
       }
     };
     tp.view.App = this;
@@ -72,7 +71,7 @@ export default class App extends React.Component {
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      return <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
+      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
@@ -88,7 +87,7 @@ export default class App extends React.Component {
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
-      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.postHistory} context={match.params.context}/> ;
+      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
 
     return (
