@@ -16,6 +16,7 @@ export default class Menu extends React.Component {
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
         this.confirm = this.confirm.bind(this);
+        this.cancel = this.cancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
         this.state = {
@@ -43,10 +44,13 @@ export default class Menu extends React.Component {
         this.hideMenu();
     }
 
+    cancel(){
+        this.setState({uuid: tp.user.uuid});
+        this.hideMenu();
+    }
+
     hideMenu(){
-        this.setState({
-            clicked: false
-        })
+        this.setState({clicked: false});
     }
 
     getValidationState() {
@@ -65,9 +69,7 @@ export default class Menu extends React.Component {
       }
 
     showMenu(){
-        this.setState({
-            clicked: true
-        })
+        this.setState({clicked: true});
     }
 
     render(){
@@ -87,7 +89,7 @@ export default class Menu extends React.Component {
                     </FormGroup>
                     <div className="copy" onClick={this.copy}>copy</div>
                     <div className="confirm" onClick={this.confirm}>confirm</div>
-                    <div className="cancel" onClick={this.hideMenu}>cancel</div>
+                    <div className="cancel" onClick={this.cancel}>cancel</div>
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>
