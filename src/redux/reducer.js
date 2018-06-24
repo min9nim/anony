@@ -17,11 +17,7 @@ export function reducer(state = {}, action) {
 function posts(state = [], action) {
   switch (action.type) {
     case at.ADDPOST: {
-      if(action.post.isPrivate){
-        return state;
-      }else{
-        return [action.post, ...state];
-      }
+      return [action.post, ...state];
     }
     case at.SCROLLEND: {
       return [...state, ...action.posts];

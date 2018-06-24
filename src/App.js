@@ -71,7 +71,7 @@ export default class App extends React.Component {
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined)} context={match.params.context}/> ;
+      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
