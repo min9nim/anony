@@ -5,45 +5,46 @@
     left: 5px;
     color : #aaa;
     font-style: italic;
-    background-color: #fff;
-    height: 46px;
-
-    .form {
-        width: 180px;
-        margin-top: 15px;
-        margin-left: 5px;
-        display: inline-block;
-        #uuid {
-            width: 137px;
-            display: inline-block;
-            height: 24px;
+    
+    .uuid-setting {
+        height: 46px;
+        background-color: #fff;
+        .form {
+            width: 180px;
+            margin-top: 15px;
             margin-left: 5px;
-        }      
-        
-        .form-control-feedback {
-            top: -5px;
-            left: 141px;
+            display: inline-block;
+            #uuid {
+                width: 137px;
+                display: inline-block;
+                height: 24px;
+                margin-left: 5px;
+            }      
+            
+            .form-control-feedback {
+                top: -5px;
+                left: 141px;
+            }
         }
+        .copy {
+            display: inline-block;
+            cursor: pointer;
+        } 
+        .confirm{
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .cancel{
+            margin-left: 10px;
+            margin-right: 15px;
+            display: inline-block;
+            cursor: pointer;
+        }        
     }
 
     .navi{
         font-size: 20px;
-        cursor: pointer;
-    }
-
-    .copy {
-        display: inline-block;
-        cursor: pointer;
-    } 
-    .confirm{
-        margin-left: 10px;
-        display: inline-block;
-        cursor: pointer;
-    }
-    .cancel{
-        margin-left: 10px;
-        margin-right: 15px;
-        display: inline-block;
         cursor: pointer;
     }
 }

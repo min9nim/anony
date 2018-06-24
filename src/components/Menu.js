@@ -76,7 +76,7 @@ export default class Menu extends React.Component {
             <div className="menu">{
                 this.state.clicked
                 ? 
-                <div>
+                <div className="uuid-setting">
                     <FormGroup className="form" controlId = "uuid" validationState = {this.getValidationState()}>
                         <ControlLabel> uuid </ControlLabel>
                         <FormControl type = "text"
