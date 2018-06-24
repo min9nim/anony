@@ -5,6 +5,8 @@
     left: 5px;
     color : #aaa;
     font-style: italic;
+    background-color: #fff;
+    height: 46px;
 
     .form {
         width: 180px;
@@ -40,6 +42,7 @@
     }
     .cancel{
         margin-left: 10px;
+        margin-right: 15px;
         display: inline-block;
         cursor: pointer;
     }
