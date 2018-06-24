@@ -1,0 +1,46 @@
+/* Post component */
+.menu {
+    position: fixed;
+    top: -5px;
+    left: 5px;
+    color : #aaa;
+    font-style: italic;
+
+    .form {
+        width: 180px;
+        margin-top: 15px;
+        margin-left: 5px;
+        display: inline-block;
+        #uuid {
+            width: 137px;
+            display: inline-block;
+            height: 24px;
+            margin-left: 5px;
+        }      
+        
+        .form-control-feedback {
+            top: -5px;
+            left: 141px;
+        }
+    }
+
+    .navi{
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .copy {
+        display: inline-block;
+        cursor: pointer;
+    } 
+    .confirm{
+        margin-left: 10px;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .cancel{
+        margin-left: 10px;
+        display: inline-block;
+        cursor: pointer;
+    }
+}

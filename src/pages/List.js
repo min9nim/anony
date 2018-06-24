@@ -1,8 +1,6 @@
-console.log("List.js start");
-
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import Excerpt from "../components/Excerpt";
+import {Excerpt, Menu} from "../components";
 import {tp} from "../tp.js";
 import { Link } from 'react-router-dom';
 import "./List.scss";
@@ -34,6 +32,7 @@ export default class List extends React.Component {
         console.log("List 렌더링..");
         return (
             <div className="list">
+                <Menu/>
                 <div className="context">{this.props.context || "Anony"}</div>
                 {this.props.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>

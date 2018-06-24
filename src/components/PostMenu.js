@@ -132,7 +132,7 @@ export default class PostMenu extends React.Component {
             <div className="postMenu">{
                 this.state.clicked
                 ? 
-                <div className="menu">
+                <div className="navi">
                     <div onClick={this.postHistory}>History</div>
                     {this.props.postDeleted ? (
                         <div>
@@ -150,7 +150,7 @@ export default class PostMenu extends React.Component {
                     }
                 </div>
                 :
-                <div className="menu" onClick={this.showMenu}>...</div>
+                <div className="navi" onClick={this.showMenu}>...</div>
             }</div>
         );
     }
