@@ -5,8 +5,8 @@ const morgan = require('morgan');
 //const path = require("path");
 const postRouter = require('./postRouter');
 const commentRouter = require('./commentRouter');
-
 const fallback = require('express-history-api-fallback');
+const seo = require('./seo');
 
 
 
@@ -22,6 +22,11 @@ const PORT = process.argv[2] || 80;
 // 미들웨어 등록
 app.use(morgan('combined'));    // 서버 access 로그
 app.use(bodyParser.json());
+
+
+app.get("/post/:key", seo);
+
+
 const staticPath = process.platform.indexOf("win32") > -1
                    ? __dirname + '\\..\\public' 
                    : __dirname + '/../public' ;
@@ -35,7 +40,10 @@ app.use('/api/comments', commentRouter);
 
 // history-api-fallback 등록,
 // 이거는 순서가 중요, 위에 라우터 등록보다 위에 있으면 안됨
-app.use(fallback('index.html', { root: staticPath }));
+app.use(fallback('index.do', { root: staticPath }));
+
+
+
 
 
 // 서버리슨 시작
