@@ -30,7 +30,12 @@ seo.post = function(req, res){
         })
 }
 
-seo.list = function(req, res){
+seo.list = function(req, res, next){
+    console.log("## seo.list called")
+    if(req.params.context === "bundle.js"){
+        next();
+        return;
+    }
     Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context}]})
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(0)

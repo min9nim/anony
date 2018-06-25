@@ -30,8 +30,8 @@ app.get("/postHistory/:key", seo.post);
 app.get("/:context/postHistory/:key", seo.post);
 app.get("/", seo.list);
 app.get("/list/", seo.list);
-//app.get("/:context", seo.list);
-//app.get("/:context/list", seo.list);
+app.get("/:context", seo.list);
+app.get("/:context/list", seo.list);
 
 
 
