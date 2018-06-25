@@ -1,38 +1,57 @@
 
 const Post = require('./models/post');
 const fs = require('fs');
-//const path = require("path");
-
 const filepath = __dirname + "/../public/index.html"; // __dirname 는 seo.js 가 위치한 경로
 
+module.exports = seo = {};
 
 // seo 최적화
-function seo(req, res, next){
+seo.post = function(req, res){
     console.log("### seo middle ware called..");
     console.log("post key = " + req.params.key);
     
     // key 에 해당하는 post 를 조회
     Post.findOne({ key: req.params.key })
         .then(post => {
-            const title = post.title;
-            const content = post.content;
-
             fs.readFile(filepath, "utf-8", function(err, buf) {
-
                 if(err){
                     // 최초 data.json 이 존재하지 않을 경우 예외처리
                     console.log(err);
+                    res.send({ status : "Fail", message: err.message });
                 }else{
                     const output = buf.toString()
                                     .replace("{{title}}", post.title)
-                                    .replace("{{description}}", post.content.substr(0,100));
+                                    .replace("{{description}}", post.content.substr(0,100))
+                                    .replace("{{content}}", post.content);
                     console.log(output);
                     res.send(output);
                 }
             });
-          //  next();
         })
 }
 
-module.exports = seo;
+seo.list = function(req, res){
+    Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context}]})
+        .sort({"date" : -1})    // 최종수정일 기준 내림차순
+        .skip(0)
+        .limit(10)
+        .then(posts => {
+            fs.readFile(filepath, "utf-8", function(err, buf) {
+                if(err){
+                    // 최초 data.json 이 존재하지 않을 경우 예외처리
+                    console.log(err);
+                    res.send({ status : "Fail", message: err.message });
+                }else{
+                    const output = buf.toString()
+                                    .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
+                                    .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
+                                    .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
+                    console.log(output);
+                    res.send(output);
+                }
+            });
+        })
+}
+
+
 

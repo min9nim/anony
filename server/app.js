@@ -23,8 +23,15 @@ const PORT = process.argv[2] || 80;
 app.use(morgan('combined'));    // 서버 access 로그
 app.use(bodyParser.json());
 
+// SEO 설정
+app.get("/post/:key", seo.post);
+app.get("/:context/post/:key", seo.post);
+app.get("/postHistory/:key", seo.post);
+app.get("/:context/postHistory/:key", seo.post);
+app.get("/", seo.list);
+app.get("/list/", seo.list);
+app.get("/:context/list", seo.list);
 
-app.get("/post/:key", seo);
 
 
 const staticPath = process.platform.indexOf("win32") > -1
