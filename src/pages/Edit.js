@@ -20,9 +20,9 @@ export default class Edit extends React.Component {
       this.state.uuid = tp.user.uuid;
     }else{
       tp.api.getPost(this.props.postKey).then(res => {
-        this.state = res.posts[0];
+        this.state = res.post;
         this.state.uuid = tp.user.uuid;  
-        tp.store.dispatch(tp.action.addPost(res.posts[0]));
+        tp.store.dispatch(tp.action.addPost(res.post));
     });
 
     }

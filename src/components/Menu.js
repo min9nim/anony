@@ -41,6 +41,7 @@ export default class Menu extends React.Component {
             return;
         }
         tp.setUser({uuid: this.state.uuid});
+        alert("uuid changed");
         this.hideMenu();
     }
 
