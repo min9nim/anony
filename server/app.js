@@ -30,7 +30,8 @@ app.get("/postHistory/:key", seo.post);
 app.get("/:context/postHistory/:key", seo.post);
 app.get("/", seo.list);
 app.get("/list/", seo.list);
-app.get("/:context/list", seo.list);
+//app.get("/:context", seo.list);
+//app.get("/:context/list", seo.list);
 
 
 
@@ -47,7 +48,7 @@ app.use('/api/comments', commentRouter);
 
 // history-api-fallback 등록,
 // 이거는 순서가 중요, 위에 라우터 등록보다 위에 있으면 안됨
-app.use(fallback('index.do', { root: staticPath }));
+app.use(fallback('index.html', { root: staticPath }));
 
 
 
