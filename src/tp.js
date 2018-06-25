@@ -20,25 +20,6 @@ export let tp = {
 };
 
 
-tp.setUser = function(obj){
-  const initValue = {
-    uuid: shortid.generate(),
-    writer: ""
-  }
-
-  let user;
-  if(typeof obj === "string"){
-    user = Object.assign(tp.user, {uuid: obj});
-  }else{
-    user = obj ? Object.assign(tp.user, obj) : initValue ;
-  }
-  //localStorage.setItem("user", JSON.stringify(user));
-  tp.setCookie("user", JSON.stringify(user))
-
-  return user;
-}
-
-
 
 tp.bodyScroll = function () {
   if(tp.isScrollLast) return;
@@ -106,9 +87,28 @@ tp.getCookie = function (cname) {
 
 
 
+tp.setUser = function(obj){
+  const initValue = {
+    uuid: shortid.generate(),
+    writer: ""
+  }
+
+  let user;
+  if(typeof obj === "string"){
+    user = Object.assign(tp.user, {uuid: obj});
+  }else{
+    user = obj ? Object.assign(tp.user, obj) : initValue ;
+  }
+  localStorage.setItem("user", JSON.stringify(user));
+  //tp.setCookie("user", JSON.stringify(user))
+
+  return user;
+}
+
+
 tp.init = function(){
-  //tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
-  tp.user = tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+  tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
+  //tp.user = tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
 }
 tp.init();
 window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출
