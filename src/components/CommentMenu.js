@@ -95,7 +95,7 @@ export default class CommentMenu extends React.Component {
         console.log("CommentMenu 렌더링");
         return (<div className="commentMenu">{
                 this.state.clicked ? 
-                <div className="menu">
+                <div className="navi">
                     {
                         this.props.comment.deleted ? 
                         <div onClick={this.removeComment}>Remove</div> :
@@ -103,7 +103,7 @@ export default class CommentMenu extends React.Component {
                     }
                 </div>
                 :
-                <div className="menu" onClick={this.showMenu}>...</div>
+                <div className="navi" onClick={this.showMenu}>...</div>
                 }</div>
         );
     }
