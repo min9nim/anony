@@ -52,8 +52,6 @@ app.use(fallback('index.html', { root: staticPath }));
 
 
 
-
-
 // 서버리슨 시작
 app.listen(PORT, function(){
     console.log(`express is lintening on port ${PORT}`);

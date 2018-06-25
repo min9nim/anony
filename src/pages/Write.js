@@ -15,6 +15,7 @@ export default class Write extends React.Component {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
+    this.cancel = this.cancel.bind(this);
     this.state = {
       key: "",
       title: "",
@@ -41,6 +42,13 @@ export default class Write extends React.Component {
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
     return null;
+  }
+
+  cancel(){
+    if(this.state.content.length > 10 && !confirm("Cancel to write?")){
+      return;
+    }
+    this.props.history.push(this.contextPath + "/list");
   }
 
   handleChange(e) {
@@ -117,7 +125,7 @@ export default class Write extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to={this.contextPath + "/list"}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
         </div>
     );
   }

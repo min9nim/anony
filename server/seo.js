@@ -7,22 +7,18 @@ module.exports = seo = {};
 
 // seo 최적화
 seo.post = function(req, res){
-    console.log("### seo middle ware called..");
-    console.log("post key = " + req.params.key);
-    
     // key 에 해당하는 post 를 조회
     Post.findOne({ key: req.params.key })
         .then(post => {
             fs.readFile(filepath, "utf-8", function(err, buf) {
                 if(err){
-                    // 최초 data.json 이 존재하지 않을 경우 예외처리
                     console.log(err);
                     res.send({ status : "Fail", message: err.message });
                 }else{
                     const output = buf.toString()
-                                    .replace("{{title}}", post.title)
-                                    .replace("{{description}}", post.content.substr(0,100))
-                                    .replace("{{content}}", post.content);
+                        .replace("{{title}}", post.title)
+                        .replace("{{description}}", post.content.substr(0,100))
+                        .replace("{{content}}", post.content);
                     console.log(output);
                     res.send(output);
                 }
@@ -31,7 +27,6 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    console.log("## seo.list called")
     if(req.params.context === "bundle.js"){
         next();
         return;
@@ -43,14 +38,13 @@ seo.list = function(req, res, next){
         .then(posts => {
             fs.readFile(filepath, "utf-8", function(err, buf) {
                 if(err){
-                    // 최초 data.json 이 존재하지 않을 경우 예외처리
                     console.log(err);
                     res.send({ status : "Fail", message: err.message });
                 }else{
                     const output = buf.toString()
-                                    .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
-                                    .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
-                                    .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
+                        .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
+                        .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
+                        .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
                     console.log(output);
                     res.send(output);
                 }
