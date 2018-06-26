@@ -27,6 +27,10 @@ export default class List extends React.Component {
 
     }
 
+    componentDidMount(){
+        document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+    }
+    
 
     render(){
         console.log("List 렌더링..");

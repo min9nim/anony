@@ -24,10 +24,6 @@ export default class Post extends React.Component {
         tp.view.Post = this;
 
 
-
-
-      
-
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
             console.log("# diff = " + diff)
@@ -67,6 +63,11 @@ export default class Post extends React.Component {
 
     }
 
+    componentDidMount(){
+        document.title = this.state.title;
+    }
+    
+    
     render(){
         console.log("Post 렌더링");
         if(this.props.post){

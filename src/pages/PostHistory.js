@@ -33,6 +33,10 @@ export default class PostHistory extends React.Component {
 
         // 화면을 새로고침하거나 url을 통해 직접 access 한 경우에 대한 예외처리는 생략 18.06.18
     }
+    
+    componentDidMount(){
+        document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+    }
 
     render(){
         console.log("PostHistory 렌더링..");

@@ -35,6 +35,10 @@ export default class Write extends React.Component {
     return prevState !== this.state;
   }
 
+  componentDidMount(){
+    document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+  }
+
   getValidationState() {
     return;
     const length = this.state.title.length;
