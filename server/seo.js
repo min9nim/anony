@@ -27,7 +27,7 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    if(req.params.context === "bundle.js"){
+    if(["bundle.js", "robots.txt"].includes(req.params.context)){
         next();
         return;
     }
