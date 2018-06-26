@@ -64,6 +64,7 @@ export default class Post extends React.Component {
     }
 
     componentDidMount(){
+        // 이거는 컴포넌트가 dom에 로드될 때 최초 한번밖에 호출이 안되네
         document.title = this.state.title;
     }
     
@@ -73,9 +74,15 @@ export default class Post extends React.Component {
         if(this.props.post){
             // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
             this.state = this.props.post
+
+            // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
+            document.title = this.state.title;
         }else{
             return <div/> ;
         }
+
+
+
         
         const content = tp.$m.txtToHtml(this.state.content);
 
