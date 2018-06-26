@@ -1,60 +1,19 @@
-# Anony
+# Anony 란?
+Anony 는 100% 익명성을 보장하며 누구나 회원가입/로그인 절차없이 자유롭게 소통할 수 있는 온라인 익명SNS 입니다
+<http://ioiooi.xyz>
 
-### 설치
-```
-~ $ git clone https://github.com/min9nim/anony.git
-~ $ cd anony
-~/anony $ npm install
-```
-<br>
+1. 누구나
+회원가입/로그인 및 어떤 인증절차 없이 지금 바로 참여하실 수 있습니다
+- 당신의 어떠한 개인정보도 요구하거나 수집하지 않습니다
 
-### 개발버젼 빌드
-```
-~/anony $ npm run dev-build
-```
-<br>
+2. 글작성시 private을 체크하면
+- 목록에 해당 글이 노출되지 않습니다
+- 단지 글주소로(URL)만 직접 접근이 가능하니 재 접근이 필요하다면 글주소를 따로 보관해 두셔야 합니다.
 
-### 개발서버 시작
+3. ioiooi.xyz/{새로운그룹명}
+으로 접근시 새로운 대화 공간이 자동으로 생성됩니다
 
-```
-~/anony $ npm run dev-server
-~/anony $ npm run dev-express
-```
-
-<br>
-
-### 개발서버 접속
-http://localhost:7777
-
-<br>
-
-### 운영버젼 빌드
-```
-~/anony $ npm run prod-build
-```
-
-<br>
-
-### 운영서버 시작
-
-```
-~/anony $ npm start
-```
-터미널 종료 후에도 서비스를 계속 해야할 경우에는 forever 이용
-
-1. forever 설치
-    ```
-    sudo npm i -g forever
-    ```
-2. 서비스 시작
-    ```
-    forever start server/app.js
-    ```
-3. 서비스 목록 확인
-    ```
-    forever list
-    ```
-4. 서비스 종료
-    ```
-    forever stop server/app.js
-    ```
+4. 인증방식
+- 사이트 접속시 자동으로 특정 토큰을 발급합니다
+- 해당 토큰 정보는 목록화면의 좌측 상단 메뉴(...)를 통해 확인할 수 있습니다
+- 해당 토큰 정보를 따로 보관해 두면 내가 작성한 글에 대한 수정/삭제 권한을 유지해 갈 수 있습니다
