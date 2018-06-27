@@ -321,8 +321,19 @@ get["/history/:key"] = (req, res) => {
 get["/likePost/:key/:uuid"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
+            console.log(post);
             if(post.like){
-                post.like = post.like.split(",").push(req.params.uuid).join(",");
+                /* vanillaJS
+                let arr = post.like.split(",");
+                arr.push(req.params.uuid);
+                post.like = arr.join(",");
+                */
+                post.like = R.pipe(
+                    R.split(","),
+                    R.insert(0, req.params.uuid),
+                    R.join(",")
+                )(post.like);
+
             }else{
                 post.like = req.params.uuid;
             }
@@ -341,10 +352,20 @@ get["/likePost/:key/:uuid"] = (req, res) => {
 get["/cancelLike/:key/:uuid"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
+            
+            /* vanillaJS
             let arr = post.like.split(",");
             let idx = arr.findIndex(uuid => uuid === req.params.uuid);
             arr.splice(idx,1);
             post.like = arr.join(",");
+            */
+
+            post.like = R.pipe(
+                R.split(","),
+                R.filter(uuid => uuid !== req.params.uuid),
+                R.join(",")
+            )(post.like);
+
             post.save().then(output => {
                 console.log(output);
                 res.send({
