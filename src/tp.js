@@ -5,6 +5,8 @@ import {api} from "./restful/api";
 import shortid from "shortid";
 import $m from "./util";
 import nprogress from "nprogress";
+import R from "ramda";
+
 
 const PAGEROWS = 10;
 
@@ -16,7 +18,8 @@ export let tp = {
   api,                // RESTful API
   nprogress,          // 서버통신시 진행표시
   temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
-  $m                  // 기본 유틸함수
+  $m,                  // 기본 유틸함수
+  R
 };
 
 

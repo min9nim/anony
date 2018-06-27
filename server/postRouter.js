@@ -330,7 +330,7 @@ get["/likePost/:key/:uuid"] = (req, res) => {
                 */
                 post.like = R.pipe(
                     R.split(","),
-                    R.insert(0, req.params.uuid),
+                    R.append(req.params.uuid),
                     R.join(",")
                 )(post.like);
 

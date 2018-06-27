@@ -1,4 +1,5 @@
 import React from 'react';
+import R from "ramda";
 import {tp} from "../tp";
 import "./PostMeta.scss";
 
@@ -29,7 +30,13 @@ export default class PostMeta extends React.Component {
     render(){
 
         if(this.props.post.like){
-            this.liked = this.props.post.like && (this.props.post.like.split(",").includes(tp.user.uuid));
+            //this.liked = this.props.post.like.split(",").includes(tp.user.uuid);
+
+            this.liked = R.pipe(
+                R.split(","),
+                R.contains(tp.user.uuid)
+            )(this.props.post.like)
+
             this.likeCnt = this.props.post.like.split(",").length;
         }else{
             this.liked = false;
@@ -41,7 +48,7 @@ export default class PostMeta extends React.Component {
             <div className="postMeta">
                 <div>Comments: {this.props.post.commentCnt || 0}</div>
                 <div>View: {this.props.post.viewCnt || 0} </div>
-                <div className={this.liked ? "liked" : ""} onClick={this.likePost}>Like: {this.likeCnt || 0} </div>
+                <div className={this.liked ? "liked" : "like"} onClick={this.likePost}>Like: {this.likeCnt || 0} </div>
             </div>
         );
     }
