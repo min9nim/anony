@@ -20,6 +20,49 @@ function setHasComment(post){
 }
 
 
+function errHandler(res){
+    return err => {
+        console.log(err);
+        res.status(500).send({status: "Fail", message: err.toString()});
+    }
+}
+
+
+function setHasComment(post){
+    // hasComment 기능이 추가되기 전 데이터들에 대한 값 보정, 2018/06/16
+    post.hasComment = post.hasComment === undefined ? true : post.hasComment;
+    return post;
+}
+
+
+
+// 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
+// https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
+
+function maskPost(post){
+    //post.origin = undefined;  // Post 에서 댓글출력여부 판단시 필요함
+    post.uuid = undefined;
+
+    // _id 는 아래와 같이 해도 다른 값이 다시 세팅이 됨. _id속성에 setter 가 설정 되어있는듯
+    post._id = undefined;       
+    post.__v = undefined;
+    //post.likeUuid = undefined;
+    // for(var i in post){
+    //     console.log(i + ", ");
+    // }
+    return post;
+    /* 아래와 같이 처리하면 난리납니다..
+    https://github.com/min9nim/talkplace/wiki/%5BMongoDB%5D-%EB%8B%A4%ED%81%90%EB%A8%BC%ED%8A%B8%EC%9D%98-%EC%9D%BC%EB%B6%80-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%A7%80%EC%9A%B0%EA%B3%A0%EC%9E%90-%ED%95%A0-%EB%95%8C
+    
+    return Object.assign({}, post, {
+        uuid: undefined,
+        _id: undefined,
+        __v: undefined,
+    });
+    */
+}
+
+
 // 신규 post 등록
 post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
@@ -275,44 +318,42 @@ get["/history/:key"] = (req, res) => {
 
 
 
-
-// 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
-// https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
-
-function maskPost(post){
-    //post.origin = undefined;  // Post 에서 댓글출력여부 판단시 필요함
-    post.uuid = undefined;
-
-    // _id 는 아래와 같이 해도 다른 값이 다시 세팅이 됨. _id속성에 setter 가 설정 되어있는듯
-    post._id = undefined;       
-    post.__v = undefined;
-    // for(var i in post){
-    //     console.log(i + ", ");
-    // }
-    return post;
-    /* 아래와 같이 처리하면 난리납니다..
-    https://github.com/min9nim/talkplace/wiki/%5BMongoDB%5D-%EB%8B%A4%ED%81%90%EB%A8%BC%ED%8A%B8%EC%9D%98-%EC%9D%BC%EB%B6%80-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%A7%80%EC%9A%B0%EA%B3%A0%EC%9E%90-%ED%95%A0-%EB%95%8C
-    
-    return Object.assign({}, post, {
-        uuid: undefined,
-        _id: undefined,
-        __v: undefined,
-    });
-    */
+get["/likePost/:key/:uuid"] = (req, res) => {
+    Post.findOne({key: req.params.key})
+        .then(post => {
+            if(post.like){
+                post.like = post.like.split(",").push(req.params.uuid).join(",");
+            }else{
+                post.like = req.params.uuid;
+            }
+            
+            post.save().then(output => {
+                console.log(output);
+                res.send({
+                    status: "Success",
+                    output
+                });
+            })
+        })
+        .catch(errHandler(res));
 }
 
-function setHasComment(post){
-    // hasComment 기능이 추가되기 전 데이터들에 대한 값 보정, 2018/06/16
-    post.hasComment = post.hasComment === undefined ? true : post.hasComment;
-    return post;
-}
-
-
-function errHandler(res){
-    return err => {
-        console.log(err);
-        res.status(500).send({status: "Fail", message: err.toString()});
-    }
+get["/cancelLike/:key/:uuid"] = (req, res) => {
+    Post.findOne({key: req.params.key})
+        .then(post => {
+            let arr = post.like.split(",");
+            let idx = arr.findIndex(uuid => uuid === req.params.uuid);
+            arr.splice(idx,1);
+            post.like = arr.join(",");
+            post.save().then(output => {
+                console.log(output);
+                res.send({
+                    status: "Success",
+                    output
+                });
+            })
+        })
+        .catch(errHandler(res));
 }
 
 
@@ -328,4 +369,6 @@ router.get("/get/:key", get["/get/:key"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
 router.get("/view/:key", get["/view/:key"]);
+router.get("/likePost/:key/:uuid", get["/likePost/:key/:uuid"]);
+router.get("/cancelLike/:key/:uuid", get["/cancelLike/:key/:uuid"]);
 

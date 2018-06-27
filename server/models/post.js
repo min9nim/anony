@@ -12,6 +12,7 @@ const postSchema = new Schema({
     hasComment: Boolean,
     commentCnt : Number,
     viewCnt : Number,
+    like: String,       // , 쉼표로 구분
     deleted: Boolean,
     uuid: String,
     context: String

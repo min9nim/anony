@@ -163,3 +163,20 @@ api.getPostHistory = function (key, hideProgress) {
     ).then(errHandler);
 }
 
+api.likePost = function(key, uuid){
+    return httpReq(
+        "/api/posts/likePost/" + key + "/" + uuid,
+        {
+            method: "GET"
+        }
+    ).then(errHandler);
+}
+
+api.cancelLike = function(key, uuid){
+    return httpReq(
+        "/api/posts/cancelLike/" + key + "/" + uuid,
+        {
+            method: "GET"
+        }
+    ).then(errHandler);
+}
