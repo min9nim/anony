@@ -17,7 +17,7 @@ function maskComment(comment){
 }
 
 
-function errHandler(res){
+function sendErr(res){
     return err => {
         console.log(err);
         res.status(500).send(err.toString());
@@ -76,9 +76,9 @@ post["/add"] = (req, res) => {
             });
             
         })
-        .catch(errHandler(res));           
+        .catch(sendErr(res));           
     })
-    .catch(errHandler(res));;
+    .catch(sendErr(res));;
 }
 
 
@@ -88,7 +88,7 @@ get["/get/:idx/:cnt"] = (req, res) => {
     if(isNaN(idx)){
         //console.log(":idx 가 숫자가 아닙니다");
         //res.status(500).send(":idx 가 숫자가 아닙니다");
-        errHandler(res)(Error(":idx 가 숫자가 아닙니다"));
+        sendErr(res)(Error(":idx 가 숫자가 아닙니다"));
         return;
     }
 
@@ -97,7 +97,7 @@ get["/get/:idx/:cnt"] = (req, res) => {
     if(isNaN(cnt)){
         //console.log(":cnt 가 숫자가 아닙니다");
         //res.status(500).send(":cnt 가 숫자가 아닙니다");
-        errHandler(res)(Error(":cnt 가 숫자가 아닙니다"));
+        sendErr(res)(Error(":cnt 가 숫자가 아닙니다"));
         return;
     }
 
@@ -116,7 +116,7 @@ get["/get/:idx/:cnt"] = (req, res) => {
 
         })
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 // key 에 해당하는 comment 를 삭제
@@ -141,7 +141,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 
@@ -167,7 +167,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 
@@ -178,7 +178,7 @@ get["/get/:key"] = (req, res) => {
         .then(comment => {console.log(comment); return comment;})
         .then(R.map(maskComment))
         .then(comments => res.send({status: "Success", comments : comments}))
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 
@@ -197,7 +197,7 @@ get["/auth/:key/:uuid"] = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 

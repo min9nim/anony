@@ -6,6 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
+import $m from "./util";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 
@@ -15,11 +16,13 @@ export default class App extends React.Component {
   constructor(props) {
     console.log("App 생성자 호출..");
     super(props);
-
-
-    const go = (page) => () =>{
-      let context = location.pathname.split("/")[1];
-      context = ["", "list", "post", "edit", "postHistory", "write"].includes(context) ? "" : "/" + context;
+    
+    const go = page => () =>{
+      //let context = location.pathname.split("/")[1];
+      //let context = R.compose(R.prop(1), R.split("/"))(location.pathname);
+      const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
+      const context = ["", "list", "post", "edit", "postHistory", "write"].includes(contextname) ? "" : "/" + contextname;
+      //context = R.contains(context)(["", "list", "post", "edit", "postHistory", "write"]) ? "" : "/" + context;
       return this.props.history.push(context + "/" + page);
     }
     const sa = (keys, func) => keys.split(",").forEach(key => shortcut.add(key, func));
