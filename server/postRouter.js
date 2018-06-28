@@ -20,20 +20,15 @@ function setHasComment(post){
 }
 
 
-function errHandler(res){
+function sendErr(res){
     return err => {
         console.log(err);
-        res.status(500).send({status: "Fail", message: err.toString()});
+        res.status(500).send({
+            status: "Fail",
+            message: err.toString()
+        });
     }
 }
-
-
-function setHasComment(post){
-    // hasComment 기능이 추가되기 전 데이터들에 대한 값 보정, 2018/06/16
-    post.hasComment = post.hasComment === undefined ? true : post.hasComment;
-    return post;
-}
-
 
 
 // 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
@@ -80,7 +75,7 @@ post["/add"] = (req, res) => {
             message: `post(${req.body.key}) is saved`,
             output: maskPost(output)
         })
-    }).catch(errHandler(res));;   
+    }).catch(sendErr(res));;   
 }
 
 
@@ -128,8 +123,8 @@ post["/edit/:uuid"] = (req, res) => {
                 message: `post@${req.body.key} updated.`,
                 output: maskPost(output)
             });
-        }).catch(errHandler(res));
-    }).catch(errHandler(res));    
+        }).catch(sendErr(res));
+    }).catch(sendErr(res));    
 }
 
 
@@ -152,7 +147,7 @@ get["/view/:key"] = (req, res) => {
                 });
             });    
         }
-    }).catch(errHandler(res));    
+    }).catch(sendErr(res));    
 }
 
 
@@ -191,7 +186,7 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
 
         })
         .then(posts => res.send({status: "Success", posts : posts}))
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
@@ -215,7 +210,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 
@@ -238,7 +233,7 @@ get["/restore/:key/:uuid"] = (req, res) => {
                 res.send({ status : "Fail", message: "Not authorized" });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
@@ -269,10 +264,13 @@ get["/remove/:key/:uuid"] = (req, res) => {
                         })
                 }
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({
+                    status : "Fail",
+                    message: "Not authorized"
+                });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 };
 
 
@@ -282,42 +280,45 @@ get["/get/:key"] = (req, res) => {
         .then(maskPost)
         .then(setHasComment)
         .then(post => res.send({status: "Success", post}))
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
 // key에 해당하는 포스트의 작성자가 맞는지 확인
 get["/auth/:key/:uuid"] = (req, res) => {
-    Post.find({ key: req.params.key })
-        .then(posts => {
-            console.log(posts);
-            if(posts[0].uuid === req.params.uuid){
+    Post.findOne({ key: req.params.key })
+        .then(post => {
+            //console.log(post);
+            if(post.uuid === req.params.uuid){
                 res.send({
                     status : "Success",
                     message: "Authorized ok",
-                    post: maskPost(posts[0])
+                    post: maskPost(post)
                  });
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({
+                    status : "Fail",
+                    message: "Not authorized"
+                });
             }
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
 
 
-// key 에 해당하는 post 를 조회
+// key 에 해당하는 post 수정내역을 조회
 get["/history/:key"] = (req, res) => {
     Post.find({ origin: req.params.key })
         .then(R.map(maskPost))
         .then(R.map(setHasComment))
         .then(posts => res.send({status: "Success", posts}))
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
-
+// key에 해당하는 post의 viewCnt++
 get["/likePost/:key/:uuid"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
@@ -346,9 +347,10 @@ get["/likePost/:key/:uuid"] = (req, res) => {
                 });
             })
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
+// key에 해당하는 post의 viewCnt--
 get["/cancelLike/:key/:uuid"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
@@ -374,7 +376,7 @@ get["/cancelLike/:key/:uuid"] = (req, res) => {
                 });
             })
         })
-        .catch(errHandler(res));
+        .catch(sendErr(res));
 }
 
 
