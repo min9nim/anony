@@ -34,27 +34,24 @@ function sendErr(res){
 // 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
-function maskPost(post){
-    //post.origin = undefined;  // Post 에서 댓글출력여부 판단시 필요함
-    post.uuid = undefined;
+function maskPost(post, uuid){
+    const masked = JSON.parse(JSON.stringify(post));    // plain 객체 생성
 
-    // _id 는 아래와 같이 해도 다른 값이 다시 세팅이 됨. _id속성에 setter 가 설정 되어있는듯
-    post._id = undefined;       
-    post.__v = undefined;
-    //post.likeUuid = undefined;
-    // for(var i in post){
-    //     console.log(i + ", ");
-    // }
-    return post;
-    /* 아래와 같이 처리하면 난리납니다..
-    https://github.com/min9nim/talkplace/wiki/%5BMongoDB%5D-%EB%8B%A4%ED%81%90%EB%A8%BC%ED%8A%B8%EC%9D%98-%EC%9D%BC%EB%B6%80-%EB%82%B4%EC%9A%A9%EB%A7%8C-%EC%A7%80%EC%9A%B0%EA%B3%A0%EC%9E%90-%ED%95%A0-%EB%95%8C
-    
-    return Object.assign({}, post, {
-        uuid: undefined,
-        _id: undefined,
-        __v: undefined,
-    });
-    */
+    masked.like = masked.like || "";
+    if(uuid){
+        masked.liked = R.pipe(
+            R.split(","),
+            R.contains(uuid)
+        )(masked.like);
+    }
+    masked.likeCnt = masked.like === "" ? 0 : masked.like.split(",").length;
+
+    masked.uuid = undefined;
+    masked._id = undefined;       
+    masked.__v = undefined;
+    masked.like = undefined;
+
+    return masked;
 }
 
 
@@ -129,7 +126,7 @@ post["/edit/:uuid"] = (req, res) => {
 
 
 // 조회수 1증가
-get["/view/:key"] = (req, res) => {
+post["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
         if(post.origin) {
             res.send({
@@ -138,13 +135,14 @@ get["/view/:key"] = (req, res) => {
             });
         }else{
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
-            post.save().then(output => {
-                console.log(output);
-                res.send({
-                    status: "Success",
-                    message: `post@${req.params.key} viewCnt + 1.`,
-                    output: maskPost(output)
-                });
+            post.save()
+                .then(output => {
+                    console.log(output);
+                    res.send({
+                        status: "Success",
+                        message: `post@${req.params.key} viewCnt + 1.`,
+                        output: maskPost(output, req.body.uuid)
+                    });
             });    
         }
     }).catch(sendErr(res));    
@@ -153,7 +151,7 @@ get["/view/:key"] = (req, res) => {
 
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
-get["/get/:context/:idx/:cnt"] = (req, res) => {
+post["/get/:context/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
     const MAXCNT = 10;  // posts 조회 최대 개수
 
@@ -179,8 +177,9 @@ get["/get/:context/:idx/:cnt"] = (req, res) => {
         .limit(cnt)
         .then(R.map(setHasComment))
         .then(posts => {
+            console.log(posts);
             //console.log(JSON.stringify(posts, null,2));
-            let res = R.map(maskPost)(posts);
+            let res = R.map(R.partialRight(maskPost, req.body.uuid), posts);
             //console.log(JSON.stringify(res, null,2));
             return res;
 
@@ -275,9 +274,12 @@ get["/remove/:key/:uuid"] = (req, res) => {
 
 
 // key 에 해당하는 post 를 조회
-get["/get/:key"] = (req, res) => {
+post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
-        .then(maskPost)
+        .then(p => {
+            console.log("### p.liked = " + p.liked);
+        })
+        .then(R.partialRight(maskPost, req.body.uuid))
         .then(setHasComment)
         .then(post => res.send({status: "Success", post}))
         .catch(sendErr(res));
@@ -293,7 +295,7 @@ get["/auth/:key/:uuid"] = (req, res) => {
                 res.send({
                     status : "Success",
                     message: "Authorized ok",
-                    post: maskPost(post)
+                    post: maskPost(post, req.params.uuid)
                  });
             }else{
                 res.send({
@@ -319,7 +321,7 @@ get["/history/:key"] = (req, res) => {
 
 
 // key에 해당하는 post의 viewCnt++
-get["/likePost/:key/:uuid"] = (req, res) => {
+post["/likePost/:key"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
             console.log(post);
@@ -331,19 +333,19 @@ get["/likePost/:key/:uuid"] = (req, res) => {
                 */
                 post.like = R.pipe(
                     R.split(","),
-                    R.append(req.params.uuid),
+                    R.append(req.body.uuid),
                     R.join(",")
                 )(post.like);
 
             }else{
-                post.like = req.params.uuid;
+                post.like = req.body.uuid;
             }
             
             post.save().then(output => {
                 console.log(output);
                 res.send({
                     status: "Success",
-                    output
+                    output : maskPost(output, req.body.uuid)
                 });
             })
         })
@@ -351,20 +353,20 @@ get["/likePost/:key/:uuid"] = (req, res) => {
 }
 
 // key에 해당하는 post의 viewCnt--
-get["/cancelLike/:key/:uuid"] = (req, res) => {
+post["/cancelLike/:key"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
             
             /* vanillaJS
             let arr = post.like.split(",");
-            let idx = arr.findIndex(uuid => uuid === req.params.uuid);
+            let idx = arr.findIndex(uuid => uuid === req.body.uuid);
             arr.splice(idx,1);
             post.like = arr.join(",");
             */
 
             post.like = R.pipe(
                 R.split(","),
-                R.filter(uuid => uuid !== req.params.uuid),
+                R.filter(uuid => uuid !== req.body.uuid),
                 R.join(",")
             )(post.like);
 
@@ -372,7 +374,7 @@ get["/cancelLike/:key/:uuid"] = (req, res) => {
                 console.log(output);
                 res.send({
                     status: "Success",
-                    output
+                    output: maskPost(output, req.body.uuid)
                 });
             })
         })
@@ -383,15 +385,15 @@ get["/cancelLike/:key/:uuid"] = (req, res) => {
 
 router.post("/add", post["/add"]);
 router.post("/edit/:uuid", post["/edit/:uuid"]);
+router.post("/view/:key", post["/view/:key"]);
+router.post("/likePost/:key", post["/likePost/:key"]);
+router.post("/cancelLike/:key", post["/cancelLike/:key"]);
+router.post("/get/:context/:idx/:cnt", post["/get/:context/:idx/:cnt"]);
+router.post("/get/:key", post["/get/:key"]);
 
-router.get("/get/:context/:idx/:cnt", get["/get/:context/:idx/:cnt"]);
 router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
 router.get("/restore/:key/:uuid", get["/restore/:key/:uuid"]);
 router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
-router.get("/get/:key", get["/get/:key"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/history/:key", get["/history/:key"]);
-router.get("/view/:key", get["/view/:key"]);
-router.get("/likePost/:key/:uuid", get["/likePost/:key/:uuid"]);
-router.get("/cancelLike/:key/:uuid", get["/cancelLike/:key/:uuid"]);
 

@@ -44,7 +44,9 @@ api.getPosts = function ({idx, cnt, context, hideProgress}) {
     return httpReq(
         "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
         {
-            method: "GET",
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),
             hideProgress
         }
     ).then(errHandler);
@@ -64,7 +66,9 @@ api.getPost = function (key) {
     return httpReq(
         "/api/posts/get/" + key,
         {
-            method: "GET"
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),
         }
     ).then(errHandler);
 }
@@ -102,7 +106,9 @@ api.viewPost = function (key) {
     return httpReq(
         "/api/posts/view/" + key,
         {
-            method: "GET",
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),
         }
     ).then(errHandler);
 }
@@ -158,20 +164,24 @@ api.getPostHistory = function (key) {
     ).then(errHandler);
 }
 
-api.likePost = function(key, uuid){
+api.likePost = function(key){
     return httpReq(
-        "/api/posts/likePost/" + key + "/" + uuid,
+        "/api/posts/likePost/" + key,
         {
-            method: "GET"
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),            
         }
     ).then(errHandler);
 }
 
 api.cancelLike = function(key, uuid){
     return httpReq(
-        "/api/posts/cancelLike/" + key + "/" + uuid,
+        "/api/posts/cancelLike/" + key,
         {
-            method: "GET"
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),            
         }
     ).then(errHandler);
 }

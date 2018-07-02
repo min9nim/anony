@@ -88,8 +88,6 @@ tp.getCookie = function (cname) {
 
 
 
-
-
 tp.setUser = function(obj){
   const initValue = {
     uuid: shortid.generate(),
