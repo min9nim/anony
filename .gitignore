@@ -2,3 +2,4 @@ node_modules
 .vscode
 server/data.json
 npm-debug.log
+dbConfig.js
