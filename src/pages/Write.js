@@ -83,7 +83,7 @@ export default class Write extends React.Component {
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
       if(tp.view.App.state.data.posts.length > 0){
-        tp.store.dispatch(tp.action.addPost(newPost));
+        tp.store.dispatch(tp.action.addPost(res.output));
       }else{
         // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
       }
@@ -128,7 +128,7 @@ export default class Write extends React.Component {
                         componentClass = "textarea"
                         placeholder = "Content.." />
             </FormGroup>
-            <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
+            <Button bsStyle="success" onClick = {this.savePost}>Save</Button>
             <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
         </div>
     );
