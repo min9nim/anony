@@ -1,6 +1,17 @@
-export default function $m(sel) {
+
+function $m(sel) {
     return new $m.fn.init(sel);
-};
+}
+
+
+module.exports = $m;
+
+// export default function $m(sel) {
+//     return new $m.fn.init(sel);
+// };    
+
+
+
 
 $m.fn = {
     init: function(sel) {

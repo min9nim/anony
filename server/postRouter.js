@@ -4,6 +4,7 @@ const Post = require('./models/post');
 const shortid = require("shortid");
 const Comment = require('./models/comment');
 const R = require('ramda');
+const $m = require('../com/util');
 
 const router = express.Router();
 module.exports = router;
@@ -37,6 +38,9 @@ function sendErr(res){
 function maskPost(post, uuid){
     const masked = JSON.parse(JSON.stringify(post));    // plain 객체 생성
 
+    
+    //console.log("## masked.like = " + masked.like);
+    //console.log("## uuid = " + uuid);
     masked.like = masked.like || "";
     if(uuid){
         masked.liked = R.pipe(
@@ -44,6 +48,8 @@ function maskPost(post, uuid){
             R.contains(uuid)
         )(masked.like);
     }
+    //console.log("## masked.liked = " + masked.liked);
+
     masked.likeCnt = masked.like === "" ? 0 : masked.like.split(",").length;
 
     masked.uuid = undefined;
@@ -171,19 +177,16 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
-    Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context === "root" ? undefined : req.params.context}]})
+    Post.find({$and : [
+            {isPrivate:{$in: [ false, undefined ]}},
+            {origin: undefined},
+            {context: req.params.context === "root" ? undefined : req.params.context}
+        ]})
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(idx)
         .limit(cnt)
         .then(R.map(setHasComment))
-        .then(posts => {
-            console.log(posts);
-            //console.log(JSON.stringify(posts, null,2));
-            let res = R.map(R.partialRight(maskPost, req.body.uuid), posts);
-            //console.log(JSON.stringify(res, null,2));
-            return res;
-
-        })
+        .then(R.map(R.partialRight(maskPost, [req.body.uuid])))
         .then(posts => res.send({status: "Success", posts : posts}))
         .catch(sendErr(res));
 }
@@ -195,7 +198,6 @@ get["/delete/:key/:uuid"] = (req, res) => {
         .then(post => {
             console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`);
             if(post.uuid === req.params.uuid){
-
                 post.deleted = true;
                 post.save().then(output => {
                     console.log(output);
@@ -364,11 +366,20 @@ post["/cancelLike/:key"] = (req, res) => {
             post.like = arr.join(",");
             */
 
+            /*
             post.like = R.pipe(
                 R.split(","),
                 R.filter(uuid => uuid !== req.body.uuid),
                 R.join(",")
             )(post.like);
+            */
+
+            post.like = $m._go(
+                post.like,
+                R.split(","),
+                R.filter(uuid => uuid !== req.body.uuid),
+                R.join(",")
+            );
 
             post.save().then(output => {
                 console.log(output);

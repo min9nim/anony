@@ -6,7 +6,7 @@ import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
-import $m from "./util";
+import $m from "../com/util";
 import R from "ramda";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";

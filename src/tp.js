@@ -3,7 +3,7 @@ console.log("tp.js start");
 import action from "./redux/action";
 import {api} from "./restful/api";
 import shortid from "shortid";
-import $m from "./util";
+import $m from "../com/util";
 import nprogress from "nprogress";
 import R from "ramda";
 
