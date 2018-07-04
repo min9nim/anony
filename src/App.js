@@ -7,6 +7,7 @@ import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
 import $m from "./util";
+import R from "ramda";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 
