@@ -18,17 +18,17 @@ export default class App extends React.Component {
     console.log("App 생성자 호출..");
     super(props);
     
-    const go = page => () =>{
-      //let context = location.pathname.split("/")[1];
-      //let context = R.compose(R.prop(1), R.split("/"))(location.pathname);
-      const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
-      const context = ["", "list", "post", "edit", "postHistory", "write"].includes(contextname) ? "" : "/" + contextname;
-      //context = R.contains(context)(["", "list", "post", "edit", "postHistory", "write"]) ? "" : "/" + context;
-      return this.props.history.push(context + "/" + page);
-    }
-    const sa = (keys, func) => keys.split(",").forEach(key => shortcut.add(key, func));
-    sa("Alt+W", go("write"));
-    sa("Alt+L", go("List"));
+    const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
+    const context = ["", "list", "post", "edit", "postHistory", "write"].includes(contextname) ? "" : "/" + contextname;
+
+  
+    shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
+    shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
+    shortcut.add("Alt+E", () => {
+      if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
+        this.props.history.push((location.pathname.replace("post", "edit")));
+      }
+    });
     
     
 

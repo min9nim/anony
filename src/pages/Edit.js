@@ -18,6 +18,10 @@ export default class Edit extends React.Component {
     if(this.props.post){
       this.state = this.props.post;
       this.state.uuid = tp.user.uuid;
+      if(this.state.origin !== undefined){
+        alert("invalid access!");
+        history.back();
+      }
     }else{
       tp.api.getPost(this.props.postKey).then(res => {
         this.state = res.post;
@@ -26,7 +30,7 @@ export default class Edit extends React.Component {
     });
 
     }
-    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+    this.contextPath = this.props.context ? "/" + this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {

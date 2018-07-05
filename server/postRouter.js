@@ -88,7 +88,7 @@ post["/edit/:uuid"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     Post.findOne({key: req.body.key}).then(post => {
-        if(post.uuid !== req.params.uuid){
+        if(post.uuid !== req.params.uuid || post.origin !== undefined){
             res.send({ status : "Fail", message: "Not authorized" });
             return;
         }
