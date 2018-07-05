@@ -180,7 +180,11 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
     Post.find({$and : [
             {isPrivate:{$in: [ false, undefined ]}},
             {origin: undefined},
-            {context: req.params.context === "root" ? undefined : req.params.context}
+            {context: req.params.context === "root" ? undefined : req.params.context},
+            {$or : [
+                {title : req.body.search ? new RegExp(req.body.search) : new RegExp(".*")}, 
+                {content : req.body.search ? new RegExp(req.body.search) : new RegExp(".*")}
+            ]}
         ]})
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(idx)

@@ -35,7 +35,7 @@ export default class App extends React.Component {
     // 초기상태 정의
     this.state = {
       view: {
-        post:{}     //  글보기 화면 직접 접근했을 때 데이터는 이 곳에 넣어야지.. 그럼 더 좋을까?? 음음...
+        search: "",
       },
       data: {
         posts: [],        // 전체 글

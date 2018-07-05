@@ -12,7 +12,7 @@ const at = action.type = {
   UPDATEPOST : "UPDATEPOST",
   REMOVEPOST : "REMOVEPOST",
   RESTOREPOST : "RESTOREPOST",
-  VIEWPOST : "VIEWPOST",
+  VIEWPOST : "VIEWPOST",      // 조회수 +1
 
 
   ADDCOMMENT : "ADDCOMMENT",
@@ -20,6 +20,8 @@ const at = action.type = {
   DELETECOMMENT : "DELETECOMMENT",
   UPDATECOMMENT : "UPDATECOMMENT",
   REMOVECOMMENT : "REMOVECOMMENT",
+
+  SETSEARCH : "SETSEARCH",
 
   SCROLLEND : "SCROLLEND",
 }
@@ -98,6 +100,14 @@ action.addComments = function(comments) {
   return {
     type: at.ADDCOMMENTS,
     comments
+  }
+}
+
+
+action.setSearch = function(word) {
+  return {
+    type: at.SETSEARCH,
+    search: word
   }
 }
 

@@ -20,7 +20,7 @@ export default class Post extends React.Component {
             uuid : ""
           };
 
-        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+        this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
 
 
@@ -82,17 +82,21 @@ export default class Post extends React.Component {
         }
 
 
+        let title;
+        const search = tp.store.getState().view.search;
+        title = tp.highlight(this.state.title, search);
+        title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
+        const content = tp.$m.txtToHtml(this.state.content, tp.store.getState().view.search);
         
-        const content = tp.$m.txtToHtml(this.state.content);
 
         return (
             <div>
                 <div className="context">{this.props.context || "Anony"}</div>
                 <div className="post">
                     <div>
-                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}>
-                            {this.state.title} {this.state.isPrivate && <sup>- Private -</sup>}
+                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}
+                            dangerouslySetInnerHTML={{__html: title}}>
                         </div>
                     </div>
                     <div>

@@ -117,8 +117,8 @@ function comments(state = [], action) {
 
 function view(state = {}, action) {
   switch (action.type) {
-    case at.VIEW:
-      return action.view
+    case at.SETSEARCH:
+      return Object.assign({}, state, {search: action.search});
     default:
       return state;
   }

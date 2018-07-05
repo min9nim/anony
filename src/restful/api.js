@@ -10,6 +10,7 @@ function errHandler(res) {
 
 function httpReq(path, opt) {
     opt.hideProgress || nprogress.start();
+    delete opt.hideProgress;
     return fetch(path, Object.assign({}, {
         credentials : "omit"
     }, opt));
@@ -40,13 +41,13 @@ api.addComment = function (comment) {
 }
 
 
-api.getPosts = function ({idx, cnt, context, hideProgress}) {
+api.getPosts = function ({idx, cnt, context, search, hideProgress}) {
     return httpReq(
         "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
-            body: JSON.stringify({uuid: tp.user.uuid}),
+            body: JSON.stringify({uuid: tp.user.uuid, search}),
             hideProgress
         }
     ).then(errHandler);

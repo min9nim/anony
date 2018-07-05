@@ -1,6 +1,19 @@
 /* List component */
 .list {
     margin: 20px;
+    .header{
+        color : #aaa;
+        .title {
+            display: inline-block;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .status {
+            margin-left: 5px;
+            display: inline-block;
+            font-size: 16px;
+        }
+    }
     .writeBtn {
         position: fixed;
         margin-bottom: 0;
@@ -10,6 +23,7 @@
         .btn{
             padding: 7px 12px;
         }
-    }    
+    }  
+    
 }
 

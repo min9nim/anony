@@ -1,6 +1,8 @@
 /* Post component */
 .menu {
-    position: fixed;
+    //position: fixed;
+    position: absolute;
+    //display: inline-block;
     top: -5px;
     left: 5px;
     color : #aaa;

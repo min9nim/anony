@@ -38,14 +38,21 @@ tp.bodyScroll = function () {
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
-    tp.api.getPosts({idx: tp.view.App.state.data.posts.length, cnt: PAGEROWS, hideProgress: true, context: tp.context}).then(res => {
-      tp.store.dispatch(tp.action.scrollEnd(res.posts));
-      if(res.posts.length < PAGEROWS){
-        console.log("Scroll has touched bottom")
-        tp.isScrollLast = true;
-        return;
-      }
-    })
+    tp.api.getPosts({
+        idx: tp.view.App.state.data.posts.length,
+        cnt: PAGEROWS,
+        search: tp.store.getState().view.search,
+        hideProgress: true,
+        context: tp.context
+      })
+      .then(res => {
+        tp.store.dispatch(tp.action.scrollEnd(res.posts));
+        if(res.posts.length < PAGEROWS){
+          console.log("Scroll has touched bottom")
+          tp.isScrollLast = true;
+          return;
+        }
+      })
   }
 };
 
@@ -87,6 +94,13 @@ tp.getCookie = function (cname) {
 }
 
 
+tp.highlight = function(txt, word){
+  if(word){
+      var reg = new RegExp("(" + word + ")", "gi");
+      txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>');
+  }
+  return txt;
+}
 
 tp.setUser = function(obj){
   const initValue = {
