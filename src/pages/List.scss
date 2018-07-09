@@ -1,11 +1,17 @@
 /* List component */
 .list {
-    margin: 20px;
+    margin: 0px;
+    background-color: #eee;
+
     .header{
-        color : #aaa;
+        color: #aaa;
+        background-color: #fff;
+        padding: 0px 15px;
+        margin-bottom: 2px;
+
         .title {
             display: inline-block;
-            font-size: 20px;
+            font-size: 16px;
             cursor: pointer;
         }
         .status {

@@ -2,8 +2,11 @@
 /* Excerpt component */
 .excerpt {
     display: inline-block;
-    margin-bottom: 40px;
+    margin: 2px 0px;
     width: 100%;
+    background-color: #fff;
+    padding: 3px 15px;
+
     .title1 {
         margin-bottom: 3px;
     }
