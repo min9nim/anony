@@ -116,6 +116,8 @@ tp.setUser = function(obj){
     user = obj ? Object.assign(tp.user, obj) : initValue ;
   }
 
+  tp.store.dispatch(tp.action.setUuid(user.uuid));
+
   if(USECOOKIE){
     tp.setCookie("user", JSON.stringify(user))
   }else{

@@ -26,7 +26,6 @@ export default class List extends React.Component {
         tp.context = this.props.context;
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
-
     }
 
     componentDidMount(){
@@ -51,7 +50,8 @@ export default class List extends React.Component {
 
 
         //let title = tp.context || "Anony";
-        let title = tp.user.uuid;
+        //let title = tp.user.uuid;
+        let title = tp.store.getState().view.uuid;
         let status = "";
         let search = tp.store.getState().view.search;
 

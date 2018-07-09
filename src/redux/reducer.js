@@ -119,6 +119,8 @@ function view(state = {}, action) {
   switch (action.type) {
     case at.SETSEARCH:
       return Object.assign({}, state, {search: action.search});
+    case at.SETUUID:
+      return Object.assign({}, state, {uuid: action.uuid});
     default:
       return state;
   }

@@ -36,6 +36,7 @@ export default class App extends React.Component {
     this.state = {
       view: {
         search: "",
+        uuid: tp.user.uuid
       },
       data: {
         posts: [],        // 전체 글
@@ -43,6 +44,7 @@ export default class App extends React.Component {
       }
     };
     tp.view.App = this;
+
 
     // 스토어 최초 한번 생성
     tp.store = createStore(reducer, this.state);

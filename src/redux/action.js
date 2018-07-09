@@ -22,6 +22,7 @@ const at = action.type = {
   REMOVECOMMENT : "REMOVECOMMENT",
 
   SETSEARCH : "SETSEARCH",
+  SETUUID : "SETUUID",
 
   SCROLLEND : "SCROLLEND",
 }
@@ -108,6 +109,13 @@ action.setSearch = function(word) {
   return {
     type: at.SETSEARCH,
     search: word
+  }
+}
+
+action.setUuid = function(uuid) {
+  return {
+    type: at.SETUUID,
+    uuid
   }
 }
 
