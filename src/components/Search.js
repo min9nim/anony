@@ -69,21 +69,21 @@ export default class Search extends React.Component {
         console.log("Search 렌더링");
         return (
             <div className="Search">
-                <div className="nav" onClick={this.showSearch}>Search</div>
+                <div className="nav" onClick={this.showSearch}><img src="/img/search-btn.png"/></div>
                 
                 {this.state.clicked &&                
                     <div className="searchBox">
                         <div className="modal_div"></div>
                         <div className="search_div">
-                        <FormGroup controlId = "word">
-                            {/*<ControlLabel> Content </ControlLabel>*/}
-                            <FormControl className="input"
-                                    autoFocus
-                                    value = {this.state.word}
-                                    onChange = {this.handleChange}
-                                    componentClass = "textarea"
-                                    placeholder = "word.." />
-                        </FormGroup>
+                            <FormGroup controlId = "word">
+                                {/*<ControlLabel> Content </ControlLabel>*/}
+                                <FormControl className="input"
+                                        autoFocus
+                                        value = {this.state.word}
+                                        onChange = {this.handleChange}
+                                        componentClass = "textarea"
+                                        placeholder = "word.." />
+                            </FormGroup>
 
                             <div className="btn_grp">
                                 <Button className="searchBtn" bsStyle="success" onClick={this.search}>Search</Button>

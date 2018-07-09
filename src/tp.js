@@ -9,6 +9,7 @@ import R from "ramda";
 
 
 const PAGEROWS = 10;
+const USECOOKIE = true;
 
 export let tp = {
   view : {},          // 전역에서 관리될 필요가 있는 리액트 뷰들
@@ -114,16 +115,28 @@ tp.setUser = function(obj){
   }else{
     user = obj ? Object.assign(tp.user, obj) : initValue ;
   }
-  localStorage.setItem("user", JSON.stringify(user));
-  //tp.setCookie("user", JSON.stringify(user))
+
+  if(USECOOKIE){
+    tp.setCookie("user", JSON.stringify(user))
+  }else{
+    localStorage.setItem("user", JSON.stringify(user));
+  }
 
   return user;
 }
 
+tp.getUser = function(){
+  if(USECOOKIE){
+    return tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+  }else{
+    return JSON.parse(localStorage.getItem("user")) || tp.setUser();
+  }
+}
+
 
 tp.init = function(){
-  tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
-  //tp.user = tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+  tp.user = tp.getUser();
 }
+
 tp.init();
 window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출

@@ -50,7 +50,8 @@ export default class List extends React.Component {
         console.log("List 렌더링..");
 
 
-        let title = tp.context || "Anony";
+        //let title = tp.context || "Anony";
+        let title = tp.user.uuid;
         let status = "";
         let search = tp.store.getState().view.search;
 
@@ -62,8 +63,7 @@ export default class List extends React.Component {
         return (
             <div className="list">
                 <div className="header">
-                    <Menu/>
-                    <div className="title" onClick={this.logoClick}>{title}</div>
+                    <div className="title" onClick={this.logoClick}>{title}</div><Menu/>
                     <div className="status">{status}</div>
                     <Search context={this.props.context}/>
                 </div>

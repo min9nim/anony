@@ -1,21 +1,22 @@
 /* Post component */
 .menu {
-    //position: fixed;
-    position: absolute;
-    //display: inline-block;
-    top: -5px;
-    left: 5px;
-    color : #aaa;
+    /* position: absolute; */
+    /* top: -5px; */
+    /* left: 5px; */
+    color: #aaa;
     font-style: italic;
+    display: inline-block;
+    margin-left: 5px;
     
     .uuid-setting {
-        height: 46px;
+        /* height: 46px; */
         background-color: #fff;
         .form {
             width: 180px;
-            margin-top: 15px;
+            /* margin-top: 15px; */
             margin-left: 5px;
             display: inline-block;
+            margin-bottom: 0px;
             #uuid {
                 width: 137px;
                 display: inline-block;
