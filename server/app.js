@@ -1,8 +1,9 @@
 const express = require("express");
 const bodyParser = require('body-parser')
 const morgan = require('morgan');
-//const fs = require("fs");
-//const path = require("path");
+const fs = require("fs");
+const path = require("path");
+const https = require("https");
 const postRouter = require('./postRouter');
 const commentRouter = require('./commentRouter');
 const fallback = require('express-history-api-fallback');
@@ -10,18 +11,19 @@ const seo = require('./seo');
 
 
 
+const filepath = __dirname + path.sep; // __dirname 는 app.js 가 위치한 경로
+
+
+
 // 익스프레스 앱생성
 const app = express();
 
-// 서비스 포트
-const PORT = process.argv[2] || 80;
-
-//const DATAFILE = __dirname + path.sep + "data.json"; // __dirname 는 app.js 가 위치한 경로
 
 
 // 미들웨어 등록
 app.use(morgan('combined'));    // 서버 access 로그
 app.use(bodyParser.json());
+
 
 // SEO 설정
 app.get("/post/:key", seo.post);
@@ -52,8 +54,24 @@ app.use(fallback('index.html', { root: staticPath }));
 
 
 
-// 서버리슨 시작
+// https 옵션
+const options = {  
+    key: fs.readFileSync(filepath + 'key.pem'),
+    cert: fs.readFileSync(filepath + 'cert.pem')
+};
+
+// 서비스 포트
+const PORT = process.env.NODE_ENV === "development" ? 8080 : 80;
+const SSLPORT = process.env.NODE_ENV === "development" ? 9443 : 443;
+
+
+// HTTP 서비스 시작
 app.listen(PORT, function(){
-    console.log(`express is lintening on port ${PORT}`);
+    console.log(`express is listening on port ${PORT}`);
 });
 
+
+// HTTPS 서비스 시작
+https.createServer(options, app).listen(SSLPORT, function(){  
+    console.log("Https server listening on port " + SSLPORT);
+});
