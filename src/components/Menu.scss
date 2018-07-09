@@ -11,8 +11,9 @@
     .uuid-setting {
         /* height: 46px; */
         background-color: #fff;
+        height: 22px;
         .form {
-            width: 180px;
+            width: 140px;
             /* margin-top: 15px; */
             margin-left: 5px;
             display: inline-block;
@@ -20,13 +21,13 @@
             #uuid {
                 width: 137px;
                 display: inline-block;
-                height: 24px;
+                height: 22px;
                 margin-left: 5px;
             }      
             
             .form-control-feedback {
                 top: -5px;
-                left: 141px;
+                left: 110px;
             }
         }
         .copy {
@@ -47,7 +48,7 @@
     }
 
     .navi{
-        font-size: 20px;
+        font-size: 16px;
         cursor: pointer;
     }
 }

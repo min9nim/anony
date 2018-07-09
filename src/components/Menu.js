@@ -26,14 +26,14 @@ export default class Menu extends React.Component {
         tp.shortid = shortid;
     }
 
-    copy(){
-        var copyText = document.getElementById("uuid");
-        /* Select the text field */
-        copyText.select();
-        /* Copy the text inside the text field */
-        document.execCommand("copy");
-        alert("copied on Clipboard");      
-    }
+    // copy(){
+    //     var copyText = document.getElementById("uuid");
+    //     /* Select the text field */
+    //     copyText.select();
+    //     /* Copy the text inside the text field */
+    //     document.execCommand("copy");
+    //     alert("copied on Clipboard");      
+    // }
 
     confirm(){
         if(this.getValidationState() !== "success"){
@@ -82,16 +82,16 @@ export default class Menu extends React.Component {
                 ? 
                 <div className="uuid-setting">
                     <FormGroup className="form" controlId = "uuid" validationState = {this.getValidationState()}>
-                        <ControlLabel> uuid </ControlLabel>
+                        {/* <ControlLabel> uuid </ControlLabel> */}
                         <FormControl type = "text"
                                 value = {this.state.uuid}
                                 onChange = {this.handleChange}
                                 placeholder = "uuid.." />
                         <FormControl.Feedback />
                     </FormGroup>
-                    <div className="copy" onClick={this.copy}>copy</div>
-                    <div className="confirm" onClick={this.confirm}>confirm</div>
-                    <div className="cancel" onClick={this.cancel}>cancel</div>
+                    {/* <div className="copy" onClick={this.copy}>copy</div> */}
+                    <div className="confirm" onClick={this.confirm}>Save</div>
+                    <div className="cancel" onClick={this.cancel}>Cancel</div>
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>
