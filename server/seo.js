@@ -15,12 +15,17 @@ seo.post = function(req, res){
                     console.log(err);
                     res.send({ status : "Fail", message: err.message });
                 }else{
-                    const output = buf.toString()
-                        .replace("{{title}}", post.title)
-                        .replace("{{description}}", post.content.substr(0,100))
-                        .replace("{{content}}", post.content);
-                    console.log(output);
-                    res.send(output);
+                    try{
+                        const output = buf.toString()
+                            .replace("{{title}}", post.title)
+                            .replace("{{description}}", post.content.substr(0,100))
+                            .replace("{{content}}", post.content);
+                        console.log(output);
+                        res.send(output);
+                    }catch(e){
+                        console.log("오류 발생 : " + e.message);
+                        res.send(e.message);
+                    }
                 }
             });
         })
