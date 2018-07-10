@@ -23,6 +23,7 @@ seo.post = function(req, res){
                         console.log(output);
                         res.send(output);
                     }catch(e){
+                        // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
                         console.log("오류 발생 : " + e.message);
                         res.send(e.message);
                     }
