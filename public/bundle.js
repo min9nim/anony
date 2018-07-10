@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f689e7d9f51486ea130b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5341ad48749d25842082"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -71779,7 +71779,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Excerpt component */\n.excerpt {\n  display: inline-block;\n  margin: 2px 0px;\n  width: 100%;\n  background-color: #fff;\n  padding: 10px 15px; }\n  .excerpt .title1 {\n    margin-bottom: 3px; }\n  .excerpt .title {\n    display: inline-block;\n    text-align: right;\n    width: 100%;\n    margin: 0px; }\n    .excerpt .title a {\n      color: #555; }\n  .excerpt .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 12px;\n    display: inline-block;\n    margin: 0px 0px 0px 0px; }\n  .excerpt .meta2 {\n    color: #aaa;\n    text-align: right;\n    font-size: 12px;\n    display: inline-block;\n    margin: 10px 0px; }\n  .excerpt .postMenu {\n    margin-top: -5px; }\n  .excerpt .content {\n    margin-top: 10px;\n    color: #777; }\n  .excerpt .deleted {\n    text-decoration: line-through;\n    color: #ccc; }\n", ""]);
+	exports.push([module.id, "/* Excerpt component */\n.excerpt {\n  display: inline-block;\n  margin: 1px 0px;\n  width: 100%;\n  background-color: #fff;\n  padding: 15px 15px; }\n  .excerpt .title1 {\n    margin-bottom: 3px; }\n  .excerpt .title {\n    display: inline-block;\n    text-align: right;\n    width: 100%;\n    margin: 0px; }\n    .excerpt .title a {\n      color: #555; }\n  .excerpt .meta {\n    color: #aaa;\n    text-align: right;\n    font-size: 12px;\n    display: inline-block;\n    margin: 0px 0px 0px 0px; }\n  .excerpt .meta2 {\n    color: #aaa;\n    text-align: right;\n    font-size: 12px;\n    display: inline-block;\n    margin: 10px 0px; }\n  .excerpt .postMenu {\n    margin-top: -5px; }\n  .excerpt .content {\n    margin-top: 4px;\n    color: #777; }\n  .excerpt .deleted {\n    text-decoration: line-through;\n    color: #ccc; }\n", ""]);
 
 	// exports
 
@@ -85015,8 +85015,6 @@
 	    user = obj ? Object.assign(tp.user, obj) : initValue;
 	  }
 
-	  tp.store.dispatch(tp.action.setUuid(user.uuid));
-
 	  if (USECOOKIE) {
 	    tp.setCookie("user", JSON.stringify(user));
 	  } else {
@@ -87006,17 +87004,16 @@
 	        return _this;
 	    }
 
+	    // copy(){
+	    //     var copyText = document.getElementById("uuid");
+	    //     /* Select the text field */
+	    //     copyText.select();
+	    //     /* Copy the text inside the text field */
+	    //     document.execCommand("copy");
+	    //     alert("copied on Clipboard");      
+	    // }
+
 	    _createClass(Menu, [{
-	        key: "copy",
-	        value: function copy() {
-	            var copyText = document.getElementById("uuid");
-	            /* Select the text field */
-	            copyText.select();
-	            /* Copy the text inside the text field */
-	            document.execCommand("copy");
-	            alert("copied on Clipboard");
-	        }
-	    }, {
 	        key: "confirm",
 	        value: function confirm() {
 	            if (this.getValidationState() !== "success") {
@@ -87024,6 +87021,7 @@
 	                return;
 	            }
 	            _tp.tp.setUser({ uuid: this.state.uuid });
+	            _tp.tp.store.dispatch(_tp.tp.action.setUuid(_tp.tp.user.uuid));
 	            alert("uuid changed");
 	            this.hideMenu();
 	        }
@@ -87071,11 +87069,6 @@
 	                    _react2.default.createElement(
 	                        _reactBootstrap.FormGroup,
 	                        { className: "form", controlId: "uuid", validationState: this.getValidationState() },
-	                        _react2.default.createElement(
-	                            _reactBootstrap.ControlLabel,
-	                            null,
-	                            " uuid "
-	                        ),
 	                        _react2.default.createElement(_reactBootstrap.FormControl, { type: "text",
 	                            value: this.state.uuid,
 	                            onChange: this.handleChange,
@@ -87084,18 +87077,13 @@
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
-	                        { className: "copy", onClick: this.copy },
-	                        "copy"
-	                    ),
-	                    _react2.default.createElement(
-	                        "div",
 	                        { className: "confirm", onClick: this.confirm },
-	                        "confirm"
+	                        "Save"
 	                    ),
 	                    _react2.default.createElement(
 	                        "div",
 	                        { className: "cancel", onClick: this.cancel },
-	                        "cancel"
+	                        "Cancel"
 	                    )
 	                ) : _react2.default.createElement(
 	                    "div",
@@ -87184,7 +87172,7 @@
 
 
 	// module
-	exports.push([module.id, "/* Post component */\n.menu {\n  /* position: absolute; */\n  /* top: -5px; */\n  /* left: 5px; */\n  color: #aaa;\n  font-style: italic;\n  display: inline-block;\n  margin-left: 5px; }\n  .menu .uuid-setting {\n    /* height: 46px; */\n    background-color: #fff; }\n    .menu .uuid-setting .form {\n      width: 180px;\n      /* margin-top: 15px; */\n      margin-left: 5px;\n      display: inline-block;\n      margin-bottom: 0px; }\n      .menu .uuid-setting .form #uuid {\n        width: 137px;\n        display: inline-block;\n        height: 24px;\n        margin-left: 5px; }\n      .menu .uuid-setting .form .form-control-feedback {\n        top: -5px;\n        left: 141px; }\n    .menu .uuid-setting .copy {\n      display: inline-block;\n      cursor: pointer; }\n    .menu .uuid-setting .confirm {\n      margin-left: 10px;\n      display: inline-block;\n      cursor: pointer; }\n    .menu .uuid-setting .cancel {\n      margin-left: 10px;\n      margin-right: 15px;\n      display: inline-block;\n      cursor: pointer; }\n  .menu .navi {\n    font-size: 20px;\n    cursor: pointer; }\n", ""]);
+	exports.push([module.id, "/* Post component */\n.menu {\n  /* position: absolute; */\n  /* top: -5px; */\n  /* left: 5px; */\n  color: #aaa;\n  font-style: italic;\n  display: inline-block;\n  margin-left: 5px; }\n  .menu .uuid-setting {\n    /* height: 46px; */\n    background-color: #fff;\n    height: 22px; }\n    .menu .uuid-setting .form {\n      width: 140px;\n      /* margin-top: 15px; */\n      margin-left: 5px;\n      display: inline-block;\n      margin-bottom: 0px; }\n      .menu .uuid-setting .form #uuid {\n        width: 137px;\n        display: inline-block;\n        height: 22px;\n        margin-left: 5px; }\n      .menu .uuid-setting .form .form-control-feedback {\n        top: -5px;\n        left: 110px; }\n    .menu .uuid-setting .copy {\n      display: inline-block;\n      cursor: pointer; }\n    .menu .uuid-setting .confirm {\n      margin-left: 10px;\n      display: inline-block;\n      cursor: pointer; }\n    .menu .uuid-setting .cancel {\n      margin-left: 10px;\n      margin-right: 15px;\n      display: inline-block;\n      cursor: pointer; }\n  .menu .navi {\n    font-size: 16px;\n    cursor: pointer; }\n", ""]);
 
 	// exports
 
@@ -88324,7 +88312,7 @@
 
 
 	// module
-	exports.push([module.id, "/* List component */\n.list {\n  margin: 0px;\n  background-color: #eee; }\n  .list .header {\n    color: #aaa;\n    background-color: #fff;\n    padding: 0px 15px;\n    margin-bottom: 2px; }\n    .list .header .title {\n      display: inline-block;\n      font-size: 16px;\n      cursor: pointer; }\n    .list .header .status {\n      margin-left: 5px;\n      display: inline-block;\n      font-size: 16px; }\n  .list .writeBtn {\n    position: fixed;\n    margin-bottom: 0;\n    bottom: 25px;\n    right: 25px;\n    opacity: 0.7; }\n    .list .writeBtn .btn {\n      padding: 7px 12px; }\n", ""]);
+	exports.push([module.id, "/* List component */\n.list {\n  margin: 0px;\n  background-color: #f7f7f7; }\n  .list .header {\n    color: #aaa;\n    background-color: #fff;\n    padding: 3px 15px;\n    margin-bottom: 2px;\n    height: 29px; }\n    .list .header .title {\n      display: inline-block;\n      font-size: 16px;\n      cursor: pointer; }\n    .list .header .status {\n      margin-left: 5px;\n      display: inline-block;\n      font-size: 16px; }\n  .list .writeBtn {\n    position: fixed;\n    margin-bottom: 0;\n    bottom: 25px;\n    right: 25px;\n    opacity: 0.7; }\n    .list .writeBtn .btn {\n      padding: 7px 12px; }\n", ""]);
 
 	// exports
 
