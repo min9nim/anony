@@ -7,14 +7,21 @@
         <!-- 외부 웹폰트 링크가 내용 중에 포함되어 있어서 웹팩으로 빌드하면 오류 발생-->
         <!--link rel="stylesheet" href="/bootstrap.min.css"-->
         <!--bootstrap.min.css 를 번들로 묶으면 input 유효성 체크할때 아이콘? 표시할때 이미지 깨짐-->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
         <title>{{title}}</title>
         <meta name="description" content="{{description}}">
     </head>
+    <script>
+        var extCss = document.createElement('link');
+        extCss.setAttribute("rel", "stylesheet");
+        extCss.setAttribute("type", "text/css");
+        extCss.setAttribute("href", location.protocol + "//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
+        var headNode = document.getElementsByTagName('head')[0];
+        headNode.appendChild(extCss);        
+    </script>
 
     <body onscroll="tp.bodyScroll()">
         <div id="root"><div style="visibility: hidden;">{{content}}</div></div>
         <script src="/bundle.js"></script>
     </body>
-
 </html>
