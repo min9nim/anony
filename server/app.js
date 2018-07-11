@@ -48,7 +48,7 @@ app.use(fallback('index.html', { root: staticPath }));
 
 
 // 윈도우환경에서는 뒤에 공백문자가 들어가기 때문에 공백제거 필요함
-process.env.NODE_ENV = process.env.NODE_ENV.trim();
+process.env.NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.trim();
 
 // 서비스 포트
 const PORT = process.env.NODE_ENV === "development" ? 8080 : 80;
