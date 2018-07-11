@@ -95,6 +95,12 @@ tp.getCookie = function (cname) {
 }
 
 
+tp.isDesktop = function(){
+  const os = ["win16", "win32", "win64", "mac", "macintel"];
+  return os.includes(navigator.platform.toLowerCase());
+}
+
+
 tp.highlight = function(txt, word){
   if(word){
       var reg = new RegExp("(" + word + ")", "gi");
@@ -137,6 +143,8 @@ tp.getUser = function(){
 tp.init = function(){
   tp.user = tp.getUser();
 }
+
+
 
 tp.init();
 window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출

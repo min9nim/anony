@@ -75,6 +75,7 @@ export default class Write extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       uuid : tp.user.uuid,
       context : this.props.context,
@@ -100,6 +101,12 @@ export default class Write extends React.Component {
 
   render() {
     console.log("Write 렌더링..");
+
+    const contentStyle = {
+      height: tp.isDesktop() ? (window.innerHeight - 170) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      fontSize: this.state.isMarkdown ? "15px" : "20px"
+    }
+
     return (
         <div className="write">
             <div className="context">{this.props.context || "Anony"}</div>
@@ -123,7 +130,7 @@ export default class Write extends React.Component {
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
-                <FormControl className="content"
+                <FormControl style={contentStyle}
                         autoFocus
                         value = {this.state.content}
                         onChange = {this.handleChange}

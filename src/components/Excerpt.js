@@ -18,8 +18,8 @@ export default class Excerpt extends React.Component {
         
         //props: history, key, post, context
         //return prevProps.post !== this.props.post;
-        console.log("this.props.post.deleted = " + this.props.post.deleted);
-        console.log("prevProps.post.deleted = " + prevProps.post.deleted);
+        //console.log("this.props.post.deleted = " + this.props.post.deleted);
+        //console.log("prevProps.post.deleted = " + prevProps.post.deleted);
         return !R.equals(this.props, prevProps);
     }
 
