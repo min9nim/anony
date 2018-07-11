@@ -284,6 +284,7 @@ post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
             console.log("### p.liked = " + p.liked);
+            return p;
         })
         .then(R.partialRight(maskPost, req.body.uuid))
         .then(setHasComment)
