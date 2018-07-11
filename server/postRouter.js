@@ -182,8 +182,8 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
             {origin: undefined},
             {context: req.params.context === "root" ? undefined : req.params.context},
             {$or : [
-                {title : req.body.search ? new RegExp(req.body.search) : new RegExp(".*")}, 
-                {content : req.body.search ? new RegExp(req.body.search) : new RegExp(".*")}
+                {title : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}, 
+                {content : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}
             ]}
         ]})
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
