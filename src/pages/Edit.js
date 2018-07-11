@@ -103,6 +103,11 @@ export default class Edit extends React.Component {
 
     if(!this.state) return <div/>;
 
+    const contentStyle = {
+      height: tp.isDesktop() ? (window.innerHeight - 170) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      fontSize: this.state.isMarkdown ? "15px" : "20px"
+    }    
+
     return (
         <div className="edit">
             <div className="context">{this.props.context || "Anony"}</div>
@@ -126,7 +131,7 @@ export default class Edit extends React.Component {
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
-                <FormControl className="content"
+                <FormControl style={contentStyle}
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
