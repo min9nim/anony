@@ -24,8 +24,9 @@ seo.post = function(req, res){
                         res.send(output);
                     }catch(e){
                         // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
-                        console.log("오류 발생 : " + e.message);
-                        res.send(e.message);
+                        console.log(e.message);
+                        res.send({status: "Fail", message: e.message});
+
                     }
                 }
             });
@@ -47,12 +48,17 @@ seo.list = function(req, res, next){
                     console.log(err);
                     res.send({ status : "Fail", message: err.message });
                 }else{
-                    const output = buf.toString()
-                        .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
-                        .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
-                        .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
-                    console.log(output);
-                    res.send(output);
+                    try{
+                        const output = buf.toString()
+                            .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
+                            .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
+                            .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
+                        console.log(output);
+                        res.send(output);
+                    }catch(e){
+                        console.log(e.message);
+                        res.send({status: "Fail", message: e.message});
+                    }
                 }
             });
         })
