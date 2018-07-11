@@ -23,6 +23,7 @@ export default class Write extends React.Component {
       content: "",
       date : "",
       isPrivate: false,
+      isMarkdown: false,
       hasComment: true,
       uuid : tp.user.uuid
     };
@@ -116,6 +117,7 @@ export default class Write extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown}>MD</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>

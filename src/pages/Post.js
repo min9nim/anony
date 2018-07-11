@@ -5,7 +5,10 @@ import moment from "moment";
 import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Remarkable from "remarkable";
+import hljs from 'highlight.js';
 import "./Post.scss";
+import "../css/hljsTheme/xcode.css";
 export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
@@ -22,6 +25,37 @@ export default class Post extends React.Component {
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
+
+        this.md = new Remarkable({
+            html:         true,        // Enable HTML tags in source
+            xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+            breaks:       true,        // Convert '\n' in paragraphs into <br>
+            langPrefix:   '',  // CSS language prefix for fenced blocks
+            linkify:      true,        // Autoconvert URL-like text to links
+          
+            // Enable some language-neutral replacement + quotes beautification
+            typographer:  false,
+          
+            // Double + single quotes replacement pairs, when typographer enabled,
+            // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+            quotes: '“”‘’',
+          
+            // Highlighter function. Should return escaped HTML,
+            // or '' if the source string is not changed
+            highlight: function (str, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                  try {
+                    return hljs.highlight(lang, str).value;
+                  } catch (err) {}
+                }
+            
+                try {
+                  return hljs.highlightAuto(str).value;
+                } catch (err) {}
+            
+                return ''; // use external default escaping
+              }
+        });
 
 
         if(this.props.post){
@@ -87,7 +121,13 @@ export default class Post extends React.Component {
         title = tp.highlight(this.state.title, search);
         title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
-        const content = tp.$m.txtToHtml(this.state.content, tp.store.getState().view.search);
+        
+        const contentClass = this.state.isMarkdown ? "markdown" : "content";
+        const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
+
+        const content = this.state.isMarkdown ?
+                        this.md.render(this.state.content) :
+                        tp.$m.txtToHtml(this.state.content, tp.store.getState().view.search);
         
 
         return (
@@ -103,7 +143,7 @@ export default class Post extends React.Component {
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
                         {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>}
                     </div>
-                    <div className={this.state.deleted ? "content deleted" : "content"} dangerouslySetInnerHTML={{__html: content}}></div>
+                    <div className={contentStyle} dangerouslySetInnerHTML={{__html: content}}></div>
                     <PostMeta post={this.state}/>
                     {!!this.state.origin || this.state.isPrivate || (
                         <div>

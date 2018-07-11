@@ -70,6 +70,7 @@ export default class Edit extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       viewCnt : this.state.viewCnt,
       uuid : tp.user.uuid,
@@ -119,6 +120,7 @@ export default class Edit extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown}>MD</Checkbox>                       
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
