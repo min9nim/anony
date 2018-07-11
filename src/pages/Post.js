@@ -126,7 +126,7 @@ export default class Post extends React.Component {
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
 
         const content = this.state.isMarkdown ?
-                        this.md.render(this.state.content) :
+                        this.md.render(tp.highlight(this.state.content, search)) :
                         tp.$m.txtToHtml(this.state.content, tp.store.getState().view.search);
         
 
