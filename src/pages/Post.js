@@ -121,13 +121,16 @@ export default class Post extends React.Component {
         title = tp.highlight(this.state.title, search);
         title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
+        function nl2br(str){
+            return str.replace(/\n\n/g, "\n<br>\n");
+        }
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
 
         const content = this.state.isMarkdown ?
-                        this.md.render(tp.highlight(this.state.content, search)) :
-                        tp.$m.txtToHtml(this.state.content, tp.store.getState().view.search);
+                        this.md.render(nl2br(tp.highlight(this.state.content, search))) :
+                        tp.$m.txtToHtml(this.state.content, search);
         
 
         return (
