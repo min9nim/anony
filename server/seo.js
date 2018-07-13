@@ -1,7 +1,14 @@
 
 const Post = require('./models/post');
 const fs = require('fs');
+const Remarkable = require("remarkable");
+
 const filepath = __dirname + "/../public/index.html"; // __dirname 는 seo.js 가 위치한 경로
+const md =  new Remarkable({
+    html: true,
+    linkify: true,
+    xhtmlOut: true
+});
 
 module.exports = seo = {};
 
@@ -19,7 +26,7 @@ seo.post = function(req, res){
                         const output = buf.toString()
                             .replace("{{title}}", post.title)
                             .replace("{{description}}", post.content.substr(0,100))
-                            .replace("{{content}}", post.content);
+                            .replace("{{content}}", post.isMarkdown ? md.render(post.content) : post.content);
                         console.log(output);
                         res.send(output);
                     }catch(e){
