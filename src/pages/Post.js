@@ -30,6 +30,7 @@ export default class Post extends React.Component {
             html: true,
             linkify: true,
             xhtmlOut: true,
+            breaks: true,
             // Highlighter function. Should return escaped HTML,
             // or '' if the source string is not changed
             highlight: function (str, lang) {
