@@ -71,6 +71,13 @@ export default class List extends React.Component {
                 {this.props.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
+
+                {tp.store.getState().view.search !== "" && (
+                    <div className="backBtn">
+                        <Button bsStyle="success" onClick={this.logoClick}>Back</Button>
+                    </div>     
+                )}
+
                 <div className="writeBtn">
                     <Link to={this.contextPath + "/write"}><Button bsStyle="success">Write</Button></Link>
                 </div>
