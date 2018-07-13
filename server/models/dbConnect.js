@@ -12,7 +12,7 @@ db.once('open', function () {
 console.log("== argv ==")
 console.log(process.argv);
 
-if (process.env && process.env.NODE_ENV.trim() === 'development') {
+if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
     console.log("개발디비 접속");
     mongoose.connect(dbConfig.dev);
   }else{
