@@ -1,0 +1,54 @@
+/* Post component */
+.menu {
+    /* position: absolute; */
+    /* top: -5px; */
+    /* left: 5px; */
+    color: #aaa;
+    font-style: italic;
+    display: inline-block;
+    margin-left: 5px;
+    
+    .uuid-setting {
+        /* height: 46px; */
+        background-color: #fff;
+        height: 22px;
+        .form {
+            width: 140px;
+            /* margin-top: 15px; */
+            margin-left: 5px;
+            display: inline-block;
+            margin-bottom: 0px;
+            #uuid {
+                width: 137px;
+                display: inline-block;
+                height: 22px;
+                margin-left: 5px;
+            }      
+            
+            .form-control-feedback {
+                top: -5px;
+                left: 110px;
+            }
+        }
+        .copy {
+            display: inline-block;
+            cursor: pointer;
+        } 
+        .confirm{
+            margin-left: 10px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .cancel{
+            margin-left: 10px;
+            margin-right: 15px;
+            display: inline-block;
+            cursor: pointer;
+        }        
+    }
+
+    .navi{
+        font-size: 16px;
+        cursor: pointer;
+    }
+}
