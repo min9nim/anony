@@ -119,7 +119,6 @@ export default class Post extends React.Component {
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
-
         const content = this.state.isMarkdown ?
                         //this.md.render(nl2br(tp.highlight(this.state.content, search))) :
                         this.md.render(this.state.content) : // highlight를 적용하면 markdown 코드영역 안의 단어가 매칭될 경우 span태그가 그대로 노출되는 문제가 있음, 180711

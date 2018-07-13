@@ -103,6 +103,7 @@ post["/edit/:uuid"] = (req, res) => {
             prevPost.content = post.content;
             prevPost.date = post.date;
             prevPost.isPrivate = post.isPrivate;
+            prevPost.isMarkdown = post.isMarkdown;
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
             prevPost.viewCnt = post.viewCnt;
