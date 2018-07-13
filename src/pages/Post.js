@@ -27,19 +27,10 @@ export default class Post extends React.Component {
         tp.view.Post = this;
 
         this.md = new Remarkable({
-            html:         true,        // Enable HTML tags in source
-            xhtmlOut:     false,        // Use '/' to close single tags (<br />)
-            breaks:       true,        // Convert '\n' in paragraphs into <br>
-            langPrefix:   '',  // CSS language prefix for fenced blocks
-            linkify:      true,        // Autoconvert URL-like text to links
-          
-            // Enable some language-neutral replacement + quotes beautification
-            typographer:  false,
-          
-            // Double + single quotes replacement pairs, when typographer enabled,
-            // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-            quotes: '“”‘’',
-          
+            html: true,
+            linkify: true,
+            xhtmlOut: true,
+            breaks: true,
             // Highlighter function. Should return escaped HTML,
             // or '' if the source string is not changed
             highlight: function (str, lang) {
@@ -55,8 +46,9 @@ export default class Post extends React.Component {
             
                 return ''; // use external default escaping
               }
-        });
-
+          });
+          
+ 
 
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
@@ -127,10 +119,9 @@ export default class Post extends React.Component {
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
-
         const content = this.state.isMarkdown ?
                         //this.md.render(nl2br(tp.highlight(this.state.content, search))) :
-                        this.md.render(nl2br(this.state.content)) : // highlight를 적용하면 markdown 코드영역 안의 단어가 매칭될 경우 span태그가 그대로 노출되는 문제가 있음, 180711
+                        this.md.render(this.state.content) : // highlight를 적용하면 markdown 코드영역 안의 단어가 매칭될 경우 span태그가 그대로 노출되는 문제가 있음, 180711
                         tp.$m.txtToHtml(this.state.content, search);
         
 
@@ -145,7 +136,9 @@ export default class Post extends React.Component {
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                        {!this.state.origin && <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>}
+                        {!this.state.origin && (
+                            <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>
+                        )}
                     </div>
                     <div className={contentStyle} dangerouslySetInnerHTML={{__html: content}}></div>
                     <PostMeta post={this.state}/>
@@ -155,7 +148,11 @@ export default class Post extends React.Component {
                             <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn">Write</Button></Link>
                         </div>
                     )}
-                    {this.state.origin && <Link to={this.contextPath + "/postHistory/" + this.state.origin}><Button bsStyle="success" className="writeBtn">History</Button></Link>}
+                    {this.state.origin && (
+                        <Link to={this.contextPath + "/postHistory/" + this.state.origin}>
+                            <Button bsStyle="success" className="writeBtn">History</Button>
+                        </Link>
+                    )}
                      
                 </div>
 
