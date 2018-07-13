@@ -1,6 +1,6 @@
 {
   "name": "anony",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "sudo forever start node_modules/nodemon/bin/nodemon.js server/app.js",
@@ -11,7 +11,7 @@
     "dev-express": "NODE_ENV=development node node_modules/nodemon/bin/nodemon.js server/app.js",
     "dev-express-win": "set NODE_ENV=development && node node_modules/nodemon/bin/nodemon.js server/app.js"
   },
-  "author": "",
+  "author": "mg.song",
   "license": "MIT",
   "description": "Anonymous-based sns",
   "dependencies": {
@@ -50,8 +50,7 @@
   "nodemonConfig": {
     "ignore": [
       "src/*",
-      "public/*",
-      "server/data.json"
+      "public/*"
     ]
   }
 }
