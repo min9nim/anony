@@ -18,19 +18,27 @@ export default class Edit extends React.Component {
     if(this.props.post){
       this.state = this.props.post;
       this.state.uuid = tp.user.uuid;
+      if(this.state.origin !== undefined){
+        alert("invalid access!");
+        history.back();
+      }
     }else{
       tp.api.getPost(this.props.postKey).then(res => {
-        this.state = res.posts[0];
+        this.state = res.post;
         this.state.uuid = tp.user.uuid;  
-        tp.store.dispatch(tp.action.addPost(res.posts[0]));
+        tp.store.dispatch(tp.action.addPost(res.post));
     });
 
     }
-    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+    this.contextPath = this.props.context ? "/" + this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
     return true;
+  }
+
+  componentDidMount(){
+    document.title = (this.props.context || "Anony") + " - " + tp.thispage;
   }
 
   getValidationState() {
@@ -62,6 +70,7 @@ export default class Edit extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       viewCnt : this.state.viewCnt,
       uuid : tp.user.uuid,
@@ -94,6 +103,11 @@ export default class Edit extends React.Component {
 
     if(!this.state) return <div/>;
 
+    const contentStyle = {
+      height: tp.isDesktop() ? (window.innerHeight - 170) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      fontSize: this.state.isMarkdown ? "15px" : "20px"
+    }    
+
     return (
         <div className="edit">
             <div className="context">{this.props.context || "Anony"}</div>
@@ -111,12 +125,13 @@ export default class Edit extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown}>Markdown</Checkbox>                       
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
-                <FormControl className="content"
+                <FormControl style={contentStyle}
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"

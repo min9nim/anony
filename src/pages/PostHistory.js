@@ -19,12 +19,12 @@ export default class PostHistory extends React.Component {
             tp.api.getPostHistory(postKey)
                 .then(tp.checkStatus)
                 .then(res => {
-                if(res.posts.length > 0){
-                    tp.store.dispatch(tp.action.setPostHistory(res.posts));
-                }else{
-                    alert("Have no changes");
-                }
-            })        
+                    if(res.posts.length > 0){
+                        tp.store.dispatch(tp.action.addPosts(res.posts));
+                    }else{
+                        alert("Have no changes");
+                    }
+                })        
         }
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
@@ -32,6 +32,10 @@ export default class PostHistory extends React.Component {
 
 
         // 화면을 새로고침하거나 url을 통해 직접 access 한 경우에 대한 예외처리는 생략 18.06.18
+    }
+    
+    componentDidMount(){
+        document.title = (this.props.context || "Anony") + " - " + tp.thispage;
     }
 
     render(){
@@ -42,7 +46,9 @@ export default class PostHistory extends React.Component {
                 {this.props.phist.map(
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
-                <Link to={this.contextPath + location.pathname.replace("History", "")}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
+                <div className="btnWrapper">
+                    <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success" className="lastBtn">Last</Button></Link>
+                </div>
             </div>
             
         );

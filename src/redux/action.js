@@ -12,7 +12,7 @@ const at = action.type = {
   UPDATEPOST : "UPDATEPOST",
   REMOVEPOST : "REMOVEPOST",
   RESTOREPOST : "RESTOREPOST",
-  VIEWPOST : "VIEWPOST",
+  VIEWPOST : "VIEWPOST",      // 조회수 +1
 
 
   ADDCOMMENT : "ADDCOMMENT",
@@ -21,8 +21,9 @@ const at = action.type = {
   UPDATECOMMENT : "UPDATECOMMENT",
   REMOVECOMMENT : "REMOVECOMMENT",
 
-  SETPOSTHISTORY : "SETPOSTHISTORY",
-  
+  SETSEARCH : "SETSEARCH",
+  SETUUID : "SETUUID",
+
   SCROLLEND : "SCROLLEND",
 }
 
@@ -59,8 +60,8 @@ action.deletePost = function(key) {
   return {type: at.DELETEPOST, key}
 }
 
-action.removePost = function(key) {
-  return {type: at.REMOVEPOST, key}
+action.removePost = function(fn) {
+  return {type: at.REMOVEPOST, predi: fn}
 }
 
 action.viewPost = function(key) {
@@ -104,10 +105,17 @@ action.addComments = function(comments) {
 }
 
 
-
-action.setPostHistory = function(phist) {
+action.setSearch = function(word) {
   return {
-    type: at.SETPOSTHISTORY,
-    phist
+    type: at.SETSEARCH,
+    search: word
   }
 }
+
+action.setUuid = function(uuid) {
+  return {
+    type: at.SETUUID,
+    uuid
+  }
+}
+

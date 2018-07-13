@@ -6,9 +6,10 @@ import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
+import $m from "../com/util";
+import R from "ramda";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
-
 
 
 export default class App extends React.Component {
@@ -16,31 +17,34 @@ export default class App extends React.Component {
   constructor(props) {
     console.log("App 생성자 호출..");
     super(props);
+    
+    const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
+    const context = ["", "list", "post", "edit", "postHistory", "write"].includes(contextname) ? "" : "/" + contextname;
 
-
-    const go = (page) => () =>{
-      let context = location.pathname.split("/")[1];
-      context = ["", "list", "post", "edit", "postHistory", "write"].includes(context) ? "" : "/" + context;
-      return this.props.history.push(context + "/" + page);
-    }
-    const sa = (keys, func) => keys.split(",").forEach(key => shortcut.add(key, func));
-    sa("Alt+W", go("write"));
-    sa("Alt+L", go("List"));
+  
+    shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
+    shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
+    shortcut.add("Alt+E", () => {
+      if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
+        this.props.history.push((location.pathname.replace("post", "edit")));
+      }
+    });
     
     
 
     // 초기상태 정의
     this.state = {
       view: {
-        post:{}     //  글보기 화면 직접 접근했을 때 데이터는 이 곳에 넣어야지.. 그럼 더 좋을까?? 음음...
+        search: "",
+        uuid: tp.user.uuid
       },
       data: {
-        posts: [],
-        comments: [],
-        postHistory: []
+        posts: [],        // 전체 글
+        comments: []     // 전체 댓글
       }
     };
     tp.view.App = this;
+
 
     // 스토어 최초 한번 생성
     tp.store = createStore(reducer, this.state);
@@ -49,8 +53,8 @@ export default class App extends React.Component {
     this.unsubscribe = tp.store.subscribe(() => {
         this.setState(tp.store.getState());
     });
-    //moment.locale('ko');
-    moment.locale('en');
+    moment.locale('ko');
+    //moment.locale('en');
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -72,7 +76,7 @@ export default class App extends React.Component {
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      return <List history={history} posts={this.state.data.posts} context={match.params.context}/> ;
+      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
@@ -88,7 +92,7 @@ export default class App extends React.Component {
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
-      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.postHistory} context={match.params.context}/> ;
+      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
 
     return (

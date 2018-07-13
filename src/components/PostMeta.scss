@@ -3,10 +3,20 @@
 .postMeta {
     color: #aaa;
     font-size: 12px;
-    margin: 10px 0px;
+    margin-top: 10px;
     text-align: left;
+
     div {
         display: inline-block;
         margin-right: 20px;
+    }
+
+    .liked { 
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .like {
+        cursor: pointer;
     }
 }   

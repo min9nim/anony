@@ -1,6 +1,26 @@
 /* List component */
 .list {
-    margin: 20px;
+    margin: 0px;
+    background-color: #f7f7f7;
+
+    .header{
+        color: #aaa;
+        background-color: #fff;
+        padding: 3px 15px;
+        margin-bottom: 2px;
+        height: 29px;
+
+        .title {
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .status {
+            margin-left: 5px;
+            display: inline-block;
+            font-size: 16px;
+        }
+    }
     .writeBtn {
         position: fixed;
         margin-bottom: 0;
@@ -10,6 +30,13 @@
         .btn{
             padding: 7px 12px;
         }
-    }    
+    }  
+
+    .backBtn {
+        background-color: #fff;
+        padding-left: 15px;
+        padding-top: 10px;          
+    }
+    
 }
 

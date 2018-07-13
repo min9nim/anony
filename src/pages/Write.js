@@ -15,6 +15,7 @@ export default class Write extends React.Component {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
+    this.cancel = this.cancel.bind(this);
     this.state = {
       key: "",
       title: "",
@@ -22,6 +23,7 @@ export default class Write extends React.Component {
       content: "",
       date : "",
       isPrivate: false,
+      isMarkdown: false,
       hasComment: true,
       uuid : tp.user.uuid
     };
@@ -34,6 +36,10 @@ export default class Write extends React.Component {
     return prevState !== this.state;
   }
 
+  componentDidMount(){
+    document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+  }
+
   getValidationState() {
     return;
     const length = this.state.title.length;
@@ -41,6 +47,13 @@ export default class Write extends React.Component {
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
     return null;
+  }
+
+  cancel(){
+    if(this.state.content.length > 10 && !confirm("Cancel to write?")){
+      return;
+    }
+    this.props.history.push(this.contextPath + "/list");
   }
 
   handleChange(e) {
@@ -62,6 +75,7 @@ export default class Write extends React.Component {
       content : this.state.content.trim(),
       date : Date.now(),
       isPrivate : this.state.isPrivate,
+      isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       uuid : tp.user.uuid,
       context : this.props.context,
@@ -71,7 +85,7 @@ export default class Write extends React.Component {
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
       if(tp.view.App.state.data.posts.length > 0){
-        tp.store.dispatch(tp.action.addPost(newPost));
+        tp.store.dispatch(tp.action.addPost(res.output));
       }else{
         // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
       }
@@ -87,6 +101,12 @@ export default class Write extends React.Component {
 
   render() {
     console.log("Write 렌더링..");
+
+    const contentStyle = {
+      height: tp.isDesktop() ? (window.innerHeight - 170) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      fontSize: this.state.isMarkdown ? "15px" : "20px"
+    }
+
     return (
         <div className="write">
             <div className="context">{this.props.context || "Anony"}</div>
@@ -104,20 +124,21 @@ export default class Write extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown}>Markdown</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
-                <FormControl className="content"
+                <FormControl style={contentStyle}
                         autoFocus
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
                         placeholder = "Content.." />
             </FormGroup>
-            <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to={this.contextPath + "/list"}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Button bsStyle="success" onClick = {this.savePost}>Save</Button>
+            <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
         </div>
     );
   }

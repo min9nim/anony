@@ -1,6 +1,6 @@
 {
-  "name": "talkplace",
-  "version": "0.0.1",
+  "name": "anony",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "start": "sudo forever start node_modules/nodemon/bin/nodemon.js server/app.js",
@@ -8,14 +8,16 @@
     "dev-build": "node node_modules/webpack/bin/webpack.js --config webpack.dev.js",
     "prod-build": "node node_modules/webpack/bin/webpack.js --config webpack.prod.js",
     "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.dev.js",
-    "dev-express": "node node_modules/nodemon/bin/nodemon.js server/app.js 8080"
+    "dev-express": "NODE_ENV=development node node_modules/nodemon/bin/nodemon.js server/app.js",
+    "dev-express-win": "set NODE_ENV=development && node node_modules/nodemon/bin/nodemon.js server/app.js"
   },
-  "author": "",
+  "author": "mg.song",
   "license": "MIT",
   "description": "Anonymous-based sns",
   "dependencies": {
     "express": "^4.16.3",
     "express-history-api-fallback": "^2.2.1",
+    "highlight.js": "^9.12.0",
     "moment": "^2.22.2",
     "mongoose": "^5.1.4",
     "morgan": "^1.9.0",
@@ -26,6 +28,7 @@
     "react-dom": "^15.3.1",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
+    "remarkable": "^1.7.1",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
@@ -47,8 +50,7 @@
   "nodemonConfig": {
     "ignore": [
       "src/*",
-      "public/*",
-      "server/data.json"
+      "public/*"
     ]
   }
 }

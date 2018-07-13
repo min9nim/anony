@@ -1,5 +1,3 @@
-console.log("CommentList.js start");
-
 import React from 'react';
 import {Comment} from "../components";
 import {tp} from "../tp.js";

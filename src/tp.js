@@ -3,10 +3,13 @@ console.log("tp.js start");
 import action from "./redux/action";
 import {api} from "./restful/api";
 import shortid from "shortid";
-import $m from "./util";
+import $m from "../com/util";
 import nprogress from "nprogress";
+import R from "ramda";
+
 
 const PAGEROWS = 10;
+const USECOOKIE = true;
 
 export let tp = {
   view : {},          // 전역에서 관리될 필요가 있는 리액트 뷰들
@@ -16,27 +19,9 @@ export let tp = {
   api,                // RESTful API
   nprogress,          // 서버통신시 진행표시
   temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
-  $m                  // 기본 유틸함수
+  $m,                  // 기본 유틸함수
+  R
 };
-
-
-tp.setUser = function(obj){
-  const initValue = {
-    uuid: shortid.generate(),
-    writer: ""
-  }
-
-  let user;
-  if(typeof obj === "string"){
-    user = Object.assign(tp.user, {uuid: obj});
-  }else{
-    user = obj ? Object.assign(tp.user, obj) : initValue ;
-  }
-  //localStorage.setItem("user", JSON.stringify(user));
-  tp.setCookie("user", JSON.stringify(user))
-
-  return user;
-}
 
 
 
@@ -54,14 +39,21 @@ tp.bodyScroll = function () {
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
-    tp.api.getPosts({idx: tp.view.App.state.data.posts.length, cnt: PAGEROWS, hideProgress: true, context: tp.context}).then(res => {
-      tp.store.dispatch(tp.action.scrollEnd(res.posts));
-      if(res.posts.length < PAGEROWS){
-        console.log("Scroll has touched bottom")
-        tp.isScrollLast = true;
-        return;
-      }
-    })
+    tp.api.getPosts({
+        idx: tp.view.App.state.data.posts.length,
+        cnt: PAGEROWS,
+        search: tp.store.getState().view.search,
+        hideProgress: true,
+        context: tp.context
+      })
+      .then(res => {
+        tp.store.dispatch(tp.action.scrollEnd(res.posts));
+        if(res.posts.length < PAGEROWS){
+          console.log("Scroll has touched bottom")
+          tp.isScrollLast = true;
+          return;
+        }
+      })
   }
 };
 
@@ -103,12 +95,56 @@ tp.getCookie = function (cname) {
 }
 
 
+tp.isDesktop = function(){
+  const os = ["win16", "win32", "win64", "mac", "macintel"];
+  return os.includes(navigator.platform.toLowerCase());
+}
 
+
+tp.highlight = function(txt, word){
+  if(word){
+      var reg = new RegExp("(" + word + ")", "gi");
+      txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>');
+  }
+  return txt;
+}
+
+tp.setUser = function(obj){
+  const initValue = {
+    uuid: shortid.generate(),
+    writer: ""
+  }
+
+  let user;
+  if(typeof obj === "string"){
+    user = Object.assign(tp.user, {uuid: obj});
+  }else{
+    user = obj ? Object.assign(tp.user, obj) : initValue ;
+  }
+
+  if(USECOOKIE){
+    tp.setCookie("user", JSON.stringify(user))
+  }else{
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+
+  return user;
+}
+
+tp.getUser = function(){
+  if(USECOOKIE){
+    return tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+  }else{
+    return JSON.parse(localStorage.getItem("user")) || tp.setUser();
+  }
+}
 
 
 tp.init = function(){
-  //tp.user = JSON.parse(localStorage.getItem("user")) || tp.setUser();
-  tp.user = tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+  tp.user = tp.getUser();
 }
+
+
+
 tp.init();
 window.tp = tp;   // 개발 중 디버깅을 위해 전역공간으로 노출

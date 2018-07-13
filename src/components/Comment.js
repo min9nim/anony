@@ -29,7 +29,7 @@ export default class Comment extends React.Component {
     }
 
     deleteComment(){
-        if(confirm("이 글을 삭제합니다")){
+        if(confirm("delete this comment?")){
             tp.api.deleteComment({
                 key: this.state.key,
                 uuid: tp.user.uuid

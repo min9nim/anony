@@ -10,6 +10,7 @@ function errHandler(res) {
 
 function httpReq(path, opt) {
     opt.hideProgress || nprogress.start();
+    delete opt.hideProgress;
     return fetch(path, Object.assign({}, {
         credentials : "omit"
     }, opt));
@@ -17,47 +18,46 @@ function httpReq(path, opt) {
 
 export const api = {};
 
-api.addPost = function (post, hideProgress) {
+api.addPost = function (post) {
     return httpReq(
         "/api/posts/add",
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
             body: JSON.stringify(post, null, 2),
-            hideProgress
         }
     ).then(errHandler);
 }
 
-api.addComment = function (comment, hideProgress) {
+api.addComment = function (comment) {
     return httpReq(
         "/api/comments/add",
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
             body: JSON.stringify(comment, null, 2),
-            hideProgress
         }
     ).then(errHandler);
 }
 
 
-api.getPosts = function ({idx, cnt, context, hideProgress}) {
+api.getPosts = function ({idx, cnt, context, search, hideProgress}) {
     return httpReq(
         "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
         {
-            method: "GET",
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid, search}),
             hideProgress
         }
     ).then(errHandler);
 }
 
-api.getComments = function (postKey, hideProgress) {
+api.getComments = function (postKey) {
     return httpReq(
         "/api/comments/get/" + postKey,
         {
             method: "GET",
-            hideProgress
         }
     ).then(errHandler);
 }
@@ -67,7 +67,9 @@ api.getPost = function (key) {
     return httpReq(
         "/api/posts/get/" + key,
         {
-            method: "GET"
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),
         }
     ).then(errHandler);
 }
@@ -105,7 +107,9 @@ api.viewPost = function (key) {
     return httpReq(
         "/api/posts/view/" + key,
         {
-            method: "GET",
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),
         }
     ).then(errHandler);
 }
@@ -141,25 +145,44 @@ api.authPost = function ({key, uuid}) {
 }
 
 
-api.updatePost = function (post, hideProgress) {
+api.updatePost = function (post) {
     return httpReq(
         "/api/posts/edit/" + tp.user.uuid,
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
             body: JSON.stringify(post, null, 2),
-            hideProgress
         }
     ).then(errHandler);
 }
 
-api.getPostHistory = function (key, hideProgress) {
+api.getPostHistory = function (key) {
     return httpReq(
         "/api/posts/history/" + key,
         {
             method: "GET",
-            hideProgress
         }
     ).then(errHandler);
 }
 
+api.likePost = function(key){
+    return httpReq(
+        "/api/posts/likePost/" + key,
+        {
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),            
+        }
+    ).then(errHandler);
+}
+
+api.cancelLike = function(key, uuid){
+    return httpReq(
+        "/api/posts/cancelLike/" + key,
+        {
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify({uuid: tp.user.uuid}),            
+        }
+    ).then(errHandler);
+}

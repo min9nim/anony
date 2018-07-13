@@ -1,10 +1,19 @@
 /* List component */
 .postHistory {
-    margin: 20px;
-    .writeBtn {
-        .btn{
-            padding: 7px 12px;
-        }
-    }    
+    margin: 0px;
+    background-color: #f7f7f7;
+
+
+    .btnWrapper{
+        background-color: #fff;
+        padding-left: 15px;
+        padding-top: 10px;        
+        .lastBtn {
+            opacity: 0.7;
+            .btn{
+                padding: 7px 12px;
+            }
+        }  
+    }
 }
 
