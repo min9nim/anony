@@ -19,12 +19,12 @@ export default class PostHistory extends React.Component {
             tp.api.getPostHistory(postKey)
                 .then(tp.checkStatus)
                 .then(res => {
-                if(res.posts.length > 0){
-                    tp.store.dispatch(tp.action.setPostHistory(res.posts));
-                }else{
-                    alert("Have no changes");
-                }
-            })        
+                    if(res.posts.length > 0){
+                        tp.store.dispatch(tp.action.addPosts(res.posts));
+                    }else{
+                        alert("Have no changes");
+                    }
+                })        
         }
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
@@ -46,7 +46,9 @@ export default class PostHistory extends React.Component {
                 {this.props.phist.map(
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
-                <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success" className="writeBtn">Last</Button></Link>
+                <div className="btnWrapper">
+                    <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success" className="lastBtn">Last</Button></Link>
+                </div>
             </div>
             
         );
