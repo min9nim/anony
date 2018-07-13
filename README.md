@@ -1,19 +1,21 @@
-# Anony 란?
-Anony 는 100% 익명성을 보장하며 누구나 회원가입/로그인 절차없이 자유롭게 소통할 수 있는 온라인 익명SNS 입니다  
-<http://ioiooi.xyz>
-
-#### 1. 누구나
-회원가입/로그인 및 어떤 인증절차 없이 지금 바로 참여하실 수 있습니다. 당신의 어떠한 개인정보도 요구하거나 수집하지 않습니다
+## Anony is an anonymous social network
+that leads us to new freedom
 <br>
 
-#### 2. 글작성시 private을 체크하면
-목록에 해당 글이 노출되지 않습니다. 단지 글주소로(URL)만 직접 접근이 가능하니 재 접근이 필요하다면 글주소를 따로 보관해 두셔야 합니다.
+#### 1. Post it Now
+Login or signup does not require and collect any personal information from you
 <br>
 
-#### 3. ioiooi.xyz/{새로운그룹명}
-으로 접근시 새로운 대화 공간이 자동으로 생성됩니다  
-ex) `http://ioiooi.xyz/abc`
+#### 2. When you write
+- If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately.
+- If you check markdown, you can use markdown syntax
+- If you check comment, you can get comments of others
+
+#### 3. http://ioiooi.xyz/ {new group name}
+New conversation space is created automatically when you access as above
 <br>
 
-#### 4. 인증방식
-사이트 접속시 자동으로 특정 토큰을 발급합니다. 해당 토큰 정보는 목록화면 위쪽에 표시되며 토큰 뒤에 ... 을 선택하면 토큰 변경이 가능합니다. 해당 토큰 정보를 따로 보관해 두면 내가 작성한 글에 대한 수정/삭제 권한을 유지해 갈 수 있습니다
+#### 4. How authentication works
+- Specific token is issued automatically when you accessing this site and the token is saved as local cookie
+- The corresponding token string is displayed at the top of the list page. You can change the token by selecting ... after that token.
+- If you keep this token separately, you can keep the edit / delete permission for the article you wrote
