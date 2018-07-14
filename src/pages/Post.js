@@ -117,15 +117,25 @@ export default class Post extends React.Component {
             return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
         }
 
+        // function highlight_nl2br(str){
+        //     return str.split("```").map((v, i) => {
+        //         if(i%2){
+        //             return v;
+        //         }else{
+        //             return nl2br(tp.highlight(v, search));
+        //         }
+        //     }).join("```");
+        // }
+
         function highlight_nl2br(str){
             return str.split("```").map((v, i) => {
                 if(i%2){
                     return v;
                 }else{
-                    return nl2br(tp.highlight(v, search));
+                    return v.split("`").map((v,i) => i%2 ? v : nl2br(tp.highlight(v, search))).join("`");
                 }
             }).join("```");
-        }
+        }        
 
         // const highlight_nl2br = R.pipe(
         //     R.split("```"),
