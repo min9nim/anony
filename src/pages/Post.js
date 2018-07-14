@@ -117,38 +117,12 @@ export default class Post extends React.Component {
             return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
         }
 
-        // function highlight_nl2br(str){
-        //     return str.split("```").map((v, i) => {
-        //         if(i%2){
-        //             return v;
-        //         }else{
-        //             return nl2br(tp.highlight(v, search));
-        //         }
-        //     }).join("```");
-        // }
 
         function highlight_nl2br(str){
-            return str.split("```").map((v, i) => {
-                if(i%2){
-                    return v;
-                }else{
-                    return v.split("`").map((v,i) => i%2 ? v : nl2br(tp.highlight(v, search))).join("`");
-                }
-            }).join("```");
+            return str.split("```").map((v, i) => 
+                i%2 ? v : v.split("`").map((v,i) => i%2 ? v : nl2br(tp.highlight(v, search))).join("`")
+            ).join("```");
         }        
-
-        // const highlight_nl2br = R.pipe(
-        //     R.split("```"),
-        //     R.map((v, i) => {
-        //         console.log(i)
-        //         if(i%2){
-        //             return v;
-        //         }else{
-        //             return nl2br(tp.highlight(v, search));
-        //         }
-        //     }),
-        //     R.join("```")
-        // );
 
         // const searchHighlight = R.curry(tp.highlight)(R.__, search);
         // const highlight_nl2br = R.pipe(
@@ -165,8 +139,7 @@ export default class Post extends React.Component {
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
         const content = this.state.isMarkdown ?
-                        //this.md.render(nl2br(tp.highlight(this.state.content, search))) :
-                        this.md.render(highlight_nl2br(this.state.content)) : // highlight를 적용하면 markdown 코드영역 안의 단어가 매칭될 경우 span태그가 그대로 노출되는 문제가 있음, 180711
+                        this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
         
 
