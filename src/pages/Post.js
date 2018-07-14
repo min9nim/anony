@@ -117,28 +117,28 @@ export default class Post extends React.Component {
             return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
         }
 
-        // function highlight_nl2br(str, search){
-        //     return str.split("```").map((v, i) => {
-        //         if(i%2){
-        //             return v;
-        //         }else{
-        //             return nl2br(tp.highlight(v, search));
-        //         }
-        //     }).join("```");
-        // }
-
-        const highlight_nl2br = R.pipe(
-            R.split("```"),
-            R.map((v, i) => {
-                console.log(i)
+        function highlight_nl2br(str){
+            return str.split("```").map((v, i) => {
                 if(i%2){
                     return v;
                 }else{
                     return nl2br(tp.highlight(v, search));
                 }
-            }),
-            R.join("```")
-        );
+            }).join("```");
+        }
+
+        // const highlight_nl2br = R.pipe(
+        //     R.split("```"),
+        //     R.map((v, i) => {
+        //         console.log(i)
+        //         if(i%2){
+        //             return v;
+        //         }else{
+        //             return nl2br(tp.highlight(v, search));
+        //         }
+        //     }),
+        //     R.join("```")
+        // );
 
         // const searchHighlight = R.curry(tp.highlight)(R.__, search);
         // const highlight_nl2br = R.pipe(
