@@ -5,14 +5,12 @@ import {tp} from "../tp.js";
 import { Link } from 'react-router-dom';
 import "./List.scss";
 
-
 export default class List extends React.Component {
     constructor(props) {
         // 아씨 이거 모야  글보기화면에서 목록화면으로 이동할때마다 생성자가 계속 호출이 되는거였네
         console.log("List 생성자 호출");
         super(props);
         this.logoClick = this.logoClick.bind(this);
-
 
         if(tp.view.App.state.data.posts.length < 10 && tp.store.getState().view.search === ""){
             // posts 목록을 초기화하고

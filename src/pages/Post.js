@@ -7,8 +7,10 @@ import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Remarkable from "remarkable";
 import hljs from 'highlight.js';
+import shortcut from "../ext/shortcut";
 import "./Post.scss";
 import "../css/hljsTheme/xcode.css";
+
 export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
@@ -21,7 +23,13 @@ export default class Post extends React.Component {
             date : "",
             deleted : false,
             uuid : ""
-          };
+        };
+
+        shortcut.add("Alt+E", () => {
+            if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
+              this.props.history.push((location.pathname.replace("post", "edit")));
+            }
+        });
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
