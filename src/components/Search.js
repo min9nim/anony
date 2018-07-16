@@ -1,5 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
+import shortcut from "../ext/shortcut";
 import "./Search.scss";
 import {
     FormGroup,
@@ -21,16 +22,9 @@ export default class Search extends React.Component {
             uuid: tp.user.uuid,
             clicked : false
         }
+        shortcut.add("Alt+S", this.showSearch);        
     }
 
-    copy(){
-        var copyText = document.getElementById("uuid");
-        /* Select the text field */
-        copyText.select();
-        /* Copy the text inside the text field */
-        document.execCommand("copy");
-        alert("copied on Clipboard");      
-    }
 
     search(){
         const search = this.state.word.trim();

@@ -7,8 +7,10 @@ import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Remarkable from "remarkable";
 import hljs from 'highlight.js';
+import shortcut from "../ext/shortcut";
 import "./Post.scss";
 import "../css/hljsTheme/xcode.css";
+
 export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
@@ -21,7 +23,13 @@ export default class Post extends React.Component {
             date : "",
             deleted : false,
             uuid : ""
-          };
+        };
+
+        shortcut.add("Alt+E", () => {
+            if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
+              this.props.history.push((location.pathname.replace("post", "edit")));
+            }
+        });
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
@@ -114,14 +122,32 @@ export default class Post extends React.Component {
         title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
         function nl2br(str){
-            return str.replace(/\n\n/g, "\n<br>\n");
+            return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
         }
+
+
+        function highlight_nl2br(str){
+            return str.split("```").map((v, i) => 
+                i%2 ? v : v.split("`").map((v,i) => i%2 ? v : nl2br(tp.highlight(v, search))).join("`")
+            ).join("```");
+        }        
+
+        // const searchHighlight = R.curry(tp.highlight)(R.__, search);
+        // const highlight_nl2br = R.pipe(
+        //     R.split("```"),
+        //     R.map(R.ifElse(
+        //         (v, i) => i%2,
+        //         R.identity,
+        //         R.pipe(searchHighlight, nl2br)
+        //     )),
+        //     R.join("```")
+        // );        
+
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
         const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
         const content = this.state.isMarkdown ?
-                        //this.md.render(nl2br(tp.highlight(this.state.content, search))) :
-                        this.md.render(this.state.content) : // highlight를 적용하면 markdown 코드영역 안의 단어가 매칭될 경우 span태그가 그대로 노출되는 문제가 있음, 180711
+                        this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
         
 

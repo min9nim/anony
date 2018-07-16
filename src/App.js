@@ -24,11 +24,7 @@ export default class App extends React.Component {
   
     shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
     shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
-    shortcut.add("Alt+E", () => {
-      if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
-        this.props.history.push((location.pathname.replace("post", "edit")));
-      }
-    });
+
     
     
 
