@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "sudo forever start node_modules/nodemon/bin/nodemon.js server/app.js",
-    "stop": "sudo forever stop node_modules/nodemon/bin/nodemon.js",
+    "start": "sudo server/app.js",
     "dev-build": "node node_modules/webpack/bin/webpack.js --config webpack.dev.js",
     "prod-build": "node node_modules/webpack/bin/webpack.js --config webpack.prod.js",
     "dev-server": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.dev.js",
