@@ -1,6 +1,6 @@
 const config = {
-    dev : "mongodb://keating:1122@ec2-13-209-69-12.ap-northeast-2.compute.amazonaws.com/dev",
-    prod : 'mongodb://anony:min1234@ec2-13-209-69-12.ap-northeast-2.compute.amazonaws.com/anony'
+    dev : "mongodb://dev:dev123@ds239911.mlab.com:39911/dev",
+    prod : 'mongodb://dev:dev123@ds018538.mlab.com:18538/anony'
 }
 
 module.exports = config;
