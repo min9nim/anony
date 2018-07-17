@@ -49,8 +49,8 @@ export default class App extends React.Component {
     this.unsubscribe = tp.store.subscribe(() => {
         this.setState(tp.store.getState());
     });
-    moment.locale('ko');
-    //moment.locale('en');
+    //moment.locale('ko');
+    moment.locale('en');
   }
 
   shouldComponentUpdate(prevProps, prevState) {
