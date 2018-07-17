@@ -18,11 +18,11 @@ module.exports = {
         //publicPath: '/',      // 이건 무슨 설정인지 몰라서 일단 주석처리 해놓음
         historyApiFallback: true,       // 404 일 경우 /index.html 로 서비스
         host: '0.0.0.0',
-        port: 7778,
+        port: 7777,
         contentBase: __dirname + '/public/',
         disableHostCheck: true,     // 외부에서 접속 허용
         proxy: {
-            "/api/*" : "http://localhost:8081",
+            "/api/*" : "http://localhost:8080",
         }
     },
 
