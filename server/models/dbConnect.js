@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 
-const dbConfig = process.env.PORT ? require("../../dbConfig") : require("../../../dbConfig");
+//const dbConfig = process.env.PORT ? require("../../dbConfig") : require("../../../dbConfig");
+const dbConfig = require("../../dbConfig");     // 더이상 ec2 서버 사용하지 않기로 함 18/07/18
 
 // 디비설정 
 const db = mongoose.connection;
