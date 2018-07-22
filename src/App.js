@@ -12,6 +12,31 @@ import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 
 
+
+// class MyComponent extends React.Component {
+//   constructor(props){
+//       this.state = {
+//         List: null
+//     };
+//   }
+
+//   componentWillMount() {
+//     import('./src/List').then(m => {
+//       this.setState({ List : m.List });
+//     });
+//   }
+
+//   render() {
+//     let {List} = this.state;
+//     if (!List) {
+//       return <div>Loading...</div>;
+//     } else {
+//       return <List/>;
+//     };
+//   }
+// }  
+
+
 export default class App extends React.Component {
 
   constructor(props) {
@@ -67,12 +92,16 @@ export default class App extends React.Component {
 
 
 
+
+
+
   render() {
     console.log("App 렌더링..");
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
       return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      //return <MyComponent history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";

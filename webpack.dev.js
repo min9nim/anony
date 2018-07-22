@@ -8,7 +8,8 @@ module.exports = {
 
     output: {
         path: __dirname + '/public/',
-        filename: 'bundle.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js',
     },
 
     devServer: {
@@ -26,25 +27,27 @@ module.exports = {
         }
     },
 
-    module:{
-        loaders: [
+    module: {
+        rules: [
             {
-                test: /.js$/,
-                loader: 'babel',
+                test: /\.js$/,
                 exclude: /node_modules/,
-                query: {
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react'],
-                    plugins: ["react-hot-loader/babel"]
+                use: {
+                    loader: "babel-loader"
                 }
             },
             {
                 test: /\.(s*)css$/,
-                //loader : ['style-loader', 'css-loader', 'sass-loader']
-                loader : 'style-loader!css-loader!sass-loader'      // 아직 sass-loader 를 설치하지 않았는데 잘 돌아간다? 18-06-07
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS
+                ]
             }
         ]
     },
+
+
 
     plugins: [
         new webpack.HotModuleReplacementPlugin()
