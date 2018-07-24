@@ -4,11 +4,11 @@ const webpack = require('webpack');
 module.exports = {
     mode: 'development',
 
-    // entry: {
-    //     index : ['react-hot-loader/patch', './src/index.js']
-    //  } ,
+    entry: {
+        index : ['react-hot-loader/patch', './src/index.js']
+     } ,
     
-    entry: './src/index.js',
+    //entry: './src/index.js',
 
     output: {
         path: __dirname + '/public/',

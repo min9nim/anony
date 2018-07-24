@@ -1,7 +1,6 @@
 import React from 'react';
 import shortid from "shortid";
 import {tp} from "../tp";
-import { Link } from 'react-router-dom';
 import {
   FormGroup,
   Checkbox,

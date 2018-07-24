@@ -1,8 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
 import moment from "moment";
-import {Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import {CommentMenu} from "../components";
 
 import "./Comment.scss";

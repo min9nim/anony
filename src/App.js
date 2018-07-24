@@ -1,41 +1,47 @@
 console.log("App.js start");
 
 import React from 'react';
-import {Write, Post, Edit, PostHistory } from "./pages";
+//import {Write, Post, Edit, PostHistory } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
+//import {R} from "ramda";
+const R = require("ramda");
 
 
 
-class MyComponent extends React.Component {
-  constructor(props){
+function asyncComponent(getComponent) {
+  return class asyncComponent extends React.Component {
+    constructor(props){
       super(props);
       this.state = {
-        List: null
-    };
+        Component : undefined
+      }
+    }
+  
+    componentDidMount(){
+      getComponent()
+        .then(component => {
+          this.setState({Component : component.default});
+        })
+        .catch(err => {
+          console.log(err.message);
+        })
+    }
+  
+    render() {
+      const {Component} = this.state;
+      if(Component){
+        return <Component {...this.props}/>
+      }else{
+        return <div>Loading..</div>
+      }
+    }
   }
-
-  componentWillMount() {
-    import(/* webpackChunkName: "List" */'./pages/List').then(List => {
-      debugger;
-      this.setState({ List : List.default });
-    }).catch(err => console.log(err.message));
-  }
-
-  render() {
-    let {List} = this.state;
-    if (!List) {
-      return <div>Loading...</div>;
-    } else {
-      //return <List history={this.props.history} posts={this.props.posts} context={this.props.context}/>;
-      return <List {...this.props}/>;
-    };
-  }
-}  
+}
 
 
 export default class App extends React.Component {
@@ -52,8 +58,6 @@ export default class App extends React.Component {
     shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
     shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
 
-    
-    
 
     // 초기상태 정의
     this.state = {
@@ -81,7 +85,8 @@ export default class App extends React.Component {
   }
 
   shouldComponentUpdate(prevProps, prevState) {
-    const render = prevProps.location.pathname !== this.props.location.pathname || prevState !== this.state;
+    //const render = prevProps.location.pathname !== this.props.location.pathname || prevState !== this.state;
+    const render = prevProps.location.pathname !== this.props.location.pathname || !R.equals(prevState, this.state)
     // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
     //console.log("App.shouldComponentUpdate returns [" + render + "]");
     return render;
@@ -97,30 +102,42 @@ export default class App extends React.Component {
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      //return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
-      return <MyComponent history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      
+      if(!tp.pages.List){
+        tp.pages.List = asyncComponent(() => import(/* webpackChunkName: "List"  */'./Pages/List'));
+      }
+      const List = tp.pages.List;
+      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
+      if(!tp.pages.Post)
+        tp.pages.Post = asyncComponent(() => import(/* webpackChunkName: "Post"  */'./Pages/Post'));
+      const Post = tp.pages.Post;
       return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderEdit = ({history, match}) => {
       tp.thispage = "Edit";
+      if(!tp.pages.Edit)
+        tp.pages.Edit = asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./Pages/Edit'));
+      const Edit = tp.pages.Edit;
       return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderWrite = ({history, match}) => {
       tp.thispage = "Write";
+      if(!tp.pages.Write)
+        tp.pages.Write = asyncComponent(() => import(/* webpackChunkName: "Write"  */'./Pages/Write'));
+      const Write = tp.pages.Write;
       return <Write history={history} context={match.params.context} /> ;
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
+      if(!tp.pages.PostHistory)
+        tp.pages.PostHistory = asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./Pages/PostHistory'));
+      const PostHistory = tp.pages.PostHistory;
       return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
 
-    const renderTest = ({history, match}) => {
-      return <Test history={history} /> ;
-    }    
- 
 
     return (
       <div>
@@ -131,7 +148,6 @@ export default class App extends React.Component {
           <Route path="/edit/:key" render={renderEdit} />
           <Route path="/write" render={renderWrite} />
           <Route path="/list" render={renderList} />
-          <Route path="/test" render={renderTest} />
 
         {/* context */}
           <Route path="/:context/post/:key" render={renderPost} />

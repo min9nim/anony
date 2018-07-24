@@ -13,6 +13,7 @@ const USECOOKIE = true;
 
 export let tp = {
   view : {},          // 전역에서 관리될 필요가 있는 리액트 뷰들
+  pages : {},         // 비동기 컴포넌트 캐시
   action,             // store 상태업데이트시 전달될 action
   store: undefined,   // List 컴포넌트가 호출될 때 store 가 초기화된다.
   user: undefined,    // 로컬스토리지에 저장된 사용자 정보
