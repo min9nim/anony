@@ -1,40 +1,41 @@
 console.log("App.js start");
 
 import React from 'react';
-import { List, Write, Post, Edit, PostHistory } from "./pages";
+import {Write, Post, Edit, PostHistory } from "./pages";
 import { Route, Switch } from 'react-router-dom';
 import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
-import $m from "../com/util";
-import R from "ramda";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 
 
 
-// class MyComponent extends React.Component {
-//   constructor(props){
-//       this.state = {
-//         List: null
-//     };
-//   }
+class MyComponent extends React.Component {
+  constructor(props){
+      super(props);
+      this.state = {
+        List: null
+    };
+  }
 
-//   componentWillMount() {
-//     import('./src/List').then(m => {
-//       this.setState({ List : m.List });
-//     });
-//   }
+  componentWillMount() {
+    import(/* webpackChunkName: "List" */'./pages/List').then(List => {
+      debugger;
+      this.setState({ List : List.default });
+    }).catch(err => console.log(err.message));
+  }
 
-//   render() {
-//     let {List} = this.state;
-//     if (!List) {
-//       return <div>Loading...</div>;
-//     } else {
-//       return <List/>;
-//     };
-//   }
-// }  
+  render() {
+    let {List} = this.state;
+    if (!List) {
+      return <div>Loading...</div>;
+    } else {
+      //return <List history={this.props.history} posts={this.props.posts} context={this.props.context}/>;
+      return <List {...this.props}/>;
+    };
+  }
+}  
 
 
 export default class App extends React.Component {
@@ -43,7 +44,8 @@ export default class App extends React.Component {
     console.log("App 생성자 호출..");
     super(props);
     
-    const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
+    //const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
+    const contextname = location.pathname.split("/")[1];
     const context = ["", "list", "post", "edit", "postHistory", "write"].includes(contextname) ? "" : "/" + contextname;
 
   
@@ -90,18 +92,13 @@ export default class App extends React.Component {
     this.unsubscribe();
   }
 
-
-
-
-
-
   render() {
     console.log("App 렌더링..");
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
-      //return <MyComponent history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      //return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      return <MyComponent history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
@@ -120,6 +117,11 @@ export default class App extends React.Component {
       return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
 
+    const renderTest = ({history, match}) => {
+      return <Test history={history} /> ;
+    }    
+ 
+
     return (
       <div>
         <Switch>{/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
@@ -129,6 +131,7 @@ export default class App extends React.Component {
           <Route path="/edit/:key" render={renderEdit} />
           <Route path="/write" render={renderWrite} />
           <Route path="/list" render={renderList} />
+          <Route path="/test" render={renderTest} />
 
         {/* context */}
           <Route path="/:context/post/:key" render={renderPost} />

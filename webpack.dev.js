@@ -4,12 +4,40 @@ const webpack = require('webpack');
 module.exports = {
     mode: 'development',
 
-    entry: ['react-hot-loader/patch', './src/index.js'] ,
+    // entry: {
+    //     index : ['react-hot-loader/patch', './src/index.js']
+    //  } ,
+    
+    entry: './src/index.js',
 
     output: {
         path: __dirname + '/public/',
         filename: '[name].bundle.js',
-        chunkFilename: '[name].bundle.js',
+        chunkFilename: '[name].chunk.js',
+    },
+
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["env", "react"],
+                        plugins: ["react-hot-loader/babel", 'syntax-dynamic-import']
+                    }                    
+                }
+            },
+            {
+                test: /\.(s*)css$/,
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS
+                ]
+            }
+        ]
     },
 
     devServer: {
@@ -25,26 +53,6 @@ module.exports = {
         proxy: {
             "/api/*" : "http://localhost:8080",
         }
-    },
-
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader"
-                }
-            },
-            {
-                test: /\.(s*)css$/,
-                use: [
-                    "style-loader", // creates style nodes from JS strings
-                    "css-loader", // translates CSS into CommonJS
-                    "sass-loader" // compiles Sass to CSS
-                ]
-            }
-        ]
     },
 
 

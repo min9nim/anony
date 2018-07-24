@@ -1,38 +1,56 @@
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
 //console.log("webpack.prod.js called");
 
 module.exports = {
     mode: 'production',
     
-    entry: ['./src/index.js'] ,
+    entry: {
+        index : ['./src/index.js']
+    },
 
     output: {
         path: __dirname + '/public/',
-        filename: 'bundle.js'
+        filename: '[name].bundle.js',
+        chunkFilename: '[name].chunk.js',
     },
 
-    module:{
-        loaders: [
+    module: {
+        rules: [
             {
-                test: /.js$/,
-                loader: 'babel',
+                test: /\.js$/,
                 exclude: /node_modules/,
-                query: {
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react'],
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["env", "react"],
+                        plugins: ['syntax-dynamic-import']
+                    }                    
                 }
             },
             {
                 test: /\.(s*)css$/,
-                loader : 'style-loader!css-loader!sass-loader'      // 아직 sass-loader 를 설치하지 않았는데 잘 돌아간다? 18-06-07
+                use: [
+                    "style-loader", // creates style nodes from JS strings
+                    "css-loader", // translates CSS into CommonJS
+                    "sass-loader" // compiles Sass to CSS
+                ]
             }
         ]
     },
+
 
     plugins: [
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
-        new webpack.optimize.UglifyJsPlugin({ mangle: true })
-    ]
+    ],
+
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin()
+        ]
+    }    
+
 };
