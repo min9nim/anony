@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm run prod-build && node server/herokuapp.js",
+    "start": "node server/herokuapp.js",
+    "deploy" : "npm run prod-build && git push heroku master",
     "start-app": "sudo forever start node_modules/nodemon/bin/nodemon.js server/app.js",
     "dev-build": "node node_modules/webpack/bin/webpack.js --config webpack.dev.js",
     "prod-build": "node node_modules/webpack/bin/webpack.js --config webpack.prod.js",
