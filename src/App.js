@@ -70,7 +70,7 @@ export default class App extends React.Component {
       tp.thispage = "List";
       
       if(!tp.asyncCache.List){
-        tp.asyncCache.List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./Pages/List'));
+        tp.asyncCache.List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./pages/List'));
       }
       const List = tp.asyncCache.List;
       return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
@@ -78,28 +78,28 @@ export default class App extends React.Component {
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
       if(!tp.asyncCache.Post)
-        tp.asyncCache.Post = tp.asyncComponent(() => import(/* webpackChunkName: "Post"  */'./Pages/Post'));
+        tp.asyncCache.Post = tp.asyncComponent(() => import(/* webpackChunkName: "Post"  */'./pages/Post'));
       const Post = tp.asyncCache.Post;
       return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderEdit = ({history, match}) => {
       tp.thispage = "Edit";
       if(!tp.asyncCache.Edit)
-        tp.asyncCache.Edit = tp.asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./Pages/Edit'));
+        tp.asyncCache.Edit = tp.asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./pages/Edit'));
       const Edit = tp.asyncCache.Edit;
       return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderWrite = ({history, match}) => {
       tp.thispage = "Write";
       if(!tp.asyncCache.Write)
-        tp.asyncCache.Write = tp.asyncComponent(() => import(/* webpackChunkName: "Write"  */'./Pages/Write'));
+        tp.asyncCache.Write = tp.asyncComponent(() => import(/* webpackChunkName: "Write"  */'./pages/Write'));
       const Write = tp.asyncCache.Write;
       return <Write history={history} context={match.params.context} /> ;
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
       if(!tp.asyncCache.PostHistory)
-        tp.asyncCache.PostHistory = tp.asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./Pages/PostHistory'));
+        tp.asyncCache.PostHistory = tp.asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./pages/PostHistory'));
       const PostHistory = tp.asyncCache.PostHistory;
       return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
