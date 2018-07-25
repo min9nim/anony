@@ -1,6 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
-//import R from "ramda";
+import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 const R = require("ramda");
 import moment from "moment";
 import {Button} from 'react-bootstrap';
@@ -60,7 +60,8 @@ export default class Post extends React.Component {
 
         if(this.props.post){
             const diff = Date.now() - this.props.post.date;
-            console.log("# diff = " + diff)
+            //console.log("# diff = " + diff);
+
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
@@ -150,32 +151,6 @@ export default class Post extends React.Component {
                         this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
         
-
-
-
-// import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
-
-        if(!tp.asyncCache.PostMenu){
-            tp.asyncCache.PostMenu = tp.asyncComponent(() => import(/* webpackChunkName: "PostMenu"  */'../components/PostMenu'));
-        }
-        const PostMenu = tp.asyncCache.PostMenu;
-
-        if(!tp.asyncCache.CommentWrite){
-            tp.asyncCache.CommentWrite = tp.asyncComponent(() => import(/* webpackChunkName: "CommentWrite"  */'../components/CommentWrite'));
-        }
-        const CommentWrite = tp.asyncCache.CommentWrite;
-
-        if(!tp.asyncCache.CommentList){
-            tp.asyncCache.CommentList = tp.asyncComponent(() => import(/* webpackChunkName: "CommentList"  */'../components/CommentList'));
-        }
-        const CommentList = tp.asyncCache.CommentList;
-
-        if(!tp.asyncCache.PostMeta){
-            tp.asyncCache.PostMeta = tp.asyncComponent(() => import(/* webpackChunkName: "PostMeta"  */'../components/PostMeta'));
-        }
-        const PostMeta = tp.asyncCache.PostMeta;
-
-
 
         return (
             <div>

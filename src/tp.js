@@ -140,7 +140,12 @@ tp.getUser = function(){
 }
 
 
-tp.asyncComponent = function(getComponent) {
+tp.asyncComponent = function(getComponent, compname) {
+  if(tp.asyncCache[compname]){
+    console.log("## tp.asyncCache used : " + compname);
+    return tp.asyncCache[compname];
+  }
+  
   return class asyncComponent extends React.Component {
     constructor(props){
       super(props);
@@ -153,6 +158,7 @@ tp.asyncComponent = function(getComponent) {
       getComponent()
         .then(component => {
           this.setState({Component : component.default});
+          tp.asyncCache[compname] = component.default;
         })
         .catch(err => {
           console.log(err.message);
@@ -169,6 +175,7 @@ tp.asyncComponent = function(getComponent) {
     }
   }
 }
+
 
 tp.init = function(){
   tp.user = tp.getUser();
