@@ -31,6 +31,9 @@ function posts(state = [], action) {
     case at.INITPOSTS: {
       return [];
     }
+    case at.SETPOSTS: {
+      return action.posts;
+    }
     case at.DELETEPOST: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state);    // state 깊은 복사

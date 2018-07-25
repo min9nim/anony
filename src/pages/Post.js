@@ -22,7 +22,8 @@ export default class Post extends React.Component {
             content: "",
             date : "",
             deleted : false,
-            uuid : ""
+            uuid : "",
+            viewCnt: ""
         };
 
         shortcut.add("Alt+E", () => {
@@ -67,22 +68,26 @@ export default class Post extends React.Component {
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
-                // - viewPost 호출한 후에 store 업데이트 필요
-                tp.api.viewPost(this.props.postKey)
-                    .then(res => {
+                if(tp.store.getState().data.posts.length > 1){
+                    tp.api.viewPost(this.props.postKey).then(res => {
                         if(res.status == "Success"){
                             // 일반post 인 경우
-                            tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                            // tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                            // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
                         }else{
                             // 수정내역post 인 경우
                         }
                     })
+                }else{
+                    // 3.직접URL로 들어온 후 tp.api.viewPost 호출하고 store업데이트 된 후 화면 다시 그리면서 이쪽으로 들어옴
+                }
 
             }
         }else{
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
+            console.log("@@ 여기 첫번재");
             tp.api.viewPost(this.props.postKey)
                 .then(res => {
                     if(res.status == "Success"){
@@ -108,7 +113,8 @@ export default class Post extends React.Component {
         console.log("Post 렌더링");
         if(this.props.post){
             // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-            this.state = this.props.post
+            this.state = this.props.post;
+            this.state.viewCnt++;
 
             // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
             document.title = this.state.title;
