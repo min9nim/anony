@@ -8,8 +8,9 @@ module.exports = {
     
     entry: {
         index : './src/index.js',
-        react : ["react", "react-dom", "react-router-dom"],
-        //lib : ["moment", 'react-bootstrap']
+        //react : ["react", "react-dom", "react-router-dom", 'react-bootstrap'],
+//        lib : ["react", "react-dom", "react-router-dom", 'react-bootstrap', "moment", "ramda"],
+        lib: ['highlight.js']
     },
 
     output: {
