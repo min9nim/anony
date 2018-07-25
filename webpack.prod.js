@@ -54,7 +54,7 @@ module.exports = {
             new UglifyJsPlugin()
         ],
         splitChunks: {
-            chunks: 'all',    // include all types of chunks
+            chunks: 'async',    // include all types of chunks
             minSize: 30000,
             maxSize: 0,
             minChunks: 1,

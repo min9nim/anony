@@ -7,8 +7,8 @@ module.exports = {
     entry: {
         dev : 'react-hot-loader/patch', 
         index : './src/index.js',
-        react : ["react", "react-dom", "react-router-dom"],
-        lib : ["moment", 'react-bootstrap']
+        //react : ["react", "react-dom", "react-router-dom"],
+        //lib : ["moment", 'react-bootstrap']
     } ,
     
     //entry: './src/index.js',
@@ -61,7 +61,7 @@ module.exports = {
 
     optimization : {
         splitChunks: {
-          chunks: 'all',    // include all types of chunks
+          chunks: 'async',    // include all types of chunks
           minSize: 30000,
           maxSize: 0,
           minChunks: 1,
