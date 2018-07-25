@@ -41,7 +41,8 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    if(["index.bundle.js", "robots.txt"].includes(req.params.context)){
+    if(req.params.context.match(/(\.js|\.txt)$/)){
+        // 루트에서 .txt 나 .js 파일을 요청한 경우
         next();
         return;
     }
