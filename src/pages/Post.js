@@ -1,8 +1,8 @@
 import React from 'react';
 import {tp} from "../tp";
-import R from "ramda";
+//import R from "ramda";
+const R = require("ramda");
 import moment from "moment";
-import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Remarkable from "remarkable";
@@ -53,8 +53,8 @@ export default class Post extends React.Component {
                 } catch (err) {}
             
                 return ''; // use external default escaping
-              }
-          });
+            }
+        });
           
  
 
@@ -150,6 +150,32 @@ export default class Post extends React.Component {
                         this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
         
+
+
+
+// import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
+
+        if(!tp.asyncCache.PostMenu){
+            tp.asyncCache.PostMenu = tp.asyncComponent(() => import(/* webpackChunkName: "PostMenu"  */'../components/PostMenu'));
+        }
+        const PostMenu = tp.asyncCache.PostMenu;
+
+        if(!tp.asyncCache.CommentWrite){
+            tp.asyncCache.CommentWrite = tp.asyncComponent(() => import(/* webpackChunkName: "CommentWrite"  */'../components/CommentWrite'));
+        }
+        const CommentWrite = tp.asyncCache.CommentWrite;
+
+        if(!tp.asyncCache.CommentList){
+            tp.asyncCache.CommentList = tp.asyncComponent(() => import(/* webpackChunkName: "CommentList"  */'../components/CommentList'));
+        }
+        const CommentList = tp.asyncCache.CommentList;
+
+        if(!tp.asyncCache.PostMeta){
+            tp.asyncCache.PostMeta = tp.asyncComponent(() => import(/* webpackChunkName: "PostMeta"  */'../components/PostMeta'));
+        }
+        const PostMeta = tp.asyncCache.PostMeta;
+
+
 
         return (
             <div>

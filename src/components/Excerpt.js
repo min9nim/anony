@@ -3,13 +3,18 @@ import {PostMenu, PostMeta} from "../components";
 import moment from "moment";
 import { Link } from 'react-router-dom';
 import "./Excerpt.scss";
-import R from "ramda";
+//import R from "ramda";
+const R = require("ramda");
 
 
 export default class Excerpt extends React.Component {
     constructor(props) {
         super(props);
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
+        //moment.locale('ko');
+        moment.locale('en');
+        
     }
 
     shouldComponentUpdate(prevProps, prevState) {

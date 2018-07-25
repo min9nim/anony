@@ -1,5 +1,6 @@
 import action from "./action";
-import R from "ramda";
+//import R from "ramda";
+const R = require("ramda");
 
 const at = action.type;
 

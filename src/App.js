@@ -3,45 +3,13 @@ console.log("App.js start");
 import React from 'react';
 //import {Write, Post, Edit, PostHistory } from "./pages";
 import { Route, Switch } from 'react-router-dom';
-import moment from "moment";
+//import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
 import {createStore} from 'redux';
 import {reducer} from "./redux/reducer";
 //import {R} from "ramda";
 const R = require("ramda");
-
-
-
-function asyncComponent(getComponent) {
-  return class asyncComponent extends React.Component {
-    constructor(props){
-      super(props);
-      this.state = {
-        Component : undefined
-      }
-    }
-  
-    componentDidMount(){
-      getComponent()
-        .then(component => {
-          this.setState({Component : component.default});
-        })
-        .catch(err => {
-          console.log(err.message);
-        })
-    }
-  
-    render() {
-      const {Component} = this.state;
-      if(Component){
-        return <Component {...this.props}/>
-      }else{
-        return <div>Loading..</div>
-      }
-    }
-  }
-}
 
 
 export default class App extends React.Component {
@@ -80,8 +48,6 @@ export default class App extends React.Component {
     this.unsubscribe = tp.store.subscribe(() => {
         this.setState(tp.store.getState());
     });
-    //moment.locale('ko');
-    moment.locale('en');
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -103,38 +69,38 @@ export default class App extends React.Component {
     const renderList = ({history, match}) => {
       tp.thispage = "List";
       
-      if(!tp.pages.List){
-        tp.pages.List = asyncComponent(() => import(/* webpackChunkName: "List"  */'./Pages/List'));
+      if(!tp.asyncCache.List){
+        tp.asyncCache.List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./Pages/List'));
       }
-      const List = tp.pages.List;
+      const List = tp.asyncCache.List;
       return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
-      if(!tp.pages.Post)
-        tp.pages.Post = asyncComponent(() => import(/* webpackChunkName: "Post"  */'./Pages/Post'));
-      const Post = tp.pages.Post;
+      if(!tp.asyncCache.Post)
+        tp.asyncCache.Post = tp.asyncComponent(() => import(/* webpackChunkName: "Post"  */'./Pages/Post'));
+      const Post = tp.asyncCache.Post;
       return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderEdit = ({history, match}) => {
       tp.thispage = "Edit";
-      if(!tp.pages.Edit)
-        tp.pages.Edit = asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./Pages/Edit'));
-      const Edit = tp.pages.Edit;
+      if(!tp.asyncCache.Edit)
+        tp.asyncCache.Edit = tp.asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./Pages/Edit'));
+      const Edit = tp.asyncCache.Edit;
       return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
     }
     const renderWrite = ({history, match}) => {
       tp.thispage = "Write";
-      if(!tp.pages.Write)
-        tp.pages.Write = asyncComponent(() => import(/* webpackChunkName: "Write"  */'./Pages/Write'));
-      const Write = tp.pages.Write;
+      if(!tp.asyncCache.Write)
+        tp.asyncCache.Write = tp.asyncComponent(() => import(/* webpackChunkName: "Write"  */'./Pages/Write'));
+      const Write = tp.asyncCache.Write;
       return <Write history={history} context={match.params.context} /> ;
     }
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
-      if(!tp.pages.PostHistory)
-        tp.pages.PostHistory = asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./Pages/PostHistory'));
-      const PostHistory = tp.pages.PostHistory;
+      if(!tp.asyncCache.PostHistory)
+        tp.asyncCache.PostHistory = tp.asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./Pages/PostHistory'));
+      const PostHistory = tp.asyncCache.PostHistory;
       return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
     }
 
@@ -163,3 +129,6 @@ export default class App extends React.Component {
     );
   }
 }
+
+
+

@@ -5,7 +5,7 @@ import {api} from "./restful/api";
 import shortid from "shortid";
 import $m from "../com/util";
 import nprogress from "nprogress";
-import R from "ramda";
+import React from 'react';
 
 
 const PAGEROWS = 10;
@@ -13,7 +13,7 @@ const USECOOKIE = true;
 
 export let tp = {
   view : {},          // 전역에서 관리될 필요가 있는 리액트 뷰들
-  pages : {},         // 비동기 컴포넌트 캐시
+  asyncCache : {},         // 비동기 컴포넌트 캐시
   action,             // store 상태업데이트시 전달될 action
   store: undefined,   // List 컴포넌트가 호출될 때 store 가 초기화된다.
   user: undefined,    // 로컬스토리지에 저장된 사용자 정보
@@ -21,7 +21,6 @@ export let tp = {
   nprogress,          // 서버통신시 진행표시
   temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
   $m,                  // 기본 유틸함수
-  R
 };
 
 
@@ -141,10 +140,39 @@ tp.getUser = function(){
 }
 
 
+tp.asyncComponent = function(getComponent) {
+  return class asyncComponent extends React.Component {
+    constructor(props){
+      super(props);
+      this.state = {
+        Component : undefined
+      }
+    }
+  
+    componentDidMount(){
+      getComponent()
+        .then(component => {
+          this.setState({Component : component.default});
+        })
+        .catch(err => {
+          console.log(err.message);
+        })
+    }
+  
+    render() {
+      const {Component} = this.state;
+      if(Component){
+        return <Component {...this.props}/>
+      }else{
+        return <div>Loading..</div>
+      }
+    }
+  }
+}
+
 tp.init = function(){
   tp.user = tp.getUser();
 }
-
 
 
 tp.init();

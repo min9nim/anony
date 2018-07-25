@@ -5,13 +5,17 @@ module.exports = {
     mode: 'development',
 
     entry: {
-        index : ['react-hot-loader/patch', './src/index.js']
-     } ,
+        dev : 'react-hot-loader/patch', 
+        index : './src/index.js',
+        react : ["react", "react-dom", "react-router-dom"],
+        lib : ["moment", 'react-bootstrap']
+    } ,
     
     //entry: './src/index.js',
 
     output: {
         path: __dirname + '/public/',
+        publicPath: "/",        // chunk 파일을 / 에서 로드하도록 설정
         filename: '[name].bundle.js',
         chunkFilename: '[name].chunk.js',
     },
@@ -55,9 +59,23 @@ module.exports = {
         }
     },
 
-
+    optimization : {
+        splitChunks: {
+          chunks: 'all',    // include all types of chunks
+          minSize: 30000,
+          maxSize: 0,
+          minChunks: 1,
+          maxAsyncRequests: 10,
+          maxInitialRequests: 3,
+          automaticNameDelimiter: '~',
+          name: true,
+          cacheGroups: {
+            default: false
+          }
+        }
+    },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ]
 };
