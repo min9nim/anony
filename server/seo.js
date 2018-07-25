@@ -3,7 +3,12 @@ const Post = require('./models/post');
 const fs = require('fs');
 const Remarkable = require("remarkable");
 
-const filepath = __dirname + "/../public/index.html"; // __dirname 는 seo.js 가 위치한 경로
+
+const filepath = (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') ?
+                    __dirname + "/../public/index.dev.html" : 
+                    __dirname + "/../public/index.prod.html" ;
+
+
 const md =  new Remarkable({
     html: true,
     linkify: true,

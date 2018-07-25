@@ -3,7 +3,6 @@ const webpack = require('webpack');
 
 module.exports = {
     mode: 'development',
-
     entry: {
         dev : 'react-hot-loader/patch', 
         index : './src/index.js',
@@ -56,12 +55,14 @@ module.exports = {
         disableHostCheck: true,     // 외부에서 접속 허용
         proxy: {
             "/api/*" : "http://localhost:8080",
+            "/index.html" : "http://localhost:8080",
+            "/" : "http://localhost:8080",
         }
     },
 
     optimization : {
         splitChunks: {
-          chunks: 'async',    // include all types of chunks
+          chunks: 'all',    // include all types of chunks
           minSize: 30000,
           maxSize: 0,
           minChunks: 1,

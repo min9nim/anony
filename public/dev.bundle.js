@@ -113,7 +113,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "171a2da3689b4c6383fa";
+/******/ 	var hotCurrentHash = "53c9c4fac0f55bf66bc1";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -854,7 +854,7 @@
 /******/
 /******/
 /******/ 	// add entry module to deferred list
-/******/ 	deferredModules.push(["./node_modules/react-hot-loader/patch.js","vendors~dev~index~react","vendors~dev"]);
+/******/ 	deferredModules.push(["./node_modules/react-hot-loader/patch.js","vendors~dev~index","vendors~dev"]);
 /******/ 	// run deferred modules when ready
 /******/ 	return checkDeferredModules();
 /******/ })

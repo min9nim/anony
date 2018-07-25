@@ -15,7 +15,7 @@ const R = require("ramda");
 export default class App extends React.Component {
 
   constructor(props) {
-    console.log("App 생성자 호출..");
+    console.log("App 생성자 호출!!");
     super(props);
     
     //const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
