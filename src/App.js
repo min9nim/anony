@@ -1,7 +1,8 @@
 console.log("App.js start");
 
 import React from 'react';
-//import {Write, Post, Edit, PostHistory } from "./pages";
+//import {List, Write, Post, Edit, PostHistory } from "./pages";
+import List from "./pages/List";
 import { Route, Switch } from 'react-router-dom';
 //import moment from "moment";
 import shortcut from "./ext/shortcut";
@@ -68,7 +69,8 @@ export default class App extends React.Component {
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
-      const List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./pages/List'), "/pages/List");
+      //const List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./pages/List'), "/pages/List");
+      //const List2 = List;
       return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {

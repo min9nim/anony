@@ -12,10 +12,9 @@ export default class List extends React.Component {
         super(props);
         this.logoClick = this.logoClick.bind(this);
 
-        if(tp.view.App.state.data.posts.length < 10 && tp.store.getState().view.search === ""){
+        if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
             // posts 목록을 초기화하고
             tp.store.dispatch(tp.action.initPosts());
-
             // 다시 세팅
             tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context})
                 .then(tp.checkStatus)
