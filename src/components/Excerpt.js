@@ -9,6 +9,8 @@ const R = require("ramda");
 
 export default class Excerpt extends React.Component {
     constructor(props) {
+        console.log("Excerpt 생성자호출");
+
         super(props);
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
