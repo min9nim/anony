@@ -157,9 +157,9 @@ tp.asyncComponent = function(getComponent, compname) {
   
     componentDidMount(){
       getComponent()
-        .then(component => {
-          this.setState({Component : component.default});
-          tp.asyncCache[compname] = component.default;
+        .then(m => {
+          this.setState({Component : m.default});
+          tp.asyncCache[compname] = m.default;
         })
         .catch(err => {
           console.log(err.message);
