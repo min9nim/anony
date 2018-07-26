@@ -6,8 +6,8 @@ module.exports = {
     entry: {
         dev : 'react-hot-loader/patch', 
         index : './src/index.js',
-        lib: ['highlight.js']
-    } ,
+        react : ["react", "react-dom", "react-router-dom", 'react-bootstrap'],
+    },
     
     //entry: './src/index.js',
 

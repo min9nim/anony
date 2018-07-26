@@ -6,7 +6,7 @@ import moment from "moment";
 import {Button} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Remarkable from "remarkable";
-import hljs from 'highlight.js';
+//import hljs from 'highlight.js';
 import shortcut from "../ext/shortcut";
 import "./Post.scss";
 import "../css/hljsTheme/xcode.css";
@@ -42,18 +42,31 @@ export default class Post extends React.Component {
             breaks: true,
             // Highlighter function. Should return escaped HTML,
             // or '' if the source string is not changed
-            highlight: function (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                  try {
-                    return hljs.highlight(lang, str).value;
-                  } catch (err) {}
+            highlight: (str, lang) => {
+                if(tp.hljs === undefined){
+                    import(/* webpackChunkName: "highlightjs"  */'highlight.js')
+                        .then(m => {
+                            tp.hljs = m.default;
+                            //this.render();    // 이렇게 한다고 화면이 실제로 다시 그려지지는 않음
+                            this.setState(this.state);
+                        })
+                        .catch(err => console.log(err.message));
+                    return "Loading..";
+                }else{
+                    if (lang && tp.hljs.getLanguage(lang)) {
+                        try {
+                            return tp.hljs.highlight(lang, str).value;
+                        } catch (err) {
+                            console.log(err.message);
+                        }
+                    }
+                    try {
+                        return tp.hljs.highlightAuto(str).value;
+                    } catch (err) {
+                        console.log(err.message);
+                    }
+                    return ''; // use external default escaping      
                 }
-            
-                try {
-                  return hljs.highlightAuto(str).value;
-                } catch (err) {}
-            
-                return ''; // use external default escaping
             }
         });
           

@@ -1,5 +1,3 @@
-console.log("App.js start");
-
 import React from 'react';
 //import {List, Write, Post, Edit, PostHistory } from "./pages";
 //import List from "./pages/List";

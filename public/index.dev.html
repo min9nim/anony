@@ -11,20 +11,17 @@
         <title>{{title}}</title>
         <meta name="description" content="{{description}}">
 
-        <script src="/vendors~dev~index~lib.chunk.js" defer></script>
-        <script src="/vendors~dev~index.chunk.js" defer></script>
-        
-        <script src="/vendors~dev~index.chunk.js" defer></script>
-        <script src="/vendors~index.chunk.js" defer></script>
-        
-
-        <script src="/dev.bundle.js" defer></script>
-        <script src="/index.bundle.js" defer></script>
-        
-
     </head>
 
-    <body onscroll="tp.bodyScroll()">
+    <body>
         <div id="root"><div style="visibility: hidden;">{{content}}</div></div>
     </body>
+    <script src="/vendors~dev~index~react.chunk.js"></script>
+    <script src="/vendors~dev.chunk.js"></script>
+    <script src="/vendors~index.chunk.js"></script>
+    <script src="/dev.bundle.js"></script>
+    <script src="/index.bundle.js"></script>
+    <script>
+        document.body.addEventListener("scroll", tp.bodyScroll);
+    </script>
 </html>
