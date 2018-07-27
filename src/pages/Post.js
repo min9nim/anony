@@ -51,7 +51,7 @@ export default class Post extends React.Component {
                             this.setState(this.state);
                         })
                         .catch(err => console.log(err.message));
-                    return "Loading..";
+                    return "code is loading..";
                 }else{
                     if (lang && tp.hljs.getLanguage(lang)) {
                         try {
@@ -100,10 +100,10 @@ export default class Post extends React.Component {
             // 3. 직접URL로 치고 들어온 경우
             // - viewPost 호출한 후에 getPost로 응답결과를 그냥 화면에 보여주면 됨
             // - store 업데이트 필요없음
-            console.log("@@ 여기 첫번재");
             tp.api.viewPost(this.props.postKey)
                 .then(res => {
                     if(res.status == "Success"){
+                        console.log("@@ 처음 데이터 가지고 왔음요");
                         // 일반post 인 경우
                         tp.store.dispatch(tp.action.addPost(res.output))
                     }else{

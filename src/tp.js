@@ -141,38 +141,102 @@ tp.getUser = function(){
 }
 
 
-tp.asyncComponent = function(getComponent, compname) {
-  if(tp.asyncCache[compname]){
-    console.log("## tp.asyncCache used : " + compname);
-    return tp.asyncCache[compname];
-  }
+// tp.asyncComponent = function(getComponent, compname) {
+//   if(tp.asyncCache[compname]){
+//     console.log("## tp.asyncCache used : " + compname);
+//     return tp.asyncCache[compname];
+//   }
   
-  return class asyncComponent extends React.Component {
+//   return class asyncComponent extends React.Component {
+//     constructor(props){
+//       super(props);
+//       this.state = {
+//         Component : undefined
+//       }
+//     }
+  
+//     componentDidMount(){
+//       getComponent()
+//         .then(m => {
+//           console.log("****** 동적로딩이요~*");
+//           this.setState({Component : m.default});
+//           tp.asyncCache[compname] = m.default;
+//         })
+//         .catch(err => {
+//           console.log(err.message);
+//         })
+//     }
+  
+//     render() {
+//       const {Component} = this.state;
+//       if(Component){
+//         return <Component {...this.props}/>
+//       }else{
+//         return <div>Loading..</div>
+//       }
+//     }
+//   }
+// }
+
+
+// Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
+// tp.asyncComponent = function(getComponent) {
+//   return class AsyncComponent extends React.Component {
+//     //static Component = null;
+//     constructor(props){
+//       super(props);
+//       this.state = { Component: AsyncComponent.Component };
+//     }
+
+//     componentWillMount() {
+//       if (!this.state.Component) {
+//         getComponent().then(m => {
+//           console.log("@@@@@ 동적로딩이요~");
+//           AsyncComponent.Component = m.default;
+//           this.setState({ Component : m.default })
+//         })
+//       }
+//     }
+//     render() {
+//       const { Component } = this.state
+//       if (Component) {
+//         return <Component {...this.props} />
+//       }
+//       return <div>Loading..</div>
+//     }
+//   }
+// }
+
+
+
+
+//Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
+tp.asyncComponent = function(getComponent, compname) {
+  return class AsyncComponent extends React.Component {
+    //static Component = null;
     constructor(props){
       super(props);
-      this.state = {
-        Component : undefined
-      }
+      this.state = { Component: tp.asyncCache[compname] };
     }
-  
-    componentDidMount(){
-      getComponent()
-        .then(m => {
-          this.setState({Component : m.default});
+
+    componentWillMount() {
+      if (!this.state.Component) {
+        getComponent().then(m => {
+          console.log("@@@@@ 동적로딩이요~");
+          //AsyncComponent.Component = m.default;
           tp.asyncCache[compname] = m.default;
+          this.setState({ Component : m.default })
         })
-        .catch(err => {
-          console.log(err.message);
-        })
-    }
-  
-    render() {
-      const {Component} = this.state;
-      if(Component){
-        return <Component {...this.props}/>
       }else{
-        return <div>Loading..</div>
+        console.log(`## tp.asyncCache[${compname}] used`);
       }
+    }
+    render() {
+      const { Component } = this.state
+      if (Component) {
+        return <Component {...this.props} />
+      }
+      return <div>Loading..</div>
     }
   }
 }
