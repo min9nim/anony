@@ -10,7 +10,6 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>{{title}}</title>
         <meta name="description" content="{{description}}">
-
     </head>
 
     <body>
@@ -22,6 +21,7 @@
     <script src="/dev.bundle.js"></script>
     <script src="/index.bundle.js"></script>
     <script>
-        document.body.addEventListener("scroll", tp.bodyScroll);
+        //document.body.addEventListener("scroll", tp.bodyScroll);
+        document.body.onscroll = tp.bodyScroll;
     </script>
 </html>
