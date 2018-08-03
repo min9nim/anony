@@ -39,6 +39,15 @@
         margin-top: 20px;
         color: #777;
         font-size: 16px;
+        table {
+            th {
+                border: 1px solid #eee;
+                background-color: #f8f8f0;
+            }
+            td {
+                border: 1px solid #eee;
+            }
+        }
     }
 
     .btn {
