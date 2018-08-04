@@ -11,7 +11,7 @@ Login or signup does not require and collect any personal information from you
 - If you check markdown, you can use markdown syntax
 - If you check comment, you can get comments of others
 
-#### 3. http://ioiooi.xyz/ {new group name}
+#### 3. https://an0ny.herokuapp.com/ {new group name}
 New conversation space is created automatically when you access as above
 <br>
 
