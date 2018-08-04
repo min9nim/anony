@@ -142,7 +142,8 @@ export default class Post extends React.Component {
         title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
         function nl2br(str){
-            return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
+            //return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
+            return str;
         }
 
 
