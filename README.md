@@ -1,5 +1,5 @@
 ## Anony is an anonymous social network
-that leads us to new freedom
+that will lead us to new freedom
 <br>
 
 #### 1. Post it Now
