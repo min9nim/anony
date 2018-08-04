@@ -12,7 +12,7 @@ Login or signup does not require and collect any personal information from you
 - If you check comment, you can get comments of others
 
 #### 3. https://an0ny.herokuapp.com/ {new group name}
-New conversation space is created automatically when you access as above
+New conversation space is created automatically when you access as above.  
 ex)  _https://an0ny.herokuapp.com/newgroup_
 <br>
 
