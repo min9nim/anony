@@ -2,7 +2,7 @@
 that will lead us to new freedom
 <br>
 
-#### 1. Post it Now
+#### 1. Now you can post something in your mind.
 Login or signup does not require and collect any personal information from you
 <br>
 
