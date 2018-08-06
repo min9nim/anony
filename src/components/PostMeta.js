@@ -27,9 +27,9 @@ export default class PostMeta extends React.Component {
         console.log("PostMeta 렌더링");
         return (
             <div className="postMeta">
-                <div>Comments: {this.props.post.commentCnt || 0}</div>
-                <div>View: {this.props.post.viewCnt || 0} </div>
-                <div className={this.props.post.liked ? "liked" : "like"} onClick={this.likePost}>Like: {this.props.post.likeCnt} </div>
+                <i className="icon-eye">View: {this.props.post.viewCnt || 0} </i>
+                <i className="icon-comment-empty">Comments: {this.props.post.commentCnt || 0}</i>
+                <i className={this.props.post.liked ? "icon-thumbs-up-alt liked" : " icon-thumbs-up like"} onClick={this.likePost}>like: {this.props.post.likeCnt} </i>
             </div>
         );
     }

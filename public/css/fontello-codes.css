@@ -1,0 +1,11 @@
+
+.icon-thumbs-up:before { content: '\e800'; } /* '' */
+.icon-eye:before { content: '\e801'; } /* '' */
+.icon-pencil:before { content: '\e802'; } /* '' */
+.icon-trash-empty:before { content: '\e803'; } /* '' */
+.icon-cancel:before { content: '\e804'; } /* '' */
+.icon-ccw:before { content: '\e805'; } /* '' */
+.icon-trash:before { content: '\f083'; } /* '' */
+.icon-comment-empty:before { content: '\f0e5'; } /* '' */
+.icon-thumbs-up-alt:before { content: '\f164'; } /* '' */
+.icon-history:before { content: '\f1da'; } /* '' */
