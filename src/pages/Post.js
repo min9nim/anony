@@ -174,7 +174,7 @@ export default class Post extends React.Component {
 
         return (
             <div>
-                <div className="context">{this.props.context || "Anony"}</div>
+                {/* <div className="context">{this.props.context || "Anony"}</div> */}
                 <div className="post">
                     <div>
                         <div className={this.state.deleted ? "title h4 deleted" : "title h4"}

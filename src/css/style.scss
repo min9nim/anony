@@ -1,3 +1,10 @@
+
+
+#root {
+    max-width: 800px;
+    margin: auto;    
+}
+
 /* 공통 css 스타일 설정 */
 .context {
     font-size: 120px;
@@ -5,9 +12,9 @@
     font-weight: bold;
     position: fixed;
     color: #555555;
-    left: 0px;
-    top: -35px;
     z-index: -100;
+    /* transform: rotate(-90deg); */
+    /* transform-origin: 100% 0; */
 }
 
 img {

@@ -1,11 +1,7 @@
 .Search{
+    flex-grow: 1;
+    text-align: right;    
     .nav{
-        position: absolute;
-        //display: inline-block;
-        //width: calc(100% - 70px);
-        //text-align: right;
-        right: 10px;
-        top: 3px;
         cursor: pointer;
         img {
             width: 20px;
@@ -28,6 +24,7 @@
         .search_div {
             position: absolute;
             width: 90%;
+            max-width: 600px;
             height: 20%;
             top: 30%;
             left: 50%;

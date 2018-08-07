@@ -66,7 +66,7 @@ export default class List extends React.Component {
                     <div className="status">{status}</div>
                     <Search context={this.props.context}/>
                 </div>
-                <div className="context">{this.props.context || "Anony"}</div>
+                {/* <div className="context">{this.props.context || "Anony"}</div> */}
                 {this.props.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
@@ -77,7 +77,7 @@ export default class List extends React.Component {
                     </div>     
                 )}
 
-                <div className="writeBtn clkeffect">
+                <div className="writeBtn">
                     <Link to={this.contextPath + "/write"}><Button bsStyle="success">Write</Button></Link>
                 </div>
             </div>

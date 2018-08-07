@@ -4,12 +4,13 @@
     background-color: #f7f7f7;
 
     .header{
+        display: flex;
+        flex-direction: row; 
         color: #aaa;
         background-color: #fff;
         padding: 3px 15px;
         margin-bottom: 2px;
         height: 29px;
-
         .title {
             display: inline-block;
             font-size: 16px;
@@ -25,7 +26,9 @@
         position: fixed;
         margin-bottom: 0;
         bottom: 25px;
-        right: 25px;
+        width: 100%;
+        max-width: 800px;
+        text-align: right;
         opacity: 0.7;
         .btn{
             padding: 7px 12px;
