@@ -12,7 +12,6 @@ module.exports = $m;
 
 
 
-
 $m.fn = {
     init: function(sel) {
         if (typeof sel == "string") {

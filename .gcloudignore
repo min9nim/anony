@@ -16,7 +16,6 @@
 # Node.js dependencies:
 node_modules/
 src/
-com/
 express.log
 LICENSE
 nohup.out
