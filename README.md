@@ -11,9 +11,9 @@ Login or signup does not require and collect any personal information from you
 - If you check markdown, you can use markdown syntax
 - If you check comment, you can get comments of others
 
-#### 3. https://an0ny.herokuapp.com/ {new group name}
+#### 3. https://anony-212509.appspot.com/ {new group name}
 New conversation space is created automatically when you access as above.  
-ex)  _https://an0ny.herokuapp.com/newgroup_
+ex)  _https://anony-212509.appspot.com/newgroup_
 <br>
 
 #### 4. How authentication works
