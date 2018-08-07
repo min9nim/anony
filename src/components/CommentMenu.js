@@ -98,9 +98,10 @@ export default class CommentMenu extends React.Component {
                 <div className="navi">
                     {
                         this.props.comment.deleted ? 
-                        <div onClick={this.removeComment}>Remove</div> :
-                        <div onClick={this.deleteComment}>Delete</div>
+                        <div className="icon-trash" onClick={this.removeComment}>Remove</div> :
+                        <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
                     }
+                    <div className="icon-cancel" onClick={this.hideMenu}>Cancel</div>
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>

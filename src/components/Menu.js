@@ -90,8 +90,8 @@ export default class Menu extends React.Component {
                         <FormControl.Feedback />
                     </FormGroup>
                     {/* <div className="copy" onClick={this.copy}>copy</div> */}
-                    <div className="confirm" onClick={this.confirm}>Save</div>
-                    <div className="cancel" onClick={this.cancel}>Cancel</div>
+                    <div className="icon-floppy confirm" onClick={this.confirm}>Save</div>
+                    <div className="icon-cancel cancel" onClick={this.cancel}>Cancel</div>
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>

@@ -65,6 +65,12 @@
       "css": "trash",
       "code": 61571,
       "src": "mfglabs"
+    },
+    {
+      "uid": "f4445feb55521283572ee88bc304f928",
+      "css": "floppy",
+      "code": 59398,
+      "src": "fontawesome"
     }
   ]
 }
