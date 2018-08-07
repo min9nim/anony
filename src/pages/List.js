@@ -77,7 +77,7 @@ export default class List extends React.Component {
                     </div>     
                 )}
 
-                <div className="writeBtn">
+                <div className="writeBtn clkeffect">
                     <Link to={this.contextPath + "/write"}><Button bsStyle="success">Write</Button></Link>
                 </div>
             </div>

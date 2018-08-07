@@ -32,6 +32,27 @@ input, textarea {
     padding: 5px 6px;
 }
 
+// 버튼 클릭효과
+.btn:active {
+    transform : rotate(10deg);
+    -webkit-transform : rotate(10deg);
+}
+
+div[class^="icon-"] {
+    transition: all 0.1s ease-in-out;
+}
+
+// fontello 아이콘 hover
+div[class^="icon-"]:hover {
+    transform : scale(1.2);
+    -webkit-transform : scale(1.2);
+}
+
+// fontello 아이콘 클릭효과
+div[class^="icon-"]:active {
+    transform : rotate(10deg);
+    -webkit-transform : rotate(10deg);
+}
 
 
 /* nprogress.css 커스터마이징 */
@@ -49,9 +70,3 @@ input, textarea {
         right: 50%;
     }
 }
-
-
-
-
-
-
