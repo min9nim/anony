@@ -51,7 +51,7 @@ app.use(fallback('index.html', { root: staticPath }));
 process.env.NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.trim();
 
 // 서비스 포트
-const PORT = process.env.NODE_ENV === "development" ? 8080 : 80;
+const PORT = process.env.NODE_ENV === "development" ? 8080 : process.env.PORT;
 
 
 // HTTP 서비스 시작
