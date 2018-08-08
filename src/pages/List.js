@@ -76,7 +76,8 @@ export default class List extends React.Component {
         return (
             <div className="list">
                 <div className="header">
-                    <div className="title" onClick={this.logoClick}>{title}</div><Menu/>
+                    <div className="title" onClick={this.logoClick}>{title}</div>
+                    {!search && <Menu/> }
                     <div className="status">{status}</div>
                     <Search context={this.props.context}/>
                 </div>
