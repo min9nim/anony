@@ -15,14 +15,18 @@ export default class Edit extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     
-    if(this.props.post){
-      this.state = this.props.post;
+    //if(this.props.post){
+    if(tp.store.getState().data.posts.length > 0){
+      // 글보기화면이나 목록화면에서 넘어 들어온 경우
+      //this.state = this.props.post;
+      this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
       this.state.uuid = tp.user.uuid;
       if(this.state.origin !== undefined){
         alert("invalid access!");
         history.back();
       }
     }else{
+      // URL로 직접 들어온 경우
       tp.api.getPost(this.props.postKey).then(res => {
         this.state = res.post;
         this.state.uuid = tp.user.uuid;  
@@ -31,7 +35,19 @@ export default class Edit extends React.Component {
 
     }
     this.contextPath = this.props.context ? "/" + this.props.context : "" ;
+
+    this.unsubscribe = tp.store.subscribe(() => {
+      console.log("Edit가 store 상태변경 노티 받음")
+      this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
+    });
+
   }
+  
+  componentWillUnmount(){
+    console.log("# Edit unsubscribe store..");
+    this.unsubscribe();
+  }
+
 
   shouldComponentUpdate(prevProps, prevState) {
     return true;
@@ -83,7 +99,8 @@ export default class Edit extends React.Component {
         return;
       }
       console.log("# " + res.message);
-      if(tp.view.App.state.data.posts.length > 0){
+      //if(tp.view.App.state.data.posts.length > 0){
+      if(tp.store.getState().data.posts.length > 0){
         tp.store.dispatch(tp.action.updatePost(afterPost));
       }
       

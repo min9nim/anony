@@ -15,6 +15,7 @@ export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
         super(props);
+
         this.state = {
             key: "",
             title: "",
@@ -26,6 +27,11 @@ export default class Post extends React.Component {
             viewCnt: ""
         };
 
+        if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
+            this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
+        }
+
+
         shortcut.add("Alt+E", () => {
             if(location.pathname.indexOf("post") >= 0){// 글보기 화면인 경우에만
               this.props.history.push((location.pathname.replace("post", "edit")));
@@ -34,6 +40,22 @@ export default class Post extends React.Component {
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
+
+
+        // if(this.props.post){
+        //     // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+        //     this.state = this.props.post;
+        //     this.state.viewCnt++;
+        // }
+
+
+        // 이후 App 가 스토어 상태를 구독하도록 설정
+        this.unsubscribe = tp.store.subscribe(() => {
+            console.log("Post가 store 상태변경 노티 받음")
+            this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
+        });
+
+
 
         this.md = new Remarkable({
             html: true,
@@ -72,8 +94,11 @@ export default class Post extends React.Component {
           
  
 
-        if(this.props.post){
-            const diff = Date.now() - this.props.post.date;
+        //if(this.props.post){
+        if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
+            // 목록/수정 화면에서 넘어 들어온 경우
+            //const diff = Date.now() - this.props.post.date;
+            const diff = Date.now() - this.state.date;
             //console.log("# diff = " + diff);
 
             if(diff < 1000){
@@ -116,6 +141,13 @@ export default class Post extends React.Component {
 
     }
 
+
+    componentWillUnmount(){
+        console.log("# Post unsubscribe store..");
+        this.unsubscribe();
+    }
+    
+
     componentDidMount(){
         // 이거는 컴포넌트가 dom에 로드될 때 최초 한번밖에 호출이 안되네
         document.title = this.state.title;
@@ -124,17 +156,24 @@ export default class Post extends React.Component {
     
     render(){
         console.log("Post 렌더링");
-        if(this.props.post){
-            // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-            this.state = this.props.post;
-            this.state.viewCnt++;
+        // if(this.props.post){
+        //     // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
+        //     this.state = this.props.post;
+        //     this.state.viewCnt++;
 
+        //     // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
+        //     document.title = this.state.title;
+        // }else{
+        //     return <div/> ;
+        // }
+
+        if(this.state.key){
             // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
             document.title = this.state.title;
+
         }else{
             return <div/> ;
         }
-
 
         let title;
         const search = tp.store.getState().view.search;
@@ -142,6 +181,7 @@ export default class Post extends React.Component {
         title += this.state.isPrivate ? (<sup> - Private -</sup>) : "";
 
         function nl2br(str){
+            // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
             //return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
             return str;
         }

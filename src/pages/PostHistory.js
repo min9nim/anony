@@ -12,11 +12,12 @@ export default class PostHistory extends React.Component {
     constructor(props) {
         console.log("PostHistory 생성자 호출");
         super(props);
+        this.state = {
+            phist : tp.store.getState().data.posts.filter(p=> p.origin === this.props.postKey)
+        }
 
-
-        if(this.props.phist.length === 0){
-            const postKey = this.props.postKey;
-            tp.api.getPostHistory(postKey)
+        if(this.state.phist.length === 0){
+            tp.api.getPostHistory(this.props.postKey)
                 .then(tp.checkStatus)
                 .then(res => {
                     if(res.posts.length > 0){
@@ -24,16 +25,26 @@ export default class PostHistory extends React.Component {
                     }else{
                         alert("Have no changes");
                     }
-                })        
+                })
         }
 
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
 
+        // 이후 App 가 스토어 상태를 구독하도록 설정
+        this.unsubscribe = tp.store.subscribe(() => {
+            console.log("PostHistory 가 store 상태변경 노티 받음")
+            this.setState({
+                phist: tp.store.getState().data.posts.filter(p=> p.origin === this.props.postKey)
+            });
+        });
 
 
-        // 화면을 새로고침하거나 url을 통해 직접 access 한 경우에 대한 예외처리는 생략 18.06.18
     }
-    
+    componentWillUnmount(){
+        console.log("# PostHistory unsubscribe store..");
+        this.unsubscribe();
+    }
+
     componentDidMount(){
         document.title = (this.props.context || "Anony") + " - " + tp.thispage;
     }
@@ -43,7 +54,7 @@ export default class PostHistory extends React.Component {
         return (
             <div className="postHistory">
                 <div className="context">{this.props.context || "Anony"}</div>
-                {this.props.phist.map(
+                {this.state.phist.map(
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
                 <div className="btnWrapper">

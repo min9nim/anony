@@ -7,14 +7,17 @@ import "./List.scss";
 
 export default class List extends React.Component {
     constructor(props) {
-        // 아씨 이거 모야  글보기화면에서 목록화면으로 이동할때마다 생성자가 계속 호출이 되는거였네
         console.log("List 생성자 호출");
         super(props);
         this.logoClick = this.logoClick.bind(this);
 
+        this.state = {
+            posts: tp.store.getState().data.posts
+        }
+
         //if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
-        if(tp.store.getState().data.posts.length <= 1 && tp.store.getState().view.search === ""){
-            //console.log("@@@@ 여기여기 두번 나오지?? " + tp.store.getState().data.posts.length)
+        if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length <= 1
+            && tp.store.getState().view.search === ""){
             // posts 목록을 초기화하고
             //tp.store.dispatch(tp.action.initPosts());
             // 다시 세팅
@@ -25,7 +28,18 @@ export default class List extends React.Component {
         tp.context = this.props.context;
 
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+
+        // 이후 App 가 스토어 상태를 구독하도록 설정
+        this.unsubscribe = tp.store.subscribe(() => {
+            console.log("List가 store 상태 변경 노티 받음")
+            this.setState(tp.store.getState().data);
+        });
     }
+
+    componentWillUnmount(){
+        console.log("# List unsubscribe store..");
+        this.unsubscribe();
+    }    
 
     componentDidMount(){
         document.title = (this.props.context || "Anony") + " - " + tp.thispage;
@@ -67,7 +81,7 @@ export default class List extends React.Component {
                     <Search context={this.props.context}/>
                 </div>
                 {/* <div className="context">{this.props.context || "Anony"}</div> */}
-                {this.props.posts.map(
+                {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
 

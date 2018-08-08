@@ -27,40 +27,52 @@ export default class App extends React.Component {
 
 
     // 초기상태 정의
-    this.state = {
-      view: {
-        search: "",
-        uuid: tp.user.uuid
-      },
-      data: {
-        posts: [],        // 전체 글
-        comments: []     // 전체 댓글
-      }
-    };
+    // this.state = {
+    //   view: {
+    //     search: "",
+    //     uuid: tp.user.uuid
+    //   },
+    //   data: {
+    //     posts: [],        // 전체 글
+    //     comments: []     // 전체 댓글
+    //   }
+    // };
+
     tp.view.App = this;
 
 
     // 스토어 최초 한번 생성
-    tp.store = createStore(reducer, this.state);
-
-    // 이후 App 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = tp.store.subscribe(() => {
-        this.setState(tp.store.getState());
+    tp.store = createStore(reducer, {
+        view: {
+          search: "",
+          uuid: tp.user.uuid
+        },
+        data: {
+          posts: [],        // 전체 글
+          comments: []     // 전체 댓글
+        }
     });
+
+    // 상태 변화에 따라 App에서 달라질 것은 없다고 판단되어 아래를 주석처리 18/08/08, 대신 List와 Post에서 직접 상태를 구독하는 것으로 함
+    // 이후 App 가 스토어 상태를 구독하도록 설정
+    // this.unsubscribe = tp.store.subscribe(() => {
+    //     this.setState(tp.store.getState());
+    // });
   }
 
   shouldComponentUpdate(prevProps, prevState) {
     //const render = prevProps.location.pathname !== this.props.location.pathname || prevState !== this.state;
-    const render = prevProps.location.pathname !== this.props.location.pathname || !R.equals(prevState, this.state)
+    const render = prevProps.location.pathname !== this.props.location.pathname
+                  //|| !R.equals(prevState, this.state)
     // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
     //console.log("App.shouldComponentUpdate returns [" + render + "]");
     return render;
   }
 
-  componentWillUnmount(){
-    console.log("# App unsubscribe store..");
-    this.unsubscribe();
-  }
+  // componentWillUnmount(){
+  //   console.log("# App unsubscribe store..");
+  //   this.unsubscribe();
+  // }
 
   render() {
     console.log("App 렌더링..");
@@ -69,17 +81,21 @@ export default class App extends React.Component {
       tp.thispage = "List";
       const List = tp.asyncComponent(() => import(/* webpackChunkName: "List"  */'./pages/List'), "/pages/List");
       //const List2 = List;
-      return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      //return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
+      return <List history={history} context={match.params.context}/> ;
     }
     const renderPost = ({history, match}) => {
       tp.thispage = "Post";
       const Post = tp.asyncComponent(() => import(/* webpackChunkName: "Post"  */'./pages/Post'), '/pages/Post')
-      return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+      //return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+      return <Post history={history} postKey={match.params.key} context={match.params.context}/> ;
+
     }
     const renderEdit = ({history, match}) => {
       tp.thispage = "Edit";
       const Edit = tp.asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./pages/Edit'), "/pages/Edit")
-      return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+      //return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
+      return <Edit history={history} postKey={match.params.key} context={match.params.context}/> ;
     }
     const renderWrite = ({history, match}) => {
       tp.thispage = "Write";
@@ -89,7 +105,8 @@ export default class App extends React.Component {
     const renderPostHistory = ({history, match}) => {
       tp.thispage = "PostHistory";
       const PostHistory = tp.asyncComponent(() => import(/* webpackChunkName: "PostHistory"  */'./pages/PostHistory'), "/pages/PostHistory");
-      return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
+      //return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
+      return <PostHistory history={history} postKey={match.params.key} context={match.params.context}/> ;
     }
 
 
