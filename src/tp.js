@@ -169,7 +169,7 @@ tp.asyncComponent = function(getComponent, compname) {
       if (Component) {
         return <Component {...this.props} />
       }
-      return <div>Loading..</div>
+      return <div><i className="icon-spin3 animate-spin"></i> Loading.. [{compname}]</div>
     }
   }
 }

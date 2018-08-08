@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <link rel="stylesheet" href="/css/fontello.css">
+        <link rel="stylesheet" href="/css/animation.css">
         <!-- 외부 웹폰트 링크가 내용 중에 포함되어 있어서 웹팩으로 빌드하면 오류 발생-->
         <!--link rel="stylesheet" href="/bootstrap.min.css"-->
         <!--bootstrap.min.css 를 번들로 묶으면 input 유효성 체크할때 아이콘? 표시할때 이미지 깨짐-->
@@ -14,16 +15,18 @@
     </head>
 
     <body>
-        <div id="root"><div style="visibility: hidden;">{{content}}</div></div>
-        
+        <div id="root">
+            <div style="visibility: hidden;">{{content}}</div>
+            <div style="position:absolute; top:0px; left:100px; font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
+        </div>
+        <script src="/vendors~dev~index~react.chunk.js"></script>
+        <script src="/vendors~dev.chunk.js"></script>
+        <script src="/vendors~index.chunk.js"></script>
+        <script src="/dev.bundle.js"></script>
+        <script src="/index.bundle.js"></script>
+        <script>
+            //document.body.addEventListener("scroll", tp.bodyScroll);
+            document.body.onscroll = tp.bodyScroll;
+        </script>    
     </body>
-    <script src="/vendors~dev~index~react.chunk.js"></script>
-    <script src="/vendors~dev.chunk.js"></script>
-    <script src="/vendors~index.chunk.js"></script>
-    <script src="/dev.bundle.js"></script>
-    <script src="/index.bundle.js"></script>
-    <script>
-        //document.body.addEventListener("scroll", tp.bodyScroll);
-        document.body.onscroll = tp.bodyScroll;
-    </script>
 </html>

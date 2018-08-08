@@ -6,6 +6,8 @@
 .icon-cancel:before { content: '\e804'; } /* '' */
 .icon-ccw:before { content: '\e805'; } /* '' */
 .icon-floppy:before { content: '\e806'; } /* '' */
+.icon-search:before { content: '\e807'; } /* '' */
+.icon-spin3:before { content: '\e832'; } /* '' */
 .icon-trash:before { content: '\f083'; } /* '' */
 .icon-comment-empty:before { content: '\f0e5'; } /* '' */
 .icon-thumbs-up-alt:before { content: '\f164'; } /* '' */
