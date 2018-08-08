@@ -52,7 +52,8 @@ export default class Write extends React.Component {
     if(this.state.content.length > 10 && !confirm("Cancel to write?")){
       return;
     }
-    this.props.history.push(this.contextPath + "/list");
+    //this.props.history.push(this.contextPath + "/list");
+    history.back();
   }
 
   handleChange(e) {
