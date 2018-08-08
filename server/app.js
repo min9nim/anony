@@ -24,10 +24,14 @@ app.get("/post/:key", seo.post);
 app.get("/:context/post/:key", seo.post);
 app.get("/postHistory/:key", seo.post);
 app.get("/:context/postHistory/:key", seo.post);
+
 app.get("/", seo.list);
 app.get("/list/", seo.list);
 app.get("/:context", seo.list);
 app.get("/:context/list", seo.list);
+
+app.get("/edit/:key", seo.post);
+app.get("/:context/edit/:key", seo.post);
 
 
  // 정적리소스 서비스

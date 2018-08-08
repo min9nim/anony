@@ -77,5 +77,3 @@ seo.list = function(req, res, next){
         })
 }
 
-
-

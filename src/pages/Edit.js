@@ -131,7 +131,7 @@ export default class Edit extends React.Component {
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
-                        autoFocus value = {this.state.title}
+                        value = {this.state.title}
                         onChange = {this.handleChange}
                         placeholder = "Title.." />
                 <FormControl.Feedback />
@@ -149,6 +149,7 @@ export default class Edit extends React.Component {
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
                 <FormControl style={contentStyle}
+                        autoFocus
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
