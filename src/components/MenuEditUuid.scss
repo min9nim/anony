@@ -1,0 +1,41 @@
+.uuid-setting {
+    height: 22px;
+    .modal_div {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background-color: #808080;            
+    }
+
+    .inner_div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-30%);
+            
+        .form {
+            margin-bottom: 7px;
+            #uuid {
+                width: 248px;
+                display: inline-block;
+                height: 40px;
+                font-size: 20px;
+            }      
+            
+            .form-control-feedback {
+                top: 3px;
+                left: 216px;
+            }
+        }
+        .btn_grp{
+            margin-top: 5px;
+            text-align: center;
+            .cancelBtn {
+                margin-left: 3px;
+            }          
+        }
+    }
+}

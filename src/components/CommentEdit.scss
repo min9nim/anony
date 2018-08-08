@@ -42,12 +42,13 @@
             overflow: auto;
             font-size: 20px;
         }
-        .cancelBtn {
-            margin-left: 3px;
-        }
+
         .btn_grp{
             margin-top: 5px;
-            text-align: center;                
+            text-align: center;
+            .cancelBtn {
+                margin-left: 3px;
+            }          
         }
     }
 }
