@@ -35,6 +35,7 @@ export default class Search extends React.Component {
 
         // 기존내용 초기화
         tp.store.dispatch(tp.action.initPosts());
+        tp.isScrollLast = false;
 
         // 다시 세팅
         tp.api.getPosts({idx: 0, cnt: 10, search, context: this.props.context})

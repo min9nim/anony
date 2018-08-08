@@ -32,10 +32,10 @@ export default class List extends React.Component {
     }
 
     logoClick(){
-        tp.store.dispatch(tp.action.setSearch(""));
-
         // 기존내용 초기화
+        tp.store.dispatch(tp.action.setSearch(""));
         tp.store.dispatch(tp.action.initPosts());
+        tp.isScrollLast = false;
 
         // 다시 세팅
         tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context})

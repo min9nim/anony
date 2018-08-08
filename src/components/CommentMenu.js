@@ -71,7 +71,7 @@ export default class CommentMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if(res.status === "Success"){
-                tp.temp = res.comment;
+                //tp.temp = res.comment;
                 //this.props.history.push("/edit/"+this.props.comment.key);
             }else{
                 alert(res.message);

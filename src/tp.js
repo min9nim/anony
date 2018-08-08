@@ -19,6 +19,7 @@ export let tp = {
   user: undefined,    // 로컬스토리지에 저장된 사용자 정보
   api,                // RESTful API
   nprogress,          // 서버통신시 진행표시
+  isScrollLast: false, // 세로 스크롤이 마지막까지 도달했는지 여부
   temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
   $m,                  // 기본 유틸함수
   hljs: undefined,     // 마크다운 코드 하이라이트처리(필요할 때 동적으로 로딩함)
@@ -139,75 +140,6 @@ tp.getUser = function(){
     return JSON.parse(localStorage.getItem("user")) || tp.setUser();
   }
 }
-
-
-// tp.asyncComponent = function(getComponent, compname) {
-//   if(tp.asyncCache[compname]){
-//     console.log("## tp.asyncCache used : " + compname);
-//     return tp.asyncCache[compname];
-//   }
-  
-//   return class asyncComponent extends React.Component {
-//     constructor(props){
-//       super(props);
-//       this.state = {
-//         Component : undefined
-//       }
-//     }
-  
-//     componentDidMount(){
-//       getComponent()
-//         .then(m => {
-//           console.log("****** 동적로딩이요~*");
-//           this.setState({Component : m.default});
-//           tp.asyncCache[compname] = m.default;
-//         })
-//         .catch(err => {
-//           console.log(err.message);
-//         })
-//     }
-  
-//     render() {
-//       const {Component} = this.state;
-//       if(Component){
-//         return <Component {...this.props}/>
-//       }else{
-//         return <div>Loading..</div>
-//       }
-//     }
-//   }
-// }
-
-
-// Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
-// tp.asyncComponent = function(getComponent) {
-//   return class AsyncComponent extends React.Component {
-//     //static Component = null;
-//     constructor(props){
-//       super(props);
-//       this.state = { Component: AsyncComponent.Component };
-//     }
-
-//     componentWillMount() {
-//       if (!this.state.Component) {
-//         getComponent().then(m => {
-//           console.log("@@@@@ 동적로딩이요~");
-//           AsyncComponent.Component = m.default;
-//           this.setState({ Component : m.default })
-//         })
-//       }
-//     }
-//     render() {
-//       const { Component } = this.state
-//       if (Component) {
-//         return <Component {...this.props} />
-//       }
-//       return <div>Loading..</div>
-//     }
-//   }
-// }
-
-
 
 
 //Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
