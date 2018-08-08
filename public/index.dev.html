@@ -12,12 +12,18 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>{{title}}</title>
         <meta name="description" content="{{description}}">
+        <style>
+            #root {
+                max-width: 800px;
+                margin: auto;
+            }
+        </style>
     </head>
 
     <body>
         <div id="root">
+            <div style="font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
             <div style="visibility: hidden;">{{content}}</div>
-            <div style="position:absolute; top:0px; left:100px; font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
         </div>
         <script src="/vendors~dev~index~react.chunk.js"></script>
         <script src="/vendors~dev.chunk.js"></script>

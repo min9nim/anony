@@ -8,10 +8,8 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'UA-123144904-1');
         </script>
-
 
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -23,16 +21,23 @@
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <title>{{title}}</title>
         <meta name="description" content="{{description}}">
+        <style>
+            #root {
+                max-width: 800px;
+                margin: auto;
+            }
+        </style>        
     </head>
 
     <body>
+        <div style="font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
         <div id="root"><div style="visibility: hidden;">{{content}}</div></div>
+        <script src="/vendors~index~react.chunk.js"></script>
+        <script src="/vendors~index.chunk.js"></script>
+        <script src="/index.bundle.js"></script>
+        <script>
+            //document.body.addEventListener("scroll", tp.bodyScroll);
+            document.body.onscroll = tp.bodyScroll;
+        </script>
     </body>
-    <script src="/vendors~index~react.chunk.js"></script>
-    <script src="/vendors~index.chunk.js"></script>
-    <script src="/index.bundle.js"></script>
-    <script>
-        //document.body.addEventListener("scroll", tp.bodyScroll);
-        document.body.onscroll = tp.bodyScroll;
-    </script>
 </html>
