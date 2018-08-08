@@ -88,6 +88,12 @@ action.updatePost = function(post) {
   }
 }
 
+action.updateComment = function(comment) {
+  return {
+    type: at.UPDATECOMMENT,
+    comment
+  }
+}
 
 action.deleteComment = function(key) {
   return {type: at.DELETECOMMENT, key}

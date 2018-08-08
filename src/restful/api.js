@@ -144,6 +144,15 @@ api.authPost = function ({key, uuid}) {
     ).then(errHandler);
 }
 
+api.authComment = function ({key, uuid}) {
+    return httpReq(
+        "/api/comments/auth/" + key + "/" + uuid,
+        {
+            method: "GET",
+        }
+    ).then(errHandler);
+}
+
 
 api.updatePost = function (post) {
     return httpReq(
@@ -152,6 +161,17 @@ api.updatePost = function (post) {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
             body: JSON.stringify(post, null, 2),
+        }
+    ).then(errHandler);
+}
+
+api.updateComment = function (comment) {
+    return httpReq(
+        "/api/comments/edit/" + tp.user.uuid,           // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
+        {
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: JSON.stringify(comment, null, 2),
         }
     ).then(errHandler);
 }
@@ -182,7 +202,7 @@ api.cancelLike = function(key, uuid){
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
-            body: JSON.stringify({uuid: tp.user.uuid}),            
+            body: JSON.stringify({uuid: tp.user.uuid}),
         }
     ).then(errHandler);
 }

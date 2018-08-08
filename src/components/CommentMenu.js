@@ -1,5 +1,6 @@
 import React from 'react';
 import {tp} from "../tp";
+import {CommentEdit} from "../components";
 import "./CommentMenu.scss";
 
 export default class CommentMenu extends React.Component {
@@ -8,12 +9,15 @@ export default class CommentMenu extends React.Component {
         super(props);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
+        this.showEdit = this.showEdit.bind(this);
+        this.hideEdit = this.hideEdit.bind(this);
         this.editComment = this.editComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.removeComment = this.removeComment.bind(this);
 
         this.state = {
-            clicked : false
+            clicked : false,
+            editClicekd : false,
         }
     }
 
@@ -71,6 +75,7 @@ export default class CommentMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if(res.status === "Success"){
+                this.showEdit();
                 //tp.temp = res.comment;
                 //this.props.history.push("/edit/"+this.props.comment.key);
             }else{
@@ -80,32 +85,46 @@ export default class CommentMenu extends React.Component {
     }    
 
     hideMenu(){
-        this.setState({
-            clicked: false
-        })
+        this.setState({clicked: false})
     }
 
     showMenu(){
-        this.setState({
-            clicked: true
-        })
+        this.setState({clicked: true})
     }
+
+    hideEdit(){
+        this.setState({editClicked: false, writer: "", content: ""});
+    }
+
+    showEdit(){
+        this.setState({editClicked: true});
+    }
+
 
     render(){
         console.log("CommentMenu 렌더링");
-        return (<div className="commentMenu">{
-                this.state.clicked ? 
-                <div className="navi">
-                    {
-                        this.props.comment.deleted ? 
-                        <div className="icon-trash" onClick={this.removeComment}>Remove</div> :
-                        <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
-                    }
-                    <div className="icon-cancel" onClick={this.hideMenu}>Cancel</div>
-                </div>
+        return (<div className="commentMenu">
+                {this.state.clicked ? 
+                    <div className="navi">
+                        {
+                            this.props.comment.deleted ? 
+                            <div className="icon-trash" onClick={this.removeComment}>Remove</div> :
+                            <div>
+                                <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
+                                <div className="icon-pencil" onClick={this.editComment}>Edit</div>
+                            </div>
+                        }
+                        <div className="icon-cancel" onClick={this.hideMenu}>Cancel</div>
+                    </div>
                 :
-                <div className="navi" onClick={this.showMenu}>...</div>
-                }</div>
+                    <div className="navi" onClick={this.showMenu}>...</div>
+                }
+                
+                {this.state.editClicked &&        
+                    <CommentEdit hideEdit={this.hideEdit} hideMenu={this.hideMenu} comment={this.props.comment} />        
+                }
+                
+                </div>
         );
     }
 }

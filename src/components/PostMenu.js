@@ -30,7 +30,7 @@ export default class PostMenu extends React.Component {
             if (res.status === "Fail") {
                 alert(res.message);
             } else {
-                if(tp.view.App.state.data.posts.length > 0 )
+                if(tp.store.getState().data.posts.length > 0 )
                     tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                 //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
                 //this.props.history.push("/list");

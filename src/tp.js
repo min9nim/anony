@@ -42,7 +42,8 @@ tp.bodyScroll = function () {
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
     tp.api.getPosts({
-        idx: tp.view.App.state.data.posts.length,
+        //idx: tp.view.App.state.data.posts.length,
+        idx: tp.store.getState().data.posts.filter(p => p.origin === undefined).length,
         cnt: PAGEROWS,
         search: tp.store.getState().view.search,
         hideProgress: true,

@@ -10,10 +10,13 @@ module.exports = router;
 
 
 function maskComment(comment){
-    comment.uuid = undefined;
-    comment._id = undefined;
-    comment.__v = undefined;
-    return comment;
+    const masked = JSON.parse(JSON.stringify(comment));    // plain 객체 생성
+    // plain 객체를 사용하지 않으면 아래와 같이 _id 값들을 지울 수가 없음
+
+    masked.uuid = undefined;
+    masked._id = undefined;      // _id는 이렇게 지울 수가 없음, 지우면 새로운 값이 다시 세팅되게 됨
+    masked.__v = undefined;
+    return masked;
 }
 
 
@@ -145,7 +148,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
 };
 
 
-// key 에 해당하는 comment 를 삭제
+// key 에 해당하는 comment 를 제거
 get["/remove/:key/:uuid"] = (req, res) => {
     console.log(`/comments/remove/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
@@ -172,7 +175,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
 
 
 
-// key 에 해당하는 comment 를 조회
+// key 에 해당하는 포스트의 comment 를 조회
 get["/get/:key"] = (req, res) => {
     Comment.find({ postKey: req.params.key })
         .then(comment => {console.log(comment); return comment;})
@@ -182,16 +185,16 @@ get["/get/:key"] = (req, res) => {
 };
 
 
-// key에 해당하는 포스트의 작성자가 맞는지 확인
+// key에 해당하는 코멘트의 작성자가 맞는지 확인
 get["/auth/:key/:uuid"] = (req, res) => {
-    Comment.find({ key: req.params.key })
-        .then(comments => {
-            console.log(comments);
-            if(comments[0].uuid === req.params.uuid){
+    Comment.findOne({ key: req.params.key })
+        .then(comment => {
+            console.log(comment);
+            if(comment.uuid === req.params.uuid){
                 res.send({
                     status : "Success",
                     message: "Authorized successfully",
-                    comment: maskComment(comments[0])
+                    comment: maskComment(comment)
                  });
             }else{
                 res.send({ status : "Fail", message: "Not authorized" });
@@ -201,8 +204,36 @@ get["/auth/:key/:uuid"] = (req, res) => {
 }
 
 
+// 댓글 내용 수정
+post["/edit/:uuid"] = (req, res) => {
+    //console.log("received data = " + JSON.stringify(req.body, null, 2));
+    Comment.findOne({key: req.body.key}).then(comment => {
+        //console.log("#### 검색결과");
+        //console.log(JSON.stringify(comment, null, 2));
+
+        if(comment.uuid !== req.params.uuid){
+            res.send({ status : "Fail", message: "Not authorized" });
+            return;
+        }
+        
+        // 신규내용으로 업데이트
+        Object.assign(comment, req.body);
+
+        //console.log("#### 수정 후.. ");
+        //console.log(JSON.stringify(comment, null, 2));
+        comment.save().then(output => {
+            res.send({
+                status: "Success",
+                message: `comment@${req.body.key} updated.`,
+                output: maskComment(output)
+            });
+        }).catch(sendErr(res));
+    }).catch(sendErr(res));    
+}
+
 
 router.post("/add", post["/add"]);
+router.post("/edit/:uuid", post["/edit/:uuid"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
 router.get("/get/:key", get["/get/:key"]);
 router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
