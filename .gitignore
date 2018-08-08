@@ -1,7 +1,6 @@
 node_modules
 .vscode
-server/data.json
 npm-debug.log
-dbConfig.js
+# dbConfig.js       # 이 설정이 server/models/dbConfig.js 까지도 영향을 미치네
 server/key.pem
 server/cert.pem
