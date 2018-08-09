@@ -1,6 +1,6 @@
 node_modules
 .vscode
 npm-debug.log
-dbConfig.js
+#dbConfig.js
 server/key.pem
 server/cert.pem
