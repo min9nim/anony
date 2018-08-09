@@ -29,7 +29,6 @@ export default class Search extends React.Component {
         return (
             <div className="Search">
                 <div className="icon-search" onClick={this.showSearch}></div>
-                
                 {this.state.clicked &&        
                     <SearchBox hideSearch={this.hideSearch} context={this.props.context}/>        
                 }
