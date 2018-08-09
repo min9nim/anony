@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 //const dbConfig = process.env.PORT ? require("../../dbConfig") : require("../../../dbConfig");
-const dbConfig = require("./dbConfig");
+const dbConfig = require("../../../dbConfig");
 
 // 디비설정 
 const db = mongoose.connection;
