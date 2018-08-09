@@ -28,7 +28,7 @@ export default class Search extends React.Component {
         console.log("Search 렌더링");
         return (
             <div className="Search">
-                <div className="nav" onClick={this.showSearch}><img src="/img/search-btn.png"/></div>
+                <div className="icon-search" onClick={this.showSearch}></div>
                 
                 {this.state.clicked &&        
                     <SearchBox hideSearch={this.hideSearch} context={this.props.context}/>        
