@@ -96,7 +96,7 @@ export default class PostMenu extends React.Component {
     }
     
     postHistory(){
-        // 기존 세팅된 수정내역 초기화하고
+        // 기존 세팅된 히스토리 내역 초기화
         tp.store.dispatch(tp.action.removePost(p => p.origin === this.props.postKey));
         
         // 최신 상태로 새로 세팅
@@ -108,7 +108,6 @@ export default class PostMenu extends React.Component {
             }else{
                 alert("Have no changes");
                 this.cancelMenu();
-
             }
         })
     }

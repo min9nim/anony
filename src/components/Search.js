@@ -30,7 +30,7 @@ export default class Search extends React.Component {
             <div className="Search">
                 <div className="icon-search" onClick={this.showSearch}></div>
                 {this.state.clicked &&        
-                    <SearchBox hideSearch={this.hideSearch} context={this.props.context}/>        
+                    <SearchBox hideSearch={this.hideSearch} context={this.props.context} title="Search button"/>        
                 }
             </div>
         );
