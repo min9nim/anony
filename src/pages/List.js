@@ -12,7 +12,7 @@ export default class List extends React.Component {
         this.logoClick = this.logoClick.bind(this);
 
         this.state = {
-            posts: tp.store.getState().data.posts
+            posts: tp.store.getState().data.posts.filter(p => p.origin === undefined)
         }
 
         //if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
