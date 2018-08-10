@@ -89,6 +89,7 @@ export default class Edit extends React.Component {
       isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       viewCnt : this.state.viewCnt,
+      likeCnt : this.state.likeCnt,
       uuid : tp.user.uuid,
       context : this.state.context
     };

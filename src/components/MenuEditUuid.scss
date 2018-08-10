@@ -9,30 +9,44 @@
         opacity: 0.5;
         background-color: #808080;            
     }
-
     .inner_div {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-30%);
-            
-        .form {
-            margin-bottom: 7px;
-            #uuid {
-                width: 248px;
-                display: inline-block;
-                height: 40px;
-                font-size: 20px;
-            }      
-            
-            .form-control-feedback {
-                top: 3px;
-                left: 216px;
+        top: 28px;
+        max-width: 800px;
+        width: 100%;
+
+        .upper_grp{
+            .form {
+                margin-bottom: 7px;
+                #uuid {
+                    width: 248px;
+                    text-indent: 3px;
+                    height: 40px;
+                    font-size: 20px;
+                }    
+                
+                .form-control-feedback {
+                    top: 3px;
+                    left: 216px;
+                }
+            }
+
+            .refresh{
+                font-size: 15px;
+                font-weight: bold;
+                position: absolute;
+                display: inline;
+                color: #999;
+                top: 10px;
+                left: 200px;
+                cursor: pointer;
             }
         }
+
         .btn_grp{
             margin-top: 5px;
             text-align: center;
+            width: 245px;
             .cancelBtn {
                 margin-left: 3px;
             }          
