@@ -64,7 +64,7 @@ export default class Write extends React.Component {
 
   savePost() {
     if (this.state.content === "") {
-      alert("내용을 입력하세요");
+      alert("Content is empty");
       return;
     }
 
@@ -125,9 +125,9 @@ export default class Write extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
-                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown}>Markdown</Checkbox> 
-                <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate}>Private</Checkbox> 
-                <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment}>Comment</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown} title="If you check markdown, you can use markdown syntax">Markdown</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate} title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately.">Private</Checkbox> 
+                <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment} title="If you check comment, you can get comments from others">Comment</Checkbox> 
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
