@@ -24,7 +24,8 @@ export default class Post extends React.Component {
             date : "",
             deleted : false,
             uuid : "",
-            viewCnt: ""
+            viewCnt: "",
+            likeCnt: 0
         };
 
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
@@ -41,21 +42,9 @@ export default class Post extends React.Component {
         this.contextPath = this.props.context ? "/" + this.props.context : "" ;
         tp.view.Post = this;
 
-
-        // if(this.props.post){
-        //     // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-        //     this.state = this.props.post;
-        //     this.state.viewCnt++;
-        // }
-
-
-        // 이후 App 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
-            console.log("Post가 store 상태변경 노티 받음")
             this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
         });
-
-
 
         this.md = new Remarkable({
             html: true,
@@ -92,14 +81,11 @@ export default class Post extends React.Component {
             }
         });
           
- 
 
         //if(this.props.post){
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
             // 목록/수정 화면에서 넘어 들어온 경우
-            //const diff = Date.now() - this.props.post.date;
             const diff = Date.now() - this.state.date;
-            //console.log("# diff = " + diff);
 
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
@@ -149,28 +135,16 @@ export default class Post extends React.Component {
     
 
     componentDidMount(){
-        // 이거는 컴포넌트가 dom에 로드될 때 최초 한번밖에 호출이 안되네
         document.title = this.state.title;
     }
     
     
     render(){
         console.log("Post 렌더링");
-        // if(this.props.post){
-        //     // post 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
-        //     this.state = this.props.post;
-        //     this.state.viewCnt++;
-
-        //     // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
-        //     document.title = this.state.title;
-        // }else{
-        //     return <div/> ;
-        // }
 
         if(this.state.key){
             // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
             document.title = this.state.title;
-
         }else{
             return <div/> ;
         }
@@ -188,6 +162,7 @@ export default class Post extends React.Component {
 
 
         function highlight_nl2br(str){
+            // 마크다운의 코드서식 텍스트에는 검색결과 highlight표시 안하도록 예외 처리
             return str.split("```").map((v, i) => 
                 i%2 ? v : v.split("`").map((v,i) => i%2 ? v : nl2br(tp.highlight(v, search))).join("`")
             ).join("```");
