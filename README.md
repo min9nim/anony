@@ -1,22 +1,14 @@
-## Anony is an anonymous social network
-that will lead us to new freedom
+로그인/회원가입이 필요없는 100% 익명 공간에서 새로운 자유를 누려보세요
+
 <br>
+1. 누구나
+로그인 없이 지금 바로 참여하실 수 있습니다
 
-#### 1. Now you can post something in your mind.
-Login or signup does not require and collect any personal information from you
-<br>
+2. https://anony-212509.appspot.com/{새로운그룹명}
+으로 접근시 새로운 대화 공간이 자동으로 생성됩니다
 
-#### 2. When you write
-- If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately.
-- If you check markdown, you can use markdown syntax
-- If you check comment, you can get comments of others
-
-#### 3. https://anony-212509.appspot.com/ {new group name}
-New conversation space is created automatically when you access as above.  
-ex)  _https://anony-212509.appspot.com/newgroup_
-<br>
-
-#### 4. How authentication works
-- Specific token is issued automatically when you accessing this site and the token is saved as local cookie
-- The corresponding token string is displayed at the top of the list page. You can change the token by selecting ... after that token.
-- If you keep this token separately, you can keep the edit / delete permission for the article you wrote
+3. 인증방식
+    - 서비스 접속시 접속 단말에 특정 토큰을 발급합니다
+    - 해당 토큰값은 목록화면 위쪽에 표시됩니다.
+    - 토큰 앞에 메뉴버튼을 클릭하면 토큰값을 임의로 변경할 수 있습니다
+    - 토큰값을 따로 보관해 두면 내가 작성한 글에 대한 수정/삭제 권한을 유지해 갈 수 있습니다
