@@ -74,14 +74,17 @@ export default class Edit extends React.Component {
   }
 
   savePost() {
-    if (this.state.content === "") {
-      alert("내용을 입력하세요");
+    if (tp.$m.removeTag(this.state.content).trim() === "") {
+      alert("Content is empty");
       return;
     }
 
+
+    const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
+
     const afterPost = {
       key : this.state.key,
-      title : this.state.title === "" ? this.state.content.trim().substr(0,17) : this.state.title.trim(),
+      title : tagRemovedTitle === "" ? tp.$m.removeTag(this.state.content).trim().substr(0,17) : tagRemovedTitle,
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
