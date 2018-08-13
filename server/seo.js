@@ -66,8 +66,8 @@ seo.list = function(req, res, next){
                     try{
                         const output = buf.toString()
                             .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
-                            .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
-                            .replace("{{content}}", posts.map(p=>p.title + "\n" + $m.removeTag(p.content)).join("\n"));
+                            .replace("{{description}}", posts.map(p => $m.removeTag(p.title)).join("\n").substr(0,100))
+                            .replace("{{content}}", posts.map(p => $m.removeTag(p.title) + "\n" + $m.removeTag(p.content)).join("\n"));
                         console.log(output);
                         res.send(output);
                     }catch(e){
