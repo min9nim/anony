@@ -68,9 +68,14 @@ export default class Write extends React.Component {
       return;
     }
 
+
+    
+
+    const tagRemovedContent = tp.$m.removeTag(this.state.content);
+
     const newPost = {
       key : shortid.generate(),
-      title : this.state.title === "" ? this.state.content.trim().substr(0,22) : this.state.title.trim(),
+      title : this.state.title === "" ? tagRemovedContent.trim().substr(0,22) : tagRemovedContent.trim(),
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),

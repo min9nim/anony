@@ -436,3 +436,8 @@ $m._findIndex = $m._curryr(function(list, fn) {
         }
     }
 });
+
+
+$m.removeTag = function( html ) {
+    return html.replace(/(<([^>]+)>)/gi, "");
+}
