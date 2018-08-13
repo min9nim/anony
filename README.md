@@ -5,7 +5,7 @@ https://anony-212509.appspot.com
 1. 누구나
 로그인 없이 지금 바로 참여하실 수 있습니다
 
-2. https://anony-212509.appspot.com/{새로운그룹명}
+2. https://anony-212509.appspot.com/{새로운그룹명}  
 으로 접근시 새로운 대화 공간이 자동으로 생성됩니다
 
 3. 인증방식
