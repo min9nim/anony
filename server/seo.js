@@ -2,6 +2,7 @@
 const Post = require('./models/post');
 const fs = require('fs');
 const Remarkable = require("remarkable");
+const $m = require('../com/util');
 
 
 const filepath = (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') ?
@@ -28,10 +29,11 @@ seo.post = function(req, res){
                     res.send({ status : "Fail", message: err.message });
                 }else{
                     try{
+                        const tagRemovedContent = $m.removeTag(post.content);
                         const output = buf.toString()
                             .replace("{{title}}", post.title)
-                            .replace("{{description}}", post.content.substr(0,100))
-                            .replace("{{content}}", post.isMarkdown ? md.render(post.content) : post.content);
+                            .replace("{{description}}", tagRemovedContent.substr(0,100))
+                            .replace("{{content}}", post.isMarkdown ? md.render(tagRemovedContent) : tagRemovedContent);
                         console.log(output);
                         res.send(output);
                     }catch(e){
@@ -64,8 +66,8 @@ seo.list = function(req, res, next){
                     try{
                         const output = buf.toString()
                             .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
-                            .replace("{{description}}", posts.map(p=>p.title).join("\n").substr(0,100))
-                            .replace("{{content}}", posts.map(p=>p.title + "\n" + p.content).join("\n"));
+                            .replace("{{description}}", posts.map(p => $m.removeTag(p.title)).join("\n").substr(0,100))
+                            .replace("{{content}}", posts.map(p => $m.removeTag(p.title) + "\n" + $m.removeTag(p.content)).join("\n"));
                         console.log(output);
                         res.send(output);
                     }catch(e){

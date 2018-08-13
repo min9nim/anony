@@ -63,14 +63,21 @@ export default class Write extends React.Component {
   }
 
   savePost() {
-    if (this.state.content === "") {
+    if (tp.$m.removeTag(this.state.content).trim() === "") {
       alert("Content is empty");
       return;
     }
 
+
+    
+
+    const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
+    const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
+
+
     const newPost = {
       key : shortid.generate(),
-      title : this.state.title === "" ? this.state.content.trim().substr(0,22) : this.state.title.trim(),
+      title : tagRemovedTitle === "" ? tagRemovedContent.trim().substr(0,24) : tagRemovedTitle,
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),

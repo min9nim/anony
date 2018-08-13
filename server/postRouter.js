@@ -306,6 +306,8 @@ get["/auth/:key/:uuid"] = (req, res) => {
                     post: maskPost(post, req.params.uuid)
                  });
             }else{
+                console.log("Not authorized");
+                console.log(post);
                 res.send({
                     status : "Fail",
                     message: "Not authorized"
