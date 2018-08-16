@@ -52,7 +52,7 @@ module.exports = {
         new BundleAnalyzerPlugin({
             analyzerMode: "static",
             reportFilename: "docs/size_prod.html",
-            defaultSizes: "gzip",
+            defaultSizes: "parsed",
             openAnalyzer: false,
             generateStatsFile: true,
             statsFilename: "docs/stats_prod.json",
