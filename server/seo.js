@@ -48,7 +48,7 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html)$/)){
+    if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif)$/)){
         // 루트에서 .txt 나 .js 파일을 요청한 경우
         next();
         return;

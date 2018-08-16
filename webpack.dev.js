@@ -1,5 +1,6 @@
 const webpack = require('webpack');
-//console.log("webpack.dev.js called..");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 
 module.exports = {
     mode: 'development',
@@ -77,5 +78,13 @@ module.exports = {
 
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            reportFilename: "docs/size_dev.html",
+            defaultSizes: "gzip",
+            openAnalyzer: true,
+            generateStatsFile: true,
+            statsFilename: "docs/stats_dev.json",
+        })
     ]
 };

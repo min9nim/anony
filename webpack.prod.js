@@ -1,5 +1,6 @@
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 //console.log("webpack.prod.js called");
 
@@ -48,6 +49,14 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: "static",
+            reportFilename: "docs/size_prod.html",
+            defaultSizes: "gzip",
+            openAnalyzer: false,
+            generateStatsFile: true,
+            statsFilename: "docs/stats_prod.json",
+        })
     ],
 
     optimization: {

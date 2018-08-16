@@ -17,5 +17,11 @@ https://anony-212509.appspot.com
     
 <br>
 
-#### 컴포넌트간 참조관계
+#### 리액트 컴포넌트간 참조관계
 <img src="https://anony-212509.appspot.com/docs/dependency.svg" />
+
+<br>
+
+#### 웹팩 번들파일 size 분석
+<img src="https://anony-212509.appspot.com/docs/size_thumb.png" />
+[자세히 보기](https://anony-212509.appspot.com/docs/size_prod.html)
