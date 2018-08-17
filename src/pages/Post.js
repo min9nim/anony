@@ -192,9 +192,7 @@ export default class Post extends React.Component {
                 {/* <div className="context">{this.props.context || "Anony"}</div> */}
                 <div className="post">
                     <div>
-                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}
-                            dangerouslySetInnerHTML={{__html: title}}>
-                        </div>
+                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}>{title}</div>
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
