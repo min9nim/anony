@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 //import {List, Write, Post, Edit, PostHistory } from "./pages";
 //import List from "./pages/List";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch } from "react-router-dom";
 //import moment from "moment";
 import shortcut from "./ext/shortcut";
 import {tp} from "./tp.js";
-import {createStore} from 'redux';
+import {createStore} from "redux";
 import {reducer} from "./redux/reducer";
 //import {R} from "ramda";
 const R = require("ramda");

@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React from "react";
+import { Button } from "react-bootstrap";
 import {Excerpt, Menu, Search} from "../components";
 import {tp} from "../tp.js";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "./List.scss";
 
 export default class List extends React.Component {

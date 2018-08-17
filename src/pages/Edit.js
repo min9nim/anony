@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   FormGroup,
   Checkbox,
   FormControl,
   Button
-} from 'react-bootstrap';
+} from "react-bootstrap";
 import "./Edit.scss";
 
 export default class Edit extends React.Component {

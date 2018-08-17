@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import {PostMenu, PostMeta} from "../components";
 import moment from "moment";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "./Excerpt.scss";
 //import R from "ramda";
 const R = require("ramda");

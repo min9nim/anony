@@ -5,7 +5,7 @@ import {api} from "./restful/api";
 import shortid from "shortid";
 import $m from "../com/util";
 import nprogress from "nprogress";
-import React from 'react';
+import React from "react";
 
 
 const PAGEROWS = 10;

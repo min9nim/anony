@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import "../node_modules/nprogress/nprogress.css"; // css를 따로 땡겨야 하는게 상당히 거슬리네 거 참.. 허허..

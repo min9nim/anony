@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import shortid from "shortid";
 import {tp} from "../tp";
 import {
@@ -6,7 +6,7 @@ import {
   Checkbox,
   FormControl,
   Button
-} from 'react-bootstrap';
+} from "react-bootstrap";
 import "./Write.scss";
 
 export default class Write extends React.Component {

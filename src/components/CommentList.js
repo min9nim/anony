@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {Comment} from "../components";
 import {tp} from "../tp.js";
 import "./CommentList.scss";

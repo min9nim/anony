@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
 import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 const R = require("ramda");
 import moment from "moment";
-import {Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Remarkable from "remarkable";
 //import hljs from 'highlight.js';
 import shortcut from "../ext/shortcut";

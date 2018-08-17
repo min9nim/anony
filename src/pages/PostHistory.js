@@ -1,10 +1,10 @@
 console.log("PostHistory.js start");
 
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React from "react";
+import { Button } from "react-bootstrap";
 import Excerpt from "../components/Excerpt";
 import {tp} from "../tp.js";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "./PostHistory.scss";
 
 
