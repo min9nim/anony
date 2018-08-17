@@ -23,6 +23,7 @@ export let tp = {
   temp : undefined,   // 컴포넌트간 정보 전달을 위한 임시 저장 공간
   $m,                  // 기본 유틸함수
   hljs: undefined,     // 마크다운 코드 하이라이트처리(필요할 때 동적으로 로딩함)
+  scrollTop: 0,        // list 화면에서 현재 스크롤 위치
 };
 
 
@@ -37,6 +38,10 @@ tp.bodyScroll = function () {
   const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
   //현재 화면 높이 값
   const clientHeight = document.documentElement.clientHeight;
+
+  // 현재 스크롤 값을 전역변수에 저장
+  tp.scrollTop = scrollTop;
+
 
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
     nprogress.start();

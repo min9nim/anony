@@ -40,6 +40,7 @@ export default class List extends React.Component {
 
     componentDidMount(){
         document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+        tp.$m.scrollTo(0, tp.scrollTop);        // 이전 스크롤 위치로 복원
     }
 
     logoClick(){
