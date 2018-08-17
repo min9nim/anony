@@ -155,7 +155,7 @@ tp.asyncComponent = function(getComponent, compname) {
     componentWillMount() {
       if (!this.state.Component) {
         getComponent().then(m => {
-          console.log("@@@@@ 동적로딩이요~");
+          //console.log("@@@@@ 동적로딩이요~");
           //AsyncComponent.Component = m.default;
           tp.asyncCache[compname] = m.default;
           this.setState({ Component : m.default })
