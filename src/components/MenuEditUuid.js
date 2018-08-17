@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
 import shortid from "shortid";
 import "./MenuEditUuid.scss";
@@ -7,7 +7,7 @@ import {
     ControlLabel,
     FormControl,
     Button
-  } from 'react-bootstrap';
+  } from "react-bootstrap";
 
 export default class MenuEditUuid extends React.Component {
     constructor(props) {

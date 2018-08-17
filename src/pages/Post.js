@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
 import {PostMenu, CommentWrite, CommentList, PostMeta} from "../components";
 const R = require("ramda");
 import moment from "moment";
-import {Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Button} from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Remarkable from "remarkable";
 //import hljs from 'highlight.js';
 import shortcut from "../ext/shortcut";
@@ -96,8 +96,9 @@ export default class Post extends React.Component {
                     tp.api.viewPost(this.props.postKey).then(res => {
                         if(res.status == "Success"){
                             // 일반post 인 경우
-                            // tp.store.dispatch(tp.action.viewPost(this.props.postKey))
+                            tp.store.dispatch(tp.action.viewPost(this.props.postKey))
                             // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
+                            // 위에 주석처리하면 목록에서 글보기화면 넘어올 때 viewCnt 가 올라가지 않아서 다시 주석해제 함, 18.08.17
                         }else{
                             // 수정내역post 인 경우
                         }
@@ -192,6 +193,7 @@ export default class Post extends React.Component {
                 {/* <div className="context">{this.props.context || "Anony"}</div> */}
                 <div className="post">
                     <div>
+                        {/*제목에서 검색결과 하이라이트 표시를 하려면 html태그 사용이 필요하다 */}
                         <div className={this.state.deleted ? "title h4 deleted" : "title h4"}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>

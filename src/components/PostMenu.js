@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
 import "./PostMenu.scss";
 

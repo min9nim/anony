@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
     FormGroup,
     ControlLabel,
     FormControl,
     Button
-} from 'react-bootstrap';  
+} from "react-bootstrap";  
 import shortid from "shortid";
 import "./CommentWrite.scss";
 

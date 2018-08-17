@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
+import React from "react";
+import { Button } from "react-bootstrap";
 import {Excerpt, Menu, Search} from "../components";
 import {tp} from "../tp.js";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "./List.scss";
 
 export default class List extends React.Component {
@@ -40,6 +40,7 @@ export default class List extends React.Component {
 
     componentDidMount(){
         document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+        tp.$m.scrollTo(0, tp.scrollTop);        // 이전 스크롤 위치로 복원
     }
 
     logoClick(){

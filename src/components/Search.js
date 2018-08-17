@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import shortcut from "../ext/shortcut";
 import {SearchBox} from "../components";
 import "./Search.scss";

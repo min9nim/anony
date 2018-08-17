@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {tp} from "../tp";
 import "./CommentEdit.scss";
 import {
@@ -6,7 +6,7 @@ import {
     ControlLabel,
     FormControl,
     Button
-  } from 'react-bootstrap';
+  } from "react-bootstrap";
 
 export default class CommentEdit extends React.Component {
     constructor(props) {
