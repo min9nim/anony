@@ -54,7 +54,7 @@ module.exports = {
             reportFilename: "docs/size_prod.html",
             defaultSizes: "parsed",
             openAnalyzer: false,
-            generateStatsFile: true,
+            generateStatsFile: false,
             statsFilename: "docs/stats_prod.json",
         })
     ],

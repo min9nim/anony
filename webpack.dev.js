@@ -82,8 +82,8 @@ module.exports = {
             analyzerMode: "static",
             reportFilename: "docs/size_dev.html",
             defaultSizes: "parsed",
-            openAnalyzer: true,
-            generateStatsFile: true,
+            openAnalyzer: false,
+            generateStatsFile: false,
             statsFilename: "docs/stats_dev.json",
         })
     ]
