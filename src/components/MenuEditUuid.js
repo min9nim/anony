@@ -16,6 +16,7 @@ export default class MenuEditUuid extends React.Component {
         this.hideMenu = this.props.hideMenu;
         this.confirm = this.confirm.bind(this);
         this.refreshUuid = this.refreshUuid.bind(this);
+        this.deleteUuid = this.deleteUuid.bind(this);
         this.cancel = this.cancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
@@ -45,6 +46,9 @@ export default class MenuEditUuid extends React.Component {
         this.setState({uuid: shortid.generate()});
     }
 
+    deleteUuid(){
+        this.setState({uuid: ""});
+    }
 
     getValidationState() {
         const length = this.state.uuid.length;
@@ -77,7 +81,8 @@ export default class MenuEditUuid extends React.Component {
                                     placeholder = "uuid.." />
                             <FormControl.Feedback />
                         </FormGroup>
-                        <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Gererage random uuid"/>
+                        <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                        <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
                     </div>
                     
                     <div className="btn_grp">
