@@ -1,5 +1,5 @@
 #### 서비스설명
-로그인/회원가입이 필요없는 100% 익명 SNS공간
+로그인/회원가입이 필요없는 100% 익명 SNS공간  
 https://anony-212509.appspot.com
 
 1. 누구나
@@ -15,6 +15,25 @@ https://anony-212509.appspot.com
     - 토큰값을 따로 보관해 두면 내가 작성한 글에 대한 수정/삭제 권한을 유지해 갈 수 있습니다
     
     
+<br>
+
+#### 폴더구조
+경로 | 설명
+-- | --
+/com | 서버&클라이언트 공통 모듈
+/public | 실제 서비스에 사용되는 static 리소스
+/public/css | 폰텔로 css 파일
+/public/docs | 설계문서
+/public/font | 폰텔로 웹폰트
+/server | 노드서버 소스파일
+/src | 클라이언트 소스파일
+/src/pages | react-router로 분기되는 5가지 화면(List, Write, Edit, Post, PostHistory)
+/src/components | 각 화면에서 사용되는 리액트컴포넌트
+/src/css | 공통css
+/src/ext | 외부js 라이브러리
+/src/redux | 상태관리 모듈
+/src/restful | RESTful 함수
+
 <br>
 
 #### 리액트 컴포넌트간 참조관계
