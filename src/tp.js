@@ -29,18 +29,22 @@ export let tp = {
 
 
 tp.bodyScroll = function () {
-  if(tp.isScrollLast) return;
+  // 목록화면이 아니면 리턴  
   if(tp.thispage !== "List") return;
 
-  //현재문서의 높이
-  const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-  //현재 스크롤탑의 값
+  // 현재 목록화면 scrollTop 의 값
   const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-  //현재 화면 높이 값
-  const clientHeight = document.documentElement.clientHeight;
 
   // 현재 스크롤 값을 전역변수에 저장
   tp.scrollTop = scrollTop;
+
+  if(tp.isScrollLast) return;
+  // 아직 모든 글이 로드된 상태가 아니라면 스크롤이 아래까지 내려왔을 때 다음 글 10개 로드
+
+  //현재문서의 높이
+  const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+  //현재 화면 높이 값
+  const clientHeight = document.documentElement.clientHeight;
 
 
   if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
