@@ -77,7 +77,7 @@ export default class Write extends React.Component {
 
     const newPost = {
       key : shortid.generate(),
-      title : tagRemovedTitle === "" ? tagRemovedContent.trim().substr(0,24) : tagRemovedTitle,
+      title : tagRemovedTitle === "" ? tagRemovedContent.substr(0,20) : tagRemovedTitle,
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),

@@ -80,11 +80,12 @@ export default class Edit extends React.Component {
     }
 
 
+    const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
     const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
 
     const afterPost = {
       key : this.state.key,
-      title : tagRemovedTitle === "" ? tp.$m.removeTag(this.state.content).trim().substr(0,17) : tagRemovedTitle,
+      title : tagRemovedTitle === "" ? tagRemovedContent.trim().substr(0,20) : tagRemovedTitle,
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
