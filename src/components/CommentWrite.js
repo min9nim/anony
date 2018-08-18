@@ -44,7 +44,7 @@ export default class Comment extends React.Component {
 
     saveComment(){
         if (this.state.content === "") {
-            alert("No input");
+            tp.alert("No input");
             return;
           }
       

@@ -1,6 +1,7 @@
 import React from "react";
 //import {List, Write, Post, Edit, PostHistory } from "./pages";
 //import List from "./pages/List";
+import {AlertDismissable} from "./components";
 import { Route, Switch } from "react-router-dom";
 //import moment from "moment";
 import shortcut from "./ext/shortcut";
@@ -37,6 +38,7 @@ export default class App extends React.Component {
     //     comments: []     // 전체 댓글
     //   }
     // };
+
 
     tp.view.App = this;
 
@@ -130,6 +132,7 @@ export default class App extends React.Component {
 
           <Route path="/" render={renderList} />
         </Switch>
+        <AlertDismissable/>
       </div>
     );
   }

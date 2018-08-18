@@ -75,7 +75,7 @@ tp.checkStatus = function(res){
     return res;
   }else{
     // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-    alert(res.message);
+    tp.alert(res.message);
     throw Error(res.message);
   }
 }
@@ -180,6 +180,14 @@ tp.asyncComponent = function(getComponent, compname) {
       }
       return <div><i className="icon-spin3 animate-spin"></i> Loading.. [{compname}]</div>
     }
+  }
+}
+
+tp.alert = function({message, style="warning", width="200px"}){
+  if(typeof arguments[0] === "string"){
+    tp.view.AlertDismissable.handleShow({message: arguments[0]});  
+  }else{
+    tp.view.AlertDismissable.handleShow({message, style, width});
   }
 }
 

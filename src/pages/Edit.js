@@ -22,7 +22,7 @@ export default class Edit extends React.Component {
       this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
       this.state.uuid = tp.user.uuid;
       if(this.state.origin !== undefined){
-        alert("invalid access!");
+        tp.alert("invalid access!");
         history.back();
       }
     }else{
@@ -75,7 +75,7 @@ export default class Edit extends React.Component {
 
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
-      alert("Content is empty");
+      tp.alert("Content is empty");
       return;
     }
 
@@ -100,7 +100,7 @@ export default class Edit extends React.Component {
 
     tp.api.updatePost(afterPost).then(res => {
       if(res.status === "Fail"){
-        alert(JSON.stringify(res, null, 2));
+        tp.alert(JSON.stringify(res, null, 2));
         return;
       }
       console.log("# " + res.message);

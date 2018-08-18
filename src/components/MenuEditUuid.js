@@ -28,12 +28,13 @@ export default class MenuEditUuid extends React.Component {
 
     confirm(){
         if(this.getValidationState() !== "success"){
-            alert("invalid uuid");
+            tp.alert("invalid uuid");
             return;
         }
         tp.setUser({uuid: this.state.uuid});
         tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
-        alert("uuid changed");
+        //alert("uuid changed");
+        tp.alert("uuid changed")
         this.hideMenu();
     }
 
@@ -48,6 +49,7 @@ export default class MenuEditUuid extends React.Component {
 
     deleteUuid(){
         this.setState({uuid: ""});
+        this.uuidinput.focus();
     }
 
     getValidationState() {
@@ -76,6 +78,7 @@ export default class MenuEditUuid extends React.Component {
                             {/* <ControlLabel> uuid </ControlLabel> */}
                             <FormControl type = "text"
                                     autoFocus
+                                    inputRef={ref => { this.uuidinput = ref; }}
                                     value = {this.state.uuid}
                                     onChange = {this.handleChange}
                                     placeholder = "uuid.." />

@@ -25,7 +25,7 @@ export default class SearchBox extends React.Component {
     search(){
         const search = this.state.word.trim();
         if(search === ""){
-            alert("input keyword");
+            tp.alert("input keyword");
             return;
         }
 

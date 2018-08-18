@@ -28,7 +28,7 @@ export default class PostMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if (res.status === "Fail") {
-                alert(res.message);
+                tp.alert(res.message);
             } else {
                 if(tp.store.getState().data.posts.length > 0 )
                     tp.store.dispatch(tp.action.deletePost(this.props.postKey));
@@ -48,7 +48,7 @@ export default class PostMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if (res.status === "Fail") {
-                alert(res.message);
+                tp.alert(res.message);
                 this.cancelMenu();
             } else {
                 //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
@@ -69,7 +69,7 @@ export default class PostMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if (res.status === "Fail") {
-                alert(JSON.stringify(res, null, 2));
+                tp.alert(JSON.stringify(res, null, 2));
             } else {
                 //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                 tp.store.dispatch(tp.action.restorePost(this.props.postKey));
@@ -89,7 +89,7 @@ export default class PostMenu extends React.Component {
             if(res.status === "Success"){
                 this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
-                alert(res.message);
+                tp.alert(res.message);
                 this.cancelMenu();
             }
         })
@@ -106,7 +106,7 @@ export default class PostMenu extends React.Component {
                 tp.store.dispatch(tp.action.addPosts(res.posts))
                 this.props.history.push(this.contextPath + "/postHistory/" + this.props.postKey);
             }else{
-                alert("Have no changes");
+                tp.alert("Have no changes");
                 this.cancelMenu();
             }
         })

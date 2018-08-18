@@ -23,7 +23,7 @@ export default class PostHistory extends React.Component {
                     if(res.posts.length > 0){
                         tp.store.dispatch(tp.action.addPosts(res.posts));
                     }else{
-                        alert("Have no changes");
+                        tp.alert("Have no changes");
                     }
                 })
         }

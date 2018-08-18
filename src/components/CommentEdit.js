@@ -24,7 +24,7 @@ export default class CommentEdit extends React.Component {
     save(){
         const content = this.state.content.trim();
         if(content === ""){
-            alert("No content writed");
+            tp.alert("No content writed");
             return;
         }
 
