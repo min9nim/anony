@@ -34,7 +34,10 @@ export default class CommentMenu extends React.Component {
             }).then(res => {
 
                 if (res.status === "Fail") {
-                    tp.alert(res.message);
+                    tp.alert({
+                        message: res.message,
+                        style: "danger",
+                    });
                 } else {
                     tp.store.dispatch(tp.action.deleteComment(this.props.comment.key));
                 }
@@ -55,7 +58,10 @@ export default class CommentMenu extends React.Component {
             uuid: tp.user.uuid
         }).then(res => {
             if (res.status === "Fail") {
-                tp.alert(res.message);
+                tp.alert({
+                    message: res.message,
+                    style: "danger",
+                });            
             } else {
                 tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
 
@@ -79,7 +85,11 @@ export default class CommentMenu extends React.Component {
                 //tp.temp = res.comment;
                 //this.props.history.push("/edit/"+this.props.comment.key);
             }else{
-                tp.alert(res.message);
+                tp.alert({
+                    message: res.message,
+                    style: "danger",
+                });
+
             }
         })
     }    

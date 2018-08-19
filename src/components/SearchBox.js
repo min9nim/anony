@@ -25,7 +25,10 @@ export default class SearchBox extends React.Component {
     search(){
         const search = this.state.word.trim();
         if(search === ""){
-            tp.alert("input keyword");
+            tp.alert({
+                message: "Keyword is empty", 
+                style: "warning",
+            });
             return;
         }
 

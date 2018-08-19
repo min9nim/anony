@@ -3,43 +3,58 @@ import {
     Alert,
     Button
 } from "react-bootstrap";
-import "./AlertDismissable.scss";
+import "./Confirm.scss";
 
 
-export default class AlertDismissable extends React.Component {
+export default class Confirm extends React.Component {
     constructor(props, context) {
       super(props, context);
   
       this.handleDismiss = this.handleDismiss.bind(this);
       this.handleShow = this.handleShow.bind(this);
+      this.handleYes = this.handleYes.bind(this);
+      this.handleNo = this.handleNo.bind(this);
   
       this.state = {
         show: false,
-        style: "warning",   // success, warning, danger, info
+        style: "info",   // success, warning, danger, info
         message: "",
         width: "200px",
       };
 
-
-      tp.view.AlertDismissable = this;
+      tp.view.Confirm = this;
     }
   
     handleDismiss() {
       this.setState({ show: false, message: "" });
-      if(typeof this.onClose === "function"){
-        this.onClose();
-        this.onClose = undefined;
+    }
+
+    handleYes(){
+      this.handleDismiss();
+      debugger;
+      if(typeof this.onYes === "function"){
+        this.onYes();
+        this.onYes = undefined;
+      }
+    }
+
+    handleNo(){
+      this.handleDismiss();
+      if(typeof this.onNo === "function"){
+        this.onNo();
+        this.onNo = undefined;
       }
     }
   
-    handleShow({message, style="warning", width="200px", onClose}) {
+    handleShow({message, style="info", width="200px", onYes, onNo}) {
       this.setState({
         show: true,
         message,
         style,
         width,
       });
-      this.onClose = onClose;
+      this.onYes = onYes;
+      this.onNo = onNo;
     }
   
     render() {
@@ -52,9 +67,9 @@ export default class AlertDismissable extends React.Component {
                 {this.state.message}
               </p>
               <p>
-                {/* <Button bsStyle="danger">Take this action</Button>
-                <span> or </span> */}
-                <Button bsStyle={this.state.style} onClick={this.handleDismiss}>Close</Button>
+                <Button bsStyle="info" onClick={this.handleYes}>YES</Button>
+                <span> or </span>
+                <Button bsStyle="warning" onClick={this.handleNo}>NO</Button>
               </p>
             </Alert>
           </div>

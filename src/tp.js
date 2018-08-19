@@ -183,12 +183,28 @@ tp.asyncComponent = function(getComponent, compname) {
   }
 }
 
-tp.alert = function({message, style="warning", width="200px"}){
+tp.alert = function({message, style, width, onClose}){
   if(typeof arguments[0] === "string"){
     tp.view.AlertDismissable.handleShow({message: arguments[0]});  
   }else{
-    tp.view.AlertDismissable.handleShow({message, style, width});
+    tp.view.AlertDismissable.handleShow({
+      message,
+      style,
+      width,
+      onClose
+    });
   }
+}
+
+
+tp.confirm = function({message, style, width, onYes, onNo}){
+  tp.view.Confirm.handleShow({
+    message,
+    style,
+    width,
+    onYes,
+    onNo
+  })
 }
 
 

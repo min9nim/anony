@@ -28,13 +28,16 @@ export default class MenuEditUuid extends React.Component {
 
     confirm(){
         if(this.getValidationState() !== "success"){
-            tp.alert("invalid uuid");
+            tp.alert({message: "Invalid uuid", style: "warning"});
             return;
         }
         tp.setUser({uuid: this.state.uuid});
         tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
         //alert("uuid changed");
-        tp.alert("uuid changed")
+        tp.alert({
+            message: "uuid changed", 
+            style: "info", 
+        });
         this.hideMenu();
     }
 
