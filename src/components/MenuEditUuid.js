@@ -16,6 +16,7 @@ export default class MenuEditUuid extends React.Component {
         this.hideMenu = this.props.hideMenu;
         this.confirm = this.confirm.bind(this);
         this.refreshUuid = this.refreshUuid.bind(this);
+        this.deleteUuid = this.deleteUuid.bind(this);
         this.cancel = this.cancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
         
@@ -27,12 +28,17 @@ export default class MenuEditUuid extends React.Component {
 
     confirm(){
         if(this.getValidationState() !== "success"){
-            alert("invalid uuid");
+            tp.alert({message: "Invalid uuid", style: "warning", width: "152px"});
             return;
         }
         tp.setUser({uuid: this.state.uuid});
         tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
-        alert("uuid changed");
+        //alert("uuid changed");
+        tp.alert({
+            message: "uuid changed", 
+            style: "info", 
+            width: "152px"
+        });
         this.hideMenu();
     }
 
@@ -45,6 +51,10 @@ export default class MenuEditUuid extends React.Component {
         this.setState({uuid: shortid.generate()});
     }
 
+    deleteUuid(){
+        this.setState({uuid: ""});
+        this.uuidinput.focus();
+    }
 
     getValidationState() {
         const length = this.state.uuid.length;
@@ -72,12 +82,14 @@ export default class MenuEditUuid extends React.Component {
                             {/* <ControlLabel> uuid </ControlLabel> */}
                             <FormControl type = "text"
                                     autoFocus
+                                    inputRef={ref => { this.uuidinput = ref; }}
                                     value = {this.state.uuid}
                                     onChange = {this.handleChange}
                                     placeholder = "uuid.." />
                             <FormControl.Feedback />
                         </FormGroup>
-                        <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Gererage random uuid"/>
+                        <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                        <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
                     </div>
                     
                     <div className="btn_grp">

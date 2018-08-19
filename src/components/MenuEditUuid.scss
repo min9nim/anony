@@ -27,10 +27,21 @@
                 
                 .form-control-feedback {
                     top: 3px;
-                    left: 188px;
+                    left: 170px;
                 }
             }
 
+            .delete{
+                font-size: 15px;
+                font-weight: bold;
+                position: absolute;
+                display: inline;
+                color: #999;
+                top: 10px;
+                left: 198px;
+                cursor: pointer;
+            }
+            
             .refresh{
                 font-size: 15px;
                 font-weight: bold;
@@ -41,6 +52,8 @@
                 left: 220px;
                 cursor: pointer;
             }
+
+
         }
 
         .btn_grp{

@@ -33,7 +33,10 @@ export default class Comment extends React.Component {
                 uuid: tp.user.uuid
             }).then(res => {
                 if (res.status === "Fail") {
-                    alert(res.message);
+                    tp.alert({
+                        message: res.message,
+                        style: "danger"
+                    });
                 } else {
                     tp.store && tp.store.dispatch(tp.action.deleteComment(this.state.key));
                     //history.back();
@@ -58,7 +61,8 @@ export default class Comment extends React.Component {
                     <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD dd HH:mm')}</div>
                     <CommentMenu comment={this.state}/>
                 </div>
-                <div className={this.state.deleted ? "content deleted" : "content"}>{html}</div>
+                {/*댓글에서 새줄표시 <br> 처리하기 위해 html을 사용할 수 있어야 함*/}
+                <div className={this.state.deleted ? "content deleted" : "content"}  dangerouslySetInnerHTML={{__html: html}} />
             </div>
         );
     }

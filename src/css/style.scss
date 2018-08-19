@@ -37,29 +37,29 @@ input, textarea {
 
 .btn {
     padding: 5px 6px;
+    &:active {
+        // 버튼 클릭효과
+        transform : rotate(10deg);
+        -webkit-transform : rotate(10deg);
+    }
 }
 
-// 버튼 클릭효과
-.btn:active {
-    transform : rotate(10deg);
-    -webkit-transform : rotate(10deg);
-}
-
+// 폰텔로 아이콘 애니메이션 효과 지정
 div[class^="icon-"] {
     transition: all 0.1s ease-in-out;
+    &:hover {
+        // fontello 아이콘 hover
+        transform : scale(1.2);
+        -webkit-transform : scale(1.2);
+    }
+    &:active {
+        // fontello 아이콘 버튼 클릭효과
+        transform : rotate(10deg);
+        -webkit-transform : rotate(10deg);
+    }
 }
 
-// fontello 아이콘 hover
-div[class^="icon-"]:hover {
-    transform : scale(1.2);
-    -webkit-transform : scale(1.2);
-}
 
-// fontello 아이콘 클릭효과
-div[class^="icon-"]:active {
-    transform : rotate(10deg);
-    -webkit-transform : rotate(10deg);
-}
 
 
 

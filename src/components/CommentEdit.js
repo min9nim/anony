@@ -24,7 +24,7 @@ export default class CommentEdit extends React.Component {
     save(){
         const content = this.state.content.trim();
         if(content === ""){
-            alert("No content writed");
+            tp.alert("Comment is empty");
             return;
         }
 
@@ -68,7 +68,7 @@ export default class CommentEdit extends React.Component {
                                 value = {this.state.content}
                                 onChange = {this.handleChange}
                                 componentClass = "textarea"
-                                placeholder = "content.." />
+                                placeholder = "comment.." />
                     </FormGroup>
 
                     <div className="btn_grp">

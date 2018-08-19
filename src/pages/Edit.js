@@ -17,14 +17,17 @@ export default class Edit extends React.Component {
     
     //if(this.props.post){
     if(tp.store.getState().data.posts.length > 0){
-      // 글보기화면이나 목록화면에서 넘어 들어온 경우
-      //this.state = this.props.post;
-      this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
-      this.state.uuid = tp.user.uuid;
-      if(this.state.origin !== undefined){
-        alert("invalid access!");
-        history.back();
-      }
+        // 글보기화면이나 목록화면에서 넘어 들어온 경우
+        //this.state = this.props.post;
+        this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
+        this.state.uuid = tp.user.uuid;
+        if(this.state.origin !== undefined){
+          tp.alert({
+            message: "Invalid access!",
+            style: "danger",
+          });
+          history.back();
+        }
     }else{
       // URL로 직접 들어온 경우
       tp.api.getPost(this.props.postKey).then(res => {
@@ -75,7 +78,7 @@ export default class Edit extends React.Component {
 
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
-      alert("Content is empty");
+      tp.alert("Content is empty");
       return;
     }
 
@@ -100,7 +103,12 @@ export default class Edit extends React.Component {
 
     tp.api.updatePost(afterPost).then(res => {
       if(res.status === "Fail"){
-        alert(JSON.stringify(res, null, 2));
+        //tp.alert(JSON.stringify(res, null, 2));
+        tp.alert({
+          message: res.message,
+          style: "danger",
+        });
+
         return;
       }
       console.log("# " + res.message);

@@ -20,7 +20,6 @@ src/
 express.log
 LICENSE
 nohup.out
-package*
 README.md
 webpack.dev.js
 webpack.prod.js

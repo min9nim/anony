@@ -141,7 +141,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
                     });
                 });
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -167,7 +167,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
                     });
                 })
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -197,7 +197,7 @@ get["/auth/:key/:uuid"] = (req, res) => {
                     comment: maskComment(comment)
                  });
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -212,7 +212,7 @@ post["/edit/:uuid"] = (req, res) => {
         //console.log(JSON.stringify(comment, null, 2));
 
         if(comment.uuid !== req.params.uuid){
-            res.send({ status : "Fail", message: "Not authorized" });
+            res.send({ status : "Fail", message: "Not authorized"});
             return;
         }
         
@@ -232,6 +232,30 @@ post["/edit/:uuid"] = (req, res) => {
 }
 
 
+// delete 된 댓글을 복원
+get["/restore/:key/:uuid"] = (req, res) => {
+    Comment.findOne({ key: req.params.key })
+        .then(comment => {
+            if(comment.uuid === req.params.uuid){
+                comment.deleted = false;
+                comment.save().then(output => {
+                    console.log(output);
+                    res.send({
+                        status: "Success",
+                        message: `comment(${req.params.key}) is restored`,
+                        output: maskComment(output)
+                    });                    
+                });
+
+            }else{
+                res.send({ status : "Fail", message: "Not authorized"});
+            }
+        })
+        .catch(sendErr(res));
+}
+
+
+
 router.post("/add", post["/add"]);
 router.post("/edit/:uuid", post["/edit/:uuid"]);
 router.get("/auth/:key/:uuid", get["/auth/:key/:uuid"]);
@@ -239,5 +263,8 @@ router.get("/get/:key", get["/get/:key"]);
 router.get("/remove/:key/:uuid", get["/remove/:key/:uuid"]);
 router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
 router.get("/get/:idx/:cnt", get["/get/:idx/:cnt"]);
+router.get("/restore/:key/:uuid", get["/restore/:key/:uuid"]);
+
+
 
 

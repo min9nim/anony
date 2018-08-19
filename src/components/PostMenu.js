@@ -22,63 +22,83 @@ export default class PostMenu extends React.Component {
     }
 
     deletePost(){
-        if(!confirm("Delete this?")) return;
-        tp.api.deletePost({
-            key: this.props.postKey,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if (res.status === "Fail") {
-                alert(res.message);
-            } else {
-                if(tp.store.getState().data.posts.length > 0 )
-                    tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                //this.props.history.push("/list");
-                //tp.view.Post.setState({deleted : true});
+        //if(!confirm("Delete this?")) return;
+        tp.confirm({
+            message: "Delete this?",
+            width: "inherit",
+            onYes : () => {
+                tp.api.deletePost({
+                    key: this.props.postKey,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert({
+                            message: res.message,
+                            style: "danger",
+                        });
+                    } else {
+                        if(tp.store.getState().data.posts.length > 0 )
+                            tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                        //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                        //this.props.history.push("/list");
+                        //tp.view.Post.setState({deleted : true});
+                    }
+                    this.cancelMenu();
+                })
             }
-            this.cancelMenu();
-        })
+        });
     }
 
 
     removePost(){
-        if(!confirm("Remove this?")) return;
-        tp.api.removePost({
-            key: this.props.postKey,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if (res.status === "Fail") {
-                alert(res.message);
-                this.cancelMenu();
-            } else {
-                //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-                tp.store.dispatch(tp.action.removePost(p => p.key === this.props.postKey));
-                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                this.props.history.push(this.contextPath + "/list");
-                //tp.view.Post.setState({deleted : true});
+        //if(!confirm("Remove this?")) return;
+        tp.confirm({
+            message: "Remove this?",
+            onYes: () => {
+                tp.api.removePost({
+                    key: this.props.postKey,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert({
+                            message: res.message,
+                            style: "danger",
+                        });
+                        this.cancelMenu();
+                    } else {
+                        //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                        tp.store.dispatch(tp.action.removePost(p => p.key === this.props.postKey));
+                        //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                        this.props.history.push(this.contextPath + "/list");
+                        //tp.view.Post.setState({deleted : true});
+                    }
+                })                
             }
         })
-        
     }
 
     restorePost(){
-        if(!confirm("Restore this?")) return;
-        
-        tp.api.restorePost({
-            key: this.props.postKey,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if (res.status === "Fail") {
-                alert(JSON.stringify(res, null, 2));
-            } else {
-                //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-                tp.store.dispatch(tp.action.restorePost(this.props.postKey));
-                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                //this.props.history.push("/list");
-                //tp.view.Post.setState({deleted : true});
+        //if(!confirm("Restore this?")) return;
+        tp.confirm({
+            message: "Restore this?",
+            onYes : () => {
+                tp.api.restorePost({
+                    key: this.props.postKey,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert(JSON.stringify(res, null, 2));
+                    } else {
+                        //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                        tp.store.dispatch(tp.action.restorePost(this.props.postKey));
+                        //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                        //this.props.history.push("/list");
+                        //tp.view.Post.setState({deleted : true});
+                    }
+                    this.cancelMenu();
+                })
             }
-            this.cancelMenu();
-        })
+        });
     }    
 
     editPost(){
@@ -89,7 +109,7 @@ export default class PostMenu extends React.Component {
             if(res.status === "Success"){
                 this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
-                alert(res.message);
+                tp.alert(res.message);
                 this.cancelMenu();
             }
         })
@@ -106,7 +126,10 @@ export default class PostMenu extends React.Component {
                 tp.store.dispatch(tp.action.addPosts(res.posts))
                 this.props.history.push(this.contextPath + "/postHistory/" + this.props.postKey);
             }else{
-                alert("Have no changes");
+                tp.alert({
+                    message: "Have no changes", 
+                    style: "info",
+                });
                 this.cancelMenu();
             }
         })

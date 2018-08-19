@@ -21,6 +21,7 @@ const at = action.type = {
   DELETECOMMENT : "DELETECOMMENT",
   UPDATECOMMENT : "UPDATECOMMENT",
   REMOVECOMMENT : "REMOVECOMMENT",
+  RESTORECOMMENT : "RESTORECOMMENT",
 
   SETSEARCH : "SETSEARCH",
   SETUUID : "SETUUID",
@@ -116,6 +117,11 @@ action.addComments = function(comments) {
     comments
   }
 }
+
+action.restoreComment = function(key) {
+  return {type: at.RESTORECOMMENT, key}
+}
+
 
 action.setSearch = function(word) {
   return {
