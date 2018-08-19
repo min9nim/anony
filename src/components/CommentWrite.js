@@ -23,7 +23,9 @@ export default class Comment extends React.Component {
             uuid: tp.user.uuid,         // uuid
             postKey: this.props.postKey,// 부모 포스트 id
             commentKey: "",              // 부모 코멘트 id
-            date: ""                   // 작성시간
+            date: "",                   // 작성시간
+
+            isLoading: false,           // Confirm 버튼 사용가능 여부(isLoading 이 false 일때만 사용 가능)
         }
     }
 
@@ -44,15 +46,14 @@ export default class Comment extends React.Component {
 
     saveComment(){
         if (this.state.content === "") {
-            tp.alert({
-                message: "No input",
-                style: "warning",
-            });
-
+            tp.alert({message: "Comment is empty", style: "warning"});
             return;
-          }
-      
-          const newComment = {
+        }
+
+        this.setState({ isLoading: true });
+
+    
+        const newComment = {
             key : shortid.generate(),
             writer : this.state.writer.trim(),
             content : this.state.content.trim(),
@@ -61,12 +62,10 @@ export default class Comment extends React.Component {
             date : Date.now(),
             uuid : tp.user.uuid,
             commentKey : ""
-          };
-      
-          tp.api.addComment(newComment).then(res => {
+        };
+    
+        tp.api.addComment(newComment).then(res => {
             console.log("# " + res.message);
-
-
             tp.store.dispatch(tp.action.addComment(newComment));
             // 부모post의 댓글 카운트 1증가            
             let post = tp.store.getState().data.posts.find(p => p.key === this.state.postKey);
@@ -75,12 +74,16 @@ export default class Comment extends React.Component {
             this.setState({content: ""});       // 기존 입력한 내용 초기화
             tp.setUser({writer : newComment.writer});    // 사용자 정보 업데이트
 
-            document.getElementById("content").style.height = "";   // 댓글 입력 textarea 높이 초기화
-      
-          });
+            //document.getElementById("content").style.height = "";   // 댓글 입력 textarea 높이 초기화
+            this.content.style.height = "";    // 댓글 입력 textarea 높이 초기화
+
+            this.setState({ isLoading: false });
+        });
     }
       
     render(){
+        const { isLoading } = this.state;
+
         console.log("Comment 렌더링..");
         return (
             <div className="comment-write">
@@ -93,12 +96,13 @@ export default class Comment extends React.Component {
                 <div className="content">
                     <FormControl id="content"
                         value = {this.state.content}
+                        inputRef={ref => { this.content = ref; }}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
                         placeholder = "Comment.." />
                 </div>
                 <div className="confirmBtn">
-                    <Button bsStyle="success" onClick={this.saveComment}>Confirm</Button>
+                    <Button bsStyle="success" disabled={isLoading} onClick={isLoading ? null : this.saveComment}>Confirm</Button>
                 </div>
             </div>
         );
