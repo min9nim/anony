@@ -141,7 +141,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
                     });
                 });
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -167,7 +167,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
                     });
                 })
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -197,7 +197,7 @@ get["/auth/:key/:uuid"] = (req, res) => {
                     comment: maskComment(comment)
                  });
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));
@@ -212,7 +212,7 @@ post["/edit/:uuid"] = (req, res) => {
         //console.log(JSON.stringify(comment, null, 2));
 
         if(comment.uuid !== req.params.uuid){
-            res.send({ status : "Fail", message: "Not authorized" });
+            res.send({ status : "Fail", message: "Not authorized"});
             return;
         }
         
@@ -248,7 +248,7 @@ get["/restore/:key/:uuid"] = (req, res) => {
                 });
 
             }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+                res.send({ status : "Fail", message: "Not authorized"});
             }
         })
         .catch(sendErr(res));

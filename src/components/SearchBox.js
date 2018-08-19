@@ -28,6 +28,7 @@ export default class SearchBox extends React.Component {
             tp.alert({
                 message: "Keyword is empty", 
                 style: "warning",
+                width: "180px"
             });
             return;
         }

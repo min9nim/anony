@@ -25,6 +25,7 @@ export default class PostMenu extends React.Component {
         //if(!confirm("Delete this?")) return;
         tp.confirm({
             message: "Delete this?",
+            width: "inherit",
             onYes : () => {
                 tp.api.deletePost({
                     key: this.props.postKey,

@@ -30,6 +30,7 @@ export default class CommentMenu extends React.Component {
     deleteComment(){
         tp.confirm({
             message: "Delete this?",
+            width: "inherit",
             onYes : () => {
                 tp.api.deleteComment({
                     key: this.props.comment.key,
@@ -39,6 +40,7 @@ export default class CommentMenu extends React.Component {
                         tp.alert({
                             message: res.message,
                             style: "danger",
+                            width: "175px"
                         });
                     }else {
                         tp.store.dispatch(tp.action.deleteComment(this.props.comment.key));

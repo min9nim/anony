@@ -46,7 +46,7 @@ export default class Comment extends React.Component {
 
     saveComment(){
         if (this.state.content === "") {
-            tp.alert({message: "Comment is empty", style: "warning"});
+            tp.alert({message: "Comment is empty", style: "warning", width: "185px"});
             return;
         }
 

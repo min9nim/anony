@@ -64,7 +64,7 @@ export default class Write extends React.Component {
 
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
-      tp.alert({message: "Content is empty", style: "warning"});
+      tp.alert({message: "Content is empty", style: "warning", width: "173px"});
 
       return;
     }
