@@ -14,6 +14,7 @@ export default class CommentMenu extends React.Component {
         this.editComment = this.editComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
         this.removeComment = this.removeComment.bind(this);
+        this.restoreComment = this.restoreComment.bind(this);
 
         this.state = {
             clicked : false,
@@ -27,53 +28,80 @@ export default class CommentMenu extends React.Component {
     }
 
     deleteComment(){
-        if(confirm("Delete this?")){
-            tp.api.deleteComment({
-                key: this.props.comment.key,
-                uuid: tp.user.uuid
-            }).then(res => {
-
-                if (res.status === "Fail") {
-                    tp.alert({
-                        message: res.message,
-                        style: "danger",
-                    });
-                } else {
-                    tp.store.dispatch(tp.action.deleteComment(this.props.comment.key));
-                }
-            })
-        }
-        this.hideMenu();
-
+        tp.confirm({
+            message: "Delete this?",
+            onYes : () => {
+                tp.api.deleteComment({
+                    key: this.props.comment.key,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert({
+                            message: res.message,
+                            style: "danger",
+                        });
+                    }else {
+                        tp.store.dispatch(tp.action.deleteComment(this.props.comment.key));
+                    }
+                    this.hideMenu();
+                })
+            },
+            onNo : () => {
+                this.hideMenu();
+            }
+        });
     }
     
     removeComment(){
-        if(!confirm("Remove this?")){
-            this.hideMenu();
-            return;
-        }
-        
-        tp.api.removeComment({
-            key: this.props.comment.key,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if (res.status === "Fail") {
-                tp.alert({
-                    message: res.message,
-                    style: "danger",
-                });            
-            } else {
-                tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
+        tp.confirm({
+            message: "Remove this?",
+            onYes: () => {
+                tp.api.removeComment({
+                    key: this.props.comment.key,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert({
+                            message: res.message,
+                            style: "danger",
+                        });            
+                    } else {
+                        tp.store.dispatch(tp.action.removeComment(this.props.comment.key));
 
-                // 부모 글의 commentCnt 1감소
-                const postKey = this.props.comment.postKey;
-                let post = tp.store.getState().data.posts.find(p => p.key === postKey);
-                post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
-                tp.store.dispatch(tp.action.updatePost(post));
+                        // 부모 글의 commentCnt 1감소
+                        const postKey = this.props.comment.postKey;
+                        let post = tp.store.getState().data.posts.find(p => p.key === postKey);
+                        post.commentCnt = post.commentCnt ? post.commentCnt -1 : 1 ;
+                        tp.store.dispatch(tp.action.updatePost(post));
+                    }
+                })
+            },
+            onNo: () => {
+                this.hideMenu();
             }
-        })
+        });
     }    
 
+
+    restoreComment(){
+        //if(!confirm("Restore this?")) return;
+        tp.confirm({
+            message: "Restore this?",
+            onYes : () => {
+                tp.api.restoreComment({
+                    key: this.props.comment.key,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert({message: res.message, style: "danger"});
+                    } else {
+                        tp.store.dispatch(tp.action.restoreComment(this.props.comment.key));
+                    }
+                    this.hideMenu();
+                })
+            }
+        });
+    }  
 
     editComment(){
         tp.api.authComment({
@@ -118,7 +146,10 @@ export default class CommentMenu extends React.Component {
                     <div className="navi">
                         {
                             this.props.comment.deleted ? 
-                            <div className="icon-trash" onClick={this.removeComment}>Remove</div> :
+                            <div>
+                                <div className="icon-trash" onClick={this.removeComment}>Remove</div>
+                                <div className="icon-ccw" onClick={this.restoreComment}>Restore</div>
+                            </div> :
                             <div>
                                 <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
                                 <div className="icon-pencil" onClick={this.editComment}>Edit</div>

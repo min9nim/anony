@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import {
     Alert,
     Button
@@ -31,7 +32,6 @@ export default class Confirm extends React.Component {
 
     handleYes(){
       this.handleDismiss();
-      debugger;
       if(typeof this.onYes === "function"){
         this.onYes();
         this.onYes = undefined;
@@ -44,6 +44,12 @@ export default class Confirm extends React.Component {
         this.onNo();
         this.onNo = undefined;
       }
+    }
+
+
+    componentDidUpdate(){
+      if(this.state.show)
+        ReactDOM.findDOMNode(this.refs.yesBtn).focus();
     }
   
     handleShow({message, style="info", width="200px", onYes, onNo}) {
@@ -67,7 +73,7 @@ export default class Confirm extends React.Component {
                 {this.state.message}
               </p>
               <p>
-                <Button bsStyle="info" onClick={this.handleYes}>YES</Button>
+                <Button bsStyle="info" ref="yesBtn" onClick={this.handleYes}>YES</Button>
                 <span> or </span>
                 <Button bsStyle="warning" onClick={this.handleNo}>NO</Button>
               </p>

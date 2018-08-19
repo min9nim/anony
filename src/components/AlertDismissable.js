@@ -1,4 +1,7 @@
 import React from "react";
+//import ReactDOM from 'react-dom';     // 이거보다 아래가 더 최적화를 위해 나은 코드일까? 18.08.19
+import {findDOMNode} from 'react-dom';
+
 import {
     Alert,
     Button
@@ -41,6 +44,13 @@ export default class AlertDismissable extends React.Component {
       });
       this.onClose = onClose;
     }
+
+    componentDidUpdate(){
+      if(this.state.show)
+        //ReactDOM.findDOMNode(this.refs.closeBtn).focus();   // 이거보다 아래가 더 최적화를 위해 나은 코드일까? 18.08.19
+        findDOMNode(this.refs.closeBtn).focus();
+    }
+
   
     render() {
       if (this.state.show) {
@@ -54,7 +64,7 @@ export default class AlertDismissable extends React.Component {
               <p>
                 {/* <Button bsStyle="danger">Take this action</Button>
                 <span> or </span> */}
-                <Button bsStyle={this.state.style} onClick={this.handleDismiss}>Close</Button>
+                <Button bsStyle={this.state.style} ref="closeBtn" onClick={this.handleDismiss}>Close</Button>
               </p>
             </Alert>
           </div>

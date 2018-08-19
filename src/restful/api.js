@@ -103,6 +103,16 @@ api.restorePost = function ({key, uuid}) {
     ).then(errHandler);
 }
 
+api.restoreComment = function ({key, uuid}) {
+    return httpReq(
+        "/api/comments/restore/" + key + "/" + uuid,
+        {
+            method: "GET"
+        }
+    ).then(errHandler);
+}
+
+
 api.viewPost = function (key) {
     return httpReq(
         "/api/posts/view/" + key,

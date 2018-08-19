@@ -123,6 +123,15 @@ function comments(state = [], action) {
       afterState.splice(idx, 1, action.comment); // idx번째 요소 삭제하고 comment 추가
       return afterState;
     }
+
+    case at.RESTORECOMMENT: {
+      //const afterState = [...state]; // state 배열 복사
+      const afterState = R.clone(state);    // state 깊은 복사
+      const idx = afterState.findIndex(o => o.key === action.key);
+      afterState[idx].deleted = false;
+      return afterState;
+    }    
+
     default: {
       return state;
     }

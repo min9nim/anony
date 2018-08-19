@@ -77,23 +77,27 @@ export default class PostMenu extends React.Component {
     }
 
     restorePost(){
-        if(!confirm("Restore this?")) return;
-        
-        tp.api.restorePost({
-            key: this.props.postKey,
-            uuid: tp.user.uuid
-        }).then(res => {
-            if (res.status === "Fail") {
-                tp.alert(JSON.stringify(res, null, 2));
-            } else {
-                //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-                tp.store.dispatch(tp.action.restorePost(this.props.postKey));
-                //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                //this.props.history.push("/list");
-                //tp.view.Post.setState({deleted : true});
+        //if(!confirm("Restore this?")) return;
+        tp.confirm({
+            message: "Restore this?",
+            onYes : () => {
+                tp.api.restorePost({
+                    key: this.props.postKey,
+                    uuid: tp.user.uuid
+                }).then(res => {
+                    if (res.status === "Fail") {
+                        tp.alert(JSON.stringify(res, null, 2));
+                    } else {
+                        //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
+                        tp.store.dispatch(tp.action.restorePost(this.props.postKey));
+                        //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+                        //this.props.history.push("/list");
+                        //tp.view.Post.setState({deleted : true});
+                    }
+                    this.cancelMenu();
+                })
             }
-            this.cancelMenu();
-        })
+        });
     }    
 
     editPost(){
