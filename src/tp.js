@@ -144,10 +144,15 @@ tp.setUser = function(obj){
 }
 
 tp.getUser = function(){
-  if(USECOOKIE){
-    return tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
-  }else{
-    return JSON.parse(localStorage.getItem("user")) || tp.setUser();
+  try{
+    if(USECOOKIE){
+      return tp.getCookie("user") ? JSON.parse(tp.getCookie("user")) :  tp.setUser();
+    }else{
+      return JSON.parse(localStorage.getItem("user")) || tp.setUser();
+    }  
+  }catch(e){
+    console.log(e.message);
+    return tp.setUser();
   }
 }
 
