@@ -34,7 +34,7 @@ export default class PostMenu extends React.Component {
                     if (res.status === "Fail") {
                         tp.alert({
                             message: res.message,
-                            style: "danger",
+                            style: "warning",
                         });
                     } else {
                         if(tp.store.getState().data.posts.length > 0 )
