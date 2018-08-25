@@ -119,7 +119,7 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             <div className="context">{this.props.context || "Anony"}</div>
-            <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
+            <FormGroup  controlId="title" className="title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
                         value = {this.state.title}
@@ -127,7 +127,7 @@ export default class Write extends React.Component {
                         placeholder = "Title.." />
                 <FormControl.Feedback />
             </FormGroup>
-            <FormGroup controlId = "writer" >
+            <FormGroup controlId="writer" >
                 {/*<ControlLabel> Writer </ControlLabel> */}
                 <FormControl type = "text" className="writer"
                       value = {this.state.writer}
