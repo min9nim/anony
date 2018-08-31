@@ -2,5 +2,6 @@ node_modules
 .vscode
 npm-debug.log
 #dbConfig.js
+express.log
 server/key.pem
 server/cert.pem

@@ -1,5 +1,0 @@
-express is lintening on port 8080
-Connected to mongod server
-::1 - - [06/Jun/2018:14:50:17 +0000] "GET / HTTP/1.1" 200 632 "-" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
-::1 - - [06/Jun/2018:14:50:17 +0000] "GET /bundle.js HTTP/1.1" 200 1638644 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
-::1 - - [06/Jun/2018:14:50:18 +0000] "GET /api/posts HTTP/1.1" 200 259 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"

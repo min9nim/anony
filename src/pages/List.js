@@ -59,10 +59,7 @@ export default class List extends React.Component {
     render(){
         console.log("List 렌더링..");
 
-
-        //let title = tp.context || "Anony";
-        //let title = tp.user.uuid;
-        let title = tp.store.getState().view.uuid;
+        let title = tp.store.getState().view.uuid + (this.props.context ? (" /" + this.props.context) : "") ;
         let status = "";
         let search = tp.store.getState().view.search;
 
@@ -79,7 +76,6 @@ export default class List extends React.Component {
                     <div className="status">{status}</div>
                     <Search context={this.props.context}/>
                 </div>
-                {/* <div className="context">{this.props.context || "Anony"}</div> */}
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
                 )}
