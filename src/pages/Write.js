@@ -23,7 +23,7 @@ export default class Write extends React.Component {
       date : "",
       isPrivate: false,
       isMarkdown: false,
-      hasComment: tp.user.hasComment || false,
+      hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
       uuid : tp.user.uuid
     };
 
