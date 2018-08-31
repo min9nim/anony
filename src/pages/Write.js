@@ -23,7 +23,7 @@ export default class Write extends React.Component {
       date : "",
       isPrivate: false,
       isMarkdown: false,
-      hasComment: true,
+      hasComment: tp.user.hasComment || false,
       uuid : tp.user.uuid
     };
 
@@ -100,7 +100,7 @@ export default class Write extends React.Component {
       }
       
       // 사용자 정보 업데이트
-      tp.setUser({writer : newPost.writer});
+      tp.setUser({writer : newPost.writer, hasComment : newPost.hasComment});
 
       // 작성된 글 바로 확인
       this.props.history.push(this.contextPath + "/post/" + newPost.key);
