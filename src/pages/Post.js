@@ -162,7 +162,8 @@ export default class Post extends React.Component {
              * 18.09.05
              * 아래 highlight_nl2br 에서 코드영역에대한 replace 는 제외하도록 코딩이 되어있으므로 개행문자 <br>처리 문장을 다시 주석 해제함
              */
-            return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
+            //return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
+            return str.replace(/\n\n\n\n/g, "<br><br><br>\n\n").replace(/\n\n\n/g, "<br><br>\n\n");
             //return str;
         }
 

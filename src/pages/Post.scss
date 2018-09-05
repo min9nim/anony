@@ -65,6 +65,7 @@
 
     p {
         margin-bottom: 20px;
+        margin-top: 20px;
         &+ul{
             /* 마크다운에서 목록을 사용할 경우 제목과 목록사이 간격 조정 */
             margin-top: -15px;
