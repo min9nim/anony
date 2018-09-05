@@ -50,6 +50,30 @@
                 padding: 2px 5px 2px 5px;
             }
         }
+
+
+        p { // 기본 문단 간의 간격
+            margin-bottom: 20px;
+        }
+
+        p+ul, p+ol, p+blockquote {
+            /* 마크다운에서 목록을 사용할 경우 제목과 목록사이 간격 조정 */
+            margin-top: -15px;
+        }
+        
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 35px;
+        }
+    
+        blockquote {
+            padding: 0px 15px;
+            font-size: 16px;
+            font-style: italic;
+            p {
+                margin-bottom: 0px;
+            }
+        }        
     }
 
     .btn {
@@ -62,15 +86,5 @@
         text-decoration:line-through;
         color: #ccc;
     }
-
-    p {
-        margin-bottom: 20px;
-        margin-top: 20px;
-        &+ul{
-            /* 마크다운에서 목록을 사용할 경우 제목과 목록사이 간격 조정 */
-            margin-top: -15px;
-        }
-    }
-
 }
 
