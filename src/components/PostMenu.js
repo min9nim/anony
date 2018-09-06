@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {tp} from "../tp";
 import "./PostMenu.scss";
 
@@ -162,12 +162,12 @@ export default class PostMenu extends React.Component {
                     {this.props.postDeleted ? (
                         <div className="icon-ccw" onClick={this.restorePost}>Restore</div>
                     ) : (
-                        <div>
+                        <Fragment>
                             {!this.props.postOrigin && 
                                 <div className="icon-pencil" onClick={this.editPost}>Edit</div>
                             }
                             <div className="icon-trash-empty" onClick={this.deletePost}>Delete</div>
-                        </div>
+                        </Fragment>
                     )
                     }
                     <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
