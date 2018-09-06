@@ -65,6 +65,12 @@
             margin-bottom: 20px;
             padding-left: 35px;
         }
+
+        li {
+            ul, ol {
+                margin-bottom: 0px;
+            }
+        }
     
         blockquote {
             padding: 0px 15px;
