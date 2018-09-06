@@ -25,6 +25,7 @@ export default class Post extends React.Component {
             deleted : false,
             uuid : "",
             viewCnt: "",
+            origin: "",
             likeCnt: 0
         };
 
@@ -206,9 +207,11 @@ export default class Post extends React.Component {
                     </div>
                     <div>
                         <div className="meta">{this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}</div>
-                        {!this.state.origin && (
-                            <PostMenu history={this.props.history} postKey={this.state.key} postDeleted={this.state.deleted} context={this.props.context}/>
-                        )}
+                        <PostMenu history={this.props.history}
+                                  postKey={this.state.key}
+                                  postDeleted={this.state.deleted}
+                                  postOrigin={this.state.origin}
+                                  context={this.props.context}/>
                     </div>
                     <div className={contentStyle} dangerouslySetInnerHTML={{__html: content}}></div>
                     <PostMeta post={this.state}/>

@@ -155,21 +155,22 @@ export default class PostMenu extends React.Component {
                 this.state.clicked
                 ? 
                 <div className="navi">
-                    <div className="icon-history" onClick={this.postHistory}>History</div>
+                    {!this.props.postOrigin && 
+                        <div className="icon-history" onClick={this.postHistory}>History</div>
+                    }
+                    <div className="icon-trash" onClick={this.removePost}>Remove</div>
                     {this.props.postDeleted ? (
-                        <div>
-                            <div className="icon-trash" onClick={this.removePost}>Remove</div>
-                            <div className="icon-ccw" onClick={this.restorePost}>Restore</div>
-                            <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
-                        </div>
+                        <div className="icon-ccw" onClick={this.restorePost}>Restore</div>
                     ) : (
                         <div>
-                            <div className="icon-pencil" onClick={this.editPost}>Edit</div>
+                            {!this.props.postOrigin && 
+                                <div className="icon-pencil" onClick={this.editPost}>Edit</div>
+                            }
                             <div className="icon-trash-empty" onClick={this.deletePost}>Delete</div>
-                            <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
                         </div>
                     )
                     }
+                    <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>
