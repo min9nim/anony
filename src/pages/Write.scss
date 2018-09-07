@@ -1,19 +1,23 @@
 
 .write {
     margin: 20px;
+    color: #666;
     div {
         margin-bottom: 5px;
     }
     .title input{
         padding-right: 12px;
     }
-    .writer {
+    .writer, .context, .uuid {
         display: inline-block;
-        width: calc(100% - 265px);
+        //width: calc(100% - 265px);
+        width: 120px;
+        margin-right: 5px;
+        
     }
 
     .checkbox{
-        margin: 0px 0px 0px 10px;
+        margin: 0px 10px 0px 5px;
         vertical-align: text-bottom;
         display: inline-block;
         input[type="checkbox"] {
@@ -26,6 +30,11 @@
     }
     .write-cancel-btn {
         margin-left: 3px;
-    }    
+    }
+
+    .form-control {
+        color: #777;
+        margin-bottom: 5px;
+    }
 }
 

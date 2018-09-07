@@ -118,7 +118,7 @@ export default class Write extends React.Component {
 
     return (
         <div className="write">
-            <div className="context">{this.props.context || "Anony"}</div>
+            {/* <div className="context">{this.props.context || "Anony"}</div> */}
             <FormGroup  controlId="title" className="title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
@@ -127,15 +127,24 @@ export default class Write extends React.Component {
                         placeholder = "Title.." />
                 <FormControl.Feedback />
             </FormGroup>
-            <FormGroup controlId="writer" >
-                {/*<ControlLabel> Writer </ControlLabel> */}
-                <FormControl type = "text" className="writer"
+            <FormGroup>
+                <FormControl type = "text" className="writer" id="writer"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
+                <FormControl type = "text" className="context" id="context"
+                        value = {this.props.context}
+                        onChange = {this.handleChange}
+                        placeholder = "Channel.." />
+                <FormControl type = "text" className="uuid" id="uuid"
+                        value = {this.state.uuid}
+                        onChange = {this.handleChange}
+                        placeholder = "Uuid.." />
+
                 <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown} title="If you check markdown, you can use markdown syntax">Markdown</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate} title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately.">Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment} title="If you check comment, you can get comments from others">Comment</Checkbox> 
+  
             </FormGroup>
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}

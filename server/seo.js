@@ -20,6 +20,7 @@ module.exports = seo = {};
 
 // seo 최적화
 seo.post = function(req, res){
+    console.log("### seo.post called");
     // key 에 해당하는 post 를 조회
     Post.findOne({ key: req.params.key })
         .then(post => {
@@ -48,6 +49,7 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
+    console.log("### seo.list called");
     if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif|\.css|\.ico|\.svg)$/)){
         // 루트에서 .txt 나 .js 파일등 static파일을 요청한 경우
         next();
@@ -80,3 +82,34 @@ seo.list = function(req, res, next){
         })
 }
 
+
+
+
+seo.write = function(req, res, next){
+    console.log("### seo.write called");
+    if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif|\.css|\.ico|\.svg)$/)){
+        // 루트에서 .txt 나 .js 파일등 static파일을 요청한 경우
+        next();
+        return;
+    }
+
+    fs.readFile(filepath, "utf-8", function(err, buf) {
+        if(err){
+            console.log(err);
+            res.send({ status : "Fail", message: err.message });
+        }else{
+            try{
+                const output = buf.toString()
+                    .replace("{{title}}", req.params.context ? req.params.context + "-write" : "public-write")
+                    .replace("{{description}}", "Anony write page")
+                    .replace("{{content}}", "Anony write page");
+                res.send(output);
+            }catch(e){
+                console.log(e.message);
+                res.send({status: "Fail", message: e.message});
+            }
+        }
+    });
+
+
+}

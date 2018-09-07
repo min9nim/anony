@@ -30,6 +30,8 @@ app.get("/list/", seo.list);
 app.get("/:context", seo.list);
 app.get("/:context/list", seo.list);
 
+app.get("/:context/write", seo.write);
+
 app.get("/edit/:key", seo.post);
 app.get("/:context/edit/:key", seo.post);
 
