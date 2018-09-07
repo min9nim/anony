@@ -10,8 +10,8 @@ import {
 import "./Edit.scss";
 
 export default class Edit extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     
@@ -37,7 +37,7 @@ export default class Edit extends React.Component {
     });
 
     }
-    this.contextPath = this.props.context ? "/" + this.props.context : "" ;
+    //this.contextPath = this.props.context ? "/" + this.props.context : "" ;
 
     this.unsubscribe = tp.store.subscribe(() => {
       console.log("Edit가 store 상태변경 노티 받음")
@@ -57,7 +57,7 @@ export default class Edit extends React.Component {
   }
 
   componentDidMount(){
-    document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+    document.title = this.state.context + " - " + tp.thispage;
   }
 
   getValidationState() {
@@ -121,7 +121,7 @@ export default class Edit extends React.Component {
       tp.setUser({writer : afterPost.writer});
 
       // 작성된 글 바로 확인
-      this.props.history.push(this.contextPath + "/post/" + afterPost.key);
+      this.props.history.push("/" + this.state.context + "/post/" + afterPost.key);
 
 
     });
@@ -140,7 +140,6 @@ export default class Edit extends React.Component {
 
     return (
         <div className="edit">
-            <div className="context">{this.props.context || "Anony"}</div>
             <FormGroup  controlId = "title" validationState = {this.getValidationState()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
@@ -169,7 +168,7 @@ export default class Edit extends React.Component {
                         placeholder = "Content.." />
             </FormGroup>
             <Button bsStyle = "success" onClick = {this.savePost}>Save</Button>
-            <Link to={this.contextPath + "/post/"+this.state.key}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
+            <Link to={"/" + this.state.context + "/post/"+this.state.key}><Button className="write-cancel-btn" bsStyle="success">Cancel</Button></Link>
         </div>
     );
   }

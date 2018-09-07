@@ -10,8 +10,8 @@ import {
 import "./Write.scss";
 
 export default class Write extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     this.cancel = this.cancel.bind(this);
