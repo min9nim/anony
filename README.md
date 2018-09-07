@@ -1,11 +1,12 @@
-<img src="https://anony-212509.appspot.com/image/anony.svg" style="width: 300px;" />
+<div style="background-image:url(https://anony-212509.appspot.com/image/anony.svg); width:300px; height:300px;background-repeat: no-repeat;">
+</div>
 
 #### 서비스설명
 로그인/회원가입이 필요없는 100% 익명 SNS공간  
 https://anony-212509.appspot.com
 
-1. 누구나
-로그인 없이 누구나 지금 바로 참여하실 수 있습니다
+1. 누구나  
+로그인 없이 누구나 바로 참여할 수 있습니다
 
 2. https://anony-212509.appspot.com/{새로운채널명}  
 으로 접근시 새로운 대화 채널이 자동으로 생성됩니다
@@ -15,6 +16,11 @@ https://anony-212509.appspot.com
     - 해당 토큰값은 목록화면 위쪽에 표시됩니다.
     - 토큰 앞에 메뉴버튼을 클릭하면 토큰값을 임의로 변경할 수 있습니다
     - 토큰값을 따로 보관해 두면 내가 작성한 글에 대한 수정/삭제 권한을 유지해 갈 수 있습니다
+
+4. 개인 인증이 없기 때문에  
+개인화된 서비스를 제공하지 않습니다(and 할 수 없습니다)  
+ex) 내가 쓴 글, 댓글 알림, 등
+
     
     
 <br>
