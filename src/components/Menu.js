@@ -1,11 +1,5 @@
 import React from "react";
 import "./Menu.scss";
-import {
-    FormGroup,
-    ControlLabel,
-    FormControl,
-    Button
-  } from "react-bootstrap";
 import MenuEditUuid from './MenuEditUuid';
 
 export default class Menu extends React.Component {
