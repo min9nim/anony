@@ -1,3 +1,5 @@
+<img src="https://anony-212509.appspot.com/image/anony.svg" style="width: 300px;" />
+
 #### 서비스설명
 로그인/회원가입이 필요없는 100% 익명 SNS공간  
 https://anony-212509.appspot.com
