@@ -24,8 +24,8 @@ export default class PostMenu extends React.Component {
     deletePost(){
         //if(!confirm("Delete this?")) return;
         tp.confirm({
-            message: "Delete this?",
-            width: "inherit",
+            message: "Delete this?<br> whenever you can restore this.",
+            width: "256px",
             onYes : () => {
                 tp.api.deletePost({
                     key: this.props.postKey,
@@ -53,7 +53,8 @@ export default class PostMenu extends React.Component {
     removePost(){
         //if(!confirm("Remove this?")) return;
         tp.confirm({
-            message: "Remove this?",
+            message: "Remove this?<br> you cannot restore this.",
+            width: "212px",
             onYes: () => {
                 tp.api.removePost({
                     key: this.props.postKey,
@@ -69,10 +70,23 @@ export default class PostMenu extends React.Component {
                         //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
                         tp.store.dispatch(tp.action.removePost(p => p.key === this.props.postKey));
                         //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-                        this.props.history.push(this.contextPath + "/list");
+                        if(this.props.postOrigin){
+                            // 수정내역을 삭제할 경우
+                            if(location.pathname.indexOf("postHistory") >= 0){
+                                // postHistory 목록에서 삭제할 경우 화면 이동 없음
+                            }else{
+                                // 글보기 화면에서 삭제할 경우에는 히스토리 목록 화면으로 이동
+                                var arr = location.pathname.split("/");
+                                arr.splice(2, 2, "postHistory", this.props.postOrigin);     // context 명이 없는 경우 문제 발생할 수 있음
+                                this.props.history.push(arr.join("/"));
+                            }
+                        }else{
+                            this.props.history.push(this.contextPath + "/list");
+                        }
+                        
                         //tp.view.Post.setState({deleted : true});
                     }
-                })                
+                })
             }
         })
     }
@@ -158,7 +172,6 @@ export default class PostMenu extends React.Component {
                     {!this.props.postOrigin && 
                         <div className="icon-history" onClick={this.postHistory}>History</div>
                     }
-                    <div className="icon-trash" onClick={this.removePost}>Remove</div>
                     {this.props.postDeleted ? (
                         <div className="icon-ccw" onClick={this.restorePost}>Restore</div>
                     ) : (
@@ -166,10 +179,11 @@ export default class PostMenu extends React.Component {
                             {!this.props.postOrigin && 
                                 <div className="icon-pencil" onClick={this.editPost}>Edit</div>
                             }
-                            <div className="icon-trash-empty" onClick={this.deletePost}>Delete</div>
+                            <div className="icon-trash-empty" onClick={this.deletePost} title="Delete this, but you can restore this">Delete</div>
                         </Fragment>
                     )
                     }
+                    <div className="icon-trash" onClick={this.removePost} title="Delete this permanently">Remove</div>
                     <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
                 </div>
                 :

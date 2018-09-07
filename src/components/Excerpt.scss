@@ -41,6 +41,7 @@
     }
 
     .content {
+        display: inherit;       /* PostMenu 가 열릴 때 모바일에서 글목록의 excerpt 내용이 왼쪽으로 밀리는 문제 수정, 18.09.07 */
         height: 60px;
         overflow: hidden;        
         margin-top: 4px;
