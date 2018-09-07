@@ -85,7 +85,7 @@ post["/add"] = (req, res) => {
 
 // 글내용 수정
 post["/edit/:uuid"] = (req, res) => {
-    console.log("received data = " + JSON.stringify(req.body, null, 2));
+    //console.log("received data = " + JSON.stringify(req.body, null, 2));
 
     Post.findOne({key: req.body.key}).then(post => {
         if(post.uuid !== req.params.uuid || post.origin !== undefined){
@@ -112,16 +112,16 @@ post["/edit/:uuid"] = (req, res) => {
             // https://gist.github.com/min9nim/8f3c3895bf2e41e26921eb1002649306
 
             prevPost.save().then(output => {
-                console.log("# prevPost is saved");
-                console.log(output);
+                //console.log("# prevPost is saved");
+                //console.log(output);
             })
         }
         
         // 신규내용으로 업데이트
         Object.assign(post, req.body);
         post.save().then(output => {
-            console.log("# afterPost is saved");
-            console.log(output);
+            //console.log("# afterPost is saved");
+            //console.log(output);
             res.send({
                 status: "Success",
                 message: `post@${req.body.key} updated.`,
@@ -144,7 +144,7 @@ post["/view/:key"] = (req, res) => {
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
             post.save()
                 .then(output => {
-                    console.log(output);
+                    //console.log(output);
                     res.send({
                         status: "Success",
                         message: `post@${req.params.key} viewCnt + 1.`,
@@ -163,7 +163,7 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
     const MAXCNT = 10;  // posts 조회 최대 개수
 
     if(isNaN(idx)){
-        console.log(":idx 가 숫자가 아닙니다");
+        //console.log(":idx 가 숫자가 아닙니다");
         res.status(500).send(":idx 가 숫자가 아닙니다");
         return;
     }
@@ -205,7 +205,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
             if(post.uuid === req.params.uuid){
                 post.deleted = true;
                 post.save().then(output => {
-                    console.log(output);
+                    //console.log(output);
                     res.send({
                         status: "Success",
                         message: `post(${req.params.key}) is deleted`,
@@ -227,7 +227,7 @@ get["/restore/:key/:uuid"] = (req, res) => {
             if(post.uuid === req.params.uuid){
                 post.deleted = false;
                 post.save().then(output => {
-                    console.log(output);
+                    //console.log(output);
                     res.send({
                         status: "Success",
                         message: `post(${req.params.key}) is restored`,
@@ -258,10 +258,10 @@ get["/remove/:key/:uuid"] = (req, res) => {
                 }else{
                     Comment.remove({postKey: req.params.key})
                         .then(output => {
-                            console.log(output);
+                            //console.log(output);
                             return Post.remove({$or: [{key: req.params.key}, {origin: req.params.key}]});
                         }).then(output => {
-                            console.log(output);
+                            //console.log(output);
                             res.send({
                                 status: "Success",
                                 message: `post(${req.params.key}) is removed`,
@@ -284,7 +284,7 @@ get["/remove/:key/:uuid"] = (req, res) => {
 post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
-            console.log("### p.liked = " + p.liked);
+            //console.log("### p.liked = " + p.liked);
             return p;
         })
         .then(R.partialRight(maskPost, req.body.uuid))
@@ -306,8 +306,8 @@ get["/auth/:key/:uuid"] = (req, res) => {
                     post: maskPost(post, req.params.uuid)
                  });
             }else{
-                console.log("Not authorized");
-                console.log(post);
+                //console.log("Not authorized");
+                //console.log(post);
                 res.send({
                     status : "Fail",
                     message: "Not authorized"
@@ -334,7 +334,7 @@ get["/history/:key"] = (req, res) => {
 post["/likePost/:key"] = (req, res) => {
     Post.findOne({key: req.params.key})
         .then(post => {
-            console.log(post);
+            //console.log(post);
             if(post.like){
                 /* vanillaJS
                 let arr = post.like.split(",");

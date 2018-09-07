@@ -34,7 +34,7 @@ seo.post = function(req, res){
                             .replace("{{title}}", post.title)
                             .replace("{{description}}", tagRemovedContent.substr(0,100))
                             .replace("{{content}}", post.isMarkdown ? md.render(tagRemovedContent) : tagRemovedContent);
-                        console.log(output);
+                        //console.log(output);
                         res.send(output);
                     }catch(e){
                         // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
@@ -48,11 +48,12 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif)$/)){
-        // 루트에서 .txt 나 .js 파일을 요청한 경우
+    if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif|\.css|\.ico)$/)){
+        // 루트에서 .txt 나 .js 파일등 static파일을 요청한 경우
         next();
         return;
     }
+
     Post.find({$and : [{isPrivate:{$in: [ false, undefined ]}}, {origin: undefined}, {context: req.params.context}]})
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(0)
@@ -68,7 +69,7 @@ seo.list = function(req, res, next){
                             .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
                             .replace("{{description}}", posts.map(p => $m.removeTag(p.title)).join("\n").substr(0,100))
                             .replace("{{content}}", posts.map(p => $m.removeTag(p.title) + "\n" + $m.removeTag(p.content)).join("\n"));
-                        console.log(output);
+                        //console.log(output);
                         res.send(output);
                     }catch(e){
                         console.log(e.message);
