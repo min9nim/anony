@@ -32,11 +32,12 @@
     .form_context {
         position: relative;
         display: inline-block;
+        width: calc(100% - 250px);
+        margin-right: 5px;
         .context {
             display: inline-block;
-            //width: calc(100% - 265px);
-            width: 170px;
-            margin-right: 5px;
+            width: 100%;
+            //margin-right: 5px;
         }
         
         
@@ -47,7 +48,7 @@
             display: inline;
             color: #999;
             top: 8px;
-            left: 142px;
+            left: calc(100% - 25px);
             cursor: pointer;
         }        
     }
@@ -92,14 +93,18 @@
  
     }
 
-    .checkbox{
-        margin: 0px 10px 0px 5px;
-        vertical-align: text-bottom;
-        display: inline-block;
-        input[type="checkbox"] {
-            -webkit-appearance: checkbox;
+    .form_chk{
+        margin-bottom: 3px;
+        .checkbox{
+            margin: 0px 10px 0px 5px;
+            vertical-align: text-bottom;
+            display: inline-block;
+            input[type="checkbox"] {
+                -webkit-appearance: checkbox;
+            }
         }
     }
+
 
     input {
         font-size: 20px;
