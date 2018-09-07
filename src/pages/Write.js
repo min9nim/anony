@@ -18,7 +18,6 @@ export default class Write extends React.Component {
     this.refreshUuid = this.refreshUuid.bind(this);
     this.deleteUuid = this.deleteUuid.bind(this);
     this.deleteContext = this.deleteContext.bind(this);
-
     this.toggleAdvancedOpt = this.toggleAdvancedOpt.bind(this);
     
     this.state = {
@@ -72,8 +71,8 @@ export default class Write extends React.Component {
     if(this.state.content.length > 10 && !confirm("Cancel to write?")){
       return;
     }
-    //this.props.history.push(this.contextPath + "/list");
-    history.back();
+    this.props.history.push("/" + this.state.context + "/list");
+    //history.back();
   }
 
   handleChange(e) {
@@ -99,17 +98,35 @@ export default class Write extends React.Component {
 }  
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
-      tp.alert({message: "Content is empty", style: "warning", width: "173px"});
+      tp.alert({
+        message: "Content is empty",
+        style: "warning",
+        width: "173px",
+        onClose: () => {this.contentinput.focus();}
+
+      });
       return;
     }
 
     if (tp.$m.removeTag(this.state.context).trim() === "") {
-      tp.alert({message: "Channel is empty", style: "warning", width: "173px"});
+      tp.alert({
+        message: "Channel is empty",
+        style: "warning",
+        width: "173px",
+        onClose: () => {this.contextinput.focus();}
+      });
       return;
     }  
 
     if (tp.$m.removeTag(this.state.uuid).trim() === "") {
-      tp.alert({message: "Uuid is empty", style: "warning", width: "173px"});
+      tp.alert({
+        message: "Uuid is empty",
+        style: "warning",
+        width: "173px",
+        onClose: () => {this.uuidinput.focus();}
+      });
+      this.uuidinput.focus();
+
       return;
     }
 
@@ -214,6 +231,7 @@ export default class Write extends React.Component {
                 {/*<ControlLabel> Content </ControlLabel>*/}
                 <FormControl style={contentStyle}
                         autoFocus
+                        inputRef={ref => { this.contentinput = ref; }}
                         value = {this.state.content}
                         onChange = {this.handleChange}
                         componentClass = "textarea"
