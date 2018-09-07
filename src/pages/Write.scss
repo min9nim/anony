@@ -3,17 +3,93 @@
     margin: 20px;
     color: #666;
     div {
-        margin-bottom: 5px;
+        //margin-bottom: 5px;
+        margin-bottom: initial;
     }
     .title input{
         padding-right: 12px;
     }
-    .writer, .context, .uuid {
+    .writer {
         display: inline-block;
-        //width: calc(100% - 265px);
-        width: 120px;
+        width: calc(100% - 160px);
+        //width: 120px;
         margin-right: 5px;
         
+    }
+
+    .options {
+        display: inline-block;
+        margin-left: 10px;
+        margin-bottom: 6px;
+        cursor: pointer;
+        &:hover {
+            // fontello 아이콘 hover
+            transform : scale(1.05);
+            -webkit-transform : scale(1.05);
+        }
+    }
+
+    .form_context {
+        position: relative;
+        display: inline-block;
+        .context {
+            display: inline-block;
+            //width: calc(100% - 265px);
+            width: 170px;
+            margin-right: 5px;
+        }
+        
+        
+        .delete{
+            font-size: 15px;
+            font-weight: bold;
+            position: absolute;
+            display: inline;
+            color: #999;
+            top: 8px;
+            left: 142px;
+            cursor: pointer;
+        }        
+    }
+
+    .form_uuid {
+        display: inline-block;
+        .uuid {
+            display: inline-block;
+            //width: calc(100% - 265px);
+            width: 235px;
+            margin-right: 5px;
+            
+        }
+
+        .form-control-feedback {
+            top: 1px;
+            left: 153px;
+        }
+        
+        .delete{
+            font-size: 15px;
+            font-weight: bold;
+            position: absolute;
+            display: inline;
+            color: #999;
+            top: 8px;
+            left: 183px;
+            cursor: pointer;
+        }
+        
+        .refresh{
+            font-size: 15px;
+            font-weight: bold;
+            position: absolute;
+            display: inline;
+            color: #999;
+            top: 8px;
+            left: 208px;
+            cursor: pointer;
+        }
+        
+ 
     }
 
     .checkbox{

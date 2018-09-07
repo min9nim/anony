@@ -15,6 +15,12 @@ export default class Write extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.savePost = this.savePost.bind(this);
     this.cancel = this.cancel.bind(this);
+    this.refreshUuid = this.refreshUuid.bind(this);
+    this.deleteUuid = this.deleteUuid.bind(this);
+    this.deleteContext = this.deleteContext.bind(this);
+
+    this.toggleAdvancedOpt = this.toggleAdvancedOpt.bind(this);
+    
     this.state = {
       key: "",
       title: "",
@@ -24,11 +30,13 @@ export default class Write extends React.Component {
       isPrivate: false,
       isMarkdown: false,
       hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
-      uuid : tp.user.uuid
+      uuid : tp.user.uuid,
+      context : this.props.context ? this.props.context : "public",
+      advancedOptCliked : false
     };
 
     tp.view.Write = this;
-    this.contextPath = this.props.context ? "/"+this.props.context : "" ;
+    //this.contextPath = this.props.context ? "/" + this.props.context : "" ;
   }
 
   shouldComponentUpdate(prevProps, prevState) {
@@ -39,13 +47,25 @@ export default class Write extends React.Component {
     document.title = (this.props.context || "Anony") + " - " + tp.thispage;
   }
 
-  getValidationState() {
+  getValidationTitle() {
     return;
     const length = this.state.title.length;
     if (length > 10) return 'success';
     else if (length > 5) return 'warning';
     else if (length > 0) return 'error';
     return null;
+  }
+
+  getValidationUuid() {
+    const length = this.state.uuid.length;
+    if (shortid.isValid(this.state.uuid) && this.state.uuid.length >= 9) return 'success';
+    else if (length > 5) return 'warning';
+    else if (length > 0) return 'error';
+    return null;
+}
+
+  toggleAdvancedOpt(){
+    this.setState({advancedOptCliked : !this.state.advancedOptCliked});
   }
 
   cancel(){
@@ -57,19 +77,43 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
+    if(e.target.id === "uuid" && e.target.value.length > 10) return;
+    if(e.target.id === "context" && e.target.value.length > 16) return;
+
     const state = {};
     state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
     this.setState(state);
   }
 
+  refreshUuid(){
+    this.setState({uuid: shortid.generate()});
+  }
+
+  deleteUuid(){
+      this.setState({uuid: ""});
+      this.uuidinput.focus();
+  }  
+  deleteContext(){
+    this.setState({context: ""});
+    this.contextinput.focus();
+}  
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
       tp.alert({message: "Content is empty", style: "warning", width: "173px"});
-
       return;
     }
 
+    if (tp.$m.removeTag(this.state.context).trim() === "") {
+      tp.alert({message: "Channel is empty", style: "warning", width: "173px"});
+      return;
+    }  
 
+    if (tp.$m.removeTag(this.state.uuid).trim() === "") {
+      tp.alert({message: "Uuid is empty", style: "warning", width: "173px"});
+      return;
+    }
+
+    tp.setUser(this.state.uuid);
     
 
     const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
@@ -86,7 +130,7 @@ export default class Write extends React.Component {
       isMarkdown : this.state.isMarkdown,
       hasComment : this.state.hasComment,
       uuid : tp.user.uuid,
-      context : this.props.context,
+      context : this.state.context,
       commentCnt : 0,
     };
 
@@ -103,7 +147,8 @@ export default class Write extends React.Component {
       tp.setUser({writer : newPost.writer, hasComment : newPost.hasComment});
 
       // 작성된 글 바로 확인
-      this.props.history.push(this.contextPath + "/post/" + newPost.key);
+      //this.props.history.push(this.contextPath + "/post/" + newPost.key);
+      this.props.history.push("/" + this.state.context + "/post/" + newPost.key);
     });
   }
 
@@ -112,14 +157,16 @@ export default class Write extends React.Component {
     console.log("Write 렌더링..");
 
     const contentStyle = {
-      height: tp.isDesktop() ? (window.innerHeight - 170) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      height: tp.isDesktop() ? (window.innerHeight - 200) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
       fontSize: this.state.isMarkdown ? "15px" : "20px"
     }
+
+    const advancedOptIcon = this.state.advancedOptCliked ? "icon-folder-open-empty" : "icon-folder-empty" ;
 
     return (
         <div className="write">
             {/* <div className="context">{this.props.context || "Anony"}</div> */}
-            <FormGroup  controlId="title" className="title" validationState = {this.getValidationState()}>
+            <FormGroup  controlId="title" className="title" validationState = {this.getValidationTitle()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
                         value = {this.state.title}
@@ -132,20 +179,37 @@ export default class Write extends React.Component {
                       value = {this.state.writer}
                       onChange = {this.handleChange}
                       placeholder = "Writer.." />
-                <FormControl type = "text" className="context" id="context"
-                        value = {this.props.context}
-                        onChange = {this.handleChange}
-                        placeholder = "Channel.." />
-                <FormControl type = "text" className="uuid" id="uuid"
-                        value = {this.state.uuid}
-                        onChange = {this.handleChange}
-                        placeholder = "Uuid.." />
+                <div className={advancedOptIcon + " options"} onClick={this.toggleAdvancedOpt}> advanced options</div>
+            </FormGroup>
+            {
+              this.state.advancedOptCliked &&
+              <React.Fragment>
+                <FormGroup className="form_context">
+                  <FormControl type = "text" className="context" id="context"
+                              value = {this.state.context}
+                              onChange = {this.handleChange}
+                              inputRef={ref => { this.contextinput = ref; }}
+                              placeholder = "Channel.." />
+                  <div className="icon-cancel delete" onClick={this.deleteContext} title="Delete channel" />
 
+                </FormGroup>
+                <FormGroup className="form_uuid" validationState = {this.getValidationUuid()}>
+                  <FormControl type = "text" className="uuid" id="uuid"
+                              value = {this.state.uuid}
+                              inputRef={ref => { this.uuidinput = ref; }}
+                              onChange = {this.handleChange}
+                              placeholder = "Uuid.." >                          
+                  </FormControl>
+                  <FormControl.Feedback />                            
+                  <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                  <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
+                </FormGroup>
                 <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown} title="If you check markdown, you can use markdown syntax">Markdown</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="isPrivate" checked={this.state.isPrivate} title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately.">Private</Checkbox> 
                 <Checkbox onChange={this.handleChange} id="hasComment" checked={this.state.hasComment} title="If you check comment, you can get comments from others">Comment</Checkbox> 
-  
-            </FormGroup>
+
+              </React.Fragment>
+            }
             <FormGroup controlId = "content">
                 {/*<ControlLabel> Content </ControlLabel>*/}
                 <FormControl style={contentStyle}

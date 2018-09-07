@@ -78,7 +78,7 @@ post["/add"] = (req, res) => {
             message: `post(${req.body.key}) is saved`,
             output: maskPost(output, req.body.uuid)
         })
-    }).catch(sendErr(res));;   
+    }).catch(sendErr(res));
 }
 
 

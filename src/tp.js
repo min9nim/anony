@@ -140,6 +140,9 @@ tp.setUser = function(obj){
     localStorage.setItem("user", JSON.stringify(user));
   }
 
+
+  tp.store && tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
+
   return user;
 }
 

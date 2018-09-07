@@ -119,7 +119,7 @@ export default class App extends React.Component {
           <Route path="/post/:key" render={renderPost} />
           <Route path="/postHistory/:key" render={renderPostHistory} />
           <Route path="/edit/:key" render={renderEdit} />
-          <Route path="/write" render={renderWrite} />
+          <Route path="/write" render={renderWrite} />          
           <Route path="/list" render={renderList} />
 
         {/* context */}
@@ -130,7 +130,7 @@ export default class App extends React.Component {
           <Route path="/:context/list" render={renderList} />
           <Route path="/:context" render={renderList} />
 
-          <Route path="/" render={renderList} />
+          <Route path="/" render={renderWrite} />
         </Switch>
         <AlertDismissable/>
         <Confirm/>

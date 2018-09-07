@@ -11,5 +11,7 @@
 .icon-spin3:before { content: '\e832'; } /* '' */
 .icon-trash:before { content: '\f083'; } /* '' */
 .icon-comment-empty:before { content: '\f0e5'; } /* '' */
+.icon-folder-empty:before { content: '\f114'; } /* '' */
+.icon-folder-open-empty:before { content: '\f115'; } /* '' */
 .icon-thumbs-up-alt:before { content: '\f164'; } /* '' */
 .icon-history:before { content: '\f1da'; } /* '' */

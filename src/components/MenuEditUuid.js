@@ -11,7 +11,7 @@ import {
 
 export default class MenuEditUuid extends React.Component {
     constructor(props) {
-        console.log("PostMenu 생성자 호출");
+        console.log("MenuEditUuid 생성자 호출");
         super(props);
         this.hideMenu = this.props.hideMenu;
         this.confirm = this.confirm.bind(this);
@@ -32,7 +32,7 @@ export default class MenuEditUuid extends React.Component {
             return;
         }
         tp.setUser({uuid: this.state.uuid});
-        tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
+        //tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
         //alert("uuid changed");
         tp.alert({
             message: "uuid changed", 

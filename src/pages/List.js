@@ -15,16 +15,17 @@ export default class List extends React.Component {
             posts: tp.store.getState().data.posts.filter(p => p.origin === undefined)
         }
 
+        tp.context = this.props.context ? this.props.context : "public" ;
+
         //if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length <= 1
             && tp.store.getState().view.search === ""){
-            tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context})
+            tp.api.getPosts({idx: 0, cnt: 10, context: tp.context})
                 .then(tp.checkStatus)
                 .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)));
         }
-        tp.context = this.props.context;
+        
 
-        this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
         // 이후 App 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
@@ -39,7 +40,7 @@ export default class List extends React.Component {
     }    
 
     componentDidMount(){
-        document.title = (this.props.context || "Anony") + " - " + tp.thispage;
+        document.title = (tp.context || "Anony") + " - " + tp.thispage;
         tp.$m.scrollTo(0, tp.scrollTop);        // 이전 스크롤 위치로 복원
     }
 
@@ -50,7 +51,7 @@ export default class List extends React.Component {
         tp.isScrollLast = false;
 
         // 다시 세팅
-        tp.api.getPosts({idx: 0, cnt: 10, context: this.props.context})
+        tp.api.getPosts({idx: 0, cnt: 10, context: tp.context})
             .then(tp.checkStatus)
             .then(res => tp.store.dispatch(tp.action.addPosts(res.posts)));
     }
@@ -59,7 +60,7 @@ export default class List extends React.Component {
     render(){
         console.log("List 렌더링..");
 
-        let title = tp.store.getState().view.uuid + (this.props.context ? (" /" + this.props.context) : "") ;
+        let title = tp.store.getState().view.uuid + (tp.context ? (" /" + tp.context) : "") ;
         let status = "";
         let search = tp.store.getState().view.search;
 
@@ -74,10 +75,10 @@ export default class List extends React.Component {
                     {!search && <Menu/> }
                     <div className="title" onClick={this.logoClick}>{title}</div>
                     <div className="status">{status}</div>
-                    <Search context={this.props.context}/>
+                    <Search context={tp.context}/>
                 </div>
                 {this.state.posts.map(
-                    post => <Excerpt history={this.props.history} key={post.key} post={post} context={this.props.context}/>
+                    post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context}/>
                 )}
 
                 {tp.store.getState().view.search !== "" && (
@@ -87,7 +88,7 @@ export default class List extends React.Component {
                 )}
 
                 <div className="writeBtn">
-                    <Link to={this.contextPath + "/write"}><Button bsStyle="success">Write</Button></Link>
+                    <Link to={"/" + tp.context + "/write"}><Button bsStyle="success">Write</Button></Link>
                 </div>
             </div>
         );
