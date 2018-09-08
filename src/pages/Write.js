@@ -19,6 +19,7 @@ export default class Write extends React.Component {
     this.deleteUuid = this.deleteUuid.bind(this);
     this.deleteContext = this.deleteContext.bind(this);
     this.deleteTitle = this.deleteTitle.bind(this);
+    this.deleteWriter = this.deleteWriter.bind(this);
     this.toggleAdvancedOpt = this.toggleAdvancedOpt.bind(this);
     
     this.state = {
@@ -115,6 +116,10 @@ export default class Write extends React.Component {
     this.setState({title: ""});
     this.titleinput.focus();
   }  
+  deleteWriter(){
+    this.setState({writer: ""});
+    this.writerinput.focus();
+  }   
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
       tp.alert({
@@ -131,7 +136,7 @@ export default class Write extends React.Component {
       tp.alert({
         message: "Channel is empty",
         style: "warning",
-        width: "173px",
+        width: "176px",
         onClose: () => {this.contextinput.focus();}
       });
       return;
@@ -208,7 +213,7 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             {/* <div className="context">{this.props.context || "Anony"}</div> */}
-            <FormGroup  controlId="title" className="form_title" validationState = {this.getValidationTitle()}>
+            <FormGroup  className="form_title" validationState = {this.getValidationTitle()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
                         id="title"
@@ -216,13 +221,18 @@ export default class Write extends React.Component {
                         onChange = {this.handleChange}
                         inputRef={ref => { this.titleinput = ref; }}
                         placeholder = "Title.." />
-                <div className="icon-cancel delete" onClick={this.deleteTitle} title="Delete title" />
+                {this.state.title && <div className="icon-cancel delete" onClick={this.deleteTitle} title="Delete title" /> }
             </FormGroup>
-            <FormGroup>
+            <FormGroup className="form_writer" >
                 <FormControl type = "text" className="writer" id="writer"
                       value = {this.state.writer}
                       onChange = {this.handleChange}
+                      inputRef={ref => { this.writerinput = ref; }}
                       placeholder = "Writer.." />
+                {this.state.writer &&
+                  <div className="icon-cancel delete" onClick={this.deleteWriter} title="Delete writer" />
+                }
+
                 <div className={advancedOptIcon + " options"} onClick={this.toggleAdvancedOpt}> advanced options</div>
             </FormGroup>
             {
@@ -234,7 +244,7 @@ export default class Write extends React.Component {
                               onChange = {this.handleChange}
                               inputRef={ref => { this.contextinput = ref; }}
                               placeholder = "Channel.." />
-                  <div className="icon-cancel delete" onClick={this.deleteContext} title="Delete channel" />
+                  {this.state.context && <div className="icon-cancel delete" onClick={this.deleteContext} title="Delete channel" />}
 
                 </FormGroup>
                 <FormGroup className="form_uuid" validationState = {this.getValidationUuid()}>
@@ -244,9 +254,13 @@ export default class Write extends React.Component {
                               onChange = {this.handleChange}
                               placeholder = "Uuid.." >                          
                   </FormControl>
+                  <div className="group_icon">
                   <FormControl.Feedback />                            
-                  <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                  {this.state.uuid &&
+                    <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                  }
                   <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
+                  </div>
                 </FormGroup>
                 <FormGroup className="form_chk">
                   <Checkbox onChange={this.handleChange} id="isMarkdown" checked={this.state.isMarkdown} title="If you check markdown, you can use markdown syntax">Markdown</Checkbox> 
