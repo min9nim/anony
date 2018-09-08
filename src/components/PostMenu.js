@@ -62,8 +62,9 @@ export default class PostMenu extends React.Component {
                 }).then(res => {
                     if (res.status === "Fail") {
                         tp.alert({
-                            message: res.message,
+                            message: "Fail<br>" + res.message,
                             style: "danger",
+                            width: "300px"
                         });
                         this.cancelMenu();
                     } else {
