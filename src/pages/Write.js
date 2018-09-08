@@ -29,7 +29,7 @@ export default class Write extends React.Component {
       content: "",
       date : "",
       isPrivate: false,
-      isMarkdown: false,
+      isMarkdown: tp.user.isMarkdown === undefined ? false : tp.user.isMarkdown,
       hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
       uuid : tp.user.uuid,
       context : this.props.context ? this.props.context : "public",
@@ -76,8 +76,10 @@ export default class Write extends React.Component {
     if(this.state.content.length > 10 && !confirm("Cancel to write?")){
       return;
     }
-    this.props.history.push(this.state.context ? "/" + this.state.context : "" + "/list");
-    //history.back();
+    //this.props.history.push(this.state.context ? "/" + this.state.context : "" + "/list");
+    // 글보기에서 글쓰기로 들어온 경우나 글목록에서 글쓰기로 들어온 경우라면 이전 페이지로 보내는 것이 적절함
+    history.back();
+
   }
 
   handleChange(e) {
