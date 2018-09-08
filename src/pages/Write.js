@@ -78,7 +78,13 @@ export default class Write extends React.Component {
     }
     //this.props.history.push(this.state.context ? "/" + this.state.context : "" + "/list");
     // 글보기에서 글쓰기로 들어온 경우나 글목록에서 글쓰기로 들어온 경우라면 이전 페이지로 보내는 것이 적절함
-    history.back();
+    
+    if(location.pathname === "/"){
+    // 주소창에 서비스주소 입력해서 직접 들어온 경우
+      this.props.history.push("/public/list");
+    }else{
+      history.back();
+    }
 
   }
 
