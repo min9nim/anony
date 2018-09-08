@@ -144,29 +144,28 @@ export default class CommentMenu extends React.Component {
     render(){
         console.log("CommentMenu 렌더링");
         return (<div className="commentMenu">
-                {this.state.clicked ? 
-                    <div className="navi">
-                        {
-                            this.props.comment.deleted ? 
-                            <div>
-                                <div className="icon-trash" onClick={this.removeComment}>Remove</div>
-                                <div className="icon-ccw" onClick={this.restoreComment}>Restore</div>
-                            </div> :
-                            <div>
-                                <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
-                                <div className="icon-pencil" onClick={this.editComment}>Edit</div>
-                            </div>
-                        }
-                        <div className="icon-cancel" onClick={this.hideMenu}>Cancel</div>
-                    </div>
-                :
-                    <div className="navi" onClick={this.showMenu}>...</div>
-                }
-                
-                {this.state.editClicked &&        
-                    <CommentEdit hideEdit={this.hideEdit} hideMenu={this.hideMenu} comment={this.props.comment} />        
-                }
-                
+                    {this.state.clicked ? 
+                        <div className="navi">
+                            {
+                                this.props.comment.deleted
+                                ?
+                                    <div className="icon-ccw" onClick={this.restoreComment}>Restore</div>
+                                :
+                                    <React.Fragment>
+                                        <div className="icon-pencil" onClick={this.editComment}>Edit</div>
+                                        <div className="icon-trash-empty" onClick={this.deleteComment}>Delete</div>
+                                    </React.Fragment>
+                            }
+                            <div className="icon-trash" onClick={this.removeComment}>Remove</div>
+                            <div className="icon-cancel" onClick={this.hideMenu}>Cancel</div>
+                        </div>
+                    :
+                        <div className="navi" onClick={this.showMenu}>...</div>
+                    }
+                    
+                    {this.state.editClicked &&        
+                        <CommentEdit hideEdit={this.hideEdit} hideMenu={this.hideMenu} comment={this.props.comment} />        
+                    }
                 </div>
         );
     }
