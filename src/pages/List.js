@@ -15,7 +15,7 @@ export default class List extends React.Component {
             posts: tp.store.getState().data.posts.filter(p => p.origin === undefined)
         }
 
-        if(this.props.context.length > tp.MAXCONTEXTLEN){
+        if(this.props.context && this.props.context.length > tp.MAXCONTEXTLEN){
             alert(`채널이름은 최대 ${tp.MAXCONTEXTLEN}자 까지 가능합니다`);
             history.back();
             return;
