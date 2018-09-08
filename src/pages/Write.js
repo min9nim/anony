@@ -17,7 +17,8 @@ export default class Write extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.refreshUuid = this.refreshUuid.bind(this);
     this.deleteUuid = this.deleteUuid.bind(this);
-    this.deleteContext = this.deleteContext.bind(this);
+    this.deleteUuid = this.deleteUuid.bind(this);
+    this.deleteTitle = this.deleteTitle.bind(this);
     this.toggleAdvancedOpt = this.toggleAdvancedOpt.bind(this);
     
     this.state = {
@@ -31,7 +32,10 @@ export default class Write extends React.Component {
       hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
       uuid : tp.user.uuid,
       context : this.props.context ? this.props.context : "public",
-      advancedOptCliked : false
+      
+      
+      advancedOptCliked : false,
+      autoTitle : true
     };
 
     tp.view.Write = this;
@@ -78,6 +82,17 @@ export default class Write extends React.Component {
   handleChange(e) {
     if(e.target.id === "uuid" && e.target.value.length > tp.MAXUUIDLEN) return;
     if(e.target.id === "context" && e.target.value.length > tp.MAXCONTEXTLEN) return;
+    if(e.target.id === "title"){
+      this.state.autoTitle = false;
+    }
+
+    if(
+      (this.state.autoTitle || this.state.title === "")
+      &&
+      (e.target.id === "content" && e.target.value.length <= tp.MAXTITLELEN)
+    ){
+      this.state.title = e.target.value;
+    }
 
     const state = {};
     state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
@@ -95,7 +110,11 @@ export default class Write extends React.Component {
   deleteContext(){
     this.setState({context: ""});
     this.contextinput.focus();
-}  
+  }  
+  deleteTitle(){
+    this.setState({title: ""});
+    this.titleinput.focus();
+  }  
   savePost() {
     if (tp.$m.removeTag(this.state.content).trim() === "") {
       tp.alert({
@@ -139,7 +158,7 @@ export default class Write extends React.Component {
 
     const newPost = {
       key : shortid.generate(),
-      title : tagRemovedTitle === "" ? tagRemovedContent.substr(0,20) : tagRemovedTitle,
+      title : tagRemovedTitle === "" ? tagRemovedContent.substr(0,tp.MAXTITLELEN) : tagRemovedTitle,
       writer : this.state.writer.trim(),
       content : this.state.content.trim(),
       date : Date.now(),
@@ -189,13 +208,15 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             {/* <div className="context">{this.props.context || "Anony"}</div> */}
-            <FormGroup  controlId="title" className="title" validationState = {this.getValidationTitle()}>
+            <FormGroup  controlId="title" className="form_title" validationState = {this.getValidationTitle()}>
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
+                        id="title"
                         value = {this.state.title}
                         onChange = {this.handleChange}
+                        inputRef={ref => { this.titleinput = ref; }}
                         placeholder = "Title.." />
-                <FormControl.Feedback />
+                <div className="icon-cancel delete" onClick={this.deleteTitle} title="Delete title" />
             </FormGroup>
             <FormGroup>
                 <FormControl type = "text" className="writer" id="writer"

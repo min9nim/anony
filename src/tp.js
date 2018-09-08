@@ -26,6 +26,7 @@ export let tp = {
   scrollTop: 0,        // list 화면에서 현재 스크롤 위치
   MAXCONTEXTLEN: 16,    // 컨텍스트명 최대 길이
   MAXUUIDLEN: 10,       // uuid 최대길이
+  MAXTITLELEN: 20,      // 글제목 최대길이
 };
 
 

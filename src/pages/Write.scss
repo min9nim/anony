@@ -6,9 +6,26 @@
         //margin-bottom: 5px;
         margin-bottom: initial;
     }
-    .title input{
-        padding-right: 12px;
+    .form_title {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+
+        input{
+            padding-right: 12px;
+        }
+        .delete{
+            font-size: 15px;
+            font-weight: bold;
+            position: absolute;
+            display: inline;
+            color: #999;
+            top: 8px;
+            right: 5px;
+            cursor: pointer;
+        }
     }
+
     .writer {
         display: inline-block;
         width: calc(100% - 160px);
