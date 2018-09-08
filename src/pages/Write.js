@@ -154,14 +154,20 @@ export default class Write extends React.Component {
     tp.api.addPost(newPost).then(res => {
       console.log("# " + res.message);
       //if(tp.view.App.state.data.posts.length > 0){
+
+      
       if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
+        if(tp.store.getState().data.posts[0].context !== res.output.context){
+          // 다른 채널에 신규 글을 등록했다면 이전에 store에 등록된 posts 목록은 초기화
+          tp.store.dispatch(tp.action.initPosts());
+        }
         tp.store.dispatch(tp.action.addPost(res.output));
       }else{
         // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
       }
       
       // 사용자 정보 업데이트
-      tp.setUser({writer : newPost.writer, hasComment : newPost.hasComment});
+      tp.setUser({writer : newPost.writer, hasComment : newPost.hasComment, isMarkdown: newPost.isMarkdown});
 
       // 작성된 글 바로 확인
       //this.props.history.push(this.contextPath + "/post/" + newPost.key);
