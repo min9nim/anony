@@ -76,8 +76,8 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
-    if(e.target.id === "uuid" && e.target.value.length > 10) return;
-    if(e.target.id === "context" && e.target.value.length > 16) return;
+    if(e.target.id === "uuid" && e.target.value.length > tp.MAXUUIDLEN) return;
+    if(e.target.id === "context" && e.target.value.length > tp.MAXCONTEXTLEN) return;
 
     const state = {};
     state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;

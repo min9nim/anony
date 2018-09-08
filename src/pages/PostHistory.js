@@ -53,7 +53,6 @@ export default class PostHistory extends React.Component {
         console.log("PostHistory 렌더링..");
         return (
             <div className="postHistory">
-                <div className="context">{this.props.context || "Anony"}</div>
                 {this.state.phist.map(
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}

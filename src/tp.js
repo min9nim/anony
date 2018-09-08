@@ -24,7 +24,10 @@ export let tp = {
   $m,                  // 기본 유틸함수
   hljs: undefined,     // 마크다운 코드 하이라이트처리(필요할 때 동적으로 로딩함)
   scrollTop: 0,        // list 화면에서 현재 스크롤 위치
+  MAXCONTEXTLEN: 16,    // 컨텍스트명 최대 길이
+  MAXUUIDLEN: 10,       // uuid 최대길이
 };
+
 
 
 
