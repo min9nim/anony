@@ -17,7 +17,7 @@ export default class Write extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.refreshUuid = this.refreshUuid.bind(this);
     this.deleteUuid = this.deleteUuid.bind(this);
-    this.deleteUuid = this.deleteUuid.bind(this);
+    this.deleteContext = this.deleteContext.bind(this);
     this.deleteTitle = this.deleteTitle.bind(this);
     this.toggleAdvancedOpt = this.toggleAdvancedOpt.bind(this);
     
