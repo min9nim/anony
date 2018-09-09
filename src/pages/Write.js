@@ -51,23 +51,6 @@ export default class Write extends React.Component {
     document.title = (this.props.context || "Anony") + " - " + tp.thispage;
   }
 
-  getValidationTitle() {
-    return;
-    const length = this.state.title.length;
-    if (length > 10) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
-  }
-
-  getValidationUuid() {
-    const length = this.state.uuid.length;
-    if (shortid.isValid(this.state.uuid) && this.state.uuid.length >= 9) return 'success';
-    else if (length > 5) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
-}
-
   toggleAdvancedOpt(){
     this.setState({advancedOptCliked : !this.state.advancedOptCliked});
   }
@@ -96,12 +79,17 @@ export default class Write extends React.Component {
     }
 
     if(
-      (this.state.autoTitle || this.state.title === "")
-      &&
-      (e.target.id === "content" && e.target.value.length <= tp.MAXTITLELEN)
+      (this.state.autoTitle || this.state.title === "") && e.target.id === "content"
     ){
-      this.state.title = e.target.value;
+      if(e.target.value.length <= tp.MAXTITLELEN){
+        this.state.title = e.target.value;
+      }else{
+        this.state.title = e.target.value.substr(0, tp.MAXTITLELEN);
+        this.state.autoTitle = false;
+      }
     }
+
+    
 
     const state = {};
     state[e.target.id] = e.target.getAttribute("type")==="checkbox" ? e.target.checked : e.target.value ;
@@ -221,7 +209,7 @@ export default class Write extends React.Component {
     return (
         <div className="write">
             {/* <div className="context">{this.props.context || "Anony"}</div> */}
-            <FormGroup  className="form_title" validationState = {this.getValidationTitle()}>
+            <FormGroup  className="form_title">
                 {/*<ControlLabel> Title </ControlLabel>*/}
                 <FormControl type = "text"
                         id="title"
@@ -255,7 +243,7 @@ export default class Write extends React.Component {
                   {this.state.context && <div className="icon-cancel delete" onClick={this.deleteContext} title="Delete channel" />}
 
                 </FormGroup>
-                <FormGroup className="form_uuid" validationState = {this.getValidationUuid()}>
+                <FormGroup className="form_uuid">
                   <FormControl type = "text" className="uuid" id="uuid"
                               value = {this.state.uuid}
                               inputRef={ref => { this.uuidinput = ref; }}
@@ -263,11 +251,10 @@ export default class Write extends React.Component {
                               placeholder = "Uuid.." >                          
                   </FormControl>
                   <div className="group_icon">
-                  <FormControl.Feedback />                            
-                  {this.state.uuid &&
-                    <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
-                  }
-                  <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
+                    <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
+                    {this.state.uuid &&
+                      <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                    }
                   </div>
                 </FormGroup>
                 <FormGroup className="form_chk">
