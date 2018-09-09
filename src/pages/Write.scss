@@ -1,3 +1,5 @@
+$uuid-width: 200px;
+
 
 .write {
     margin: 20px;
@@ -63,7 +65,7 @@
     .form_context {
         position: relative;
         display: inline-block;
-        width: calc(100% - 240px);
+        width: calc(100% - 210px);
         margin-right: 5px;
         .context {
             display: inline-block;
@@ -86,10 +88,11 @@
 
     .form_uuid {
         display: inline-block;
+        position: relative;
         .uuid {
             display: inline-block;
             //width: calc(100% - 265px);
-            width: 230px;
+            width: $uuid-width;
             margin-right: 5px;
             
         }
@@ -97,8 +100,8 @@
 
         .group_icon{
             position: absolute;
-            left: 155px;
-            top: 0;            
+            left: 153px;
+            top: 7px;          
             .form-control-feedback {
                 position: relative;
                 display: inline;
