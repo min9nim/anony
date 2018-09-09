@@ -24,8 +24,9 @@ export default class PostMenu extends React.Component {
     deletePost(){
         //if(!confirm("Delete this?")) return;
         tp.confirm({
-            message: "Delete this?<br> whenever you can restore this.",
-            width: "256px",
+            //message: "Delete this?<br> whenever you can restore this.",
+            //width: "256px",
+            message: "Delete this?",
             onYes : () => {
                 tp.api.deletePost({
                     key: this.props.postKey,
@@ -53,8 +54,8 @@ export default class PostMenu extends React.Component {
     removePost(){
         //if(!confirm("Remove this?")) return;
         tp.confirm({
-            message: "Remove this?<br> you cannot restore this.",
-            width: "212px",
+            //message: "Remove this?<br> you cannot restore this.", width: "212px",
+            message: "Remove this?", width: "150px",
             onYes: () => {
                 tp.api.removePost({
                     key: this.props.postKey,
@@ -180,11 +181,11 @@ export default class PostMenu extends React.Component {
                             {!this.props.postOrigin && 
                                 <div className="icon-pencil" onClick={this.editPost}>Edit</div>
                             }
-                            <div className="icon-trash-empty" onClick={this.deletePost} title="Delete this, but you can restore this">Delete</div>
+                            <div className="icon-trash-empty" onClick={this.deletePost} title="Delete this, whenever you can restore this">Delete</div>
                         </Fragment>
                     )
                     }
-                    <div className="icon-trash" onClick={this.removePost} title="Delete this permanently">Remove</div>
+                    <div className="icon-trash" onClick={this.removePost} title="Delete this, you cannot undo">Remove</div>
                     <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
                 </div>
                 :

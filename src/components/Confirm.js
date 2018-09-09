@@ -20,7 +20,7 @@ export default class Confirm extends React.Component {
         show: false,
         style: "info",   // success, warning, danger, info
         message: "",
-        width: "200px",
+        width: undefined,
       };
 
       tp.view.Confirm = this;
@@ -52,7 +52,7 @@ export default class Confirm extends React.Component {
         ReactDOM.findDOMNode(this.refs.yesBtn).focus();
     }
   
-    handleShow({message, style="info", width="200px", onYes, onNo}) {
+    handleShow({message, style="info", width, onYes, onNo}) {
       this.setState({
         show: true,
         message,

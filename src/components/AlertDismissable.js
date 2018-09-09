@@ -20,7 +20,7 @@ export default class AlertDismissable extends React.Component {
         show: false,
         style: "warning",   // success, warning, danger, info
         message: "",
-        width: "200px",
+        width: undefined,
       };
 
 
@@ -35,7 +35,7 @@ export default class AlertDismissable extends React.Component {
       }
     }
   
-    handleShow({message, style="warning", width="200px", onClose}) {
+    handleShow({message, style="warning", width, onClose}) {
       this.setState({
         show: true,
         message,
