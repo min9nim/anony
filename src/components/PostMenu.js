@@ -55,7 +55,7 @@ export default class PostMenu extends React.Component {
         //if(!confirm("Remove this?")) return;
         tp.confirm({
             //message: "Remove this?<br> you cannot restore this.", width: "212px",
-            message: "Remove this?", width: "150px",
+            message: "Remove this?", width: "155px",
             onYes: () => {
                 tp.api.removePost({
                     key: this.props.postKey,
