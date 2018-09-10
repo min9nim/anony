@@ -41,9 +41,10 @@ api.addComment = function (comment) {
 }
 
 
-api.getPosts = function ({idx, cnt, context, search, hideProgress}) {
+api.getPosts = function ({idx=0, cnt=10, context="public", search="", hideProgress}) {
     return httpReq(
-        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
+//        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
+        "/api/posts/get/" + context + "/" + idx + "/" + cnt,
         {
             method: "POST",
             headers: new Headers({"Content-Type": "application/json"}),
