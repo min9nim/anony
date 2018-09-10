@@ -160,7 +160,7 @@ post["/view/:key"] = (req, res) => {
 // idx 번째부터 cnt 개수만큼 post 를 조회
 post["/get/:context/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
-    const MAXCNT = 10;  // posts 조회 최대 개수
+    const MAXCNT = 50;  // posts 조회 최대 개수
 
     if(isNaN(idx)){
         //console.log(":idx 가 숫자가 아닙니다");
