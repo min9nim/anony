@@ -55,7 +55,7 @@ export default class AlertDismissable extends React.Component {
     render() {
       if (this.state.show) {
         return (
-          <div>
+          <div className="alertDismissable">
             <div className="modal_div"></div>
             <Alert bsStyle={this.state.style} style={{width: this.state.width}} onDismiss={this.handleDismiss}>
               <p dangerouslySetInnerHTML={{__html: this.state.message}} />
