@@ -138,12 +138,20 @@ export default class Write extends React.Component {
   }
 
   refreshUuid(){
-    this.setState({uuid: shortid.generate()});
+    if(this.props.type==="edit"){
+      // not allowed
+    }else{
+      this.setState({uuid: shortid.generate()});
+    }
   }
 
   deleteUuid(){
+    if(this.props.type==="edit"){
+      // not allowed
+    }else{
       this.setState({uuid: ""});
       this.uuidinput.focus();
+    }
   }  
   deleteContext(){
     this.setState({context: ""});
@@ -330,14 +338,21 @@ export default class Write extends React.Component {
                 <FormGroup className="form_uuid">
                   <FormControl type = "text" className="uuid" id="uuid"
                               value = {this.state.uuid}
+                              disabled = {this.props.type === "edit"}
                               inputRef={ref => { this.uuidinput = ref; }}
                               onChange = {this.handleChange}
                               placeholder = "Uuid.." >                          
                   </FormControl>
                   <div className="group_icon">
-                    <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
+                    <div style={this.props.type==="edit" ? {cursor: "not-allowed"} : {cursor: "pointer"}}
+                        className="icon-spin3 refresh"
+                        onClick={this.refreshUuid}
+                        title="Generate random uuid"/>
                     {this.state.uuid &&
-                      <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
+                      <div style={this.props.type==="edit" ? {cursor: "not-allowed"} : {cursor: "pointer"}} 
+                        className="icon-cancel delete" 
+                        onClick={this.deleteUuid} 
+                        title="Delete uuid" />
                     }
                   </div>
                 </FormGroup>
