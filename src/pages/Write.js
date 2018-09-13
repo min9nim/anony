@@ -262,70 +262,51 @@ export default class Write extends React.Component {
     const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
     const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
 
+    let post = {
+      title : tagRemovedTitle === "" ? tagRemovedContent.substr(0,tp.MAXTITLELEN) : tagRemovedTitle,
+      writer : this.state.writer.trim(),
+      content : this.state.content.trim(),
+      date : Date.now(),
+      isPrivate : this.state.isPrivate,
+      isMarkdown : this.state.isMarkdown,
+      hasComment : this.state.hasComment,
+      uuid : tp.user.uuid,
+      context : this.state.context
+    }
+
+
     if(this.props.type === "edit"){
-      const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
-      const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
-  
-      const afterPost = {
+      const newPost = Object.assign({}, post, {
         key : this.state.key,
-        title : tagRemovedTitle === "" ? tagRemovedContent.trim().substr(0,20) : tagRemovedTitle,
-        writer : this.state.writer.trim(),
-        content : this.state.content.trim(),
-        date : Date.now(),
-        isPrivate : this.state.isPrivate,
-        isMarkdown : this.state.isMarkdown,
-        hasComment : this.state.hasComment,
         viewCnt : this.state.viewCnt,
         likeCnt : this.state.likeCnt,
-        uuid : tp.user.uuid,
-        context : this.state.context
-      };
+        commentCnt : this.state.commentCnt,
+      });
   
-      tp.api.updatePost(afterPost).then(res => {
+      tp.api.updatePost(newPost).then(res => {
         if(res.status === "Fail"){
-          //tp.alert(JSON.stringify(res, null, 2));
           tp.alert({
             message: res.message,
             style: "danger",
           });
-  
           return;
         }
         console.log("# " + res.message);
         //if(tp.view.App.state.data.posts.length > 0){
         if(tp.store.getState().data.posts.length > 0){
-          tp.store.dispatch(tp.action.updatePost(afterPost));
+          tp.store.dispatch(tp.action.updatePost(newPost));
         }
-        
-        // 사용자 정보 업데이트
-        tp.setUser({writer : afterPost.writer});
-  
-        // 작성된 글 바로 확인
-        this.props.history.push("/" + this.state.context + "/post/" + afterPost.key);
-  
-  
       });  
     }else{
-
-      const newPost = {
+      const newPost = Object.assign({}, post, {
         key : shortid.generate(),
-        title : tagRemovedTitle === "" ? tagRemovedContent.substr(0,tp.MAXTITLELEN) : tagRemovedTitle,
-        writer : this.state.writer.trim(),
-        content : this.state.content.trim(),
-        date : Date.now(),
-        isPrivate : this.state.isPrivate,
-        isMarkdown : this.state.isMarkdown,
-        hasComment : this.state.hasComment,
-        uuid : tp.user.uuid,
-        context : this.state.context,
+        viewCnt : 0,
+        likeCnt : 0,
         commentCnt : 0,
-      };
+      });
   
       tp.api.addPost(newPost).then(res => {
         console.log("# " + res.message);
-        //if(tp.view.App.state.data.posts.length > 0){
-  
-        
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
           if(tp.store.getState().data.posts[0].context !== res.output.context){
             // 다른 채널에 신규 글을 등록했다면 이전에 store에 등록된 posts 목록은 초기화
@@ -335,15 +316,14 @@ export default class Write extends React.Component {
         }else{
           // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
         }
-        
-        // 사용자 정보 업데이트
-        tp.setUser({writer : newPost.writer, hasComment : newPost.hasComment, isMarkdown: newPost.isMarkdown});
-  
-        // 작성된 글 바로 확인
-        //this.props.history.push(this.contextPath + "/post/" + newPost.key);
-        this.props.history.push("/" + this.state.context + "/post/" + newPost.key);
       });  
     }
+
+    // 사용자 정보 업데이트
+    tp.setUser({writer : post.writer, hasComment : post.hasComment, isMarkdown: post.isMarkdown});
+
+    // 작성된 글 바로 확인
+    this.props.history.push("/" + this.state.context + "/post/" + newPost.key);
   }
 
 
