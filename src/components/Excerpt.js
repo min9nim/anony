@@ -19,7 +19,7 @@ export default class Excerpt extends React.Component {
         
     }
 
-    shouldComponentUpdate(prevProps, prevState) {
+    shouldComponentUpdate(nextProps, prevState) {
         // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
         //return this.props !== prevProps;
         
@@ -27,7 +27,7 @@ export default class Excerpt extends React.Component {
         //return prevProps.post !== this.props.post;
         //console.log("this.props.post.deleted = " + this.props.post.deleted);
         //console.log("prevProps.post.deleted = " + prevProps.post.deleted);
-        return !R.equals(this.props, prevProps);
+        return !R.equals(this.props, nextProps);
     }
 
     render(){

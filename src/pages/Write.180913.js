@@ -43,8 +43,8 @@ export default class Write extends React.Component {
     //this.contextPath = this.props.context ? "/" + this.props.context : "" ;
   }
 
-  shouldComponentUpdate(prevProps, prevState) {
-    return prevState !== this.state;
+  shouldComponentUpdate(nextProps, prevState) {
+    return nextProps !== this.state;
   }
 
   componentDidMount(){

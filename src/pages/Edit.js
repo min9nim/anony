@@ -80,8 +80,8 @@ export default class Write extends React.Component {
   }
 
 
-  shouldComponentUpdate(prevProps, prevState) {
-    return prevState !== this.state;
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps !== this.state;
   }
 
   componentDidMount(){

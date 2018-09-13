@@ -49,26 +49,49 @@ export default class Write extends React.Component {
         //this.state = this.props.post;
         this.state = tp.store.getState().data.posts.find(post => post.key === this.props.postKey);
         this.state.uuid = tp.user.uuid;
-        if(this.state.origin !== undefined){
-          tp.alert({
-            message: "Invalid access!",
-            style: "danger",
-          });
-          history.back();
-        }
+        /**
+         * 18.09.13
+         * min9nim
+         * 정상적인 접근 방법으로는 아래 분기로직으로 진입이 불가능하기에 아래 주석처리함
+         */
+        // if(this.state.origin !== undefined){
+
+        //   tp.alert({
+        //     message: "Invalid access!",
+        //     style: "danger",
+        //     onClose: history.back
+        //   });
+        // }
     }else{
-        // URL로 직접 들어온 경우
-        //alert("유효한 접근이 아닙니다");
+      // URL로 직접 들어온 경우
         tp.api.getPost(this.props.postKey).then(res => {
-            this.state = res.post;
-            this.state.uuid = tp.user.uuid;  
+            //this.state = res.post;
+            
+            /**
+             * 18.09.13
+             * min9nim
+             * 어짜피 아래 스토어 갱신에 따라 setState가 호출될 것이기 때문에 위 문장 필요없음
+             */
+            this.state.uuid = tp.user.uuid; // uuid 는 res.post 에 포함되어 있지 않다
             tp.store.dispatch(tp.action.addPost(res.post));
         });
     }
     
     this.unsubscribe = tp.store.subscribe(() => {
-        console.log("Edit가 store 상태변경 노티 받음")
-        this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
+        console.log("Edit가 store 상태변경 노티 받음");
+        if(this.state.key === ""){
+          // URL로 직접 들어온 경우에만 this.setState가 필요
+          this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
+        }else{
+          /**
+           * 18.09.13
+           * min9nim
+           * 여기서 this.setState 를 하게 되면,
+           * 글 수정후 저장시 tp.setUser() 에 의해 store가 갱신되고
+           * 이때 잠시 수정 전 글이 잠깐 원복되어져 보이게 되는 문제가 발생할 수 있어서 분기처리함
+           */
+        }
+        
     });      
   }
 
@@ -79,9 +102,31 @@ export default class Write extends React.Component {
     }
   }
 
+  componentWillUpdate(){
+         
+  }
 
-  shouldComponentUpdate(prevProps, prevState) {
-    return prevState !== this.state;
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextProps.type === "edit" && nextState.origin !== undefined){
+      // 히스토리 글을 수정하려고 하는 경우
+      alert("Invalid access!");
+      //history.back();
+      /**
+       * 18.09.13 min9nim
+       * history.back() 를 사용하면 alert 가 연속으로 두세번 호출되는 문제가 있어서 그냥 아래와 같이 페이지 이동 처리
+       */
+      nextProps.history.push("/public/list");
+      return false;
+
+      // tp.alert({
+      //   message: "Invalid access!",
+      //   style: "danger",
+      //   onClose: history.back
+      // });
+    }
+
+    return nextState !== this.state;
   }
 
   componentDidMount(){

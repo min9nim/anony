@@ -77,7 +77,9 @@ export default class List extends React.Component {
     render(){
         console.log("List 렌더링..");
 
-        let title = tp.store.getState().view.uuid + (tp.context ? (" /" + tp.context) : "") ;
+        //let title = tp.store.getState().view.uuid + (tp.context ? (" /" + tp.context) : "") ;
+        let title = tp.user.uuid + (tp.context ? (" /" + tp.context) : "") ;
+        
         let status = "";
         let search = tp.store.getState().view.search;
 

@@ -48,10 +48,6 @@ export default class Edit extends React.Component {
   }
 
 
-  shouldComponentUpdate(prevProps, prevState) {
-    return true;
-  }
-
   componentDidMount(){
     document.title = this.state.context + " - " + tp.thispage;
   }
