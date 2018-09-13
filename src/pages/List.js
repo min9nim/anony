@@ -25,12 +25,21 @@ export default class List extends React.Component {
                     ? this.props.context : "public" ;
 
         //if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
-        if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length <= 1
-            && tp.store.getState().view.search === ""){
-            // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
+        if(
+            (// 처음부터 글쓰기로 글을 생성하고 들어온 경우
+                tp.store.getState().data.posts.filter(p => p.origin === undefined).length <= 1
+                &&
+                tp.store.getState().view.search === ""
+            )
+            ||
+            // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
+            tp.store.getState().data.posts.map(p => p.context).filter((v,i,a) => a.indexOf(v) === i).length > 1
+        ){
             tp.api.getPosts({idx: 0, cnt: 10, context: tp.context})
                 .then(tp.checkStatus)
                 .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)));
+        }else{
+            // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
         }
         
 

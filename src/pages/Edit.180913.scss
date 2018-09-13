@@ -1,0 +1,32 @@
+
+.edit {
+    margin: 20px;
+    div {
+        margin-bottom: 5px;
+    }    
+    .writer {
+        display: inline-block;
+        width: calc(100% - 265px);
+    }    
+
+    .checkbox{
+        margin: 0px 0px 0px 10px;
+        vertical-align: text-bottom;
+        display: inline-block;
+        input[type="checkbox"] {
+            -webkit-appearance: checkbox;
+        }
+    }
+
+    .content {
+        font-size: 20px;
+        height: 210px;
+    }
+    input {
+        font-size: 20px;
+    }
+        
+    .write-cancel-btn {
+        margin-left: 3px;
+    }
+}

@@ -97,7 +97,7 @@ export default class App extends React.Component {
       tp.thispage = "Edit";
       const Edit = tp.asyncComponent(() => import(/* webpackChunkName: "Edit"  */'./pages/Edit'), "/pages/Edit")
       //return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-      return <Edit history={history} postKey={match.params.key} context={match.params.context}/> ;
+      return <Edit type="edit" history={history} postKey={match.params.key} context={match.params.context}/> ;
     }
     const renderWrite = ({history, match}) => {
       tp.thispage = "Write";
