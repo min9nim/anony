@@ -34,7 +34,8 @@ export default class Excerpt extends React.Component {
         console.log("Excerpt 렌더링..");
 
         const search = tp.store.getState().view.search;
-        const title = tp.highlight(this.props.post.title, search);
+        let title = tp.highlight(this.props.post.title, search);
+        title += this.props.post.isPrivate ? "<sup> - Private -</sup>" : "";
         //const excerpt = tp.highlight(this.props.post.content.substr(0,100), search);
         const excerpt = tp.highlight(this.props.post.content, search);
 
