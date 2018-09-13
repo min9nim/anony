@@ -4,8 +4,16 @@ import nprogress from "nprogress";
 
 function errHandler(res) {
     nprogress.done(); // nprogress.status 가 null 이면 바로 종료됨
-    if (!res.ok) throw Error(res.statusText);
-    return res.json();
+    //if (!res.ok) throw Error(res.statusText);
+    if (!res.ok){
+        return new Promise(function(resolve, reject){
+            reject(new Error(res.statusText));
+        })
+    }else{
+        return res.json();
+    }
+
+    
 }
 
 function httpReq(path, opt) {

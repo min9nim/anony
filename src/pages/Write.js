@@ -257,7 +257,6 @@ export default class Write extends React.Component {
     }
 
 
-    tp.setUser(this.state.uuid);
     
     const tagRemovedContent = tp.$m.removeTag(this.state.content).trim();
     const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim();
@@ -275,15 +274,24 @@ export default class Write extends React.Component {
     }
 
 
+    // 사용자 정보 업데이트
+    tp.setUser({
+      uuid: this.state.uuid,
+      writer : post.writer,
+      hasComment : post.hasComment, 
+      isMarkdown: post.isMarkdown
+    });
+
+
     if(this.props.type === "edit"){
-      const newPost = Object.assign({}, post, {
+      Object.assign(post, {
         key : this.state.key,
         viewCnt : this.state.viewCnt,
         likeCnt : this.state.likeCnt,
         commentCnt : this.state.commentCnt,
       });
   
-      tp.api.updatePost(newPost).then(res => {
+      tp.api.updatePost(post).then(res => {
         if(res.status === "Fail"){
           tp.alert({
             message: res.message,
@@ -291,22 +299,25 @@ export default class Write extends React.Component {
           });
           return;
         }
-        console.log("# " + res.message);
         //if(tp.view.App.state.data.posts.length > 0){
         if(tp.store.getState().data.posts.length > 0){
-          tp.store.dispatch(tp.action.updatePost(newPost));
+          tp.store.dispatch(tp.action.updatePost(post));
         }
+
+        // 작성된 글 바로 확인
+        this.props.history.push("/" + this.state.context + "/post/" + post.key);
+        
+        
       });  
     }else{
-      const newPost = Object.assign({}, post, {
+      Object.assign(post, {
         key : shortid.generate(),
         viewCnt : 0,
         likeCnt : 0,
         commentCnt : 0,
       });
   
-      tp.api.addPost(newPost).then(res => {
-        console.log("# " + res.message);
+      tp.api.addPost(post).then(res => {
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
           if(tp.store.getState().data.posts[0].context !== res.output.context){
             // 다른 채널에 신규 글을 등록했다면 이전에 store에 등록된 posts 목록은 초기화
@@ -316,14 +327,13 @@ export default class Write extends React.Component {
         }else{
           // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
         }
+
+        // 작성된 글 바로 확인
+        this.props.history.push("/" + this.state.context + "/post/" + post.key);
+        
       });  
     }
 
-    // 사용자 정보 업데이트
-    tp.setUser({writer : post.writer, hasComment : post.hasComment, isMarkdown: post.isMarkdown});
-
-    // 작성된 글 바로 확인
-    this.props.history.push("/" + this.state.context + "/post/" + newPost.key);
   }
 
 

@@ -79,8 +79,14 @@ tp.checkStatus = function(res){
     return res;
   }else{
     // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-    tp.alert(res.message);
-    throw Error(res.message);
+    tp.alert({
+      message: res.message, 
+      style: "danger",
+      width: "200px"
+    });
+    return new Promise(function(resolve, reject){
+      reject(new Error(res.message));
+    })
   }
 }
 

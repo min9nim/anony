@@ -24,7 +24,7 @@ function setHasComment(post){
 function sendErr(res){
     return err => {
         console.log(err);
-        res.status(500).send({
+        res.status(200).send({
             status: "Fail",
             message: err.toString()
         });
@@ -135,6 +135,10 @@ post["/edit/:uuid"] = (req, res) => {
 // 조회수 1증가
 post["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
+        if(post.isPrivate && post.uuid !== req.body.uuid){
+            throw Error("Not authorized");
+        }
+
         if(post.origin) {
             res.send({
                 status: "Fail",
@@ -179,9 +183,15 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
     Post.find({$and : [
-            {isPrivate:{$in: [ false, undefined ]}},
+            {$or : [
+                {isPrivate: {$in: [ false, undefined ]}},
+                {$and : [
+                    {isPrivate: true},
+                    {uuid : req.body.uuid}
+                ]},
+            ]},
             {origin: undefined},
-            {context: req.params.context === "root" ? undefined : req.params.context},
+            {context: req.params.context},
             {$or : [
                 {title : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}, 
                 {content : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}
@@ -285,6 +295,9 @@ post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
             //console.log("### p.liked = " + p.liked);
+            if(p.isPrivate && p.uuid !== req.body.uuid){
+                throw Error("Not authorized");
+            }
             return p;
         })
         .then(R.partialRight(maskPost, req.body.uuid))

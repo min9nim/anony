@@ -88,10 +88,11 @@ export default class Post extends React.Component {
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
             // 목록/수정 화면에서 넘어 들어온 경우
             const diff = Date.now() - this.state.date;
-
+debugger;
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
+                debugger;
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
                 if(tp.store.getState().data.posts.length > 1){
@@ -105,6 +106,8 @@ export default class Post extends React.Component {
                             // 수정내역post 인 경우
                         }
                     })
+    
+
                 }else{
                     // 3.직접URL로 들어온 후 tp.api.viewPost 호출하고 store업데이트 된 후 화면 다시 그리면서 이쪽으로 들어옴
                 }
@@ -123,7 +126,14 @@ export default class Post extends React.Component {
                     }else{
                         // 수정내역post 인 경우
                         tp.api.getPost(this.props.postKey)
-                            .then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
+                            //.then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
+                            .then(tp.checkStatus)
+                            .then(R.prop("post"))
+                            .then(tp.action.addPost)
+                            .then(tp.store.dispatch)
+                            .catch(e => {
+                                console.log(e.message)
+                            });
                     }
                 })
         }
@@ -216,7 +226,8 @@ export default class Post extends React.Component {
                     </div>
                     <div className={contentStyle} dangerouslySetInnerHTML={{__html: content}}></div>
                     <PostMeta post={this.state}/>
-                    {!!this.state.origin || this.state.isPrivate || (
+                    {//!!this.state.origin || this.state.isPrivate || (
+                        !!this.state.origin || (
                         <div>
                             <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>
                             <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn">Write</Button></Link>
