@@ -20,16 +20,26 @@
         <meta name="description" content="{{description}}">
         <style>
             #root {
+                position: relative;
                 max-width: 800px;
                 margin: auto;
+            }
+            .loading {
+                font-size: 14px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            .meta {
+                visibility: hidden;
             }
         </style>
     </head>
 
     <body>
         <div id="root">
-            <div style="visibility: hidden;">{{content}}</div>
-            <div style="font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
+            <div class="meta">{{content}}</div>
+            <div class="loading"><i class="icon-spin3 animate-spin"></i>Loading..</div>
         </div>
         <script src="/vendors~dev~index~react.chunk.js"></script>
         <script src="/vendors~dev.chunk.js"></script>
