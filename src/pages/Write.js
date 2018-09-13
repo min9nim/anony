@@ -102,11 +102,6 @@ export default class Write extends React.Component {
     }
   }
 
-  componentWillUpdate(){
-         
-  }
-
-
   shouldComponentUpdate(nextProps, nextState) {
     if(nextProps.type === "edit" && nextState.origin !== undefined){
       // 히스토리 글을 수정하려고 하는 경우
@@ -129,6 +124,15 @@ export default class Write extends React.Component {
     return nextState !== this.state;
   }
 
+  getValidationState() {
+    let uuid = tp.$m.removeTag(this.state.uuid).trim();
+    const length = uuid.length;
+    if (shortid.isValid(this.state.uuid) && length >= 9) return 'success';
+    else if (length > 5) return 'warning';
+    else if (length > 0) return 'error';
+    return null;
+  }
+
   componentDidMount(){
     document.title = this.props.context + " - " + tp.thispage;
   }
@@ -139,7 +143,7 @@ export default class Write extends React.Component {
 
   cancel(){
     if(this.props.type === "edit"){
-      // 취소시 글보기 화면으로 이동
+      // 글수정시 취소 버튼 클릭하면 글보기 화면으로 이동
       var arr = location.pathname.split("/");
       arr.splice(arr.indexOf("edit"), 1, "post");
       this.props.history.push(arr.join("/"));
@@ -238,10 +242,20 @@ export default class Write extends React.Component {
         width: "173px",
         onClose: () => {this.uuidinput.focus();}
       });
-      this.uuidinput.focus();
 
       return;
     }
+
+    if(this.getValidationState() !== "success"){
+      tp.alert({
+        message: "Invalid uuid", 
+        style: "warning", 
+        width: "152px",
+        onClose: () => {this.uuidinput.focus();}
+      });
+      return;
+    }
+
 
     tp.setUser(this.state.uuid);
     
