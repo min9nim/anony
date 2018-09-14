@@ -88,11 +88,9 @@ export default class Post extends React.Component {
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
             // 목록/수정 화면에서 넘어 들어온 경우
             const diff = Date.now() - this.state.date;
-debugger;
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
-                debugger;
             }else{
                 // 2. List 에서 글 선택해서 들어온 경우
                 if(tp.store.getState().data.posts.length > 1){
