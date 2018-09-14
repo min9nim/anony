@@ -155,5 +155,13 @@ $uuid-width: 200px;
         color: #777;
         margin-bottom: 5px;
     }
+
+    .help-wrapper {
+        text-align: right;
+        .help {
+            display: inline;
+        }
+    
+    }
 }
 

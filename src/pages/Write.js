@@ -34,7 +34,7 @@ export default class Write extends React.Component {
       uuid : tp.user.uuid,
       context : this.props.context ? this.props.context : "public",
       advancedOptCliked : false,
-      autoTitle : true
+      autoTitle : this.props.type === "edit" ? false : true
     };
 
     if(this.props.type === "edit"){
@@ -425,6 +425,9 @@ export default class Write extends React.Component {
             </FormGroup>
             <Button bsStyle="success" onClick = {this.savePost}>Save</Button>
             <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
+            <div class="help-wrapper">
+              <a href="/public/post/BylrBddOOm"><div class="icon-help-circled help">How to use</div></a>
+            </div>
         </div>
     );
   }
