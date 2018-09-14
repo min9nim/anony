@@ -125,7 +125,11 @@ export default class PostMenu extends React.Component {
             if(res.status === "Success"){
                 this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
-                tp.alert(res.message);
+                tp.alert({
+                    message: res.message, 
+                    style: "warning",
+                    width: "160px"
+                });
                 this.cancelMenu();
             }
         })
