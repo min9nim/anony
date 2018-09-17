@@ -9,7 +9,9 @@ const postSchema = new Schema({
     title: String,
     writer: String,
     content: String,
-    date: Number,
+    createdDate: Number,
+    lastViewedDate: Number,
+    date: Number,       // lastModifiedDate
     isPrivate: {type: Boolean, default: false},
     isMarkdown: {type: Boolean, default: false},
     hasComment: {type: Boolean, default: true},

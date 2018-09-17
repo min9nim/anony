@@ -65,7 +65,7 @@ function maskPost(post, uuid){
 post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
-    Object.assign(post, req.body);
+    Object.assign(post, req.body, {createdDate: Date.now()});
     // 글최초 등록하면 바로 글보기 화면으로 가면서 카운트가 1 증가하는데
     // 최초 등록 후 글이 보여질 때는 view를 0으로 맞추기 위해
     // 아래와 같이 명시적으로 처음에 undefined 값을 할당한다.
@@ -146,6 +146,7 @@ post["/view/:key"] = (req, res) => {
             });
         }else{
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
+            post.lastViewedDate = Date.now();
             post.save()
                 .then(output => {
                     //console.log(output);
