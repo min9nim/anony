@@ -282,7 +282,6 @@ export default class Write extends React.Component {
       isMarkdown: post.isMarkdown
     });
 
-
     if(this.props.type === "edit"){
       Object.assign(post, {
         key : this.state.key,
@@ -425,8 +424,8 @@ export default class Write extends React.Component {
             </FormGroup>
             <Button bsStyle="success" onClick = {this.savePost}>Save</Button>
             <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
-            <div class="help-wrapper">
-              <a href="/public/post/BylrBddOOm"><div class="icon-help-circled help">How to use</div></a>
+            <div className="help-wrapper">
+              <a href="/public/post/BylrBddOOm"><div className="icon-help-circled help">How to use</div></a>
             </div>
         </div>
     );

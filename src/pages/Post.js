@@ -87,7 +87,7 @@ export default class Post extends React.Component {
         //if(this.props.post){
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
             // 목록/수정 화면에서 넘어 들어온 경우
-            const diff = Date.now() - this.state.date;
+            const diff = Date.now() - this.state.date;      // 여기서 state 가 undefined 인 경우가 있다???
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
