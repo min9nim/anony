@@ -2,7 +2,11 @@
 /* Excerpt component */
 .excerpt {
     display: inline-block;
-    margin: 1px 0px;
+    /**
+    * 18.09.17 min9nim
+    * overflow: hidden; 추가후 테두리가 두꺼워져서 margin 설정을 수정함
+    */
+    margin: -2px 0px;
     width: 100%;
     background-color: #fff;
     padding: 15px 15px;
