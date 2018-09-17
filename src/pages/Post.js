@@ -196,9 +196,14 @@ export default class Post extends React.Component {
         //     R.join("```")
         // );        
 
+
+        const deletedClass = this.state.deleted ? "deleted" : "";
+        const privateClass = this.state.isPrivate ? "private" : "";
+        const titleClass =  `title h4 ${deletedClass} ${privateClass}`;
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
-        const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
+        const contentStyle = `${deletedClass} ${privateClass} ${contentClass}`;
+
         const content = this.state.isMarkdown ?
                         this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
@@ -210,7 +215,7 @@ export default class Post extends React.Component {
                 <div className="post">
                     <div>
                         {/*제목에서 검색결과 하이라이트 표시를 하려면 html태그 사용이 필요하다 */}
-                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}
+                        <div className={titleClass}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>
                     </div>

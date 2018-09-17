@@ -33,6 +33,12 @@ export default class Excerpt extends React.Component {
     render(){
         console.log("Excerpt 렌더링..");
 
+        const deletedClass = this.props.post.deleted ? "deleted" : "";
+        const privateClass = this.props.post.isPrivate ? "private" : "";
+
+        const titleClass = `title h4 ${deletedClass} ${privateClass}`;
+        const contentStyle = `content ${deletedClass} ${privateClass}`;
+
         const search = tp.store.getState().view.search;
         let title = tp.highlight(this.props.post.title, search);
         title += this.props.post.isPrivate ? "<sup> - Private -</sup>" : "";
@@ -44,7 +50,7 @@ export default class Excerpt extends React.Component {
             <div id={this.props.post.key} className="excerpt">
                 <div className="title1">
                     <Link to={ this.contextPath + "/post/" + this.props.post.key}>
-                        <div className={this.props.post.deleted ? "title h4 deleted" : "title h4"}
+                        <div className={titleClass}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>
                     </Link>
@@ -59,7 +65,7 @@ export default class Excerpt extends React.Component {
                                 postOrigin={this.props.post.origin}
                                 postDeleted={this.props.post.deleted}/>
                 </div>
-                <div className={this.props.post.deleted ? "content deleted" : "content"}
+                <div className={contentStyle}
                     dangerouslySetInnerHTML={{__html: excerpt}}>
                 </div>
                 <PostMeta post={this.props.post} />
