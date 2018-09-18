@@ -57,9 +57,10 @@ tp.bodyScroll = function () {
   // console.log("scrollHeight : " + scrollHeight)
 
 
-  if ((tp.isDesktop() && (scrollTop + clientHeight == scrollHeight))        // 데스크탑 크롬
-      ||
-      (!tp.isDesktop() && (scrollTop + clientHeight == scrollHeight - 55))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+  if (
+    (scrollTop + clientHeight == scrollHeight)    // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
+    ||
+    (tp.isMobileChrome() && (scrollTop + clientHeight == scrollHeight - 55))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
   ){ //스크롤이 마지막일때
   
   /*
@@ -136,6 +137,10 @@ tp.getCookie = function (cname) {
 tp.isDesktop = function(){
   const os = ["win16", "win32", "win64", "mac", "macintel"];
   return os.includes(navigator.platform.toLowerCase());
+}
+
+tp.isMobileChrome = function(){
+  return !tp.isDesktop() && navigator.userAgent.includes("Chrome");
 }
 
 
