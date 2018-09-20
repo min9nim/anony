@@ -161,8 +161,15 @@ export default class Write extends React.Component {
               }else{
                 history.back();
               }
-            },
+          },
         });
+      }else{
+        if(location.pathname === "/"){
+          // 주소창에 서비스주소 입력해서 직접 들어온 경우
+            this.props.history.push("/public/list");
+        }else{
+          history.back();
+        }
       }
     }
   }
