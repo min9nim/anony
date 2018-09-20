@@ -149,17 +149,20 @@ export default class Write extends React.Component {
       this.props.history.push(arr.join("/"));
     }else{
       // in Write
-      if(this.state.content.length > 10 && !confirm("Cancel to write?")){
-        return;
-      }
-      //this.props.history.push(this.state.context ? "/" + this.state.context : "" + "/list");
-      // 글보기에서 글쓰기로 들어온 경우나 글목록에서 글쓰기로 들어온 경우라면 이전 페이지로 보내는 것이 적절함
-      
-      if(location.pathname === "/"){
-      // 주소창에 서비스주소 입력해서 직접 들어온 경우
-        this.props.history.push("/public/list");
-      }else{
-        history.back();
+      if(this.state.content.length > 10){
+        tp.confirm({
+          message : "Cancel to write?",
+          style : "danger",
+          width : "170px",
+          onYes : () => {            
+            if(location.pathname === "/"){
+              // 주소창에 서비스주소 입력해서 직접 들어온 경우
+                this.props.history.push("/public/list");
+              }else{
+                history.back();
+              }
+            },
+        });
       }
     }
   }
@@ -339,8 +342,20 @@ export default class Write extends React.Component {
   render() {
     console.log("Write 렌더링..");
 
+
+    /**
+     * 18.09.20 min9nim
+     * 안드로이드(G6) 크롬&파폭일 경우 예외처리 추가
+     */
+    let height =  ( tp.isDesktop() || navigator.userAgent.match(/android/i) )
+                  ?
+                    (window.innerHeight - 200) + "px"
+                  :
+                    (window.innerHeight - 400) + "px";
+
+
     const contentStyle = {
-      height: tp.isDesktop() ? (window.innerHeight - 200) + "px" : (window.innerHeight - 400) + "px",   // 핸드폰의 키보드 높이만큼 줄임
+      height,   // 핸드폰의 키보드 높이만큼 줄임
       fontSize: this.state && this.state.isMarkdown ? "15px" : "20px"
     }
 
