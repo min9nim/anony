@@ -41,7 +41,7 @@ export default class Excerpt extends React.Component {
 
         const search = tp.store.getState().view.search;
         let title = tp.highlight(this.props.post.title, search);
-        title += this.props.post.isPrivate ? "<sup> - Private -</sup>" : "";
+        title = (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : "") + title;
         //const excerpt = tp.highlight(this.props.post.content.substr(0,100), search);
         const excerpt = tp.highlight(this.props.post.content, search);
 
@@ -53,6 +53,7 @@ export default class Excerpt extends React.Component {
                         <div className={titleClass}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>
+                        
                     </Link>
                 </div>
                 <div>

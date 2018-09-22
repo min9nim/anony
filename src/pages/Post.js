@@ -163,7 +163,9 @@ export default class Post extends React.Component {
         let title;
         const search = tp.store.getState().view.search;
         title = tp.highlight(this.state.title, search);
-        title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
+        //title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
+        title = (this.state.isPrivate ? `<i class="icon-lock"></i>` : "") + title;
+
 
         function nl2br(str){
             // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
