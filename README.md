@@ -9,7 +9,7 @@ Anony는 익명을 기반으로 로그인없이 자유롭게 내가 원하는 �
 
 
 #### Feature
-![](/image/write-form.png)
+![](https://anony-212509.appspot.com/image/write-form.png)
 
 Title
 - 글의 제목입니다
