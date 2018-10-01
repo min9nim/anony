@@ -29,9 +29,6 @@ export default class Comment extends React.Component {
         }
     }
 
-    shouldComponentUpdate(prevProps, prevState) {
-        return true;
-    }
 
     handleChange(e) {
         let state = {};

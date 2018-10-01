@@ -32,7 +32,7 @@ $uuid-width: 200px;
         position: relative;
         .writer {
             display: inline-block;
-            width: calc(100% - 160px);
+            width: calc(100% - 90px);
             //width: 120px;
             margin-right: 5px;
        
@@ -154,6 +154,14 @@ $uuid-width: 200px;
     .form-control {
         color: #777;
         margin-bottom: 5px;
+    }
+
+    .help-wrapper {
+        text-align: right;
+        .help {
+            display: inline;
+        }
+    
     }
 }
 

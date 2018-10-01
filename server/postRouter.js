@@ -24,7 +24,7 @@ function setHasComment(post){
 function sendErr(res){
     return err => {
         console.log(err);
-        res.status(500).send({
+        res.status(200).send({
             status: "Fail",
             message: err.toString()
         });
@@ -65,7 +65,7 @@ function maskPost(post, uuid){
 post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
-    Object.assign(post, req.body);
+    Object.assign(post, req.body, {createdDate: Date.now()});
     // 글최초 등록하면 바로 글보기 화면으로 가면서 카운트가 1 증가하는데
     // 최초 등록 후 글이 보여질 때는 view를 0으로 맞추기 위해
     // 아래와 같이 명시적으로 처음에 undefined 값을 할당한다.
@@ -135,6 +135,10 @@ post["/edit/:uuid"] = (req, res) => {
 // 조회수 1증가
 post["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
+        if(post.isPrivate && post.uuid !== req.body.uuid){
+            throw Error("Not authorized");
+        }
+
         if(post.origin) {
             res.send({
                 status: "Fail",
@@ -142,6 +146,7 @@ post["/view/:key"] = (req, res) => {
             });
         }else{
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
+            post.lastViewedDate = Date.now();
             post.save()
                 .then(output => {
                     //console.log(output);
@@ -160,7 +165,7 @@ post["/view/:key"] = (req, res) => {
 // idx 번째부터 cnt 개수만큼 post 를 조회
 post["/get/:context/:idx/:cnt"] = (req, res) => {
     const idx = Number(req.params.idx);
-    const MAXCNT = 10;  // posts 조회 최대 개수
+    const MAXCNT = 50;  // posts 조회 최대 개수
 
     if(isNaN(idx)){
         //console.log(":idx 가 숫자가 아닙니다");
@@ -179,9 +184,15 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
 
     Post.find({$and : [
-            {isPrivate:{$in: [ false, undefined ]}},
+            {$or : [
+                {isPrivate: {$in: [ false, undefined ]}},
+                {$and : [
+                    {isPrivate: true},
+                    {uuid : req.body.uuid}
+                ]},
+            ]},
             {origin: undefined},
-            {context: req.params.context === "root" ? undefined : req.params.context},
+            {context: req.params.context},
             {$or : [
                 {title : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}, 
                 {content : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}
@@ -285,6 +296,9 @@ post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
             //console.log("### p.liked = " + p.liked);
+            if(p.isPrivate && p.uuid !== req.body.uuid){
+                throw Error("Not authorized");
+            }
             return p;
         })
         .then(R.partialRight(maskPost, req.body.uuid))

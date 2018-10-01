@@ -87,8 +87,7 @@ export default class Post extends React.Component {
         //if(this.props.post){
         if(tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0){
             // 목록/수정 화면에서 넘어 들어온 경우
-            const diff = Date.now() - this.state.date;
-
+            const diff = Date.now() - this.state.date;      // 여기서 state 가 undefined 인 경우가 있다???
             if(diff < 1000){
                 // 1. 글등록이나 수정하고 바로 들어온 경우
                 // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
@@ -105,6 +104,8 @@ export default class Post extends React.Component {
                             // 수정내역post 인 경우
                         }
                     })
+    
+
                 }else{
                     // 3.직접URL로 들어온 후 tp.api.viewPost 호출하고 store업데이트 된 후 화면 다시 그리면서 이쪽으로 들어옴
                 }
@@ -123,7 +124,14 @@ export default class Post extends React.Component {
                     }else{
                         // 수정내역post 인 경우
                         tp.api.getPost(this.props.postKey)
-                            .then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
+                            //.then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
+                            .then(tp.checkStatus)
+                            .then(R.prop("post"))
+                            .then(tp.action.addPost)
+                            .then(tp.store.dispatch)
+                            .catch(e => {
+                                console.log(e.message)
+                            });
                     }
                 })
         }
@@ -155,7 +163,9 @@ export default class Post extends React.Component {
         let title;
         const search = tp.store.getState().view.search;
         title = tp.highlight(this.state.title, search);
-        title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
+        //title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
+        title = (this.state.isPrivate ? `<i class="icon-lock"></i>` : "") + title;
+
 
         function nl2br(str){
             // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
@@ -165,7 +175,7 @@ export default class Post extends React.Component {
              * 아래 highlight_nl2br 에서 코드영역에대한 replace 는 제외하도록 코딩이 되어있으므로 개행문자 <br>처리 문장을 다시 주석 해제함
              */
             //return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
-            return str.replace(/\n\n\n\n/g, "\n\n<br><br>\n\n").replace(/\n\n\n/g, "\n\n<br>\n\n");
+            return str.replace(/\n\n\n\n/g, "\n<br><br>\n\n").replace(/\n\n\n/g, "\n<br>\n\n");
             //return str;
         }
 
@@ -188,9 +198,14 @@ export default class Post extends React.Component {
         //     R.join("```")
         // );        
 
+
+        const deletedClass = this.state.deleted ? "deleted" : "";
+        const privateClass = this.state.isPrivate ? "private" : "";
+        const titleClass =  `title h4 ${deletedClass} ${privateClass}`;
         
         const contentClass = this.state.isMarkdown ? "markdown" : "content";
-        const contentStyle = this.state.deleted ? contentClass + "  deleted" : contentClass
+        const contentStyle = `${deletedClass} ${privateClass} ${contentClass}`;
+
         const content = this.state.isMarkdown ?
                         this.md.render(highlight_nl2br(this.state.content)) :
                         tp.$m.txtToHtml(this.state.content, search);
@@ -202,7 +217,7 @@ export default class Post extends React.Component {
                 <div className="post">
                     <div>
                         {/*제목에서 검색결과 하이라이트 표시를 하려면 html태그 사용이 필요하다 */}
-                        <div className={this.state.deleted ? "title h4 deleted" : "title h4"}
+                        <div className={titleClass}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>
                     </div>
@@ -216,7 +231,8 @@ export default class Post extends React.Component {
                     </div>
                     <div className={contentStyle} dangerouslySetInnerHTML={{__html: content}}></div>
                     <PostMeta post={this.state}/>
-                    {!!this.state.origin || this.state.isPrivate || (
+                    {//!!this.state.origin || this.state.isPrivate || (
+                        !!this.state.origin || (
                         <div>
                             <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>
                             <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn">Write</Button></Link>

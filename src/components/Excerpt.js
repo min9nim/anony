@@ -19,7 +19,7 @@ export default class Excerpt extends React.Component {
         
     }
 
-    shouldComponentUpdate(prevProps, prevState) {
+    shouldComponentUpdate(nextProps, prevState) {
         // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
         //return this.props !== prevProps;
         
@@ -27,14 +27,21 @@ export default class Excerpt extends React.Component {
         //return prevProps.post !== this.props.post;
         //console.log("this.props.post.deleted = " + this.props.post.deleted);
         //console.log("prevProps.post.deleted = " + prevProps.post.deleted);
-        return !R.equals(this.props, prevProps);
+        return !R.equals(this.props, nextProps);
     }
 
     render(){
         console.log("Excerpt 렌더링..");
 
+        const deletedClass = this.props.post.deleted ? "deleted" : "";
+        const privateClass = this.props.post.isPrivate ? "private" : "";
+
+        const titleClass = `title h4 ${deletedClass} ${privateClass}`;
+        const contentStyle = `content ${deletedClass} ${privateClass}`;
+
         const search = tp.store.getState().view.search;
-        const title = tp.highlight(this.props.post.title, search);
+        let title = tp.highlight(this.props.post.title, search);
+        title = (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : "") + title;
         //const excerpt = tp.highlight(this.props.post.content.substr(0,100), search);
         const excerpt = tp.highlight(this.props.post.content, search);
 
@@ -43,9 +50,10 @@ export default class Excerpt extends React.Component {
             <div id={this.props.post.key} className="excerpt">
                 <div className="title1">
                     <Link to={ this.contextPath + "/post/" + this.props.post.key}>
-                        <div className={this.props.post.deleted ? "title h4 deleted" : "title h4"}
+                        <div className={titleClass}
                             dangerouslySetInnerHTML={{__html: title}}>
                         </div>
+                        
                     </Link>
                 </div>
                 <div>
@@ -58,7 +66,7 @@ export default class Excerpt extends React.Component {
                                 postOrigin={this.props.post.origin}
                                 postDeleted={this.props.post.deleted}/>
                 </div>
-                <div className={this.props.post.deleted ? "content deleted" : "content"}
+                <div className={contentStyle}
                     dangerouslySetInnerHTML={{__html: excerpt}}>
                 </div>
                 <PostMeta post={this.props.post} />

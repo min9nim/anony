@@ -55,7 +55,7 @@ export default class PostMenu extends React.Component {
         //if(!confirm("Remove this?")) return;
         tp.confirm({
             //message: "Remove this?<br> you cannot restore this.", width: "212px",
-            message: "Remove this?", width: "150px",
+            message: "Remove this?", width: "155px",
             onYes: () => {
                 tp.api.removePost({
                     key: this.props.postKey,
@@ -65,7 +65,7 @@ export default class PostMenu extends React.Component {
                         tp.alert({
                             message: "Fail<br>" + res.message,
                             style: "danger",
-                            width: "300px"
+                            width: "200px"
                         });
                         this.cancelMenu();
                     } else {
@@ -125,7 +125,11 @@ export default class PostMenu extends React.Component {
             if(res.status === "Success"){
                 this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
             }else{
-                tp.alert(res.message);
+                tp.alert({
+                    message: res.message, 
+                    style: "warning",
+                    width: "160px"
+                });
                 this.cancelMenu();
             }
         })

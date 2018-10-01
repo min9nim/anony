@@ -33,11 +33,13 @@ export let tp = {
 
 
 tp.bodyScroll = function () {
+  
   // 목록화면이 아니면 리턴  
   if(tp.thispage !== "List") return;
 
   // 현재 목록화면 scrollTop 의 값
   const scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+  
 
   // 현재 스크롤 값을 전역변수에 저장
   tp.scrollTop = scrollTop;
@@ -50,8 +52,23 @@ tp.bodyScroll = function () {
   //현재 화면 높이 값
   const clientHeight = document.documentElement.clientHeight;
 
+  // console.log("scrollTop : " + scrollTop)
+  // console.log("clientHeight : " + clientHeight)
+  // console.log("scrollHeight : " + scrollHeight)
 
-  if ((scrollTop + clientHeight) == scrollHeight) { //스크롤이 마지막일때
+
+  if (
+    (scrollTop + clientHeight == scrollHeight)    // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
+    ||
+    (tp.isMobileChrome() && (scrollTop + clientHeight == scrollHeight - 55))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+  ){ //스크롤이 마지막일때
+  
+  /*
+  * 18.09.19 min9nim
+  * 아래와 같이 분기 처리하면 데스크탑 크롬에서 스크롤이 마지막에 닿고나서 요청이 여러번 한꺼번에 올라가는 문제 발생
+  * //if ((scrollTop + clientHeight) >= scrollHeight-55) { 
+  */
+
     nprogress.start();
     $m("#nprogress .spinner").css("top", "95%");
     tp.api.getPosts({
@@ -79,8 +96,14 @@ tp.checkStatus = function(res){
     return res;
   }else{
     // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-    tp.alert(res.message);
-    throw Error(res.message);
+    tp.alert({
+      message: res.message, 
+      style: "danger",
+      width: "200px"
+    });
+    return new Promise(function(resolve, reject){
+      reject(new Error(res.message));
+    })
   }
 }
 
@@ -114,6 +137,10 @@ tp.getCookie = function (cname) {
 tp.isDesktop = function(){
   const os = ["win16", "win32", "win64", "mac", "macintel"];
   return os.includes(navigator.platform.toLowerCase());
+}
+
+tp.isMobileChrome = function(){
+  return !tp.isDesktop() && navigator.userAgent.includes("Chrome");
 }
 
 

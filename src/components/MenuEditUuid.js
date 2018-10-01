@@ -57,8 +57,9 @@ export default class MenuEditUuid extends React.Component {
     }
 
     getValidationState() {
-        const length = this.state.uuid.length;
-        if (shortid.isValid(this.state.uuid) && this.state.uuid.length >= 9) return 'success';
+        let uuid = tp.$m.removeTag(this.state.uuid).trim();
+        const length = uuid.length;    
+        if (shortid.isValid(this.state.uuid) && length >= 9) return 'success';
         else if (length > 5) return 'warning';
         else if (length > 0) return 'error';
         return null;

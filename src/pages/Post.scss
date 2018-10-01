@@ -30,6 +30,10 @@
         font-size: 18px;
     }
 
+    .private {
+        color: #999 !important;
+    }
+
     .markdown {
         margin-top: 20px;
         color: #777;
@@ -92,7 +96,7 @@
     
     .deleted {
         text-decoration:line-through;
-        color: #ccc;
+        color: #ddd;
     }
 }
 

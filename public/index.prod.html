@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123144904-1"></script>
@@ -16,12 +15,10 @@
         <link rel="stylesheet" href="/css/fontello.css">
         <link rel="stylesheet" href="/css/animation.css">
 
-
         <!--파비콘 정의-->
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link rel="icon" type="image/png" href="/favicon.ico">
         <link rel="icon" href="/favicon.ico" type="image/x-icon">
-        
         
         <!-- 외부 웹폰트 링크가 내용 중에 포함되어 있어서 웹팩으로 빌드하면 오류 발생-->
         <!--link rel="stylesheet" href="/bootstrap.min.css"-->
@@ -31,16 +28,27 @@
         <meta name="description" content="{{description}}">
         <style>
             #root {
+                /* position: relative; *//*모달창의 너비가 좁아 짐 18.09.13 */
                 max-width: 800px;
                 margin: auto;
+            }
+            .loading {
+                font-size: 14px;
+                position: absolute;
+                max-width: 800px;
+                margin: auto;
+                top: 0;
+            }
+            .seo-meta {
+                visibility: hidden;
             }
         </style>        
     </head>
 
     <body>
         <div id="root">
-            <div style="visibility: hidden;">{{content}}</div>
-            <div style="font-size: 14px;"><i class="icon-spin3 animate-spin"></i>Loading..</div>
+            <div class="seo-meta">{{content}}</div>
+            <div class="loading"><i class="icon-spin3 animate-spin"></i>Loading..</div>
         </div>
         <script src="/vendors~index~react.chunk.js"></script>
         <script src="/vendors~index.chunk.js"></script>
