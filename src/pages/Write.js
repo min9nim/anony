@@ -33,7 +33,7 @@ export default class Write extends React.Component {
       hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
       uuid : tp.user.uuid,
       context : this.props.context ? this.props.context : "public",
-      advancedOptCliked : false,
+      optClicked : false,
       autoTitle : this.props.type === "edit" ? false : true
     };
 
@@ -138,7 +138,7 @@ export default class Write extends React.Component {
   }
 
   toggleAdvancedOpt(){
-    this.setState({advancedOptCliked : !this.state.advancedOptCliked});
+    this.setState({optClicked : !this.state.optClicked});
   }
 
   cancel(){
@@ -356,7 +356,12 @@ export default class Write extends React.Component {
      */
     let height =  ( tp.isDesktop() || navigator.userAgent.match(/android/i) )
                   ?
-                    (window.innerHeight - 200) + "px"
+                    //(window.innerHeight - 200) + "px"
+                    /**
+                     * 18.10.01 min9nim
+                     * options 버튼 클릭시 스크롤이 생기는 문제 때문에 높이 를 아래와 같이 조정
+                     */
+                    (window.innerHeight - 250) + "px"
                   :
                     (window.innerHeight - 400) + "px";
 
@@ -366,7 +371,7 @@ export default class Write extends React.Component {
       fontSize: this.state && this.state.isMarkdown ? "15px" : "20px"
     }
 
-    const advancedOptIcon = this.state.advancedOptCliked ? "icon-folder-open-empty" : "icon-folder-empty" ;
+    const optIcon = this.state.optClicked ? "icon-folder-open-empty" : "icon-folder-empty" ;
 
     return (
         <div className="write">
@@ -391,10 +396,10 @@ export default class Write extends React.Component {
                   <div className="icon-cancel delete" onClick={this.deleteWriter} title="Delete writer" />
                 }
 
-                <div className={advancedOptIcon + " options"} onClick={this.toggleAdvancedOpt}> advanced options</div>
+                <div className={optIcon + " options"} onClick={this.toggleAdvancedOpt}> options</div>
             </FormGroup>
             {
-              this.state.advancedOptCliked &&
+              this.state.optClicked &&
               <React.Fragment>
                 <FormGroup className="form_context">
                   <FormControl type = "text" className="context" id="context"
