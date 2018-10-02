@@ -52,15 +52,15 @@ tp.bodyScroll = function () {
   //현재 화면 높이 값
   const clientHeight = document.documentElement.clientHeight;
 
-  // console.log("scrollTop : " + scrollTop)
-  // console.log("clientHeight : " + clientHeight)
-  // console.log("scrollHeight : " + scrollHeight)
+  console.log("scrollTop : " + scrollTop)
+  console.log("clientHeight : " + clientHeight)
+  console.log("scrollHeight : " + scrollHeight)
 
 
   if (
     (scrollTop + clientHeight == scrollHeight)    // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
     ||
-    (tp.isMobileChrome() && (scrollTop + clientHeight == scrollHeight - 55))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+    (tp.isMobileChrome() && (scrollTop + clientHeight == scrollHeight - 56))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
   ){ //스크롤이 마지막일때
   
   /*
