@@ -2,6 +2,7 @@
 /* Excerpt component */
 .excerpt {
     display: inline-block;
+    border-bottom: 1px solid #eee;
     /**
     * 18.09.17 min9nim
     * overflow: hidden; 추가후 테두리가 두꺼워져서 margin 설정을 수정함
@@ -17,6 +18,9 @@
     * 목록에서 가로스크롤이 생기는 것이 싫어서 overflow: hidden; 추가
     */    
     overflow: hidden;  
+
+    -webkit-transition: height 0.5s, -webkit-transform 0.5s;
+    transition: height 0.5s, transform 0.5s;
 
     .title1 {
         

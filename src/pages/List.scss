@@ -1,7 +1,7 @@
 /* List component */
 .list {
     margin: 0px;
-    background-color: #f7f7f7;
+    //background-color: #f7f7f7;
 
     .header{
         display: flex;
@@ -11,6 +11,7 @@
         padding: 3px 15px 3px 10px;
         margin-bottom: 4px;
         height: 29px;
+        border-bottom: 1px solid #eee;
         .title {
             display: inline-block;
             font-size: 16px;
