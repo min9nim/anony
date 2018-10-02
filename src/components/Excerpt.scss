@@ -19,8 +19,12 @@
     */    
     overflow: hidden;  
 
-    -webkit-transition: height 0.5s, -webkit-transform 0.5s;
-    transition: height 0.5s, transform 0.5s;
+    /*
+    * 18.10.02 min9nim
+    * remove 애니메이션 추가
+    */
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
 
     .title1 {
         

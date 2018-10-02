@@ -69,8 +69,7 @@ export default class PostMenu extends React.Component {
                             });
                             this.cancelMenu();
                         } else {
-                            let post = document.getElementById(this.props.postKey);
-                            post.style.transform = "scaleY(0)";
+                            document.getElementById(this.props.postKey).style.transform = "scaleY(0)";
                             //post.style.height = "0px";
                             setTimeout(() => {
                                 tp.store.dispatch(tp.action.removePost(p => p.key === this.props.postKey));
@@ -87,7 +86,7 @@ export default class PostMenu extends React.Component {
                                 }else{
                                     this.props.history.push(this.contextPath + "/list");
                                 }
-                            }, 1000);
+                            }, 500);
                         }
                     })                    
             }
