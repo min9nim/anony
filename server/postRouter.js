@@ -135,11 +135,13 @@ post["/edit/:uuid"] = (req, res) => {
 // 조회수 1증가
 post["/view/:key"] = (req, res) => {
     Post.findOne({key: req.params.key}).then(post => {
-        if(post.isPrivate && post.uuid !== req.body.uuid){
-            throw Error("Not authorized");
-        }
 
-        if(post.origin) {
+
+        if(post === null){
+            throw Error("Invalid access");
+        }else if(post.isPrivate && post.uuid !== req.body.uuid){
+            throw Error("Not authorized");
+        }else if(post.origin) {
             res.send({
                 status: "Fail",
                 message: `edited Post@${req.params.key} cannot increased viewCnt`,
@@ -295,11 +297,13 @@ get["/remove/:key/:uuid"] = (req, res) => {
 post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
-            //console.log("### p.liked = " + p.liked);
-            if(p.isPrivate && p.uuid !== req.body.uuid){
+            if(p === null){
+                throw Error("Invalid access");
+            }else if(p.isPrivate && p.uuid !== req.body.uuid){
                 throw Error("Not authorized");
+            }else{
+                return p;
             }
-            return p;
         })
         .then(R.partialRight(maskPost, req.body.uuid))
         .then(setHasComment)
