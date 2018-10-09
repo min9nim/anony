@@ -1,12 +1,17 @@
 .Search{
     flex-grow: 1;
     text-align: right;    
-    .icon-search {
+    .btn1 {
         position: relative;
         left: 25px;
         cursor: pointer;
         display: inline-block;
         font-size: 14px;
+    }
+    .btn2 {
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
     }
     .ipt-wrapper {
         display: inline-block;

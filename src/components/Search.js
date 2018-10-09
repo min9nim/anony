@@ -17,7 +17,13 @@ export default class Search extends React.Component {
             clicked : false,
             word : ""
         }
-        shortcut.add("Alt+S", this.showSearch);   
+
+        /**
+         * 2018.10.09
+         * min9nim
+         * 검색 단축키는 굳이 필요 없을 것 같아서 주석처리
+         */
+        //shortcut.add("Alt+S", this.showSearch);
         
         // 이후 Search 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
@@ -83,15 +89,24 @@ export default class Search extends React.Component {
         console.log("Search 렌더링");
         return (
             <div className="Search">
-                <div className="icon-search" onClick={this.search}></div>
-                <div className="ipt-wrapper">
-                    <input className="ipt-search" 
-                            value={this.state.word} 
-                            onChange={this.handleChange}
-                            onKeyPress={this.handleKeyPress} />
-                </div>
-                {this.state.clicked &&        
-                    <SearchBox hideSearch={this.hideSearch} context={this.props.context} title="Search button"/>        
+                {
+                    tp.isDesktop()
+                    ? 
+                    <React.Fragment>
+                        <div className="icon-search btn1" onClick={this.search}></div>
+                        <div className="ipt-wrapper">
+                            <input className="ipt-search" 
+                                    value={this.state.word} 
+                                    onChange={this.handleChange}
+                                    onKeyPress={this.handleKeyPress} />
+                        </div>
+                    </React.Fragment>
+                    :
+                    <React.Fragment>
+                        <div className="icon-search btn2" onClick={this.showSearch}></div>
+                        {this.state.clicked &&        
+                            <SearchBox hideSearch={this.hideSearch} context={this.props.context} title="Search button"/>}
+                    </React.Fragment>
                 }
             </div>
         );
