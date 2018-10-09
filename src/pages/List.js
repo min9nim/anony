@@ -94,7 +94,7 @@ export default class List extends React.Component {
                     {!search && <Menu/> }
                     <div className="title" onClick={this.logoClick}>{title}</div>
                     <div className="status">{status}</div>
-                    <Search context={tp.context}/>
+                    <Search context={tp.context} />
                 </div>
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context}/>
