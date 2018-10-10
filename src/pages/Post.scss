@@ -58,6 +58,15 @@
             margin-bottom: 20px;
         }
 
+        /**
+        * 2018.10.10
+        * min9nim
+        * 위에 p 에 정의한 margin-bottom 때문에 텍스트(p) + 코드(pre)가 이어질 경우 20px 떨어지는 문제를 아래 설정으로 보정함
+        */
+        p + pre {
+            margin-top: -20px;
+        }
+
         p+ul, p+ol, p+blockquote {
             /* 마크다운에서 목록을 사용할 경우 제목과 목록사이 간격 조정 */
             margin-top: -15px;
