@@ -99,7 +99,7 @@ export default class Comment extends React.Component {
                         placeholder = "Comment.." />
                 </div>
                 <div className="confirmBtn">
-                    <Button bsStyle="success" disabled={isLoading} onClick={isLoading ? null : this.saveComment}>Confirm</Button>
+                    <Button bsStyle="success" disabled={isLoading} onClick={isLoading ? null : this.saveComment}><i className="icon-floppy" />Confirm</Button>
                 </div>
             </div>
         );

@@ -156,12 +156,18 @@ $uuid-width: 200px;
         margin-bottom: 5px;
     }
 
+    .btn {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 4px;
+        padding-right: 8px;
+    }
+
     .help-wrapper {
         text-align: right;
         .help {
             display: inline;
         }
-    
     }
 }
 

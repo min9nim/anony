@@ -449,8 +449,8 @@ export default class Write extends React.Component {
                         componentClass = "textarea"
                         placeholder = "Content.." />
             </FormGroup>
-            <Button bsStyle="success" onClick = {this.savePost}>Save</Button>
-            <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
+            <Button bsStyle="success" onClick = {this.savePost}><i className="icon-floppy" />Save</Button>
+            <Button className="write-cancel-btn" bsStyle="success" onClick={this.cancel}><i className="icon-cancel" />Cancel</Button>
             <div className="help-wrapper">
               <a href="/public/post/BylrBddOOm"><div className="icon-help-circled help">How to use</div></a>
             </div>
