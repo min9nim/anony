@@ -107,7 +107,7 @@ export default class List extends React.Component {
                 )}
 
                 <div className="writeBtn">
-                    <Link to={"/" + tp.context + "/write"}><Button bsStyle="success">Write</Button></Link>
+                    <Link to={"/" + tp.context + "/write"}><Button bsStyle="success"><i className="icon-doc-new" />Write</Button></Link>
                 </div>
             </div>
         );

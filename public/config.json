@@ -113,6 +113,18 @@
       "css": "lock",
       "code": 59402,
       "src": "fontawesome"
+    },
+    {
+      "uid": "9e0404ba55575a540164db9a5ad511df",
+      "css": "doc-new",
+      "code": 59404,
+      "src": "elusive"
+    },
+    {
+      "uid": "ef47651da3866460f27baf85ae234e5c",
+      "css": "list",
+      "code": 59405,
+      "src": "iconic"
     }
   ]
 }
