@@ -125,6 +125,12 @@
       "css": "list",
       "code": 59405,
       "src": "iconic"
+    },
+    {
+      "uid": "f0d8d7ccb0adb92a41c058d7fd9f11b2",
+      "css": "to-end",
+      "code": 59403,
+      "src": "iconic"
     }
   ]
 }
