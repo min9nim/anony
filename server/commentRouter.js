@@ -122,7 +122,7 @@ get["/get/:idx/:cnt"] = (req, res) => {
         .catch(sendErr(res));
 };
 
-// key 에 해당하는 comment 를 삭제
+// key 에 해당하는 comment 삭제표시
 get["/delete/:key/:uuid"] = (req, res) => {
     console.log(`/comments/delete/:key/:uuid call`);
     Comment.findOne({ key: req.params.key })
