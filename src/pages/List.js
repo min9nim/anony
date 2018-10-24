@@ -3,6 +3,9 @@ import { Button } from "react-bootstrap";
 import {Excerpt, Menu, Search, ListLoader} from "../components";
 import {tp} from "../tp.js";
 import { Link } from "react-router-dom";
+import nprogress from "nprogress";
+import $m from "../../com/util";
+
 import "./List.scss";
 
 
@@ -166,8 +169,8 @@ document.body.onscroll = function () {
 
 
 
-        //nprogress.start();
-        //$m("#nprogress .spinner").css("top", "95%");
+        nprogress.start();
+        $m("#nprogress .spinner").css("top", "95%");
         tp.view.List.setState({loading: true});
         tp.api.getPosts({
             idx: tp.store.getState().data.posts.filter(p => p.origin === undefined).length,
@@ -180,9 +183,9 @@ document.body.onscroll = function () {
             tp.view.List.setState({loading: false});
             tp.store.dispatch(tp.action.scrollEnd(res.posts));
             if(res.posts.length < PAGEROWS){
-            console.log("Scroll has touched bottom")
-            tp.isScrollLast = true;
-            return;
+                console.log("Scroll has touched bottom")
+                tp.isScrollLast = true;
+                return;
             }
         })
     }
