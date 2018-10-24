@@ -4,7 +4,7 @@ import "./PostMenu.scss";
 
 export default class PostMenu extends React.Component {
     constructor(props) {
-        console.log("PostMenu 생성자 호출");
+        //console.log("PostMenu 생성자 호출");
         super(props);
         this.showMenu = this.showMenu.bind(this);
         this.cancelMenu = this.cancelMenu.bind(this);
@@ -181,7 +181,7 @@ export default class PostMenu extends React.Component {
     }
 
     render(){
-        console.log("PostMenu 렌더링");
+        //console.log("PostMenu 렌더링");
         return (
             <div className="postMenu">{
                 this.state.clicked
