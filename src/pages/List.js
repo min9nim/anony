@@ -103,7 +103,7 @@ export default class List extends React.Component {
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context}/>
                 )}
-                {this.state.loading && new Array(10).fill("").map((v,i) => <ListLoader key={i} />)}
+                {this.state.loading && new Array(10).fill().map((v,i) => <ListLoader key={i} />)}
                 {tp.store.getState().view.search !== "" && (
                     <div className="backBtn">
                         <Button bsStyle="success" onClick={this.logoClick}>Back</Button>
