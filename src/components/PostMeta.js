@@ -4,7 +4,7 @@ import "./PostMeta.scss";
 
 export default class PostMeta extends React.Component {
     constructor(props) {
-        console.log("PostMeta 생성자 호출");
+        // console.log("PostMeta 생성자 호출");
         super(props);
         this.likePost = this.likePost.bind(this);
     }
@@ -24,7 +24,7 @@ export default class PostMeta extends React.Component {
     }
 
     render(){
-        console.log("PostMeta 렌더링");
+        // console.log("PostMeta 렌더링");
         return (
             <div className="postMeta">
                 <i className="icon-eye">View: {this.props.post.viewCnt || 0} </i>

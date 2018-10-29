@@ -57,7 +57,7 @@ export default class PostHistory extends React.Component {
                     post => <Excerpt history={this.props.history} context={this.props.context} key={post.key} post={post}/>
                 )}
                 <div className="btnWrapper">
-                    <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success" className="lastBtn">Last</Button></Link>
+                    <Link to={this.contextPath + "/post/" + this.props.postKey}><Button bsStyle="success"><i className="icon-to-end" />Last</Button></Link>
                 </div>
             </div>
             

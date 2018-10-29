@@ -2,6 +2,8 @@
 /* Post */
 .post {
     margin: 20px;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
     
     .title {
         display: inline-block;
@@ -36,7 +38,7 @@
 
     .markdown {
         margin-top: 20px;
-        color: #777;
+        color: #555;
         font-size: 16px;
         display: inline-block;
         table {
@@ -54,6 +56,15 @@
 
         p { // 기본 문단 간의 간격
             margin-bottom: 20px;
+        }
+
+        /**
+        * 2018.10.10
+        * min9nim
+        * 위에 p 에 정의한 margin-bottom 때문에 텍스트(p) + 코드(pre)가 이어질 경우 20px 떨어지는 문제를 아래 설정으로 보정함
+        */
+        p + pre {
+            margin-top: -20px;
         }
 
         p+ul, p+ol, p+blockquote {
@@ -89,9 +100,13 @@
     }
 
     .btn {
-        margin-top: 30px;
+        font-size: 12px;
+        margin-top: 20px;
         margin-right: 3px;
-        padding: 4px 10px;
+        padding-top: 3px;
+        padding-bottom: 2px;
+        padding-left: 2px;
+        padding-right: 8px;
     }
     
     .deleted {

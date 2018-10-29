@@ -9,7 +9,7 @@ const R = require("ramda");
 
 export default class Excerpt extends React.Component {
     constructor(props) {
-        console.log("Excerpt 생성자호출");
+        //console.log("Excerpt 생성자호출");
 
         super(props);
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
@@ -31,7 +31,7 @@ export default class Excerpt extends React.Component {
     }
 
     render(){
-        console.log("Excerpt 렌더링..");
+        //console.log("Excerpt 렌더링..");
 
         const deletedClass = this.props.post.deleted ? "deleted" : "";
         const privateClass = this.props.post.isPrivate ? "private" : "";

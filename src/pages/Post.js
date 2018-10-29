@@ -15,6 +15,8 @@ export default class Post extends React.Component {
     constructor(props) {
         console.log("Post 생성자 호출");
         super(props);
+        this.editPost = this.editPost.bind(this);
+
 
         this.state = {
             key: "",
@@ -148,6 +150,25 @@ export default class Post extends React.Component {
     componentDidMount(){
         document.title = this.state.title;
     }
+
+
+    editPost(){
+        tp.api.authPost({
+            key: this.props.postKey,
+            uuid: tp.user.uuid
+        }).then(res => {
+            if(res.status === "Success"){
+                this.props.history.push(this.contextPath + "/edit/"+this.props.postKey);
+            }else{
+                tp.alert({
+                    message: res.message, 
+                    style: "warning",
+                    width: "160px"
+                });
+                this.cancelMenu();
+            }
+        })
+    }
     
     
     render(){
@@ -234,13 +255,14 @@ export default class Post extends React.Component {
                     {//!!this.state.origin || this.state.isPrivate || (
                         !!this.state.origin || (
                         <div>
-                            <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn">List</Button></Link>
-                            <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn">Write</Button></Link>
+                            <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn"><i className="icon-list" />List</Button></Link>
+                            <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn"><i className="icon-doc-new" />Write</Button></Link>
+                            <Button bsStyle="success" className="writeBtn" onClick={this.editPost}><i className="icon-pencil" />Edit</Button>
                         </div>
                     )}
                     {this.state.origin && (
                         <Link to={this.contextPath + "/postHistory/" + this.state.origin}>
-                            <Button bsStyle="success" className="writeBtn">History</Button>
+                            <Button bsStyle="success" className="writeBtn"><i className="icon-history" />History</Button>
                         </Link>
                     )}
                      

@@ -21,13 +21,23 @@ img {
     max-width: 100%;
 }
 
+textarea {
+    resize: vertical;
+}
 
 
-/* 입력 컨트롤 테두리의 top쪽 그림자 제거 */
+
+/*
+* 18.10.16
+* min9nim
+* 글 내용에 <input type="checkbox" > 를 넣어도 안보이는 문제로 아래 스타일 주석처리 함(안드로이드)
+*/
+/* 입력 컨트롤 테두리의 top쪽 그림자 제거(iOS) */
+/*
 input, textarea {
     -webkit-appearance: none;
 }
-
+*/
 
 
 /* bootstrap.css 커스터마이징 */

@@ -10,6 +10,9 @@
 .icon-menu-1:before { content: '\e808'; } /* '' */
 .icon-help-circled:before { content: '\e809'; } /* '' */
 .icon-lock:before { content: '\e80a'; } /* '' */
+.icon-to-end:before { content: '\e80b'; } /* '' */
+.icon-doc-new:before { content: '\e80c'; } /* '' */
+.icon-list:before { content: '\e80d'; } /* '' */
 .icon-spin3:before { content: '\e832'; } /* '' */
 .icon-trash:before { content: '\f083'; } /* '' */
 .icon-comment-empty:before { content: '\f0e5'; } /* '' */

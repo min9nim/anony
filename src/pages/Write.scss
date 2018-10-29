@@ -44,7 +44,7 @@ $uuid-width: 200px;
             display: inline;
             color: #999;
             top: 8px;
-            left: calc(100% - 186px);
+            left: calc(100% - 116px);
             cursor: pointer;
         }         
     }
@@ -156,12 +156,19 @@ $uuid-width: 200px;
         margin-bottom: 5px;
     }
 
+    .btn {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 2px;
+        padding-right: 8px;
+
+    }
+
     .help-wrapper {
         text-align: right;
         .help {
             display: inline;
         }
-    
     }
 }
 
