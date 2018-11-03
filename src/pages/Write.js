@@ -64,6 +64,16 @@ export default class Write extends React.Component {
         // }
     }else{
       // URL로 직접 들어온 경우
+
+      /**
+       * 18.11.03
+       * 글수정 화면의 직접 access 를 허용할 경우
+       * 해당 글의 context 정보가 노출되는 문제가 있다
+       */
+      alert("Invalid access");
+      history.back();
+      return;
+
         tp.api.getPost(this.props.postKey).then(res => {
             //this.state = res.post;
             

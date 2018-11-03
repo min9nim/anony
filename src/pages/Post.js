@@ -165,7 +165,7 @@ export default class Post extends React.Component {
                     style: "warning",
                     width: "160px"
                 });
-                this.cancelMenu();
+                //this.cancelMenu();
             }
         })
     }
