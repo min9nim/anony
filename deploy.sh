@@ -1,4 +1,4 @@
 #!/bin/sh
-npm run build
-gcloud config set project anony-212509
+npm run prod-build
+gcloud config set project anony-react
 gcloud app deploy --quiet
