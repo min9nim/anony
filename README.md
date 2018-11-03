@@ -82,6 +82,13 @@ Content
 
 <br>
 
+#### Technical stack
+- FrontEnd: ES6, React, redux, scss, webpack4, babel
+- BackEnd: express, mongoose
+- DB: MongoDB
+
+<br>
+
 ### 리액트 컴포넌트간 참조관계
 <img src="https://anony-212509.appspot.com/docs/dependency.svg" />
 
