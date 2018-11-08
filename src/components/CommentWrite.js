@@ -38,9 +38,9 @@ export default class Comment extends React.Component {
         if (e.target.id === "content") {
             // https://zetawiki.com/wiki/HTML_textarea_자동_높이_조절
             console.log("e.target.scrollHeight = " + e.target.scrollHeight);
-            e.target.style.height = e.target.scrollHeight > 25
+            e.target.style.height = e.target.scrollHeight > 20
                 ? (e.target.scrollHeight + "px")
-                : "25px";
+                : "20px";
         }
     }
 
