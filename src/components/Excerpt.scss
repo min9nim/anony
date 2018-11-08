@@ -60,10 +60,16 @@
         flex-wrap: wrap;
         .postMeta {
             flex:1;
-            min-width: 212px;
+            min-width: 262px;
+        }
+        .postMetaBtn {
+            color: #aaa;
+            cursor: pointer;
         }
         .postMenu {
-            font-size: 12px;
+            flex:1;
+            min-width: 241px;
+            text-align: right;
         }    
     }
 

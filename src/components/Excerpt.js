@@ -12,6 +12,9 @@ export default class Excerpt extends React.Component {
         //console.log("Excerpt 생성자호출");
 
         super(props);
+        this.state = {
+            postMetaClicked: false
+        }
         this.contextPath = this.props.context ? "/" + this.props.context : "";
 
         //moment.locale('ko');
@@ -27,9 +30,19 @@ export default class Excerpt extends React.Component {
         //return prevProps.post !== this.props.post;
         //console.log("this.props.post.deleted = " + this.props.post.deleted);
         //console.log("prevProps.post.deleted = " + prevProps.post.deleted);
-        return !R.equals(this.props, nextProps);
+
+        /**
+         * 18.11.08
+         * postMetaClicked 함수를 추가하면서 아래 리턴값 변경함
+         * 
+         */
+        //return !R.equals(this.props, nextProps)
+        return true
     }
 
+    postMetaClick(){
+        this.setState({postMetaClicked: true})
+    }
     render() {
         //console.log("Excerpt 렌더링..");
 
@@ -64,7 +77,13 @@ export default class Excerpt extends React.Component {
                     dangerouslySetInnerHTML={{ __html: excerpt }}>
                 </div>
                 <div className="meta-wrapper">
-                    <PostMeta post={this.props.post} />
+                    {
+                        this.state.postMetaClicked
+                        ?
+                        <PostMeta post={this.props.post} />
+                        :
+                        <div className="postMetaBtn" onClick={this.postMetaClick.bind(this)}>...</div>
+                    }
                     <PostMenu history={this.props.history}
                         context={this.props.context}
                         postKey={this.props.post.key}

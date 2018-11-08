@@ -5,23 +5,49 @@
 
     .header{
         display: flex;
-        flex-direction: row; 
+        flex-wrap: wrap; 
         color: #aaa;
         background-color: #fff;
         padding: 3px 15px 3px 10px;
         margin-bottom: 4px;
-        height: 29px;
+        //height: 29px;
         border-bottom: 1px solid #eee;
-        .title {
+        .logo {
+            flex:1;
+            min-width: 110px;
+            img {
+                position: absolute;
+                width: 110px;
+            }
+        }
+
+        .Search {
+            text-align: left;
+        }
+        .channel {
+            margin-left: 5px;
             display: inline-block;
             font-size: 16px;
-            cursor: pointer;
         }
+
         .status {
             margin-left: 5px;
             display: inline-block;
             font-size: 16px;
         }
+
+        .menu-title{
+            //flex:1;
+            text-align: right;
+            //display: flex;
+
+            .uuid {
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+            }
+        }
+
     }
     .writeBtn {
         padding-right: 15px;
