@@ -15,7 +15,7 @@ export default class PostMenu extends React.Component {
         this.postHistory = this.postHistory.bind(this);
 
         this.state = {
-            clicked : false
+            clicked : true
         }
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
@@ -202,7 +202,7 @@ export default class PostMenu extends React.Component {
                     )
                     }
                     <div className="icon-trash" onClick={this.removePost} title="Delete this, you cannot undo">Remove</div>
-                    <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
+                    {/* <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div> */}
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>
