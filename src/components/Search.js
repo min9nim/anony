@@ -108,7 +108,7 @@ export default class Search extends React.Component {
         return (
             <div className="Search">
                 {
-                    !tp.isDesktop()
+                    tp.isDesktop()
                         ?
                         <React.Fragment>
                             <div className="icon-search btn1" onClick={this.search}></div>
