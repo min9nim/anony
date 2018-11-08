@@ -15,7 +15,7 @@ const R = require("ramda");
 export default class App extends React.Component {
 
   constructor(props) {
-    console.log("App 생성자 호출!!");
+    // console.log("App 생성자 호출!!");
     super(props);
     
     //const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
@@ -76,7 +76,7 @@ export default class App extends React.Component {
   // }
 
   render() {
-    console.log("App 렌더링..");
+    // console.log("App 렌더링..");
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";

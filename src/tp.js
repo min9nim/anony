@@ -1,4 +1,4 @@
-console.log("tp.js start");
+//console.log("tp.js start");
 
 import action from "./redux/action";
 import {api} from "./restful/api";
@@ -125,7 +125,7 @@ tp.getUser = function(){
       return JSON.parse(localStorage.getItem("user")) || tp.setUser();
     }  
   }catch(e){
-    console.log(e.message);
+    //console.log(e.message);
     return tp.setUser();
   }
 }
@@ -149,7 +149,7 @@ tp.asyncComponent = function(getComponent, compname) {
           this.setState({ Component : m.default })
         })
       }else{
-        console.log(`## tp.asyncCache[${compname}] used`);
+        //console.log(`## tp.asyncCache[${compname}] used`);
       }
     }
     render() {

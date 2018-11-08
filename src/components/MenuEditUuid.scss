@@ -1,21 +1,21 @@
 .uuid-setting {
     height: 22px;
+    position: relative;
     .modal_div {
-        position: absolute;
+        position: fixed;
         left: 0px;
         top: 0px;
         width: 100%;
         height: 100%;
         opacity: 0.5;
-        background-color: #808080;            
+        background-color: #808080;
     }
     .inner_div {
         position: absolute;
-        top: 28px;
-        right: 10px;
+        top: 5px;
+        right: -130px;
         max-width: 800px;
-
-        .upper_grp{
+        .upper_grp {
             .form {
                 margin-bottom: 7px;
                 #uuid {
@@ -23,15 +23,13 @@
                     text-indent: 3px;
                     height: 40px;
                     font-size: 20px;
-                }    
-                
+                }
                 .form-control-feedback {
                     top: 3px;
                     left: 170px;
                 }
             }
-
-            .delete{
+            .delete {
                 font-size: 15px;
                 font-weight: bold;
                 position: absolute;
@@ -41,8 +39,7 @@
                 left: 198px;
                 cursor: pointer;
             }
-            
-            .refresh{
+            .refresh {
                 font-size: 15px;
                 font-weight: bold;
                 position: absolute;
@@ -52,17 +49,14 @@
                 left: 220px;
                 cursor: pointer;
             }
-
-
         }
-
-        .btn_grp{
+        .btn_grp {
             margin-top: 5px;
             text-align: center;
             width: 245px;
             .cancelBtn {
                 margin-left: 3px;
-            }          
+            }
         }
     }
 }

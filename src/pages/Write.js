@@ -88,7 +88,7 @@ export default class Write extends React.Component {
     }
     
     this.unsubscribe = tp.store.subscribe(() => {
-        console.log("Edit가 store 상태변경 노티 받음");
+        //console.log("Edit가 store 상태변경 노티 받음");
         if(this.state.key === ""){
           // URL로 직접 들어온 경우에만 this.setState가 필요
           this.setState(tp.store.getState().data.posts.find(post => post.key === this.props.postKey));
@@ -107,7 +107,7 @@ export default class Write extends React.Component {
 
   componentWillUnmount(){
     if(this.props.type === "edit"){
-      console.log("# Edit unsubscribe store..");
+      //console.log("# Edit unsubscribe store..");
       this.unsubscribe();  
     }
   }
@@ -357,7 +357,7 @@ export default class Write extends React.Component {
 
 
   render() {
-    console.log("Write 렌더링..");
+    //console.log("Write 렌더링..");
 
 
     /**

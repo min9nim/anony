@@ -50,13 +50,13 @@ export default class List extends React.Component {
 
         // 이후 App 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
-            console.log("List가 store 상태 변경 노티 받음")
+            // console.log("List가 store 상태 변경 노티 받음")
             this.setState(tp.store.getState().data);
         });
     }
 
     componentWillUnmount() {
-        console.log("# List unsubscribe store..");
+        //console.log("# List unsubscribe store..");
         this.unsubscribe();
     }
 
@@ -194,7 +194,7 @@ document.body.onscroll = function () {
                 tp.view.List.setState({ loading: false });
                 tp.store.dispatch(tp.action.scrollEnd(res.posts));
                 if (res.posts.length < PAGEROWS) {
-                    console.log("Scroll has touched bottom")
+                    //console.log("Scroll has touched bottom")
                     tp.isScrollLast = true;
                     return;
                 }

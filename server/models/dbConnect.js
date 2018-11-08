@@ -8,8 +8,8 @@ db.once('open', function () {
 });
 
 
-console.log("== argv ==")
-console.log(process.argv);
+//console.log("== argv ==")
+//console.log(process.argv);
 
 if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
     //console.log("개발디비 접속");

@@ -37,7 +37,7 @@ export default class Comment extends React.Component {
 
         if (e.target.id === "content") {
             // https://zetawiki.com/wiki/HTML_textarea_자동_높이_조절
-            console.log("e.target.scrollHeight = " + e.target.scrollHeight);
+            //console.log("e.target.scrollHeight = " + e.target.scrollHeight);
             e.target.style.height = e.target.scrollHeight > 20
                 ? (e.target.scrollHeight + "px")
                 : "20px";
@@ -65,7 +65,7 @@ export default class Comment extends React.Component {
         };
 
         tp.api.addComment(newComment).then(res => {
-            console.log("# " + res.message);
+            //console.log("# " + res.message);
             tp.store.dispatch(tp.action.addComment(newComment));
             // 부모post의 댓글 카운트 1증가            
             let post = tp.store.getState().data.posts.find(p => p.key === this.state.postKey);
@@ -84,7 +84,7 @@ export default class Comment extends React.Component {
     render() {
         const { isLoading } = this.state;
 
-        console.log("Comment 렌더링..");
+        //console.log("Comment 렌더링..");
         return (
             <div className="comment-write">
                 <div className="writer">

@@ -13,7 +13,7 @@ import "../css/hljsTheme/xcode.css";
 
 export default class Post extends React.Component {
     constructor(props) {
-        console.log("Post 생성자 호출");
+        //console.log("Post 생성자 호출");
         super(props);
         this.editPost = this.editPost.bind(this);
 
@@ -72,13 +72,13 @@ export default class Post extends React.Component {
                         try {
                             return tp.hljs.highlight(lang, str).value;
                         } catch (err) {
-                            console.log(err.message);
+                            //console.log(err.message);
                         }
                     }
                     try {
                         return tp.hljs.highlightAuto(str).value;
                     } catch (err) {
-                        console.log(err.message);
+                        //console.log(err.message);
                     }
                     return ''; // use external default escaping      
                 }
@@ -120,7 +120,7 @@ export default class Post extends React.Component {
             tp.api.viewPost(this.props.postKey)
                 .then(res => {
                     if (res.status == "Success") {
-                        console.log("@@ 처음 데이터 가지고 왔음요");
+                        //console.log("@@ 처음 데이터 가지고 왔음요");
                         // 일반post 인 경우
                         tp.store.dispatch(tp.action.addPost(res.output))
                     } else {
@@ -132,7 +132,7 @@ export default class Post extends React.Component {
                             .then(tp.action.addPost)
                             .then(tp.store.dispatch)
                             .catch(e => {
-                                console.log(e.message)
+                                //console.log(e.message)
                             });
                     }
                 })
@@ -142,7 +142,7 @@ export default class Post extends React.Component {
 
 
     componentWillUnmount() {
-        console.log("# Post unsubscribe store..");
+        //console.log("# Post unsubscribe store..");
         this.unsubscribe();
     }
 
@@ -172,7 +172,7 @@ export default class Post extends React.Component {
 
 
     render() {
-        console.log("Post 렌더링");
+        //console.log("Post 렌더링");
 
         if (this.state.key) {
             // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
