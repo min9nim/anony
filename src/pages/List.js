@@ -102,7 +102,8 @@ export default class List extends React.Component {
 
                     </div>
                     <Search context={tp.context} />
-                    <div className="status">{status}</div>
+
+                    {/* <div className="status">{status}</div> */}
 
                     <div className="menu-title">
                         {!search && <Menu />}
