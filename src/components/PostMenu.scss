@@ -3,6 +3,10 @@
 .postMenu {
     cursor: pointer;
     color: #aaa;
+    flex: 1;
+    min-width: 234px;
+    text-align: right;
+    font-size: 12px;
     .navi {
         font-size: 12px;
         div {
