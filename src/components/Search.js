@@ -90,12 +90,16 @@ export default class Search extends React.Component {
 
         // 기존내용 초기화
         tp.store.dispatch(tp.action.initPosts());
+        tp.view.List.setState({ loading: true });
         tp.isScrollLast = false;
 
         // 다시 세팅
         tp.api.getPosts({ idx: 0, cnt: 10, search, context: this.props.context })
             .then(tp.checkStatus)
-            .then(res => tp.store.dispatch(tp.action.addPosts(res.posts)));
+            .then(res => {
+                tp.store.dispatch(tp.action.addPosts(res.posts))
+                tp.view.List.setState({ loading: false });
+            });
 
         // 현재 검색어 세팅
         tp.store.dispatch(tp.action.setSearch(search));

@@ -98,7 +98,7 @@ export default class List extends React.Component {
             <div className="list">
                 <div className="header">
                     <div className="logo">
-                        <img src="/image/logo_transparent.png" />
+                        <img src="/image/logo_transparent.png" onClick={this.logoClick} />
 
                     </div>
                     <Search context={tp.context} />
@@ -107,7 +107,7 @@ export default class List extends React.Component {
 
                     <div className="menu-title">
                         {!search && <Menu />}
-                        <div className="uuid" onClick={this.logoClick}>{uuid}</div>
+                        <div className="uuid">{uuid}</div>
                     </div>
                     <div className="channel">{channel}</div>
                 </div>
@@ -189,15 +189,14 @@ document.body.onscroll = function () {
             search: tp.store.getState().view.search,
             hideProgress: true,
             context: tp.context
+        }).then(res => {
+            tp.view.List.setState({ loading: false });
+            tp.store.dispatch(tp.action.scrollEnd(res.posts));
+            if (res.posts.length < PAGEROWS) {
+                //console.log("Scroll has touched bottom")
+                tp.isScrollLast = true;
+                return;
+            }
         })
-            .then(res => {
-                tp.view.List.setState({ loading: false });
-                tp.store.dispatch(tp.action.scrollEnd(res.posts));
-                if (res.posts.length < PAGEROWS) {
-                    //console.log("Scroll has touched bottom")
-                    tp.isScrollLast = true;
-                    return;
-                }
-            })
     }
 };
