@@ -30,7 +30,12 @@ export default class Search extends React.Component {
         // 이후 Search 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
             // console.log("Search가 store 상태 변경 노티 받음")
-            this.setState({ word: tp.store.getState().view.search });
+            /**
+             * 11.11.08
+             * 검색어 입력시 실시간 결과조회 기능 구현하니까
+             * 검색어 입력시 문제가 있어서 아래 주석처리함
+             */
+            //this.setState({ word: tp.store.getState().view.search });
         });
     }
 
@@ -46,16 +51,17 @@ export default class Search extends React.Component {
     handleChange(e) {
         let word = e.target.value;
         //console.log(e.target.value);
-        if (this.onTyping) {
-            //console.log("타이머 초기화")
-            clearTimeout(this.onTyping);
-        }
-        this.onTyping = setTimeout(() => {
-            //console.log("검색어 = " + word)
-            this.search()
-            this.onTyping = 0;
-        }, 1000)
-        this.setState({ word: e.target.value });
+        this.setState({ word: e.target.value }, () => {
+            if (this.onTyping) {
+                console.log("타이머 초기화")
+                clearTimeout(this.onTyping);
+            }
+            this.onTyping = setTimeout(() => {
+                console.log("검색어 = " + word)
+                this.search()
+                this.onTyping = 0;
+            }, 500)    
+        });
     }
 
     handleKeyPress(e) {
@@ -102,7 +108,7 @@ export default class Search extends React.Component {
         return (
             <div className="Search">
                 {
-                    tp.isDesktop()
+                    !tp.isDesktop()
                         ?
                         <React.Fragment>
                             <div className="icon-search btn1" onClick={this.search}></div>
