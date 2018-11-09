@@ -36,10 +36,12 @@
             padding-top: 0px;
             padding-bottom: 0px;
             height: 20px;
+            resize: none;
         }
-        textarea.autosize {
-            min-height: 34px;
-        }
+        
+        // textarea.autosize {
+        //     min-height: 34px;
+        // }
     }
     .confirmBtn {
         width: 70px;
