@@ -87,7 +87,9 @@ export default class Post extends React.Component {
 
 
         //if(this.props.post){
-        if (tp.store.getState().data.posts.filter(p => p.origin === undefined).length > 0) {
+        this.urlAccess = tp.store.getState().data.posts.filter(p => p.origin === undefined).length === 0
+
+        if (!this.urlAccess) {
             // 목록/수정 화면에서 넘어 들어온 경우
             const diff = Date.now() - this.state.date;      // 여기서 state 가 undefined 인 경우가 있다???
             if (diff < 1000) {
@@ -122,6 +124,15 @@ export default class Post extends React.Component {
                     if (res.status == "Success") {
                         //console.log("@@ 처음 데이터 가지고 왔음요");
                         // 일반post 인 경우
+
+                        /**
+                         * 18.11.09
+                         * 
+                         * URL로 직접 들어온 경우에 context 정보는 URL 주소값에서 가지고 오도록 한다
+                         * URL로 직접 access하는 경우에는 context 정보가 민감한 정보알 수 있기 때문에 서버에서 의도적으로 내려주지 않는다
+                         */
+                        Object.assign(res.output, { context: this.props.context })
+
                         tp.store.dispatch(tp.action.addPost(res.output))
                     } else {
                         // 수정내역post 인 경우
@@ -143,7 +154,7 @@ export default class Post extends React.Component {
 
     componentWillUnmount() {
         //console.log("# Post unsubscribe store..");
-        this.unsubscribe();
+        this.unsubscribe && this.unsubscribe();
     }
 
 
@@ -247,22 +258,34 @@ export default class Post extends React.Component {
                         <div className="writer-time">
                             {this.state.writer} - {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}
                         </div>
-                        <PostMenu history={this.props.history}
-                            postKey={this.state.key}
-                            postDeleted={this.state.deleted}
-                            postOrigin={this.state.origin}
-                            context={this.props.context} />
+                        {
+                            /**
+                             * 18.11.09
+                             * URL에서 channel 값을 지우고 직접 access해서 들어오는 경우에는 this.state.context 값이 false 가 된다
+                             */
+                            this.state.context &&
+                            <PostMenu history={this.props.history}
+                                postKey={this.state.key}
+                                postDeleted={this.state.deleted}
+                                postOrigin={this.state.origin}
+                                context={this.props.context} />
+
+                        }
                     </div>
                     <div className={contentStyle} dangerouslySetInnerHTML={{ __html: content }}></div>
                     <PostMeta post={this.state} />
                     {//!!this.state.origin || this.state.isPrivate || (
-                        !!this.state.origin || (
-                            <div>
-                                <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn"><i className="icon-list" />List</Button></Link>
-                                <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn"><i className="icon-doc-new" />Write</Button></Link>
-                                <Button bsStyle="success" className="writeBtn" onClick={this.editPost}><i className="icon-pencil" />Edit</Button>
-                            </div>
-                        )}
+                        this.state.context &&
+                        (
+                            !!this.state.origin || (
+                                <div>
+                                    <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn"><i className="icon-list" />List</Button></Link>
+                                    <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn"><i className="icon-doc-new" />Write</Button></Link>
+                                    <Button bsStyle="success" className="writeBtn" onClick={this.editPost}><i className="icon-pencil" />Edit</Button>
+                                </div>
+                            )
+                        )
+                    }
                     {this.state.origin && (
                         <Link to={this.contextPath + "/postHistory/" + this.state.origin}>
                             <Button bsStyle="success" className="writeBtn"><i className="icon-history" />History</Button>

@@ -108,7 +108,7 @@ export default class Write extends React.Component {
   componentWillUnmount(){
     if(this.props.type === "edit"){
       //console.log("# Edit unsubscribe store..");
-      this.unsubscribe();  
+      this.unsubscribe && this.unsubscribe();  
     }
   }
 
