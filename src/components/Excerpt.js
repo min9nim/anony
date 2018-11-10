@@ -56,7 +56,8 @@ export default class Excerpt extends React.Component {
         let title = tp.highlight(this.props.post.title, search);
         title = (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : "") + title;
         //const excerpt = tp.highlight(this.props.post.content.substr(0,100), search);
-        const excerpt = tp.highlight(this.props.post.content, search);
+        const content = tp.$m.removeTag(this.props.post.content);
+        const excerpt = tp.highlight(content, search);
 
 
         return (
