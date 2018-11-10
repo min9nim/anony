@@ -55,7 +55,7 @@ export default class SearchBox extends React.Component {
 
 
     render(){
-        console.log("Search 렌더링");
+        //console.log("Search 렌더링");
         return (
             <div className="searchBox">
                 <div className="modal_div"></div>

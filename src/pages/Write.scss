@@ -1,6 +1,4 @@
 $uuid-width: 200px;
-
-
 .write {
     margin: 20px;
     color: #666;
@@ -12,11 +10,10 @@ $uuid-width: 200px;
         position: relative;
         display: inline-block;
         width: 100%;
-
-        input{
+        input {
             padding-right: 12px;
         }
-        .delete{
+        .delete {
             font-size: 15px;
             font-weight: bold;
             position: absolute;
@@ -27,17 +24,14 @@ $uuid-width: 200px;
             cursor: pointer;
         }
     }
-
     .form_writer {
         position: relative;
         .writer {
             display: inline-block;
-            width: calc(100% - 90px);
-            //width: 120px;
+            width: calc(100% - 90px); //width: 120px;
             margin-right: 5px;
-       
         }
-        .delete{
+        .delete {
             font-size: 15px;
             font-weight: bold;
             position: absolute;
@@ -46,10 +40,8 @@ $uuid-width: 200px;
             top: 8px;
             left: calc(100% - 116px);
             cursor: pointer;
-        }         
+        }
     }
-
-
     .options {
         display: inline-block;
         margin-left: 10px;
@@ -57,11 +49,10 @@ $uuid-width: 200px;
         cursor: pointer;
         &:hover {
             // fontello 아이콘 hover
-            transform : scale(1.05);
-            -webkit-transform : scale(1.05);
+            transform: scale(1.05);
+            -webkit-transform: scale(1.05);
         }
     }
-
     .form_context {
         position: relative;
         display: inline-block;
@@ -69,12 +60,9 @@ $uuid-width: 200px;
         margin-right: 5px;
         .context {
             display: inline-block;
-            width: 100%;
-            //margin-right: 5px;
+            width: 100%; //margin-right: 5px;
         }
-        
-        
-        .delete{
+        .delete {
             font-size: 15px;
             font-weight: bold;
             position: absolute;
@@ -83,57 +71,45 @@ $uuid-width: 200px;
             top: 8px;
             left: calc(100% - 25px);
             cursor: pointer;
-        }        
+        }
     }
-
     .form_uuid {
         display: inline-block;
         position: relative;
         .uuid {
-            display: inline-block;
-            //width: calc(100% - 265px);
+            display: inline-block; //width: calc(100% - 265px);
             width: $uuid-width;
             margin-right: 5px;
-            
         }
-
-
-        .group_icon{
+        .group_icon {
             position: absolute;
             left: 153px;
-            top: 7px;          
+            top: 7px;
             .form-control-feedback {
                 position: relative;
                 display: inline;
                 margin-right: 3px;
             }
-            
-            .delete{
+            .delete {
                 font-size: 15px;
                 font-weight: bold;
                 display: inline;
                 color: #999;
                 cursor: pointer;
                 margin-right: 3px;
-
             }
-            
-            .refresh{
+            .refresh {
                 font-size: 15px;
                 font-weight: bold;
                 display: inline;
                 color: #999;
                 cursor: pointer;
             }
-            
         }
-
- 
     }
-
-    .form_chk{
+    .form_chk {
         margin-bottom: 3px;
-        .checkbox{
+        .checkbox {
             margin: 0px 10px 0px 5px;
             vertical-align: text-bottom;
             display: inline-block;
@@ -142,28 +118,22 @@ $uuid-width: 200px;
             }
         }
     }
-
-
     input {
         font-size: 18px;
     }
     .write-cancel-btn {
         margin-left: 3px;
     }
-
     .form-control {
         color: #777;
         margin-bottom: 5px;
     }
-
     .btn {
         padding-top: 2px;
         padding-bottom: 2px;
         padding-left: 2px;
         padding-right: 8px;
-
     }
-
     .help-wrapper {
         text-align: right;
         .help {
@@ -171,4 +141,3 @@ $uuid-width: 200px;
         }
     }
 }
-

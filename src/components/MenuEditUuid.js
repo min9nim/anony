@@ -11,7 +11,7 @@ import {
 
 export default class MenuEditUuid extends React.Component {
     constructor(props) {
-        console.log("MenuEditUuid 생성자 호출");
+        //console.log("MenuEditUuid 생성자 호출");
         super(props);
         this.hideMenu = this.props.hideMenu;
         this.confirm = this.confirm.bind(this);
@@ -73,7 +73,7 @@ export default class MenuEditUuid extends React.Component {
     }
 
     render(){
-        console.log("MenuEditUuid 렌더링");
+        //console.log("MenuEditUuid 렌더링");
         return (
             <div className="uuid-setting">
                 <div className="modal_div"></div>

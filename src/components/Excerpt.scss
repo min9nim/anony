@@ -44,6 +44,7 @@
             margin-left:5px;
             color: #999;
         }        
+
     }
     .meta {
         color: #aaa;
@@ -51,6 +52,25 @@
         font-size: 12px;
         display: inline-block;
         margin: 0px 0px 0px 0px;
+    }
+
+    .meta-wrapper {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        .postMeta {
+            flex:1;
+            min-width: 262px;
+        }
+        .postMetaBtn {
+            color: #aaa;
+            cursor: pointer;
+        }
+        .postMenu {
+            flex:1;
+            min-width: 241px;
+            text-align: right;
+        }    
     }
 
     .meta2 {
@@ -61,12 +81,10 @@
         margin: 10px 0px;
     }
     
-    .postMenu {
-        margin-top: -5px;
-    }
 
     .content {
-        display: inherit;       /* PostMenu 가 열릴 때 모바일에서 글목록의 excerpt 내용이 왼쪽으로 밀리는 문제 수정, 18.09.07 */
+        //display: inherit;       /* PostMenu 가 열릴 때 모바일에서 글목록의 excerpt 내용이 왼쪽으로 밀리는 문제 수정, 18.09.07 */
+        display: block;     /* 18.11.08 UI수정 */
         max-height: 60px;
         overflow: hidden;        
         margin-top: 4px;

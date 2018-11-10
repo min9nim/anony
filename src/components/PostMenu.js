@@ -15,7 +15,7 @@ export default class PostMenu extends React.Component {
         this.postHistory = this.postHistory.bind(this);
 
         this.state = {
-            clicked : false
+            clicked : true
         }
         this.contextPath = this.props.context ? "/"+this.props.context : "" ;
 
@@ -44,7 +44,7 @@ export default class PostMenu extends React.Component {
                         //this.props.history.push("/list");
                         //tp.view.Post.setState({deleted : true});
                     }
-                    this.cancelMenu();
+                    //this.cancelMenu();
                 })
             }
         });
@@ -66,7 +66,7 @@ export default class PostMenu extends React.Component {
                                 style: "danger",
                                 width: "200px"
                             });
-                            this.cancelMenu();
+                            //this.cancelMenu();
                         } else {
                             if(["PostHistory", "List"].includes(tp.thispage)){
                                 // 애니메이션 처리
@@ -142,7 +142,7 @@ export default class PostMenu extends React.Component {
                     style: "warning",
                     width: "160px"
                 });
-                this.cancelMenu();
+                //this.cancelMenu();
             }
         })
     }
@@ -202,7 +202,7 @@ export default class PostMenu extends React.Component {
                     )
                     }
                     <div className="icon-trash" onClick={this.removePost} title="Delete this, you cannot undo">Remove</div>
-                    <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div>
+                    {/* <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div> */}
                 </div>
                 :
                 <div className="navi" onClick={this.showMenu}>...</div>

@@ -134,9 +134,11 @@ post["/edit/:uuid"] = (req, res) => {
 
 // 조회수 1증가
 post["/view/:key"] = (req, res) => {
-    Post.findOne({key: req.params.key}).then(post => {
-
-
+    /**
+     * 18.11.03
+     * 민감한 context 정보는 제거 처리
+     */
+    Post.findOne({key: req.params.key}, {"context" : 0}).then(post => {
         if(post === null){
             throw Error("Invalid access");
         }else if(post.isPrivate && post.uuid !== req.body.uuid){

@@ -5,7 +5,7 @@ import "./CommentMenu.scss";
 
 export default class CommentMenu extends React.Component {
     constructor(props) {
-        console.log("CommentMenu 생성자 호출");
+        //console.log("CommentMenu 생성자 호출");
         super(props);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
@@ -138,7 +138,7 @@ export default class CommentMenu extends React.Component {
 
 
     render(){
-        console.log("CommentMenu 렌더링");
+        //console.log("CommentMenu 렌더링");
         return (<div className="commentMenu">
                     {this.state.clicked ? 
                         <div className="navi">
