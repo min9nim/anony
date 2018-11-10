@@ -17,8 +17,8 @@ export default class Excerpt extends React.Component {
         }
         this.contextPath = this.props.context ? "/" + this.props.context : "";
 
-        //moment.locale('ko');
-        moment.locale('en');
+        moment.locale('ko');
+        //moment.locale('en');
 
     }
 
