@@ -19,6 +19,8 @@
                 position: absolute;
                 width: 110px;
                 cursor: pointer;
+                filter: grayscale(100%);
+                opacity: 0.4;
             }
         }
 
