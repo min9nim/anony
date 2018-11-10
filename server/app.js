@@ -64,21 +64,3 @@ const PORT = process.env.NODE_ENV === "development" ? 8080 : process.env.PORT;
 app.listen(PORT, function(){
     console.log(`express is listening on port ${PORT}`);
 });
-
-
-// if(process.env.NODE_ENV !== "development"){
-//     const filepath = __dirname + path.sep; // __dirname 는 app.js 가 위치한 경로
-//     const SSLPORT = process.env.NODE_ENV === "development" ? 9443 : 443;
-
-//     // https 옵션
-//     const options = {  
-//         key: fs.readFileSync(filepath + 'key.pem'),
-//         cert: fs.readFileSync(filepath + 'cert.pem')
-//     };
-
-//     // HTTPS 서비스 시작
-//     https.createServer(options, app).listen(SSLPORT, function(){  
-//         console.log("Https server listening on port " + SSLPORT);
-//     });
-
-// }
