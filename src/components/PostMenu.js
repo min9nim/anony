@@ -44,7 +44,7 @@ export default class PostMenu extends React.Component {
                         //this.props.history.push("/list");
                         //tp.view.Post.setState({deleted : true});
                     }
-                    this.cancelMenu();
+                    //this.cancelMenu();
                 })
             }
         });
@@ -66,7 +66,7 @@ export default class PostMenu extends React.Component {
                                 style: "danger",
                                 width: "200px"
                             });
-                            this.cancelMenu();
+                            //this.cancelMenu();
                         } else {
                             if(["PostHistory", "List"].includes(tp.thispage)){
                                 // 애니메이션 처리
@@ -142,7 +142,7 @@ export default class PostMenu extends React.Component {
                     style: "warning",
                     width: "160px"
                 });
-                this.cancelMenu();
+                //this.cancelMenu();
             }
         })
     }
