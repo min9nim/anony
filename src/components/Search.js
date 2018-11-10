@@ -99,6 +99,7 @@ export default class Search extends React.Component {
     }
 
     handleKeyPress(e) {
+        return; // 18.11.10 이 함수는 이제 사용안함(handleChange 에서 다 처리됨)
         let keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
             this.search(e.target.value);
