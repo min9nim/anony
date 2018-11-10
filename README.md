@@ -1,6 +1,3 @@
-<div style="background-image:url(https://anony-212509.appspot.com/image/anony.svg); width:300px; height:300px;background-repeat: no-repeat;">
-</div>
-
 ### 서비스설명
 #### What is Anony
 Anony는 익명을 기반으로 로그인없이 자유롭게 내가 원하는 글을 온라인 상에 게시하고 다른 사람과 간편히 내용을 공유할 수 있는 서비스를 제공합니다.
@@ -9,7 +6,7 @@ Anony는 익명을 기반으로 로그인없이 자유롭게 내가 원하는 �
 
 
 #### Feature
-![](https://anony-212509.appspot.com/image/write-form.png)
+![](https://anony-react.appspot.com/image/write-form.png)
 
 Title
 - 글의 제목입니다
@@ -90,7 +87,7 @@ Content
 <br>
 
 ### 리액트 컴포넌트간 참조관계
-<img src="https://anony-212509.appspot.com/docs/dependency.svg" />
+<img src="https://anony-react.appspot.com/docs/dependency.svg" />
 
 <br>
 
@@ -113,9 +110,6 @@ vendors~Edit~List~Post~PostHistory~Write~react.chunk.js   172 KiB       0  [emit
                                   vendors~Post.chunk.js  87.4 KiB      12  [emitted]         vendors~Post
 ```
 
-<img src="https://anony-212509.appspot.com/docs/size_thumb.png" />
+<img src="https://anony-react.appspot.com/docs/size_thumb.png" />
 
-[자세히 보기](https://anony-212509.appspot.com/docs/size_prod.html)
-
-<br>
-
+[자세히 보기](https://anony-react.appspot.com/docs/size_prod.html)
