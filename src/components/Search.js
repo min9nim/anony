@@ -49,7 +49,10 @@ export default class Search extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.word !== nextState.word) {
-            console.log("word가 다르니까 리렌더링")
+            console.log("word가 다르니까 렌더링")
+            return true;
+        }if (this.state.clicked !== nextState.clicked) {
+            console.log("clicked 다르니까 렌더링")
             return true;
         } else {
             console.log("word 가 같음 Search 렌더링 안함")
