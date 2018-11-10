@@ -60,6 +60,13 @@ Content
     
 <br>
 
+#### Technical stack
+- FrontEnd: ES6, React, redux, scss, webpack4, babel
+- BackEnd: express, mongoose
+- DB: MongoDB
+
+<br>
+
 ### 폴더구조
 경로 | 설명
 -- | --
@@ -79,10 +86,28 @@ Content
 
 <br>
 
-#### Technical stack
-- FrontEnd: ES6, React, redux, scss, webpack4, babel
-- BackEnd: express, mongoose
-- DB: MongoDB
+### RESTful API
+method | path | payload | desc
+--- | --- | --- | ---
+GET | /api/comments/get/:key | - | `key` 에 해당하는 글에 등록된 댓글조회
+GET | /api/posts/history/:key | - | `key` 에 해당하는 글 수정이력 조회
+GET | /api/posts/auth/:key/:uuid | - | `key` 에 해당하는 글 수정/삭제 권한 조회
+GET | /api/comments/auth/:key/:uuid | - | `key` 에 해당하는 댓글 수정/삭제 권한 조회
+GET | /api/posts/delete/:key/:uuid | - | `key` 에 해당하는 글 delete 처리
+GET | /api/posts/remove/:key/:uuid | - | `key` 에 해당하는 글 remove 처리
+GET | /api/posts/restore/:key/:uuid | - | `key` 에 해당하는 글 restore 처리
+GET | /api/comments/restore/:key/:uuid | - | `key` 에 해당하는 댓글 restore 처리
+GET | /api/comments/delete/:key/:uuid | - | `key` 에 해당하는 댓글 delete 처리
+GET | /api/comments/remove/:key/:uuid | - | `key` 에 해당하는 댓글 remove 처리
+POST | /api/posts/add | postObj | 글등록
+POST | /api/comments/add | commentObj | 댓글등록
+POST | /api/posts/get/:context/:idx/:cnt | word, uuid | `context` 채널에서 `idx` 번째부터 `cnt` 개수의 post 목록을 조회
+POST | /api/posts/get/:key | uuid | `key` 에 해당하는 글을 조회
+POST | /api/posts/view/:key | uuid | `key` 해당하는 글 조회수 1증가
+POST | /api/posts/edit/:uuid | postObj | post수정 처리
+POST | /api/comments/edit/:uuid | commentObj | 댓글 수정 처리
+POST | /api/posts/likePost/:key | uuid | `key` 해당하는 글 좋아요 처리
+POST | /api/posts/cancelLike/:key | uuid | `key` 해당하는 글 좋아요 취소 처리
 
 <br>
 
