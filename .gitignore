@@ -1,7 +1,3 @@
 node_modules
-.vscode
-npm-debug.log
-express.log
-server/key.pem
-server/cert.pem
 dbConfig.js
+.vscode
