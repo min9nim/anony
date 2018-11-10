@@ -16,7 +16,6 @@ export default class List extends React.Component {
 
         this.state = {
             posts: tp.store.getState().data.posts.filter(p => p.origin === undefined),
-            loading: false
         }
 
         tp.view.List = this;
@@ -78,9 +77,18 @@ export default class List extends React.Component {
     }
 
 
-    render() {
-        // console.log("List 렌더링..");
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.posts.length !== nextState.posts.length) {
+            console.log("목록 개수가 달라서 List 렌더링")
+            return true;
+        }else {
+            console.log("List 렌더링 안함 ")
+            return false;
+        }
+    }
 
+
+    render() {
         //let title = tp.store.getState().view.uuid + (tp.context ? (" /" + tp.context) : "") ;
         let title = tp.user.uuid + (tp.context ? (" /" + tp.context) : "");
         let uuid = tp.user.uuid;
@@ -111,10 +119,13 @@ export default class List extends React.Component {
                     </div>
                     <div className="channel">{channel}</div>
                 </div>
+                
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context} />
                 )}
-                {this.state.loading && new Array(10).fill().map((v, i) => <ListLoader key={i} />)}
+
+                <ListLoader/>
+
                 {tp.store.getState().view.search !== "" && (
                     <div className="backBtn">
                         <Button bsStyle="success" onClick={this.logoClick}>Back</Button>
@@ -137,7 +148,7 @@ document.body.onscroll = function () {
         // 목록화면이 아니면 리턴  
         return;
     }
-    if (tp.view.List.state.loading) {
+    if (tp.view.ListLoader.state.loading) {
         // 데이터 로딩중이면 리턴
         return;
     }
@@ -182,7 +193,7 @@ document.body.onscroll = function () {
 
         nprogress.start();
         $m("#nprogress .spinner").css("top", "95%");
-        tp.view.List.setState({ loading: true });
+        tp.view.ListLoader.setState({ loading: true });
         tp.api.getPosts({
             idx: tp.store.getState().data.posts.filter(p => p.origin === undefined).length,
             cnt: PAGEROWS,
@@ -190,7 +201,7 @@ document.body.onscroll = function () {
             hideProgress: true,
             context: tp.context
         }).then(res => {
-            tp.view.List.setState({ loading: false });
+            tp.view.ListLoader.setState({ loading: false });
             tp.store.dispatch(tp.action.scrollEnd(res.posts));
             if (res.posts.length < PAGEROWS) {
                 //console.log("Scroll has touched bottom")

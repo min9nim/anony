@@ -5,7 +5,7 @@ import "./Search.scss";
 
 export default class Search extends React.Component {
     constructor(props) {
-        //console.log("Search 생성자 호출");
+        console.log("Search 생성자 호출");
         super(props);
         this.showSearch = this.showSearch.bind(this);
         this.hideSearch = this.hideSearch.bind(this);
@@ -35,8 +35,26 @@ export default class Search extends React.Component {
              * 검색어 입력시 실시간 결과조회 기능 구현하니까
              * 검색어 입력시 문제가 있어서 아래 주석처리함
              */
-            //this.setState({ word: tp.store.getState().view.search });
+            if (this.state.word !== tp.store.getState().view.search) {
+                console.log("this.state.word = " + this.state.word);
+                console.log("state_word = " + tp.store.getState().view.search);
+                this.setState({ word: tp.store.getState().view.search });
+            }
+            // debugger;
+            // console.log("Search forceUpdate 호출 전")
+            // this.forceUpdate();
+            // console.log("Search forceUpdate 호출 후")
         });
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.word !== nextState.word) {
+            console.log("word가 다르니까 리렌더링")
+            return true;
+        } else {
+            console.log("word 가 같음 Search 렌더링 안함")
+            return false;
+        }
     }
 
 
@@ -49,25 +67,41 @@ export default class Search extends React.Component {
     }
 
     handleChange(e) {
+        if(tp.view.ListLoader.state.loading) return;
+
         let word = e.target.value;
         //console.log(e.target.value);
+
+        // tp.store.dispatch(tp.action.setSearch(word));
+        // if (this.onTyping) {
+        //     console.log("타이머 초기화")
+        //     clearTimeout(this.onTyping);
+        // }
+        // this.onTyping = setTimeout(() => {
+        //     console.log("검색어 = " + word)
+        //     this.search(word)
+        //     this.onTyping = 0;
+        // }, 500)
+
+
+
         this.setState({ word: e.target.value }, () => {
             if (this.onTyping) {
-                console.log("타이머 초기화")
+                // console.log("타이머 초기화")
                 clearTimeout(this.onTyping);
             }
             this.onTyping = setTimeout(() => {
-                console.log("검색어 = " + word)
-                this.search()
+                // console.log("검색어 = " + word)
+                this.search(word)
                 this.onTyping = 0;
-            }, 500)    
+            }, 300)
         });
     }
 
     handleKeyPress(e) {
         let keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
-            this.search();
+            this.search(e.target.value);
         }
     }
 
@@ -76,9 +110,14 @@ export default class Search extends React.Component {
         this.unsubscribe();
     }
 
+    componentDidMount() {
+        console.log("Search componentDidMount")
+    }
 
-    search() {
-        const search = this.state.word.trim();
+
+    search(word) {
+        const search = word.trim();
+        //const search = this.state.word.trim();
         if (search === "") {
             // tp.alert({
             //     message: "Keyword is empty", 
@@ -88,9 +127,14 @@ export default class Search extends React.Component {
             //return;
         }
 
+
+        // 18.11.10 스토어의 검색어 상태 미리 변경해둠
+        tp.store.dispatch(tp.action.setSearch(search));
+
+
         // 기존내용 초기화
         tp.store.dispatch(tp.action.initPosts());
-        tp.view.List.setState({ loading: true });
+        //tp.view.ListLoader.setState({ loading: true });
         tp.isScrollLast = false;
 
         // 다시 세팅
@@ -98,17 +142,18 @@ export default class Search extends React.Component {
             .then(tp.checkStatus)
             .then(res => {
                 tp.store.dispatch(tp.action.addPosts(res.posts))
-                tp.view.List.setState({ loading: false });
+                //tp.view.ListLoader.setState({ loading: false });
             });
 
         // 현재 검색어 세팅
-        tp.store.dispatch(tp.action.setSearch(search));
+
 
         //this.hideSearch();
     }
 
     render() {
-        //console.log("Search 렌더링");
+        console.log("Search 렌더링");
+
         return (
             <div className="Search">
                 {
@@ -118,6 +163,7 @@ export default class Search extends React.Component {
                             <div className="icon-search btn1" onClick={this.search}></div>
                             <div className="ipt-wrapper">
                                 <input className="ipt-search"
+                                    //value={tp.store.getState().view.search}
                                     value={this.state.word}
                                     onChange={this.handleChange}
                                     onKeyPress={this.handleKeyPress} />
