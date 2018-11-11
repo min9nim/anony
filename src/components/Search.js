@@ -30,20 +30,11 @@ export default class Search extends React.Component {
         // 이후 Search 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
             // console.log("Search가 store 상태 변경 노티 받음")
-            /**
-             * 11.11.08
-             * 검색어 입력시 실시간 결과조회 기능 구현하니까
-             * 검색어 입력시 문제가 있어서 아래 주석처리함
-             */
             if (this.state.word !== tp.store.getState().view.search) {
                 console.log("this.state.word = " + this.state.word);
                 console.log("state_word = " + tp.store.getState().view.search);
                 this.setState({ word: tp.store.getState().view.search });
             }
-            // debugger;
-            // console.log("Search forceUpdate 호출 전")
-            // this.forceUpdate();
-            // console.log("Search forceUpdate 호출 후")
         });
     }
 
@@ -85,8 +76,6 @@ export default class Search extends React.Component {
         //     this.search(word)
         //     this.onTyping = 0;
         // }, 500)
-
-
 
         this.setState({ word: e.target.value }, () => {
             if (this.onTyping) {

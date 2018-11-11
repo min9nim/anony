@@ -101,7 +101,7 @@ GET | /api/comments/delete/:key/:uuid | - | `key` 에 해당하는 댓글 delete
 GET | /api/comments/remove/:key/:uuid | - | `key` 에 해당하는 댓글 remove 처리
 POST | /api/posts/add | postObj | 글등록
 POST | /api/comments/add | commentObj | 댓글등록
-POST | /api/posts/get/:context/:idx/:cnt | word, uuid | `context` 채널에서 `idx` 번째부터 `cnt` 개수의 post 목록을 조회
+POST | /api/posts/get/:context/:idx/:cnt | word, uuid | `context` 채널 `word` 검색결과에서 `idx` 번째부터 `cnt` 개수의 post 목록을 조회
 POST | /api/posts/get/:key | uuid | `key` 에 해당하는 글을 조회
 POST | /api/posts/view/:key | uuid | `key` 해당하는 글 조회수 1증가
 POST | /api/posts/edit/:uuid | postObj | post수정 처리
