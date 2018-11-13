@@ -129,7 +129,7 @@ export default class Search extends React.Component {
         // console.log("Search 렌더링");
 
         return (
-            <div className="Search">
+            <div className="search">
                 {
                     tp.isDesktop()
                         ?
