@@ -80,10 +80,10 @@ export default class List extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.posts.length !== nextState.posts.length) {
-            console.log("목록 개수가 달라서 List 렌더링")
+            // console.log("목록 개수가 달라서 List 렌더링")
             return true;
         }else {
-            console.log("List 렌더링 안함 ")
+            // console.log("List 렌더링 안함 ")
             return false;
         }
     }
