@@ -82,7 +82,7 @@ export default class List extends React.Component {
         if (this.state.posts.length !== nextState.posts.length) {
             // console.log("목록 개수가 달라서 List 렌더링")
             return true;
-        }else {
+        } else {
             // console.log("List 렌더링 안함 ")
             return false;
         }
@@ -115,17 +115,17 @@ export default class List extends React.Component {
                     {/* <div className="status">{status}</div> */}
 
                     <div className="menu-title">
-                        {!search && <Menu />}
+                        <Menu />
                         <div className="uuid">{uuid}</div>
                     </div>
                     <div className="channel">{channel}</div>
                 </div>
-                
+
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context} />
                 )}
 
-                <ListLoader/>
+                <ListLoader />
 
                 {tp.store.getState().view.search !== "" && (
                     <div className="backBtn">
