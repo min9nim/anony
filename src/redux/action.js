@@ -15,7 +15,6 @@ const at = action.type = {
   RESTOREPOST : "RESTOREPOST",
   VIEWPOST : "VIEWPOST",      // 조회수 +1
 
-
   ADDCOMMENT : "ADDCOMMENT",
   ADDCOMMENTS : "ADDCOMMENTS",
   DELETECOMMENT : "DELETECOMMENT",
@@ -27,6 +26,8 @@ const at = action.type = {
   SETUUID : "SETUUID",
 
   SCROLLEND : "SCROLLEND",
+
+  MYCHANNELS : "MYCHANNELS"
 }
 
 action.addPost = function(post) {
@@ -137,3 +138,10 @@ action.setUuid = function(uuid) {
   }
 }
 
+
+action.myChannels = function(channels) {
+  return {
+    type: at.MYCHANNELS,
+    channels
+  }
+}

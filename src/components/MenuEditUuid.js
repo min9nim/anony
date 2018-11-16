@@ -39,6 +39,15 @@ export default class MenuEditUuid extends React.Component {
             style: "info", 
             width: "152px"
         });
+
+
+        tp.store.dispatch(tp.action.myChannels([]));
+        tp.api.myChannels().then(
+            res => {
+                tp.store.dispatch(tp.action.myChannels(res.output));                
+            }
+        );    
+
         this.hideMenu();
     }
 

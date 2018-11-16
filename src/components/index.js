@@ -15,6 +15,7 @@ export { default as AlertDismissable } from './AlertDismissable';
 export { default as Confirm } from './Confirm';
 
 export { default as ListLoader } from './ListLoader';
+export { default as MyChannels } from './MyChannels';
 
 
 

@@ -422,6 +422,22 @@ post["/cancelLike/:key"] = (req, res) => {
 
 
 
+post["/myChannels"] = (req, res) => {
+    Post.find({uuid: req.body.uuid})
+        .then($m._map(p => p.context))
+        .then(R.uniq)
+        .then(channels => {
+            console.log(JSON.stringify(channels))
+            res.send({
+                status: "Success",
+                output: channels
+            });
+        })
+        .catch(sendErr(res))
+}
+
+
+
 router.post("/add", post["/add"]);
 router.post("/edit/:uuid", post["/edit/:uuid"]);
 router.post("/view/:key", post["/view/:key"]);
@@ -429,6 +445,8 @@ router.post("/likePost/:key", post["/likePost/:key"]);
 router.post("/cancelLike/:key", post["/cancelLike/:key"]);
 router.post("/get/:context/:idx/:cnt", post["/get/:context/:idx/:cnt"]);
 router.post("/get/:key", post["/get/:key"]);
+router.post("/myChannels", post["/myChannels"]);
+
 
 router.get("/delete/:key/:uuid", get["/delete/:key/:uuid"]);
 router.get("/restore/:key/:uuid", get["/restore/:key/:uuid"]);

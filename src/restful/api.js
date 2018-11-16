@@ -226,3 +226,33 @@ api.cancelLike = function (key, uuid) {
         }
     ).then(errHandler);
 }
+
+
+api.cancelLike = function (key, uuid) {
+    return httpReq(
+        "/api/posts/cancelLike/" + key,
+        {
+            method: "POST",
+            headers: new Headers({ "Content-Type": "application/json" }),
+            body: JSON.stringify({ uuid: tp.user.uuid }),
+        }
+    ).then(errHandler);
+}
+
+
+api.myChannels = function(){
+    return httpReq(
+        "/api/posts/myChannels/",
+        {
+            method: "POST",
+            headers: new Headers({ "Content-Type": "application/json" }),
+            body: JSON.stringify({ uuid: tp.user.uuid }),
+        }
+    ).then(errHandler)
+    .then(res => {
+        if(res.output.length === 0){
+            res.output = ["public"]
+        }
+        return res;
+    });    
+}
