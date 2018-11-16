@@ -104,6 +104,8 @@ export default class Post extends React.Component {
                             tp.store.dispatch(tp.action.viewPost(this.props.postKey))
                             // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
                             // 위에 주석처리하면 목록에서 글보기화면 넘어올 때 viewCnt 가 올라가지 않아서 다시 주석해제 함, 18.08.17
+
+                            tp.store.dispatch(tp.action.updatePost(res.output))
                         } else {
                             // 수정내역post 인 경우
                         }
@@ -268,6 +270,7 @@ export default class Post extends React.Component {
                                 postKey={this.state.key}
                                 postDeleted={this.state.deleted}
                                 postOrigin={this.state.origin}
+                                post={this.state}
                                 context={this.props.context} />
 
                         }

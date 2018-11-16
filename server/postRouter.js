@@ -131,6 +131,10 @@ post["/edit/:uuid"] = (req, res) => {
     }).catch(sendErr(res));    
 }
 
+const getHitoryCnt = async (post) => {
+    let posts = await Post.find({origin: post.key})
+    return posts.length;
+}
 
 // 조회수 1증가
 post["/view/:key"] = (req, res) => {
@@ -152,8 +156,9 @@ post["/view/:key"] = (req, res) => {
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
             post.lastViewedDate = Date.now();
             post.save()
-                .then(output => {
-                    //console.log(output);
+                .then(async output => {
+                    output = JSON.parse(JSON.stringify(output));
+                    output.historyCnt = await getHitoryCnt(output);
                     res.send({
                         status: "Success",
                         message: `post@${req.params.key} viewCnt + 1.`,
@@ -167,7 +172,7 @@ post["/view/:key"] = (req, res) => {
 
 
 // idx 번째부터 cnt 개수만큼 post 를 조회
-post["/get/:context/:idx/:cnt"] = (req, res) => {
+post["/get/:context/:idx/:cnt"] = async (req, res) => {
     const idx = Number(req.params.idx);
     const MAXCNT = 50;  // posts 조회 최대 개수
 
@@ -186,6 +191,11 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
 
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
+    
+    // console.log("@@@111 " + Date.now())
+    // let allPosts = await Post.find({context: req.params.context});
+    // console.log("@@@222 " +Date.now())
+
 
     Post.find({$and : [
             {$or : [
@@ -202,6 +212,25 @@ post["/get/:context/:idx/:cnt"] = (req, res) => {
                 {content : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}
             ]}
         ]})
+        // .then(posts => {
+        //     console.log("@@@ 11 " + Date.now())
+        //     const allPosts = posts.map(p => {
+        //         return {key: p.key, origin: p.origin}
+        //     });
+        //     console.log("@@@ 22 " + Date.now())
+        //     posts = posts.filter(p => p.origin === undefined)
+        //     console.log("@@@ 33 " + Date.now())
+        //     posts.sort((a,b) => b.date - a.date);
+        //     console.log("@@@ 44 " + Date.now())
+        //     return posts.slice(idx, idx+cnt)
+        //             .map(post => {
+        //                 console.log("@@@ 55 " + Date.now())
+        //                 let historyCnt = allPosts.filter(p => p.origin === post.key).length;
+        //                 post.historyCnt = historyCnt;
+        //                 post.aaa = 111;
+        //                 return post;
+        //             })
+        // })
         .sort({"date" : -1})    // 최종수정일 기준 내림차순
         .skip(idx)
         .limit(cnt)
