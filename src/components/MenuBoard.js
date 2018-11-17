@@ -1,19 +1,20 @@
 import React from "react";
 import {tp} from "../tp";
 import shortid from "shortid";
-import "./MenuEditUuid.scss";
+import { Excerpt, Menu, Search, ListLoader, MyChannels } from "../components";
+
+import "./MenuBoard.scss";
 import {
     FormGroup,
-    ControlLabel,
     FormControl,
     Button
   } from "react-bootstrap";
 
-export default class MenuEditUuid extends React.Component {
+export default class MenuBoard extends React.Component {
     constructor(props) {
-        //console.log("MenuEditUuid 생성자 호출");
+        //console.log("MenuBoard 생성자 호출");
         super(props);
-        this.hideMenu = this.props.hideMenu;
+        //this.hideMenu = this.props.hideMenu;
         this.confirm = this.confirm.bind(this);
         this.refreshUuid = this.refreshUuid.bind(this);
         this.deleteUuid = this.deleteUuid.bind(this);
@@ -48,12 +49,14 @@ export default class MenuEditUuid extends React.Component {
             }
         );    
 
-        this.hideMenu();
+        //this.hideMenu();
+        tp.view.List.setState({menuClicked: false})
     }
 
     cancel(){
         this.setState({uuid: tp.user.uuid});
-        this.hideMenu();
+        //this.hideMenu();
+        tp.view.List.setState({menuClicked: false})
     }
 
     refreshUuid(){
@@ -82,7 +85,7 @@ export default class MenuEditUuid extends React.Component {
     }
 
     render(){
-        //console.log("MenuEditUuid 렌더링");
+        //console.log("MenuBoard 렌더링");
         return (
             <div className="uuid-setting">
                 <div className="modal_div"></div>
@@ -105,7 +108,9 @@ export default class MenuEditUuid extends React.Component {
                     <div className="btn_grp">
                         <Button className="searchBtn" bsStyle="success" onClick={this.confirm}>Save</Button>
                         <Button className="cancelBtn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
-                    </div>  
+                    </div>
+
+                    <MyChannels channels={tp.store.getState().data.channels} />
                 </div>
             </div>
         );

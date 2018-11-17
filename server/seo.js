@@ -63,7 +63,7 @@ seo.post = function(req, res){
 }
 
 seo.list = function(req, res, next){
-    console.log("### seo.list called");
+    // console.log("### seo.list called");
     if(req.params.context && req.params.context.match(/(\.js|\.txt|\.html|\.png|\.jpg|\.gif|\.css|\.ico|\.svg)$/)){
         // 루트에서 .txt 나 .js 파일등 static파일을 요청한 경우
         next();

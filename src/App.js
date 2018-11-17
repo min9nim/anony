@@ -26,6 +26,8 @@ export default class App extends React.Component {
     shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
     shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
 
+    tp.history = this.props.history;
+
 
     // 초기상태 정의
     // this.state = {

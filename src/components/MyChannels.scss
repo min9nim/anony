@@ -1,56 +1,29 @@
-.channels-wrappter {
-    .my-channels {
-        color: #777;
-        position: fixed;
-        left: 20px;
-        top: 50px;
-        border: 1px solid #eee;
-        padding: 10px;
-        border-radius: 6px;
-        background-color: #fff;
-        .loading2{
-            margin-top: 5px;
-        }
-        .title {
-            border-bottom: 1px solid #eee;
-            padding-bottom: 7px;
-        }
-        .item {
-            margin-top: 5px;
-            cursor: pointer;
-        }
-    
-        .selected {
-            font-weight: bold;
-        }
+.my-channels {
+    color: #777;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #fff;
+    .loading2 {
+        margin-top: 5px;
     }
-    
-    .channel-btn {
-        color: #777;
-        position: fixed;
-        left: 20px;
-        top: 30px;
-        display: none;
+    .title {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 7px;
+    }
+    .item {
+        margin-top: 5px;
+        cursor: pointer;
+    }
+    .selected {
+        font-weight: bold;
     }
 }
 
-@media screen and (max-width: 1090px) {
-    .channels-wrappter .my-channels {
-        display: none;
-    }
-    .channels-wrappter .channel-btn {
-        display: block;
-    }
-}
-
-@media screen and (min-width: 1091px) {
-    .channels-wrappter .my-channels {
-        display: block !important;
-    }
-}
-
-@media screen and (max-width: 840px) {
-    .channels-wrappter .channel-btn{
-        left: 10px;
-    }
-}
+// .channel-btn {
+//     color: #777;
+//     position: fixed;
+//     left: 20px;
+//     top: 30px;
+//     display: none;
+// }

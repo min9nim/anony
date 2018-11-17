@@ -1,6 +1,6 @@
 .uuid-setting {
     height: 22px;
-    position: relative;
+    //position: relative;
     .modal_div {
         position: fixed;
         left: 0px;
@@ -12,8 +12,12 @@
     }
     .inner_div {
         position: absolute;
-        top: 5px;
-        right: -130px;
+        top: 244px;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
         max-width: 800px;
         .upper_grp {
             .form {
@@ -52,6 +56,7 @@
         }
         .btn_grp {
             margin-top: 5px;
+            margin-bottom: 20px;
             text-align: center;
             width: 245px;
             .cancelBtn {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { Excerpt, Menu, Search, ListLoader, MyChannels } from "../components";
+import { Excerpt, MenuBoard, Search, ListLoader, MyChannels } from "../components";
 import { tp } from "../tp.js";
 import { Link } from "react-router-dom";
 import nprogress from "nprogress";
@@ -17,7 +17,8 @@ export default class List extends React.Component {
         this.state = {
             channels: tp.store.getState().data.channels,
             comments: [],
-            posts: tp.store.getState().data.posts.filter(p => p.origin === undefined)
+            posts: tp.store.getState().data.posts.filter(p => p.origin === undefined),
+            menuClicked: false
         }
 
         tp.view.List = this;
@@ -69,12 +70,12 @@ export default class List extends React.Component {
 
 
 
-        if(tp.store.getState().data.channels.length === 0){
+        if (tp.store.getState().data.channels.length === 0) {
             tp.api.myChannels().then(
                 res => {
                     tp.store.dispatch(tp.action.myChannels(res.output));
                 }
-            );    
+            );
         }
     }
 
@@ -94,10 +95,10 @@ export default class List extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.posts !== nextState.posts) {
-            console.log("목록이 달라서 List 렌더링")
             return true;
         } if (this.state.channels !== nextState.channels) {
-            console.log("채널이 달라서 List 렌더링")
+            return true;
+        } if (this.state.menuClicked !== nextState.menuClicked) {
             return true;
         } else {
             console.log("List 렌더링 안함 ")
@@ -135,7 +136,8 @@ export default class List extends React.Component {
                     {/* <div className="status">{status}</div> */}
 
                     <div className="menu-title">
-                        <Menu />
+                        {/* <Menu /> */}
+                        <div className="icon-menu-1 menu" onClick={() => this.setState({menuClicked : true})}></div>
                         <div className="uuid">{uuid}</div>
                     </div>
                     <div className="channel">{channel}</div>
@@ -156,9 +158,10 @@ export default class List extends React.Component {
                 <div className="writeBtn">
                     <Link to={"/" + tp.context + "/write"}><Button bsStyle="success"><i className="icon-doc-new" />Write</Button></Link>
                 </div>
-
-                <MyChannels channels={this.state.channels} history={this.props.history}/>
-
+                <div className="channels-wrappter">
+                    <MyChannels/>
+                </div>
+                {this.state.menuClicked && <MenuBoard />}
             </div>
         );
     }
