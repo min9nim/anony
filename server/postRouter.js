@@ -461,18 +461,21 @@ post["/cancelLike/:key"] = (req, res) => {
 
 post["/myChannels"] = (req, res) => {
     Post.find({ uuid: req.body.uuid, origin: undefined })
-        .then($m._map(p => p.context))
+        .then($m._map(p => {
+            return {key: p.key, context: p.context}
+        }))
         //.then(R.uniq)
         .then(arr => {
             let obj = {}
             arr.forEach(c => {
-                if(obj[c] === undefined){
-                    obj[c] = 1;
+                if(obj[c.context] === undefined){
+                    //console.log("c.context = " + c.context + " : " + c.key)
+                    obj[c.context] = 1;
                 }else{
-                    obj[c]++;
+                    obj[c.context]++;
                 }
             })
-            //console.log(JSON.stringify(obj))
+            console.log(JSON.stringify(obj))
             return obj;
         })
         .then(obj => {
@@ -484,7 +487,7 @@ post["/myChannels"] = (req, res) => {
             return res
         })
         .then(channels => {
-            //console.log(JSON.stringify(channels))
+            console.log(JSON.stringify(channels))
             res.send({
                 status: "Success",
                 output: channels
