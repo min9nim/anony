@@ -20,7 +20,7 @@ module.exports = seo = {};
 
 // seo 최적화
 seo.post = function(req, res){
-    console.log("### seo.post called");
+    //console.log("### seo.post called");
     // key 에 해당하는 post 를 조회
     Post.findOne({$and : [
         {isPrivate:{$in: [ false, undefined ]}},
