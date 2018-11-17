@@ -472,7 +472,7 @@ post["/myChannels"] = (req, res) => {
                     obj[c]++;
                 }
             })
-            console.log(JSON.stringify(obj))
+            //console.log(JSON.stringify(obj))
             return obj;
         })
         .then(obj => {
@@ -484,7 +484,7 @@ post["/myChannels"] = (req, res) => {
             return res
         })
         .then(channels => {
-            console.log(JSON.stringify(channels))
+            //console.log(JSON.stringify(channels))
             res.send({
                 status: "Success",
                 output: channels
