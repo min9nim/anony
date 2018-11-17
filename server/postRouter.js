@@ -14,14 +14,14 @@ const get = {};
 
 
 
-function setHasComment(post){
+function setHasComment(post) {
     // hasComment 기능이 추가되기 전 데이터들에 대한 값 보정, 2018/06/16
     post.hasComment = post.hasComment === undefined ? true : post.hasComment;
     return post;
 }
 
 
-function sendErr(res){
+function sendErr(res) {
     return err => {
         console.log(err);
         res.status(200).send({
@@ -35,14 +35,14 @@ function sendErr(res){
 // 라우터의 콜백을 프라미스 패턴으로 바꾸고자 했던 노력의 흔적..
 // https: //gist.github.com/min9nim/c5dbdafc3a28f71a0c92dfd06bfdaf9e
 
-function maskPost(post, uuid){
+function maskPost(post, uuid) {
     const masked = JSON.parse(JSON.stringify(post));    // plain 객체 생성
 
-    
+
     //console.log("## masked.like = " + masked.like);
     //console.log("## uuid = " + uuid);
     masked.like = masked.like || "";
-    if(uuid){
+    if (uuid) {
         masked.liked = R.pipe(
             R.split(","),
             R.contains(uuid)
@@ -53,7 +53,7 @@ function maskPost(post, uuid){
     masked.likeCnt = masked.like === "" ? 0 : masked.like.split(",").length;
 
     masked.uuid = undefined;
-    masked._id = undefined;       
+    masked._id = undefined;
     masked.__v = undefined;
     masked.like = undefined;
 
@@ -65,12 +65,12 @@ function maskPost(post, uuid){
 post["/add"] = (req, res) => {
     console.log("received data = " + JSON.stringify(req.body, null, 2));
     var post = new Post();
-    Object.assign(post, req.body, {createdDate: Date.now()});
+    Object.assign(post, req.body, { createdDate: Date.now() });
     // 글최초 등록하면 바로 글보기 화면으로 가면서 카운트가 1 증가하는데
     // 최초 등록 후 글이 보여질 때는 view를 0으로 맞추기 위해
     // 아래와 같이 명시적으로 처음에 undefined 값을 할당한다.
     // get["/view/:key"] 함수와 연계하여 생각해 본다
-    post.viewCnt = undefined;     
+    post.viewCnt = undefined;
 
     post.save().then(output => {
         res.send({
@@ -87,18 +87,18 @@ post["/add"] = (req, res) => {
 post["/edit/:uuid"] = (req, res) => {
     //console.log("received data = " + JSON.stringify(req.body, null, 2));
 
-    Post.findOne({key: req.body.key}).then(post => {
-        if(post.uuid !== req.params.uuid || post.origin !== undefined){
-            res.send({ status : "Fail", message: "Not authorized" });
+    Post.findOne({ key: req.body.key }).then(post => {
+        if (post.uuid !== req.params.uuid || post.origin !== undefined) {
+            res.send({ status: "Fail", message: "Not authorized" });
             return;
         }
 
-        if(post.title !== req.body.title || post.content !== req.body.content){
+        if (post.title !== req.body.title || post.content !== req.body.content) {
             // 제목이나 내용이 변경된 경우에만 기존 내용 백업
             var prevPost = new Post();
             prevPost.origin = post.key;
             prevPost.key = shortid.generate(),
-            prevPost.title = post.title;
+                prevPost.title = post.title;
             prevPost.writer = post.writer;
             prevPost.content = post.content;
             prevPost.date = post.date;
@@ -107,7 +107,7 @@ post["/edit/:uuid"] = (req, res) => {
             prevPost.hasComment = post.hasComment;
             prevPost.uuid = post.uuid;
             prevPost.viewCnt = post.viewCnt;
-            prevPost.context = post.context;                        
+            prevPost.context = post.context;
             // 근데 여기서 Object.assign 을 사용하면 오류 발생ㅠ
             // https://gist.github.com/min9nim/8f3c3895bf2e41e26921eb1002649306
 
@@ -116,7 +116,7 @@ post["/edit/:uuid"] = (req, res) => {
                 //console.log(output);
             })
         }
-        
+
         // 신규내용으로 업데이트
         Object.assign(post, req.body);
         post.save().then(output => {
@@ -128,11 +128,11 @@ post["/edit/:uuid"] = (req, res) => {
                 output: maskPost(output)
             });
         }).catch(sendErr(res));
-    }).catch(sendErr(res));    
+    }).catch(sendErr(res));
 }
 
 const getHitoryCnt = async (post) => {
-    let posts = await Post.find({origin: post.key})
+    let posts = await Post.find({ origin: post.key })
     return posts.length;
 }
 
@@ -142,17 +142,17 @@ post["/view/:key"] = (req, res) => {
      * 18.11.03
      * 민감한 context 정보는 제거 처리
      */
-    Post.findOne({key: req.params.key}, {"context" : 0}).then(post => {
-        if(post === null){
+    Post.findOne({ key: req.params.key }, { "context": 0 }).then(post => {
+        if (post === null) {
             throw Error("Invalid access");
-        }else if(post.isPrivate && post.uuid !== req.body.uuid){
+        } else if (post.isPrivate && post.uuid !== req.body.uuid) {
             throw Error("Not authorized");
-        }else if(post.origin) {
+        } else if (post.origin) {
             res.send({
                 status: "Fail",
                 message: `edited Post@${req.params.key} cannot increased viewCnt`,
             });
-        }else{
+        } else {
             post.viewCnt = post.viewCnt === undefined ? 1 : post.viewCnt + 1;
             post.lastViewedDate = Date.now();
             post.save()
@@ -164,9 +164,9 @@ post["/view/:key"] = (req, res) => {
                         message: `post@${req.params.key} viewCnt + 1.`,
                         output: maskPost(output, req.body.uuid)
                     });
-            });    
+                });
         }
-    }).catch(sendErr(res));    
+    }).catch(sendErr(res));
 }
 
 
@@ -176,14 +176,14 @@ post["/get/:context/:idx/:cnt"] = async (req, res) => {
     const idx = Number(req.params.idx);
     const MAXCNT = 50;  // posts 조회 최대 개수
 
-    if(isNaN(idx)){
+    if (isNaN(idx)) {
         //console.log(":idx 가 숫자가 아닙니다");
         res.status(500).send(":idx 가 숫자가 아닙니다");
         return;
     }
 
     let cnt = Number(req.params.cnt);
-    if(isNaN(cnt)){
+    if (isNaN(cnt)) {
         console.log(":cnt 가 숫자가 아닙니다");
         res.status(500).send(":cnt 가 숫자가 아닙니다");
         return;
@@ -191,27 +191,35 @@ post["/get/:context/:idx/:cnt"] = async (req, res) => {
 
     // 조회 최대 건수 제한
     cnt = cnt > MAXCNT ? MAXCNT : cnt;
-    
+
     // console.log("@@@111 " + Date.now())
     // let allPosts = await Post.find({context: req.params.context});
     // console.log("@@@222 " +Date.now())
 
 
-    Post.find({$and : [
-            {$or : [
-                {isPrivate: {$in: [ false, undefined ]}},
-                {$and : [
-                    {isPrivate: true},
-                    {uuid : req.body.uuid}
-                ]},
-            ]},
-            {origin: undefined},
-            {context: req.params.context},
-            {$or : [
-                {title : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}, 
-                {content : req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*")}
-            ]}
-        ]})
+    Post.find({
+        $and: [
+            {
+                $or: [
+                    { isPrivate: { $in: [false, undefined] } },
+                    {
+                        $and: [
+                            { isPrivate: true },
+                            { uuid: req.body.uuid }
+                        ]
+                    },
+                ]
+            },
+            { origin: undefined },
+            { context: req.params.context },
+            {
+                $or: [
+                    { title: req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*") },
+                    { content: req.body.search ? new RegExp(req.body.search, "i") : new RegExp(".*") }
+                ]
+            }
+        ]
+    })
         // .then(posts => {
         //     console.log("@@@ 11 " + Date.now())
         //     const allPosts = posts.map(p => {
@@ -231,12 +239,12 @@ post["/get/:context/:idx/:cnt"] = async (req, res) => {
         //                 return post;
         //             })
         // })
-        .sort({"date" : -1})    // 최종수정일 기준 내림차순
+        .sort({ "date": -1 })    // 최종수정일 기준 내림차순
         .skip(idx)
         .limit(cnt)
         .then(R.map(setHasComment))
         .then(R.map(R.partialRight(maskPost, [req.body.uuid])))
-        .then(posts => res.send({status: "Success", posts : posts}))
+        .then(posts => res.send({ status: "Success", posts: posts }))
         .catch(sendErr(res));
 }
 
@@ -246,7 +254,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`);
-            if(post.uuid === req.params.uuid){
+            if (post.uuid === req.params.uuid) {
                 post.deleted = true;
                 post.save().then(output => {
                     //console.log(output);
@@ -254,10 +262,10 @@ get["/delete/:key/:uuid"] = (req, res) => {
                         status: "Success",
                         message: `post(${req.params.key}) is deleted`,
                         output: maskPost(output)
-                    });                    
+                    });
                 });
-            }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+            } else {
+                res.send({ status: "Fail", message: "Not authorized" });
             }
         })
         .catch(sendErr(res));
@@ -268,7 +276,7 @@ get["/delete/:key/:uuid"] = (req, res) => {
 get["/restore/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
-            if(post.uuid === req.params.uuid){
+            if (post.uuid === req.params.uuid) {
                 post.deleted = false;
                 post.save().then(output => {
                     //console.log(output);
@@ -276,11 +284,11 @@ get["/restore/:key/:uuid"] = (req, res) => {
                         status: "Success",
                         message: `post(${req.params.key}) is restored`,
                         output: maskPost(output)
-                    });                    
+                    });
                 });
 
-            }else{
-                res.send({ status : "Fail", message: "Not authorized" });
+            } else {
+                res.send({ status: "Fail", message: "Not authorized" });
             }
         })
         .catch(sendErr(res));
@@ -293,17 +301,17 @@ get["/remove/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`);
-            if(post.uuid === req.params.uuid){
-                if(post.commentCnt){
+            if (post.uuid === req.params.uuid) {
+                if (post.commentCnt) {
                     res.send({
                         status: "Fail",
                         message: `post(${req.params.key}) has comments`,
                     });
-                }else{
-                    Comment.remove({postKey: req.params.key})
+                } else {
+                    Comment.remove({ postKey: req.params.key })
                         .then(output => {
                             //console.log(output);
-                            return Post.remove({$or: [{key: req.params.key}, {origin: req.params.key}]});
+                            return Post.remove({ $or: [{ key: req.params.key }, { origin: req.params.key }] });
                         }).then(output => {
                             //console.log(output);
                             res.send({
@@ -313,9 +321,9 @@ get["/remove/:key/:uuid"] = (req, res) => {
                             });
                         })
                 }
-            }else{
+            } else {
                 res.send({
-                    status : "Fail",
+                    status: "Fail",
                     message: "Not authorized"
                 });
             }
@@ -328,17 +336,17 @@ get["/remove/:key/:uuid"] = (req, res) => {
 post["/get/:key"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(p => {
-            if(p === null){
+            if (p === null) {
                 throw Error("Invalid access");
-            }else if(p.isPrivate && p.uuid !== req.body.uuid){
+            } else if (p.isPrivate && p.uuid !== req.body.uuid) {
                 throw Error("Not authorized");
-            }else{
+            } else {
                 return p;
             }
         })
         .then(R.partialRight(maskPost, req.body.uuid))
         .then(setHasComment)
-        .then(post => res.send({status: "Success", post}))
+        .then(post => res.send({ status: "Success", post }))
         .catch(sendErr(res));
 }
 
@@ -348,17 +356,17 @@ get["/auth/:key/:uuid"] = (req, res) => {
     Post.findOne({ key: req.params.key })
         .then(post => {
             //console.log(post);
-            if(post.uuid === req.params.uuid){
+            if (post.uuid === req.params.uuid) {
                 res.send({
-                    status : "Success",
+                    status: "Success",
                     message: "Authorized ok",
                     post: maskPost(post, req.params.uuid)
-                 });
-            }else{
+                });
+            } else {
                 //console.log("Not authorized");
                 //console.log(post);
                 res.send({
-                    status : "Fail",
+                    status: "Fail",
                     message: "Not authorized"
                 });
             }
@@ -374,17 +382,17 @@ get["/history/:key"] = (req, res) => {
     Post.find({ origin: req.params.key })
         .then(R.map(maskPost))
         .then(R.map(setHasComment))
-        .then(posts => res.send({status: "Success", posts}))
+        .then(posts => res.send({ status: "Success", posts }))
         .catch(sendErr(res));
 }
 
 
 // key에 해당하는 post의 viewCnt++
 post["/likePost/:key"] = (req, res) => {
-    Post.findOne({key: req.params.key})
+    Post.findOne({ key: req.params.key })
         .then(post => {
             //console.log(post);
-            if(post.like){
+            if (post.like) {
                 /* vanillaJS
                 let arr = post.like.split(",");
                 arr.push(req.params.uuid);
@@ -396,15 +404,15 @@ post["/likePost/:key"] = (req, res) => {
                     R.join(",")
                 )(post.like);
 
-            }else{
+            } else {
                 post.like = req.body.uuid;
             }
-            
+
             post.save().then(output => {
                 console.log(output);
                 res.send({
                     status: "Success",
-                    output : maskPost(output, req.body.uuid)
+                    output: maskPost(output, req.body.uuid)
                 });
             })
         })
@@ -413,9 +421,9 @@ post["/likePost/:key"] = (req, res) => {
 
 // key에 해당하는 post의 viewCnt--
 post["/cancelLike/:key"] = (req, res) => {
-    Post.findOne({key: req.params.key})
+    Post.findOne({ key: req.params.key })
         .then(post => {
-            
+
             /* vanillaJS
             let arr = post.like.split(",");
             let idx = arr.findIndex(uuid => uuid === req.body.uuid);
@@ -452,9 +460,29 @@ post["/cancelLike/:key"] = (req, res) => {
 
 
 post["/myChannels"] = (req, res) => {
-    Post.find({uuid: req.body.uuid, origin: undefined})
+    Post.find({ uuid: req.body.uuid, origin: undefined })
         .then($m._map(p => p.context))
-        .then(R.uniq)
+        //.then(R.uniq)
+        .then(arr => {
+            let obj = {}
+            arr.forEach(c => {
+                if(obj[c] === undefined){
+                    obj[c] = 1;
+                }else{
+                    obj[c]++;
+                }
+            })
+            console.log(JSON.stringify(obj))
+            return obj;
+        })
+        .then(obj => {
+            let res = [];
+            for(let key in obj){
+                //res.push(key + "(" + obj[key] + ")");
+                res.push({name: key, count: obj[key]});
+            }
+            return res
+        })
         .then(channels => {
             console.log(JSON.stringify(channels))
             res.send({

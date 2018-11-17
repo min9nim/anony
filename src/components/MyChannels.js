@@ -24,26 +24,26 @@ const MyChannels = (props) => {
         }
     }
 
-    const {channels} = tp.store.getState().data;
+    const { channels } = tp.store.getState().data;
 
     return (
-            <div className="my-channels" >
-                <div className="title">My channels</div>
-                {
-                    channels.length === 0
-                        ?
-                        <div className="loading2"><i className="icon-spin3 animate-spin"></i> Loading..</div>
-                        :
-                        channels.map((c, i) => {
+        <div className="my-channels" >
+            <div className="title">My channels</div>
+            {
+                channels.length === 0
+                    ?
+                    <div className="loading2"><i className="icon-spin3 animate-spin"></i> Loading..</div>
+                    :
+                    channels.map((c, i) => {
 
-                            return (
-                                <div key={i} className={tp.context === c ? "item selected" : "item"} onClick={() => handleClick(c)}>
-                                    {c}
-                                </div>
-                            )
-                        })
-                }
-            </div >
+                        return (
+                            <div key={i} className={tp.context === c.name ? "item selected" : "item"} onClick={() => handleClick(c.name)}>
+                                {c.name + "(" + c.count + ")"}
+                            </div>
+                        )
+                    })
+            }
+        </div >
     )
 
 }
