@@ -452,7 +452,7 @@ post["/cancelLike/:key"] = (req, res) => {
 
 
 post["/myChannels"] = (req, res) => {
-    Post.find({uuid: req.body.uuid})
+    Post.find({uuid: req.body.uuid, origin: undefined})
         .then($m._map(p => p.context))
         .then(R.uniq)
         .then(channels => {

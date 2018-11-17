@@ -120,7 +120,7 @@ export default class List extends React.Component {
             status = ` > ${search}'s result`;
         }
 
-        console.log("@@222 " + this.state.myChannels)
+        //console.log("@@222 " + this.state.myChannels)
 
 
 

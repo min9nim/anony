@@ -281,6 +281,7 @@ export default class Post extends React.Component {
                         this.state.context &&
                         (
                             !!this.state.origin || (
+                            //(
                                 <div>
                                     <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn"><i className="icon-list" />List</Button></Link>
                                     <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn"><i className="icon-doc-new" />Write</Button></Link>
