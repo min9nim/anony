@@ -26,6 +26,8 @@ export default class App extends React.Component {
     shortcut.add("Alt+W", () => this.props.history.push(context + "/write"));
     shortcut.add("Alt+L", () => this.props.history.push(context + "/list"));
 
+    tp.history = this.props.history;
+
 
     // 초기상태 정의
     // this.state = {
@@ -77,6 +79,9 @@ export default class App extends React.Component {
 
   render() {
     // console.log("App 렌더링..");
+    let tmp = location.pathname.split("/")[1];
+    tp.context = tmp === "post" ? "" : tmp;
+  
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";

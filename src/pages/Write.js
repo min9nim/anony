@@ -383,6 +383,20 @@ export default class Write extends React.Component {
 
     const optIcon = this.state.optClicked ? "icon-folder-open-empty" : "icon-folder-empty" ;
 
+
+    console.log("## this.state.context = " +  this.state.context)
+
+
+    /**
+     * 18.11.17
+     * 이 부분에서 자꾸 context 가 사라지는 경우가 있어서 예외처리 추가함
+     */
+    if(!this.state.context && tp.context){
+      console.log("context 재설정 ")
+      this.state.context = tp.context;
+    }
+    
+
     return (
         <div className="write">
             {/* <div className="context">{this.props.context || "Anony"}</div> */}

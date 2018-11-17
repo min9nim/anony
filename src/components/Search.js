@@ -5,7 +5,7 @@ import "./Search.scss";
 
 export default class Search extends React.Component {
     constructor(props) {
-        console.log("Search 생성자 호출");
+        // console.log("Search 생성자 호출");
         super(props);
         this.showSearch = this.showSearch.bind(this);
         this.hideSearch = this.hideSearch.bind(this);
@@ -31,8 +31,8 @@ export default class Search extends React.Component {
         this.unsubscribe = tp.store.subscribe(() => {
             // console.log("Search가 store 상태 변경 노티 받음")
             if (this.state.word !== tp.store.getState().view.search) {
-                console.log("this.state.word = " + this.state.word);
-                console.log("state_word = " + tp.store.getState().view.search);
+                //console.log("this.state.word = " + this.state.word);
+                //console.log("state_word = " + tp.store.getState().view.search);
                 this.setState({ word: tp.store.getState().view.search });
             }
         });
@@ -40,13 +40,13 @@ export default class Search extends React.Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.state.word !== nextState.word) {
-            console.log("word가 다르니까 렌더링")
+            // console.log("word가 다르니까 렌더링")
             return true;
-        }if (this.state.clicked !== nextState.clicked) {
-            console.log("clicked 다르니까 렌더링")
+        } if (this.state.clicked !== nextState.clicked) {
+            // console.log("clicked 다르니까 렌더링")
             return true;
         } else {
-            console.log("word 가 같음 Search 렌더링 안함")
+            // console.log("word 가 같음 Search 렌더링 안함")
             return false;
         }
     }
@@ -61,21 +61,7 @@ export default class Search extends React.Component {
     }
 
     handleChange(e) {
-        if(tp.view.ListLoader.state.loading) return;
-
         let word = e.target.value;
-        //console.log(e.target.value);
-
-        // tp.store.dispatch(tp.action.setSearch(word));
-        // if (this.onTyping) {
-        //     console.log("타이머 초기화")
-        //     clearTimeout(this.onTyping);
-        // }
-        // this.onTyping = setTimeout(() => {
-        //     console.log("검색어 = " + word)
-        //     this.search(word)
-        //     this.onTyping = 0;
-        // }, 500)
 
         this.setState({ word: e.target.value }, () => {
             if (this.onTyping) {
@@ -109,17 +95,13 @@ export default class Search extends React.Component {
 
 
     search(word) {
-        const search = word.trim();
-        //const search = this.state.word.trim();
-        if (search === "") {
-            // tp.alert({
-            //     message: "Keyword is empty", 
-            //     style: "warning",
-            //     width: "180px"
-            // });
-            //return;
+        if (tp.view.ListLoader.state.loading) {
+            this.fetchController.abort();
         }
+        this.fetchController = new AbortController()
+        const signal = this.fetchController.signal;
 
+        const search = word.trim();
 
         // 18.11.10 스토어의 검색어 상태 미리 변경해둠
         tp.store.dispatch(tp.action.setSearch(search));
@@ -127,28 +109,27 @@ export default class Search extends React.Component {
 
         // 기존내용 초기화
         tp.store.dispatch(tp.action.initPosts());
-        tp.view.ListLoader.setState({ loading: true });
+        //tp.view.ListLoader.setState({ loading: true });
+        tp.view.ListLoader.state.loading = true;
+
         tp.isScrollLast = false;
 
         // 다시 세팅
-        tp.api.getPosts({ idx: 0, cnt: 10, search, context: this.props.context })
+        tp.api.getPosts({ idx: 0, cnt: 10, search, context: this.props.context, signal })
             .then(tp.checkStatus)
             .then(res => {
                 tp.view.ListLoader.setState({ loading: false });
+                //tp.view.ListLoader.state.loading = false;
                 tp.store.dispatch(tp.action.addPosts(res.posts))
-            });
-
-        // 현재 검색어 세팅
-
-
-        //this.hideSearch();
+            })
+            .catch(console.log);
     }
 
     render() {
-        console.log("Search 렌더링");
+        // console.log("Search 렌더링");
 
         return (
-            <div className="Search">
+            <div className="search">
                 {
                     tp.isDesktop()
                         ?

@@ -8,6 +8,9 @@ import { Link } from "react-router-dom";
 import Remarkable from "remarkable";
 //import hljs from 'highlight.js';
 import shortcut from "../ext/shortcut";
+import $m from "../../com/util.js";
+
+
 import "./Post.scss";
 import "../css/hljsTheme/xcode.css";
 
@@ -104,6 +107,13 @@ export default class Post extends React.Component {
                             tp.store.dispatch(tp.action.viewPost(this.props.postKey))
                             // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
                             // 위에 주석처리하면 목록에서 글보기화면 넘어올 때 viewCnt 가 올라가지 않아서 다시 주석해제 함, 18.08.17
+
+                            $m._go(
+                                Object.assign(res.output, { context: tp.context }),
+                                tp.action.updatePost,
+                                tp.store.dispatch
+                            )
+                            //tp.store.dispatch(tp.action.updatePost(Object.assign(res.output, {context: tp.context}))
                         } else {
                             // 수정내역post 인 경우
                         }
@@ -268,6 +278,7 @@ export default class Post extends React.Component {
                                 postKey={this.state.key}
                                 postDeleted={this.state.deleted}
                                 postOrigin={this.state.origin}
+                                post={this.state}
                                 context={this.props.context} />
 
                         }
@@ -278,6 +289,7 @@ export default class Post extends React.Component {
                         this.state.context &&
                         (
                             !!this.state.origin || (
+                                //(
                                 <div>
                                     <Link to={this.contextPath + "/list"}><Button bsStyle="success" className="listBtn"><i className="icon-list" />List</Button></Link>
                                     <Link to={this.contextPath + "/write"}><Button bsStyle="success" className="writeBtn"><i className="icon-doc-new" />Write</Button></Link>

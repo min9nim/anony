@@ -1,19 +1,17 @@
 /* List component */
-.list {
-    margin: 0px;
-    //background-color: #f7f7f7;
 
-    .header{
+.list {
+    margin: 0px; //background-color: #f7f7f7;
+    .header {
         display: flex;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         color: #aaa;
         background-color: #fff;
         padding: 3px 15px 3px 10px;
-        margin-bottom: 4px;
-        //height: 29px;
+        margin-bottom: 4px; //height: 29px;
         border-bottom: 1px solid #eee;
         .logo {
-            flex:1;
+            //flex:1;
             min-width: 110px;
             img {
                 position: absolute;
@@ -23,35 +21,36 @@
                 opacity: 0.4;
             }
         }
-
-        .Search {
+        .search {
             text-align: left;
             margin-right: 15px;
+            flex: 1;
+            display: flex;
         }
         .channel {
             margin-left: 5px;
             display: inline-block;
             font-size: 16px;
         }
-
         .status {
             margin-left: 5px;
             display: inline-block;
             font-size: 16px;
         }
-
-        .menu-title{
+        .menu-title {
             //flex:1;
-            text-align: right;
-            //display: flex;
-
+            text-align: right; //display: flex;
+            .menu{
+                display: inline-block;
+                font-size: 16px;
+                cursor: pointer;
+            }
             .uuid {
                 display: inline-block;
                 font-size: 16px;
                 cursor: pointer;
             }
         }
-
     }
     .writeBtn {
         padding-right: 15px;
@@ -61,18 +60,42 @@
         max-width: 800px;
         text-align: right;
         opacity: 0.7;
-        .btn{
+        .btn {
             padding-top: 5px;
             padding-bottom: 5px;
             padding-left: 7px;
             padding-right: 10px;
         }
-    }  
-
+    }
     .backBtn {
         background-color: #fff;
         padding-left: 15px;
-        padding-top: 10px;          
+        padding-top: 10px;
     }
-    
+    .channels-wrappter {
+        position: fixed;
+        left: 20px;
+        top: 50px;
+    }
+}
+
+/* On screens that are 992px or less, set the background color to blue */
+
+@media screen and (max-width: 400px) {
+    .list .header .search {
+        order: 1;
+    }
+    .logo {
+        flex: 1;
+    }
+    div.header>div.search>div.ipt-wrapper {
+        max-width: initial;
+    }
+}
+
+
+@media screen and (max-width: 1090px) {
+    .channels-wrappter .my-channels {
+        display: none;
+    }
 }

@@ -40,8 +40,8 @@ export default class Excerpt extends React.Component {
         return true
     }
 
-    postMetaClick(){
-        this.setState({postMetaClicked: true})
+    postMetaClick() {
+        this.setState({ postMetaClicked: true })
     }
     render() {
         //console.log("Excerpt 렌더링..");
@@ -80,14 +80,15 @@ export default class Excerpt extends React.Component {
                 <div className="meta-wrapper">
                     {
                         this.state.postMetaClicked
-                        ?
-                        <PostMeta post={this.props.post} />
-                        :
-                        <div className="postMetaBtn" onClick={this.postMetaClick.bind(this)}>...</div>
+                            ?
+                            <PostMeta post={this.props.post} />
+                            :
+                            <div className="postMetaBtn" onClick={this.postMetaClick.bind(this)}>...</div>
                     }
                     <PostMenu history={this.props.history}
                         context={this.props.context}
                         postKey={this.props.post.key}
+                        post={this.props.post}
                         postOrigin={this.props.post.origin}
                         postDeleted={this.props.post.deleted} />
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { Excerpt, Menu, Search, ListLoader } from "../components";
+import { Excerpt, MenuBoard, Search, ListLoader, MyChannels } from "../components";
 import { tp } from "../tp.js";
 import { Link } from "react-router-dom";
 import nprogress from "nprogress";
@@ -15,7 +15,10 @@ export default class List extends React.Component {
         this.logoClick = this.logoClick.bind(this);
 
         this.state = {
+            channels: tp.store.getState().data.channels,
+            comments: [],
             posts: tp.store.getState().data.posts.filter(p => p.origin === undefined),
+            menuClicked: false
         }
 
         tp.view.List = this;
@@ -47,6 +50,8 @@ export default class List extends React.Component {
             // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
         }
 
+
+
         // 이후 App 가 스토어 상태를 구독하도록 설정
         this.unsubscribe = tp.store.subscribe(() => {
             // console.log("List가 store 상태 변경 노티 받음")
@@ -62,6 +67,16 @@ export default class List extends React.Component {
     componentDidMount() {
         document.title = (tp.context || "Anony") + " - " + tp.thispage;
         tp.$m.scrollTo(0, tp.scrollTop);        // 이전 스크롤 위치로 복원
+
+
+
+        if (tp.store.getState().data.channels.length === 0) {
+            tp.api.myChannels().then(
+                res => {
+                    tp.store.dispatch(tp.action.myChannels(res.output));
+                }
+            );
+        }
     }
 
     logoClick() {
@@ -79,10 +94,13 @@ export default class List extends React.Component {
 
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.posts.length !== nextState.posts.length) {
-            console.log("목록 개수가 달라서 List 렌더링")
+        if (this.state.posts !== nextState.posts) {
             return true;
-        }else {
+        } if (this.state.channels !== nextState.channels) {
+            return true;
+        } if (this.state.menuClicked !== nextState.menuClicked) {
+            return true;
+        } else {
             console.log("List 렌더링 안함 ")
             return false;
         }
@@ -102,6 +120,9 @@ export default class List extends React.Component {
             status = ` > ${search}'s result`;
         }
 
+        //console.log("@@222 " + this.state.myChannels)
+
+
 
         return (
             <div className="list">
@@ -115,17 +136,18 @@ export default class List extends React.Component {
                     {/* <div className="status">{status}</div> */}
 
                     <div className="menu-title">
-                        {!search && <Menu />}
+                        {/* <Menu /> */}
+                        <div className="icon-menu-1 menu" onClick={() => this.setState({menuClicked : true})}></div>
                         <div className="uuid">{uuid}</div>
                     </div>
                     <div className="channel">{channel}</div>
                 </div>
-                
+
                 {this.state.posts.map(
                     post => <Excerpt history={this.props.history} key={post.key} post={post} context={tp.context} />
                 )}
 
-                <ListLoader/>
+                <ListLoader />
 
                 {tp.store.getState().view.search !== "" && (
                     <div className="backBtn">
@@ -136,10 +158,22 @@ export default class List extends React.Component {
                 <div className="writeBtn">
                     <Link to={"/" + tp.context + "/write"}><Button bsStyle="success"><i className="icon-doc-new" />Write</Button></Link>
                 </div>
+                <div className="channels-wrappter">
+                    <MyChannels/>
+                </div>
+                {this.state.menuClicked && <MenuBoard />}
             </div>
         );
     }
 }
+
+
+
+
+
+
+
+
 
 document.body.onscroll = function () {
     const PAGEROWS = 10;

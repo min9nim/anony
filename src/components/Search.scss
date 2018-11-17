@@ -1,5 +1,6 @@
-.Search{
+.search{
     text-align: right;    
+    justify-content: center;
     .btn1 {
         position: relative;
         left: 25px;
@@ -14,7 +15,9 @@
     }
     .ipt-wrapper {
         display: inline-block;
-        width: 130px;
+        min-width: 57px;
+        max-width: 200px;
+        flex: 1;
         .ipt-search {
             width: 100%;
             font-size: 14px;

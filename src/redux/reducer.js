@@ -12,7 +12,8 @@ export function reducer(state = {}, action) {
     view: view(state.view, action),
     data: {
       posts: posts(state.data.posts, action),
-      comments: comments(state.data.comments, action)
+      comments: comments(state.data.comments, action),
+      channels: channels(state.data.channels, action)
     }
   }
 }
@@ -155,6 +156,18 @@ function view(state = {}, action) {
       return Object.assign({}, state, {search: action.search});
     case at.SETUUID:
       return Object.assign({}, state, {uuid: action.uuid});
+    default:
+      return state;
+  }
+}
+
+
+function channels(state = [], action) {
+  switch (action.type) {
+    case at.MYCHANNELS:
+      //return state.concat(action.channels);
+      //return action.channels.length === 0 ? ["public"] : action.channels;
+      return action.channels;
     default:
       return state;
   }
