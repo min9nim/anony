@@ -79,6 +79,9 @@ export default class App extends React.Component {
 
   render() {
     // console.log("App 렌더링..");
+    let tmp = location.pathname.split("/")[1];
+    tp.context = tmp === "post" ? "" : tmp;
+  
 
     const renderList = ({history, match}) => {
       tp.thispage = "List";
