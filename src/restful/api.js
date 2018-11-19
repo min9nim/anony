@@ -251,7 +251,7 @@ api.myChannels = function(){
     ).then(errHandler)
     .then(res => {
         if(res.output.length === 0){
-            res.output = ["public"]
+            res.output = [{name: "public", count: 0}]
         }
         return res;
     });    
