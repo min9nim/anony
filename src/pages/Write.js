@@ -378,7 +378,7 @@ export default class Write extends React.Component {
 
     const contentStyle = {
       height,   // 핸드폰의 키보드 높이만큼 줄임
-      fontSize: this.state && this.state.isMarkdown ? "15px" : "20px"
+      fontSize: this.state && this.state.isMarkdown ? "15px" : "16px"
     }
 
     const optIcon = this.state.optClicked ? "icon-folder-open-empty" : "icon-folder-empty" ;
