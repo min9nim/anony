@@ -141,7 +141,9 @@ export default class Post extends React.Component {
                          * URL로 직접 들어온 경우에 context 정보는 URL 주소값에서 가지고 오도록 한다
                          * URL로 직접 access하는 경우에는 context 정보가 민감한 정보알 수 있기 때문에 서버에서 의도적으로 내려주지 않는다
                          */
-                        Object.assign(res.output, { context: this.props.context })
+                        //Object.assign(res.output, { context: this.props.context })
+                        Object.assign(res.output, { context: tp.context })
+
 
                         tp.store.dispatch(tp.action.addPost(res.output))
                     } else {

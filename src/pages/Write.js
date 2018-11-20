@@ -378,23 +378,27 @@ export default class Write extends React.Component {
 
     const contentStyle = {
       height,   // 핸드폰의 키보드 높이만큼 줄임
-      fontSize: this.state && this.state.isMarkdown ? "15px" : "20px"
+      fontSize: this.state && this.state.isMarkdown ? "15px" : "16px"
     }
 
     const optIcon = this.state.optClicked ? "icon-folder-open-empty" : "icon-folder-empty" ;
 
 
-    console.log("## this.state.context = " +  this.state.context)
+    // console.log("## this.state.context = " +  this.state.context)
 
 
     /**
      * 18.11.17
      * 이 부분에서 자꾸 context 가 사라지는 경우가 있어서 예외처리 추가함
      */
-    if(!this.state.context && tp.context){
-      console.log("context 재설정 ")
-      this.state.context = tp.context;
-    }
+    // if(!this.state.context && tp.context){
+    //   console.log("context 재설정 ")
+    //   this.state.context = tp.context;
+    // }
+    /**
+     * 18.11.19
+     * write 화면에서 채널명 초기화가 안되서 그냥 다시 주석처리함
+     */
     
 
     return (
