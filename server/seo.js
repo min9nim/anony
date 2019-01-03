@@ -37,16 +37,16 @@ seo.post = function(req, res){
                             // private 글이거나 postKey 값이 유효하지 않은 경우
                             
                             const output = buf.toString()
-                                .replace("{{title}}", "")
-                                .replace("{{description}}", "")
+                                .replace(/{{title}}/g, "")
+                                .replace(/{{description}}/g, "")
                                 .replace("{{content}}", "");
                             res.send(output);
                             //throw Error("Invlid access");
                         }else{
                             const tagRemovedContent = $m.removeTag(post.content);
                             const output = buf.toString()
-                                .replace("{{title}}", post.title)
-                                .replace("{{description}}", tagRemovedContent.substr(0,100))
+                                .replace(/{{title}}/g, post.title)
+                                .replace(/{{description}}/g, tagRemovedContent.substr(0,100))
                                 .replace("{{content}}", post.isMarkdown ? md.render(tagRemovedContent) : tagRemovedContent);
                             //console.log(output);
                             res.send(output);
@@ -86,8 +86,8 @@ seo.list = function(req, res, next){
                 }else{
                     try{
                         const output = buf.toString()
-                            .replace("{{title}}", req.params.context ? req.params.context + "-list" : "anony-list")
-                            .replace("{{description}}", posts.map(p => $m.removeTag(p.title)).join("\n").substr(0,100))
+                            .replace(/{{title}}/g, req.params.context ? req.params.context + "-list" : "anony-list")
+                            .replace(/{{description}}/g, posts.map(p => $m.removeTag(p.title)).join("\n").substr(0,100))
                             .replace("{{content}}", posts.map(p => $m.removeTag(p.title) + "\n" + $m.removeTag(p.content)).join("\n"));
                         //console.log(output);
                         res.send(output);
@@ -118,8 +118,8 @@ seo.write = function(req, res, next){
         }else{
             try{
                 const output = buf.toString()
-                    .replace("{{title}}", req.params.context ? req.params.context + "-write" : "public-write")
-                    .replace("{{description}}", "Anony write page")
+                    .replace(/{{title}}/g, req.params.context ? req.params.context + "-write" : "public-write")
+                    .replace(/{{description}}/g, "Anony write page")
                     .replace("{{content}}", "Anony write page");
                 res.send(output);
             }catch(e){

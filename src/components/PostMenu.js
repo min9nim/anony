@@ -6,13 +6,8 @@ export default class PostMenu extends React.Component {
     constructor(props) {
         //console.log("PostMenu 생성자 호출");
         super(props);
-        this.showMenu = this.showMenu.bind(this);
         this.cancelMenu = this.cancelMenu.bind(this);
-        this.editPost = this.editPost.bind(this);
-        this.deletePost = this.deletePost.bind(this);
-        this.removePost = this.removePost.bind(this);
-        this.restorePost = this.restorePost.bind(this);
-        this.postHistory = this.postHistory.bind(this);
+        // this.restorePost = this.restorePost.bind(this);
 
         this.state = {
             clicked: true
@@ -180,6 +175,10 @@ export default class PostMenu extends React.Component {
         })
     }
 
+    list(){
+        this.props.history.push(this.contextPath + "/list/");
+    }
+
     render() {
         //console.log("PostMenu 렌더링");
         let historyCnt;
@@ -194,25 +193,28 @@ export default class PostMenu extends React.Component {
                 this.state.clicked
                     ?
                     <div className="navi">
+                        {tp.history.location.pathname.indexOf("/post/") >= 0  &&
+                            <div className="icon-list" onClick={this.list.bind(this)}>List</div>
+                        }                        
                         {!this.props.postOrigin &&
-                            <div className="icon-history" onClick={this.postHistory}>History{historyCnt}</div>
+                            <div className="icon-history" onClick={this.postHistory.bind(this)}>History{historyCnt}</div>
                         }
                         {this.props.postDeleted ? (
-                            <div className="icon-ccw" onClick={this.restorePost}>Restore</div>
+                            <div className="icon-ccw" onClick={this.restorePost.bind(this)}>Restore</div>
                         ) : (
                                 <Fragment>
                                     {!this.props.postOrigin &&
-                                        <div className="icon-pencil" onClick={this.editPost}>Edit</div>
+                                        <div className="icon-pencil" onClick={this.editPost.bind(this)}>Edit</div>
                                     }
-                                    <div className="icon-trash-empty" onClick={this.deletePost} title="Delete this, whenever you can restore this">Delete</div>
+                                    <div className="icon-trash-empty" onClick={this.deletePost.bind(this)} title="Delete this, whenever you can restore this">Delete</div>
                                 </Fragment>
                             )
                         }
-                        <div className="icon-trash" onClick={this.removePost} title="Delete this, you cannot undo">Remove</div>
+                        <div className="icon-trash" onClick={this.removePost.bind(this)} title="Delete this, you cannot undo">Remove</div>
                         {/* <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div> */}
                     </div>
                     :
-                    <div className="navi" onClick={this.showMenu}>...</div>
+                    <div className="navi" onClick={this.showMenu.bind(this)}>...</div>
             }</div>
         );
     }

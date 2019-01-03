@@ -1,3 +1,5 @@
 node_modules
 dbConfig.js
 .vscode
+nohup.out
+public/*.chunk.js
