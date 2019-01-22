@@ -1,6 +1,6 @@
 import React from "react";
 import { tp } from "../tp";
-import { PostMenu, CommentWrite, CommentList, PostMeta } from "../components";
+import { PostMenu, CommentWrite, CommentList, PostMeta, MyChannels } from "../components";
 const R = require("ramda");
 import moment from "moment";
 import { Button } from "react-bootstrap";
@@ -314,6 +314,10 @@ export default class Post extends React.Component {
                         {this.state.deleted || <CommentWrite postKey={this.state.key} />}
                     </div>
                 )}
+
+                
+                <MyChannels />
+
             </div>
         );
     }

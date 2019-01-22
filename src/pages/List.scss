@@ -72,11 +72,6 @@
         padding-left: 15px;
         padding-top: 10px;
     }
-    .channels-wrappter {
-        position: fixed;
-        left: 20px;
-        top: 50px;
-    }
 }
 
 /* On screens that are 992px or less, set the background color to blue */
@@ -93,9 +88,3 @@
     }
 }
 
-
-@media screen and (max-width: 1090px) {
-    .channels-wrappter .my-channels {
-        display: none;
-    }
-}

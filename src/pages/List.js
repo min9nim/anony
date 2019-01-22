@@ -67,16 +67,6 @@ export default class List extends React.Component {
     componentDidMount() {
         document.title = (tp.context || "Anony") + " - " + tp.thispage;
         tp.$m.scrollTo(0, tp.scrollTop);        // 이전 스크롤 위치로 복원
-
-
-
-        if (tp.store.getState().data.channels.length === 0) {
-            tp.api.myChannels().then(
-                res => {
-                    tp.store.dispatch(tp.action.myChannels(res.output));
-                }
-            );
-        }
     }
 
     logoClick() {
@@ -158,20 +148,12 @@ export default class List extends React.Component {
                 <div className="writeBtn">
                     <Link to={"/" + tp.context + "/write"}><Button bsStyle="success"><i className="icon-doc-new" />Write</Button></Link>
                 </div>
-                <div className="channels-wrappter">
-                    <MyChannels/>
-                </div>
+                <MyChannels/>
                 {this.state.menuClicked && <MenuBoard />}
             </div>
         );
     }
 }
-
-
-
-
-
-
 
 
 
