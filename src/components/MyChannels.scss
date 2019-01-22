@@ -1,29 +1,37 @@
-.my-channels {
-    color: #777;
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 6px;
-    background-color: #fff;
-    .loading2 {
-        margin-top: 5px;
-    }
-    .title {
-        border-bottom: 1px solid #eee;
-        padding-bottom: 7px;
-    }
-    .item {
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .selected {
-        font-weight: bold;
+
+
+.channels-wrappter {
+    position: fixed;
+    left: 20px;
+    top: 50px;
+
+    .my-channels {
+        color: #777;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 6px;
+        background-color: #fff;
+        .loading2 {
+            margin-top: 5px;
+        }
+        .title {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 7px;
+        }
+        .item {
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .selected {
+            font-weight: bold;
+        }
     }
 }
 
-// .channel-btn {
-//     color: #777;
-//     position: fixed;
-//     left: 20px;
-//     top: 30px;
-//     display: none;
-// }
+
+
+@media screen and (max-width: 1090px) {
+    .channels-wrappter .my-channels {
+        display: none;
+    }
+}
