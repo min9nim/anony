@@ -88,3 +88,16 @@
     }
 }
 
+
+
+/* myChannels 스타일 */
+.channels-wrappter {
+    position: fixed;
+    left: 20px;
+    top: 50px;
+}
+@media screen and (max-width: 1090px) {
+    .channels-wrappter .my-channels {
+        display: none;
+    }
+}
