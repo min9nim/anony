@@ -316,7 +316,10 @@ export default class Post extends React.Component {
                 )}
 
                 
-                <MyChannels />
+                <div className="channels-wrappter">
+                    <MyChannels/>
+                </div>
+
 
             </div>
         );

@@ -148,7 +148,11 @@ export default class List extends React.Component {
                 <div className="writeBtn">
                     <Link to={"/" + tp.context + "/write"}><Button bsStyle="success"><i className="icon-doc-new" />Write</Button></Link>
                 </div>
-                <MyChannels/>
+
+                <div className="channels-wrappter">
+                    <MyChannels/>
+                </div>
+
                 {this.state.menuClicked && <MenuBoard />}
             </div>
         );

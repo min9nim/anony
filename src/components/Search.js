@@ -61,6 +61,21 @@ export default class Search extends React.Component {
     }
 
     handleChange(e) {
+        if(tp.view.ListLoader.state.loading){
+            this.fetchController.abort();
+
+            // this.ipt.style.backgroundColor = "red";
+            // setTimeout(()=>{
+            //     if(tp.view.ListLoader.state.loading){
+            //         this.ipt.style.backgroundColor = "#eee"
+            //     }else{
+            //         this.ipt.style.backgroundColor = ""
+            //     }
+            // }
+            // ,50)
+            // return;
+        }
+
         let word = e.target.value;
 
         this.setState({ word: e.target.value }, () => {
@@ -111,6 +126,7 @@ export default class Search extends React.Component {
         tp.store.dispatch(tp.action.initPosts());
         //tp.view.ListLoader.setState({ loading: true });
         tp.view.ListLoader.state.loading = true;
+        this.ipt.style.backgroundColor = "#eee";
 
         tp.isScrollLast = false;
 
@@ -119,6 +135,7 @@ export default class Search extends React.Component {
             .then(tp.checkStatus)
             .then(res => {
                 tp.view.ListLoader.setState({ loading: false });
+                this.ipt.style.backgroundColor = "";
                 //tp.view.ListLoader.state.loading = false;
                 tp.store.dispatch(tp.action.addPosts(res.posts))
             })
@@ -138,6 +155,7 @@ export default class Search extends React.Component {
                             <div className="ipt-wrapper">
                                 <input className="ipt-search"
                                     //value={tp.store.getState().view.search}
+                                    ref={ele => {this.ipt = ele}}
                                     value={this.state.word}
                                     onChange={this.handleChange}
                                     onKeyPress={this.handleKeyPress} />
