@@ -12,7 +12,13 @@ db.once('open', function() {
 
 const dburl = process.env.dburl
 console.log('dburl:', dburl)
-mongoose.connect(dburl)
+mongoose
+  .connect(dburl)
+  .then(success => console.log(success))
+  .catch(error => {
+    console.log('dburl:', dburl)
+    console.log(error)
+  })
 
 // if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
 //     //console.log("개발디비 접속");

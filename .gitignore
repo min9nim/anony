@@ -4,3 +4,5 @@ dbConfig.js
 nohup.out
 public/*.chunk.js
 dev-start.sh
+prod-start.sh
+.now
