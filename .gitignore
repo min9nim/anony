@@ -3,3 +3,4 @@ dbConfig.js
 .vscode
 nohup.out
 public/*.chunk.js
+dev-start.sh
