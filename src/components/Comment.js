@@ -20,25 +20,28 @@ export default class Comment extends React.Component {
     this.deleteComment = this.deleteComment.bind(this)
   }
 
-  async deleteComment() {
+  deleteComment() {
     if (!confirm('delete this comment?')) {
       return
     }
-    const res = await tp.api.deleteComment({
-      key: this.state.key,
-      uuid: tp.user.uuid,
-    })
 
-    if (res.status === 'Fail') {
-      tp.alert({
-        message: res.message,
-        style: 'danger',
+    tp.api
+      .deleteComment({
+        key: this.state.key,
+        uuid: tp.user.uuid,
       })
-    } else {
-      tp.store && tp.store.dispatch(tp.action.deleteComment(this.state.key))
-      //history.back();
-      this.props.history.push('/list')
-    }
+      .then(res => {
+        if (res.status === 'Fail') {
+          tp.alert({
+            message: res.message,
+            style: 'danger',
+          })
+        } else {
+          tp.store && tp.store.dispatch(tp.action.deleteComment(this.state.key))
+          //history.back();
+          this.props.history.push('/list')
+        }
+      })
   }
 
   render() {

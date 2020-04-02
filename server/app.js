@@ -56,5 +56,5 @@ const PORT =
 
 // HTTP 서비스 시작
 app.listen(PORT, function() {
-  console.log(`express is listening on port ${PORT}`)
+  console.log(`express is listening http://localhost:${PORT}`)
 })
