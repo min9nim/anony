@@ -73,7 +73,7 @@ export default class Post extends React.Component {
       breaks: true,
       // Highlighter function. Should return escaped HTML,
       // or '' if the source string is not changed
-      highlight: async (str, lang) => {
+      highlight: (str, lang) => {
         if (tp.hljs === undefined) {
           import(/* webpackChunkName: "highlightjs"  */ 'highlight.js')
             .then(m => {
