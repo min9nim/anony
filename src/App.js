@@ -1,7 +1,7 @@
 import React from 'react'
 import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
-import { tp } from './tp.js'
+import { tp, Ctx } from './tp.js'
 import { createStore } from 'redux'
 import { reducer } from './redux/reducer'
 import { render, initializeShortcut } from './helper'
@@ -55,30 +55,32 @@ export default class App extends React.Component {
 
     return (
       <div>
-        <Switch>
-          {/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
-          {/* public */}
-          <Route path="/post/:key" render={render('Post')} />
-          <Route path="/postHistory/:key" render={render('PostHistory')} />
-          <Route path="/edit/:key" render={render('Edit')} />
-          <Route path="/write" render={render('Write')} />
-          <Route path="/list" render={render('List')} />
+        <Ctx.Provider value="hello">
+          <Switch>
+            {/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
+            {/* public */}
+            <Route path="/post/:key" render={render('Post')} />
+            <Route path="/postHistory/:key" render={render('PostHistory')} />
+            <Route path="/edit/:key" render={render('Edit')} />
+            <Route path="/write" render={render('Write')} />
+            <Route path="/list" render={render('List')} />
 
-          {/* context */}
-          <Route path="/:context/post/:key" render={render('Post')} />
-          <Route
-            path="/:context/postHistory/:key"
-            render={render('PostHistory')}
-          />
-          <Route path="/:context/edit/:key" render={render('Edit')} />
-          <Route path="/:context/write" render={render('Write')} />
-          <Route path="/:context/list" render={render('List')} />
-          <Route path="/:context" render={render('List')} />
+            {/* context */}
+            <Route path="/:context/post/:key" render={render('Post')} />
+            <Route
+              path="/:context/postHistory/:key"
+              render={render('PostHistory')}
+            />
+            <Route path="/:context/edit/:key" render={render('Edit')} />
+            <Route path="/:context/write" render={render('Write')} />
+            <Route path="/:context/list" render={render('List')} />
+            <Route path="/:context" render={render('List')} />
 
-          <Route path="/" render={render('Write')} />
-        </Switch>
-        <AlertDismissable />
-        <Confirm />
+            <Route path="/" render={render('Write')} />
+          </Switch>
+          <AlertDismissable />
+          <Confirm />
+        </Ctx.Provider>
       </div>
     )
   }

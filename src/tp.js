@@ -1,3 +1,4 @@
+import React from 'react'
 import action from './redux/action'
 import { api } from './restful/api'
 import shortid from 'shortid'
@@ -22,6 +23,8 @@ export let tp = {
   MAXUUIDLEN: 10, // uuid 최대길이
   MAXTITLELEN: 20, // 글제목 최대길이
 }
+
+export const Ctx = React.createContext({})
 
 // tp.checkStatus = function(res) {
 //   if (res.status === 'Success') {
