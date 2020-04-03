@@ -1,18 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import $m from '../../com/util'
 import { Loading } from './Loading'
 import './MyChannels.scss'
 
 const MyChannels = props => {
-  // 19.01.22
-  // min9nim
-  // 나중에 hooks 사용이 가능하다면 componentDidMount 시점에 호출하면 더욱 좋겠다
-  if (tp.store.getState().data.channels.length === 0) {
+  const { channels } = tp.store.getState().data
+  useEffect(() => {
+    if (channels.length > 0) {
+      return
+    }
     // 로드된 채널 정보가 없다면 api 호출
     tp.api.myChannels().then(res => {
       tp.store.dispatch(tp.action.myChannels(res.output))
     })
-  }
+  })
 
   function handleClick(channel) {
     tp.context = channel
@@ -36,8 +37,6 @@ const MyChannels = props => {
       $m('.my-channels').show()
     }
   }
-
-  const { channels } = tp.store.getState().data
 
   return (
     <div className="my-channels">
