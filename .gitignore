@@ -8,5 +8,4 @@ dev-start.sh
 prod-start.sh
 .now
 .DS_Store
-public/docs/size_dev.html
-public/docs/size_prod.html
+public/docs/*.html

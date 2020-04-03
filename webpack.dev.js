@@ -47,14 +47,14 @@ module.exports = merge(common, {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: 'docs/size_dev.html',
-      defaultSizes: 'parsed',
-      openAnalyzer: false,
-      generateStatsFile: false,
-      statsFilename: 'docs/stats_dev.json',
-    }),
+    // new BundleAnalyzerPlugin({
+    //   analyzerMode: 'static',
+    //   reportFilename: 'docs/size_dev.html',
+    //   defaultSizes: 'parsed',
+    //   openAnalyzer: false,
+    //   generateStatsFile: false,
+    //   statsFilename: 'docs/stats_dev.json',
+    // }),
   ],
   resolve: {
     alias: {
