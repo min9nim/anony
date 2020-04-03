@@ -2,7 +2,7 @@
 
 import nprogress from 'nprogress'
 
-async function httpReq(path, opt) {
+async function httpReq(path, opt = {}) {
   if (!opt.hideProgress) {
     nprogress.start()
   }
@@ -58,7 +58,7 @@ api.getPosts = function({
 }
 
 api.getComments = function(postKey) {
-  return httpReq('/api/comments/get/' + postKey, {})
+  return httpReq('/api/comments/get/' + postKey)
 }
 
 api.getPost = function(key) {
@@ -70,19 +70,19 @@ api.getPost = function(key) {
 }
 
 api.deletePost = function({ key, uuid }) {
-  return httpReq('/api/posts/delete/' + key + '/' + uuid, {})
+  return httpReq('/api/posts/delete/' + key + '/' + uuid)
 }
 
 api.removePost = function({ key, uuid }) {
-  return httpReq('/api/posts/remove/' + key + '/' + uuid, {})
+  return httpReq('/api/posts/remove/' + key + '/' + uuid)
 }
 
 api.restorePost = function({ key, uuid }) {
-  return httpReq('/api/posts/restore/' + key + '/' + uuid, {})
+  return httpReq('/api/posts/restore/' + key + '/' + uuid)
 }
 
 api.restoreComment = function({ key, uuid }) {
-  return httpReq('/api/comments/restore/' + key + '/' + uuid, {})
+  return httpReq('/api/comments/restore/' + key + '/' + uuid)
 }
 
 api.viewPost = function(key) {
@@ -94,19 +94,19 @@ api.viewPost = function(key) {
 }
 
 api.deleteComment = function({ key, uuid }) {
-  return httpReq('/api/comments/delete/' + key + '/' + uuid, {})
+  return httpReq('/api/comments/delete/' + key + '/' + uuid)
 }
 
 api.removeComment = function({ key, uuid }) {
-  return httpReq('/api/comments/remove/' + key + '/' + uuid, {})
+  return httpReq('/api/comments/remove/' + key + '/' + uuid)
 }
 
 api.authPost = function({ key, uuid }) {
-  return httpReq('/api/posts/auth/' + key + '/' + uuid, {})
+  return httpReq('/api/posts/auth/' + key + '/' + uuid)
 }
 
 api.authComment = function({ key, uuid }) {
-  return httpReq('/api/comments/auth/' + key + '/' + uuid, {})
+  return httpReq('/api/comments/auth/' + key + '/' + uuid)
 }
 
 api.updatePost = function(post) {
@@ -129,7 +129,7 @@ api.updateComment = function(comment) {
 }
 
 api.getPostHistory = function(key) {
-  return httpReq('/api/posts/history/' + key, {})
+  return httpReq('/api/posts/history/' + key)
 }
 
 api.likePost = function(key) {
