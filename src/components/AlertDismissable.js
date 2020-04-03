@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom'
 import { Alert, Button } from 'react-bootstrap'
 import './AlertDismissable.scss'
 
-export default class AlertDismissable extends React.Component {
+export class AlertDismissable extends React.Component {
   constructor(props, context) {
     super(props, context)
 
