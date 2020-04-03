@@ -1,21 +1,21 @@
 .my-channels {
-    color: #777;
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 6px;
-    background-color: #fff;
-    .loading2 {
-        margin-top: 5px;
-    }
-    .title {
-        border-bottom: 1px solid #eee;
-        padding-bottom: 7px;
-    }
-    .item {
-        margin-top: 10px;
-        cursor: pointer;
-    }
-    .selected {
-        font-weight: bold;
-    }
+  color: #777;
+  border: 1px solid #eee;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  .loading2 {
+    margin-top: 5px;
+  }
+  .title {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 7px;
+  }
+  .item {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .selected {
+    font-weight: bold;
+  }
 }
