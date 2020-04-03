@@ -28,7 +28,7 @@ async function httpReq(path, opt = {}) {
   } catch (e) {
     console.error(e)
     tp.alert({
-      message: res.message,
+      message: e.message,
       style: 'danger',
       width: '200px',
     })
