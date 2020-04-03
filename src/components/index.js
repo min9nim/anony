@@ -8,7 +8,7 @@ export { default as SearchBox } from './SearchBox'
 export { default as CommentWrite } from './CommentWrite'
 export * from './CommentEdit'
 export * from './CommentList'
-export { default as CommentMenu } from './CommentMenu'
+export * from './CommentMenu'
 export * from './Comment'
 
 export * from './AlertDismissable'
