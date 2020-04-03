@@ -3,22 +3,36 @@
 import nprogress from 'nprogress'
 
 async function httpReq(path, opt = {}) {
-  if (!opt.hideProgress) {
-    nprogress.start()
+  try {
+    if (!opt.hideProgress) {
+      nprogress.start()
+    }
+    delete opt.hideProgress
+    const result = await fetch(path, {
+      credentials: 'omit',
+      method: 'GET',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+      ...opt,
+      body: typeof opt.body === 'string' ? opt.body : JSON.stringify(opt.body),
+    })
+    nprogress.done() // nprogress.status 가 null 이면 바로 종료됨
+    if (!result.ok) {
+      throw new Error(res.statusText)
+    }
+    const res = await result.json()
+    if (res.status !== 'Success') {
+      // 정상적인 경우가 아니라 간주하고 예외 발생시킴
+      throw new Error(res.message)
+    }
+    return res
+  } catch (e) {
+    console.error(e)
+    tp.alert({
+      message: res.message,
+      style: 'danger',
+      width: '200px',
+    })
   }
-  delete opt.hideProgress
-  const result = await fetch(path, {
-    credentials: 'omit',
-    method: 'GET',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
-    ...opt,
-    body: typeof opt.body === 'string' ? opt.body : JSON.stringify(opt.body),
-  })
-  nprogress.done() // nprogress.status 가 null 이면 바로 종료됨
-  if (!result.ok) {
-    throw new Error(res.statusText)
-  }
-  return result.json()
 }
 
 export const api = {}

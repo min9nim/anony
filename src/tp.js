@@ -23,20 +23,20 @@ export let tp = {
   MAXTITLELEN: 20, // 글제목 최대길이
 }
 
-tp.checkStatus = function(res) {
-  if (res.status === 'Success') {
-    return res
-  }
-  // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-  tp.alert({
-    message: res.message,
-    style: 'danger',
-    width: '200px',
-  })
-  return new Promise(function(resolve, reject) {
-    reject(new Error(res.message))
-  })
-}
+// tp.checkStatus = function(res) {
+//   if (res.status === 'Success') {
+//     return res
+//   }
+//   // 정상적인 경우가 아니라 간주하고 예외 발생시킴
+//   tp.alert({
+//     message: res.message,
+//     style: 'danger',
+//     width: '200px',
+//   })
+//   return new Promise(function(resolve, reject) {
+//     reject(new Error(res.message))
+//   })
+// }
 
 tp.setCookie = function(cname, cvalue, exdays = 1000) {
   var d = new Date()

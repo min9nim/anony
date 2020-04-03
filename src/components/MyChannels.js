@@ -19,7 +19,6 @@ export const MyChannels = props => {
     tp.context = channel
     tp.api
       .getPosts({ idx: 0, cnt: 10, context: channel })
-      .then(tp.checkStatus)
       .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
       .then(() => {
         tp.isScrollLast = false

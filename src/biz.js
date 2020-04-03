@@ -79,7 +79,6 @@ export async function directAccess(postKey) {
     tp.api
       .getPost(postKey)
       //.then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
-      .then(tp.checkStatus)
       .then(prop('post'))
       .then(tp.action.addPost)
       .then(tp.store.dispatch)

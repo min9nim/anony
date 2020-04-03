@@ -27,7 +27,6 @@ export class CommentList extends React.Component {
     if (this.state.comments.length === 0 && this.props.commentCnt > 0) {
       tp.api
         .getComments(this.props.postKey)
-        .then(tp.checkStatus)
         .then(res => tp.store.dispatch(tp.action.addComments(res.comments)))
     }
   }

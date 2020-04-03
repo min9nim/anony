@@ -25,7 +25,6 @@ export class CommentEdit extends React.Component {
     // 댓글 수정하고
     tp.api
       .updateComment(this.state)
-      .then(tp.checkStatus)
       .then(res => tp.store.dispatch(tp.action.updateComment(res.output)))
 
     this.hideEdit()

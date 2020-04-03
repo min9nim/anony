@@ -18,16 +18,13 @@ export default class PostHistory extends React.Component {
     }
 
     if (this.state.phist.length === 0) {
-      tp.api
-        .getPostHistory(this.props.postKey)
-        .then(tp.checkStatus)
-        .then(res => {
-          if (res.posts.length > 0) {
-            tp.store.dispatch(tp.action.addPosts(res.posts))
-          } else {
-            tp.alert('Have no changes')
-          }
-        })
+      tp.api.getPostHistory(this.props.postKey).then(res => {
+        if (res.posts.length > 0) {
+          tp.store.dispatch(tp.action.addPosts(res.posts))
+        } else {
+          tp.alert('Have no changes')
+        }
+      })
     }
 
     this.contextPath = this.props.context ? '/' + this.props.context : ''

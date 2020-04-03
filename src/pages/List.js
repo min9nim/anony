@@ -53,7 +53,6 @@ export default class List extends React.Component {
     ) {
       tp.api
         .getPosts({ idx: 0, cnt: 10, context: tp.context })
-        .then(tp.checkStatus)
         .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
     } else {
       // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
@@ -85,7 +84,6 @@ export default class List extends React.Component {
     // 다시 세팅
     tp.api
       .getPosts({ idx: 0, cnt: 10, context: tp.context })
-      .then(tp.checkStatus)
       //.then(res => tp.store.dispatch(tp.action.addPosts(res.posts)));
       .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
   }

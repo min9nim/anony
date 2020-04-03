@@ -129,7 +129,6 @@ export class Search extends React.Component {
         context: this.props.context,
         signal,
       })
-      .then(tp.checkStatus)
       .then(res => {
         tp.view.ListLoader.setState({ loading: false })
         this.ipt.style.backgroundColor = ''

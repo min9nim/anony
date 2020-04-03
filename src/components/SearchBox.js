@@ -34,7 +34,6 @@ export class SearchBox extends React.Component {
     // 다시 세팅
     tp.api
       .getPosts({ idx: 0, cnt: 10, search, context: this.props.context })
-      .then(tp.checkStatus)
       .then(res => tp.store.dispatch(tp.action.addPosts(res.posts)))
 
     // 현재 검색어 세팅
