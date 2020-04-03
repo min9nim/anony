@@ -40,18 +40,6 @@ export default class App extends React.Component {
 
     tp.history = this.props.history
 
-    // 초기상태 정의
-    // this.state = {
-    //   view: {
-    //     search: "",
-    //     uuid: tp.user.uuid
-    //   },
-    //   data: {
-    //     posts: [],        // 전체 글
-    //     comments: []     // 전체 댓글
-    //   }
-    // };
-
     tp.view.App = this
 
     // 스토어 최초 한번 생성
@@ -91,70 +79,33 @@ export default class App extends React.Component {
     let tmp = decodeURI(location.pathname.split('/')[1])
     tp.context = tmp === 'post' ? '' : tmp
 
-    const renderList = ({ history, match }) => {
-      tp.thispage = 'List'
-      const List = tp.asyncComponent(
-        () => import(/* webpackChunkName: "List"  */ './pages/List'),
-        '/pages/List',
-      )
-      //const List2 = List;
-      //return <List history={history} posts={this.state.data.posts.filter(p => p.origin === undefined && p.isPrivate !== true)} context={match.params.context}/> ;
-      return <List history={history} context={match.params.context} />
+    const MAP = {
+      List: () => import('./pages/List'),
+      Write: () => import('./pages/Write'),
+      Post: () => import('./pages/Post'),
+      PostHistory: () => import('./pages/PostHistory'),
     }
-    const renderPost = ({ history, match }) => {
-      tp.thispage = 'Post'
-      const Post = tp.asyncComponent(
-        () => import(/* webpackChunkName: "Post"  */ './pages/Post'),
-        '/pages/Post',
-      )
-      //return <Post history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-      return (
-        <Post
-          history={history}
-          postKey={match.params.key}
-          context={match.params.context}
-        />
-      )
-    }
-    const renderEdit = ({ history, match }) => {
-      tp.thispage = 'Edit'
-      const Edit = tp.asyncComponent(
-        () => import(/* webpackChunkName: "Write"  */ './pages/Write'),
-        '/pages/Write',
-      )
-      //return <Edit history={history} postKey={match.params.key} post={this.state.data.posts.find(post => post.key === match.params.key)} context={match.params.context}/> ;
-      return (
-        <Edit
-          type="edit"
-          history={history}
-          postKey={match.params.key}
-          context={match.params.context}
-        />
-      )
-    }
-    const renderWrite = ({ history, match }) => {
-      tp.thispage = 'Write'
-      const Write = tp.asyncComponent(
-        () => import(/* webpackChunkName: "Write"  */ './pages/Write'),
-        '/pages/Write',
-      )
-      return <Write history={history} context={match.params.context} />
-    }
-    const renderPostHistory = ({ history, match }) => {
-      tp.thispage = 'PostHistory'
-      const PostHistory = tp.asyncComponent(
-        () =>
-          import(/* webpackChunkName: "PostHistory"  */ './pages/PostHistory'),
-        '/pages/PostHistory',
-      )
-      //return <PostHistory history={history} postKey={match.params.key} phist={this.state.data.posts.filter(p=> p.origin === match.params.key)} context={match.params.context}/> ;
-      return (
-        <PostHistory
-          history={history}
-          postKey={match.params.key}
-          context={match.params.context}
-        />
-      )
+
+    function render(componentName) {
+      return ({ history, match }) => {
+        tp.thispage = componentName
+        let name = componentName
+        let type
+        if (componentName === 'Edit') {
+          name = 'Write'
+          type = 'edit'
+        }
+        const Component = tp.asyncComponent(MAP[name], './pages/' + name)
+        return (
+          <Component
+            type={type}
+            history={history}
+            match={match}
+            postKey={match.params.key}
+            context={match.params.context}
+          />
+        )
+      }
     }
 
     return (
@@ -162,21 +113,24 @@ export default class App extends React.Component {
         <Switch>
           {/*Switch는 매칭되는 첫번재꺼만 보여주고 아래꺼는 버림*/}
           {/* public */}
-          <Route path="/post/:key" render={renderPost} />
-          <Route path="/postHistory/:key" render={renderPostHistory} />
-          <Route path="/edit/:key" render={renderEdit} />
-          <Route path="/write" render={renderWrite} />
-          <Route path="/list" render={renderList} />
+          <Route path="/post/:key" render={render('Post')} />
+          <Route path="/postHistory/:key" render={render('PostHistory')} />
+          <Route path="/edit/:key" render={render('Edit')} />
+          <Route path="/write" render={render('Write')} />
+          <Route path="/list" render={render('List')} />
 
           {/* context */}
-          <Route path="/:context/post/:key" render={renderPost} />
-          <Route path="/:context/postHistory/:key" render={renderPostHistory} />
-          <Route path="/:context/edit/:key" render={renderEdit} />
-          <Route path="/:context/write" render={renderWrite} />
-          <Route path="/:context/list" render={renderList} />
-          <Route path="/:context" render={renderList} />
+          <Route path="/:context/post/:key" render={render('Post')} />
+          <Route
+            path="/:context/postHistory/:key"
+            render={render('PostHistory')}
+          />
+          <Route path="/:context/edit/:key" render={render('Edit')} />
+          <Route path="/:context/write" render={render('Write')} />
+          <Route path="/:context/list" render={render('List')} />
+          <Route path="/:context" render={render('List')} />
 
-          <Route path="/" render={renderWrite} />
+          <Route path="/" render={render('Write')} />
         </Switch>
         <AlertDismissable />
         <Confirm />
