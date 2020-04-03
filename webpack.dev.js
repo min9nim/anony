@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const path = require('path')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 //   .BundleAnalyzerPlugin
 
@@ -28,7 +29,10 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['react-hot-loader/babel', '@babel/plugin-syntax-dynamic-import'],
+            plugins: [
+              'react-hot-loader/babel',
+              '@babel/plugin-syntax-dynamic-import',
+            ],
           },
         },
       },
@@ -87,4 +91,10 @@ module.exports = {
     //     statsFilename: "docs/stats_dev.json",
     // })
   ],
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      '@': path.resolve(__dirname, 'src'),
+    },
+  },
 }

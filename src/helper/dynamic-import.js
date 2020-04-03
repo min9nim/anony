@@ -18,7 +18,7 @@ export function asyncComponent(name) {
       this.state = { Component: cache[name] }
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
       if (this.state.Component) {
         console.log(`## cache[${name}] used`)
         return

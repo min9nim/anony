@@ -1,5 +1,3 @@
-//console.log("tp.js start");
-
 import action from './redux/action'
 import { api } from './restful/api'
 import shortid from 'shortid'
