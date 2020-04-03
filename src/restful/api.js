@@ -9,6 +9,8 @@ async function httpReq(path, opt) {
   delete opt.hideProgress
   const result = await fetch(path, {
     credentials: 'omit',
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
     ...opt,
   })
   nprogress.done() // nprogress.status 가 null 이면 바로 종료됨
@@ -23,7 +25,6 @@ export const api = {}
 api.addPost = function(post) {
   return httpReq('/api/posts/add', {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(post, null, 2),
   })
 }
@@ -31,7 +32,6 @@ api.addPost = function(post) {
 api.addComment = function(comment) {
   return httpReq('/api/comments/add', {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify(comment, null, 2),
   })
 }
@@ -49,7 +49,7 @@ api.getPosts = function({
     '/api/posts/get/' + context + '/' + idx + '/' + cnt,
     {
       method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
+
       body: JSON.stringify({ uuid: tp.user.uuid, search }),
       signal,
       hideProgress,
@@ -58,79 +58,61 @@ api.getPosts = function({
 }
 
 api.getComments = function(postKey) {
-  return httpReq('/api/comments/get/' + postKey, {
-    method: 'GET',
-  })
+  return httpReq('/api/comments/get/' + postKey, {})
 }
 
 api.getPost = function(key) {
   return httpReq('/api/posts/get/' + key, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   })
 }
 
 api.deletePost = function({ key, uuid }) {
-  return httpReq('/api/posts/delete/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/posts/delete/' + key + '/' + uuid, {})
 }
 
 api.removePost = function({ key, uuid }) {
-  return httpReq('/api/posts/remove/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/posts/remove/' + key + '/' + uuid, {})
 }
 
 api.restorePost = function({ key, uuid }) {
-  return httpReq('/api/posts/restore/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/posts/restore/' + key + '/' + uuid, {})
 }
 
 api.restoreComment = function({ key, uuid }) {
-  return httpReq('/api/comments/restore/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/comments/restore/' + key + '/' + uuid, {})
 }
 
 api.viewPost = function(key) {
   return httpReq('/api/posts/view/' + key, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   })
 }
 
 api.deleteComment = function({ key, uuid }) {
-  return httpReq('/api/comments/delete/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/comments/delete/' + key + '/' + uuid, {})
 }
 
 api.removeComment = function({ key, uuid }) {
-  return httpReq('/api/comments/remove/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/comments/remove/' + key + '/' + uuid, {})
 }
 
 api.authPost = function({ key, uuid }) {
-  return httpReq('/api/posts/auth/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/posts/auth/' + key + '/' + uuid, {})
 }
 
 api.authComment = function({ key, uuid }) {
-  return httpReq('/api/comments/auth/' + key + '/' + uuid, {
-    method: 'GET',
-  })
+  return httpReq('/api/comments/auth/' + key + '/' + uuid, {})
 }
 
 api.updatePost = function(post) {
   return httpReq('/api/posts/edit/' + tp.user.uuid, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify(post, null, 2),
   })
 }
@@ -140,22 +122,20 @@ api.updateComment = function(comment) {
     '/api/comments/edit/' + tp.user.uuid, // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
     {
       method: 'POST',
-      headers: new Headers({ 'Content-Type': 'application/json' }),
+
       body: JSON.stringify(comment, null, 2),
     },
   )
 }
 
 api.getPostHistory = function(key) {
-  return httpReq('/api/posts/history/' + key, {
-    method: 'GET',
-  })
+  return httpReq('/api/posts/history/' + key, {})
 }
 
 api.likePost = function(key) {
   return httpReq('/api/posts/likePost/' + key, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   })
 }
@@ -163,7 +143,7 @@ api.likePost = function(key) {
 api.cancelLike = function(key, uuid) {
   return httpReq('/api/posts/cancelLike/' + key, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   })
 }
@@ -171,7 +151,7 @@ api.cancelLike = function(key, uuid) {
 api.cancelLike = function(key, uuid) {
   return httpReq('/api/posts/cancelLike/' + key, {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   })
 }
@@ -179,7 +159,7 @@ api.cancelLike = function(key, uuid) {
 api.myChannels = function() {
   return httpReq('/api/posts/myChannels/', {
     method: 'POST',
-    headers: new Headers({ 'Content-Type': 'application/json' }),
+
     body: JSON.stringify({ uuid: tp.user.uuid }),
   }).then(res => {
     if (res.output.length === 0) {
