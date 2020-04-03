@@ -9,7 +9,7 @@ export { default as CommentWrite } from './CommentWrite'
 export { default as CommentEdit } from './CommentEdit'
 export { default as CommentList } from './CommentList'
 export { default as CommentMenu } from './CommentMenu'
-export { default as Comment } from './Comment'
+export * from './Comment'
 
 export * from './AlertDismissable'
 export { default as Confirm } from './Confirm'

@@ -5,7 +5,7 @@ import { CommentMenu } from '../components'
 
 import './Comment.scss'
 
-export default class Comment extends React.Component {
+export class Comment extends React.Component {
   constructor(props) {
     // console.log("Comment 생성자 호출");
     super(props)
