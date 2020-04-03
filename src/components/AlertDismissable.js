@@ -1,6 +1,7 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import { Alert, Button } from 'react-bootstrap'
+import Alert from 'react-bootstrap/lib/Alert'
+import Button from 'react-bootstrap/lib/Button'
 import './AlertDismissable.scss'
 
 export class AlertDismissable extends React.Component {
@@ -43,32 +44,29 @@ export class AlertDismissable extends React.Component {
   }
 
   render() {
-    if (this.state.show) {
-      return (
-        <div className="alertDismissable">
-          <div className="modal_div"></div>
-          <Alert
-            bsStyle={this.state.style}
-            style={{ width: this.state.width }}
-            onDismiss={this.handleDismiss}
-          >
-            <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
-            <p>
-              {/* <Button bsStyle="danger">Take this action</Button>
-                <span> or </span> */}
-              <Button
-                bsStyle={this.state.style}
-                ref="closeBtn"
-                onClick={this.handleDismiss}
-              >
-                Close
-              </Button>
-            </p>
-          </Alert>
-        </div>
-      )
-    } else {
+    if (!this.state.show) {
       return null
     }
+    return (
+      <div className="alertDismissable">
+        <div className="modal_div"></div>
+        <Alert
+          bsStyle={this.state.style}
+          style={{ width: this.state.width }}
+          onDismiss={this.handleDismiss}
+        >
+          <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
+          <p>
+            <Button
+              bsStyle={this.state.style}
+              ref="closeBtn"
+              onClick={this.handleDismiss}
+            >
+              Close
+            </Button>
+          </p>
+        </Alert>
+      </div>
+    )
   }
 }
