@@ -8,12 +8,11 @@ import {
   PostMeta,
   MyChannels,
 } from '../components'
-const R = require('ramda')
+import { prop } from 'ramda'
 import moment from 'moment'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Remarkable from 'remarkable'
-//import hljs from 'highlight.js';
 import shortcut from '../ext/shortcut'
 import $m from '../../com/util.js'
 
@@ -135,7 +134,7 @@ export default class Post extends React.Component {
             .getPost(this.props.postKey)
             //.then(R.pipe(tp.checkStatus, R.prop("post"), tp.action.addPost, tp.store.dispatch))
             .then(tp.checkStatus)
-            .then(R.prop('post'))
+            .then(prop('post'))
             .then(tp.action.addPost)
             .then(tp.store.dispatch)
             .catch(e => {
@@ -155,26 +154,21 @@ export default class Post extends React.Component {
     document.title = this.state.title
   }
 
-  editPost() {
-    tp.api
-      .authPost({
-        key: this.props.postKey,
-        uuid: tp.user.uuid,
+  async editPost() {
+    const res = await tp.api.authPost({
+      key: this.props.postKey,
+      uuid: tp.user.uuid,
+    })
+    if (res.status !== 'Success') {
+      tp.alert({
+        message: res.message,
+        style: 'warning',
+        width: '160px',
       })
-      .then(res => {
-        if (res.status === 'Success') {
-          this.props.history.push(
-            this.contextPath + '/edit/' + this.props.postKey,
-          )
-        } else {
-          tp.alert({
-            message: res.message,
-            style: 'warning',
-            width: '160px',
-          })
-          //this.cancelMenu();
-        }
-      })
+      //this.cancelMenu();
+      return
+    }
+    this.props.history.push(this.contextPath + '/edit/' + this.props.postKey)
   }
 
   render() {
