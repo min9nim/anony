@@ -1,11 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-const fs = require('fs')
-const path = require('path')
-const https = require('https')
-const postRouter = require('./postRouter')
-const commentRouter = require('./commentRouter')
 const fallback = require('express-history-api-fallback')
 const seo = require('./seo')
 
@@ -38,10 +33,6 @@ const staticPath =
     ? __dirname + '\\..\\public'
     : __dirname + '/../public'
 app.use(express.static(staticPath))
-
-// RESTful API 라우터 등록
-app.use('/api/posts', postRouter)
-app.use('/api/comments', commentRouter)
 
 // history-api-fallback 등록,
 // 이거는 순서가 중요, 위에 라우터 등록보다 위에 있으면 안됨
