@@ -83,7 +83,7 @@ export default class Post extends React.Component {
       // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
       document.title = this.state.title
     } else {
-      return <div />
+      return null
     }
 
     let title
