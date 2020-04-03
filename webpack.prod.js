@@ -10,7 +10,7 @@ module.exports = merge(common, {
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'), // JSON.stringify 를 없으면 런타임시 오류 발생;
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
