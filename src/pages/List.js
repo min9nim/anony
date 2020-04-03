@@ -59,12 +59,6 @@ export default class List extends React.Component {
     } else {
       // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
     }
-
-    // 이후 App 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = ctx.store.subscribe(() => {
-      // ctx.logger.verbose("List가 store 상태 변경 노티 받음")
-      this.setState(ctx.store.getState().data)
-    })
   }
 
   componentWillUnmount() {
@@ -75,6 +69,11 @@ export default class List extends React.Component {
   componentDidMount() {
     document.title = (ctx.context || 'Anony') + ' - ' + ctx.thispage
     ctx.$m.scrollTo(0, ctx.scrollTop) // 이전 스크롤 위치로 복원
+    // 이후 App 가 스토어 상태를 구독하도록 설정
+    this.unsubscribe = ctx.store.subscribe(() => {
+      // ctx.logger.verbose("List가 store 상태 변경 노티 받음")
+      this.setState(ctx.store.getState().data)
+    })
   }
 
   logoClick() {
@@ -117,8 +116,6 @@ export default class List extends React.Component {
     if (search) {
       status = ` > ${search}'s result`
     }
-
-    //ctx.logger.verbose("@@222 " + this.state.myChannels)
 
     return (
       <div className="list">
