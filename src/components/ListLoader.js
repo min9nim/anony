@@ -1,6 +1,6 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 
 export class ListLoader extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ export class ListLoader extends React.Component {
       loading: false,
     }
 
-    tp.view.ListLoader = this
+    ctx.view.ListLoader = this
   }
 
   render() {

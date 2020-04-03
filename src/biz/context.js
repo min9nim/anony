@@ -7,7 +7,7 @@ import nprogress from 'nprogress'
 
 const USECOOKIE = true
 
-export let tp = {
+export let ctx = {
   view: {}, // 전역에서 관리될 필요가 있는 리액트 뷰들
   action, // store 상태업데이트시 전달될 action
   store: undefined, // List 컴포넌트가 호출될 때 store 가 초기화된다.
@@ -26,12 +26,12 @@ export let tp = {
 
 export const Ctx = React.createContext({})
 
-// tp.checkStatus = function(res) {
+// ctx.checkStatus = function(res) {
 //   if (res.status === 'Success') {
 //     return res
 //   }
 //   // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-//   tp.alert({
+//   ctx.alert({
 //     message: res.message,
 //     style: 'danger',
 //     width: '200px',
@@ -41,14 +41,14 @@ export const Ctx = React.createContext({})
 //   })
 // }
 
-tp.setCookie = function(cname, cvalue, exdays = 1000) {
+ctx.setCookie = function(cname, cvalue, exdays = 1000) {
   var d = new Date()
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
   var expires = 'expires=' + d.toUTCString()
   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
 }
 
-tp.getCookie = function(cname) {
+ctx.getCookie = function(cname) {
   var name = cname + '='
   var decodedCookie = decodeURIComponent(document.cookie)
   var ca = decodedCookie.split(';')
@@ -64,16 +64,16 @@ tp.getCookie = function(cname) {
   return ''
 }
 
-tp.isDesktop = function() {
+ctx.isDesktop = function() {
   const os = ['win16', 'win32', 'win64', 'mac', 'macintel']
   return os.includes(navigator.platform.toLowerCase())
 }
 
-tp.isMobileChrome = function() {
-  return !tp.isDesktop() && navigator.userAgent.includes('Chrome')
+ctx.isMobileChrome = function() {
+  return !ctx.isDesktop() && navigator.userAgent.includes('Chrome')
 }
 
-tp.highlight = function(txt, word) {
+ctx.highlight = function(txt, word) {
   if (word) {
     var reg = new RegExp('(' + word + ')', 'gi')
     txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>')
@@ -81,7 +81,7 @@ tp.highlight = function(txt, word) {
   return txt
 }
 
-tp.setUser = function(obj) {
+ctx.setUser = function(obj) {
   const initValue = {
     uuid: shortid.generate(),
     writer: '',
@@ -89,42 +89,42 @@ tp.setUser = function(obj) {
 
   let user
   if (typeof obj === 'string') {
-    user = Object.assign(tp.user, { uuid: obj })
+    user = Object.assign(ctx.user, { uuid: obj })
   } else {
-    user = obj ? Object.assign(tp.user, obj) : initValue
+    user = obj ? Object.assign(ctx.user, obj) : initValue
   }
 
   if (USECOOKIE) {
-    tp.setCookie('user', JSON.stringify(user))
+    ctx.setCookie('user', JSON.stringify(user))
   } else {
     localStorage.setItem('user', JSON.stringify(user))
   }
 
-  tp.store && tp.store.dispatch(tp.action.setUuid(tp.user.uuid))
+  ctx.store && ctx.store.dispatch(ctx.action.setUuid(ctx.user.uuid))
 
   return user
 }
 
-tp.getUser = function() {
+ctx.getUser = function() {
   try {
     if (USECOOKIE) {
-      return tp.getCookie('user')
-        ? JSON.parse(tp.getCookie('user'))
-        : tp.setUser()
+      return ctx.getCookie('user')
+        ? JSON.parse(ctx.getCookie('user'))
+        : ctx.setUser()
     } else {
-      return JSON.parse(localStorage.getItem('user')) || tp.setUser()
+      return JSON.parse(localStorage.getItem('user')) || ctx.setUser()
     }
   } catch (e) {
     //console.log(e.message);
-    return tp.setUser()
+    return ctx.setUser()
   }
 }
 
-tp.alert = function({ message, style, width, onClose }) {
+ctx.alert = function({ message, style, width, onClose }) {
   if (typeof arguments[0] === 'string') {
-    tp.view.AlertDismissable.handleShow({ message: arguments[0] })
+    ctx.view.AlertDismissable.handleShow({ message: arguments[0] })
   } else {
-    tp.view.AlertDismissable.handleShow({
+    ctx.view.AlertDismissable.handleShow({
       message,
       style,
       width,
@@ -133,8 +133,8 @@ tp.alert = function({ message, style, width, onClose }) {
   }
 }
 
-tp.confirm = function({ message, style, width, onYes, onNo }) {
-  tp.view.Confirm.handleShow({
+ctx.confirm = function({ message, style, width, onYes, onNo }) {
+  ctx.view.Confirm.handleShow({
     message,
     style,
     width,
@@ -143,9 +143,9 @@ tp.confirm = function({ message, style, width, onYes, onNo }) {
   })
 }
 
-tp.init = function() {
-  tp.user = tp.getUser()
+ctx.init = function() {
+  ctx.user = ctx.getUser()
 }
 
-tp.init()
-window.tp = tp // 개발 중 디버깅을 위해 전역공간으로 노출
+ctx.init()
+window.ctx = ctx // 개발 중 디버깅을 위해 전역공간으로 노출

@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import { CommentEdit } from '../components'
 import './CommentMenu.scss'
 
@@ -23,24 +23,26 @@ export class CommentMenu extends React.Component {
   }
 
   deleteComment() {
-    tp.confirm({
+    ctx.confirm({
       message: 'Delete this?',
       width: 'inherit',
       onYes: () => {
-        tp.api
+        ctx.api
           .deleteComment({
             key: this.props.comment.key,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert({
+              ctx.alert({
                 message: res.message,
                 style: 'danger',
                 width: '175px',
               })
             } else {
-              tp.store.dispatch(tp.action.deleteComment(this.props.comment.key))
+              ctx.store.dispatch(
+                ctx.action.deleteComment(this.props.comment.key),
+              )
             }
             this.hideMenu()
           })
@@ -52,30 +54,32 @@ export class CommentMenu extends React.Component {
   }
 
   removeComment() {
-    tp.confirm({
+    ctx.confirm({
       message: 'Remove this?',
       onYes: () => {
-        tp.api
+        ctx.api
           .removeComment({
             key: this.props.comment.key,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert({
+              ctx.alert({
                 message: res.message,
                 style: 'danger',
               })
             } else {
-              tp.store.dispatch(tp.action.removeComment(this.props.comment.key))
+              ctx.store.dispatch(
+                ctx.action.removeComment(this.props.comment.key),
+              )
 
               // 부모 글의 commentCnt 1감소
               const postKey = this.props.comment.postKey
-              let post = tp.store
+              let post = ctx.store
                 .getState()
                 .data.posts.find(p => p.key === postKey)
               post.commentCnt = post.commentCnt ? post.commentCnt - 1 : 1
-              tp.store.dispatch(tp.action.updatePost(post))
+              ctx.store.dispatch(ctx.action.updatePost(post))
             }
           })
       },
@@ -87,20 +91,20 @@ export class CommentMenu extends React.Component {
 
   restoreComment() {
     //if(!confirm("Restore this?")) return;
-    tp.confirm({
+    ctx.confirm({
       message: 'Restore this?',
       onYes: () => {
-        tp.api
+        ctx.api
           .restoreComment({
             key: this.props.comment.key,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert({ message: res.message, style: 'danger' })
+              ctx.alert({ message: res.message, style: 'danger' })
             } else {
-              tp.store.dispatch(
-                tp.action.restoreComment(this.props.comment.key),
+              ctx.store.dispatch(
+                ctx.action.restoreComment(this.props.comment.key),
               )
             }
             this.hideMenu()
@@ -110,18 +114,18 @@ export class CommentMenu extends React.Component {
   }
 
   editComment() {
-    tp.api
+    ctx.api
       .authComment({
         key: this.props.comment.key,
-        uuid: tp.user.uuid,
+        uuid: ctx.user.uuid,
       })
       .then(res => {
         if (res.status === 'Success') {
           this.showEdit()
-          //tp.temp = res.comment;
+          //ctx.temp = res.comment;
           //this.props.history.push("/edit/"+this.props.comment.key);
         } else {
-          tp.alert({
+          ctx.alert({
             message: res.message,
             style: 'danger',
           })

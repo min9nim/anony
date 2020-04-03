@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import './PostMeta.scss'
 
 export class PostMeta extends React.Component {
@@ -11,12 +11,12 @@ export class PostMeta extends React.Component {
 
   likePost() {
     if (this.props.post.liked) {
-      tp.api.cancelLike(this.props.post.key).then(res => {
-        tp.store.dispatch(tp.action.updatePost(res.output))
+      ctx.api.cancelLike(this.props.post.key).then(res => {
+        ctx.store.dispatch(ctx.action.updatePost(res.output))
       })
     } else {
-      tp.api.likePost(this.props.post.key).then(res => {
-        tp.store.dispatch(tp.action.updatePost(res.output))
+      ctx.api.likePost(this.props.post.key).then(res => {
+        ctx.store.dispatch(ctx.action.updatePost(res.output))
       })
     }
   }

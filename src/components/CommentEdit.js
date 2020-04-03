@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import './CommentEdit.scss'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
@@ -12,20 +12,20 @@ export class CommentEdit extends React.Component {
     this.handleChange = this.handleChange.bind(this)
 
     this.state = this.props.comment
-    this.state.uuid = tp.user.uuid
+    this.state.uuid = ctx.user.uuid
   }
 
   save() {
     const content = this.state.content.trim()
     if (content === '') {
-      tp.alert('Comment is empty')
+      ctx.alert('Comment is empty')
       return
     }
 
     // 댓글 수정하고
-    tp.api
+    ctx.api
       .updateComment(this.state)
-      .then(res => tp.store.dispatch(tp.action.updateComment(res.output)))
+      .then(res => ctx.store.dispatch(ctx.action.updateComment(res.output)))
 
     this.hideEdit()
     this.hideMenu()

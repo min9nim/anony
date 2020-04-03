@@ -50,13 +50,13 @@ export class Excerpt extends React.Component {
     const titleClass = `title h4 ${deletedClass} ${privateClass}`
     const contentStyle = `content ${deletedClass} ${privateClass}`
 
-    const search = tp.store.getState().view.search
-    let title = tp.highlight(this.props.post.title, search)
+    const search = ctx.store.getState().view.search
+    let title = ctx.highlight(this.props.post.title, search)
     title =
       (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : '') + title
-    //const excerpt = tp.highlight(this.props.post.content.substr(0,100), search);
-    const content = tp.$m.removeTag(this.props.post.content)
-    const excerpt = tp.highlight(content, search)
+    //const excerpt = ctx.highlight(this.props.post.content.substr(0,100), search);
+    const content = ctx.$m.removeTag(this.props.post.content)
+    const excerpt = ctx.highlight(content, search)
 
     return (
       <div id={this.props.post.key} className="excerpt">

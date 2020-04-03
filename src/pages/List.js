@@ -7,7 +7,7 @@ import {
   ListLoader,
   MyChannels,
 } from '../components'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import { Link } from 'react-router-dom'
 import nprogress from 'nprogress'
 import $m from '../../com/util'
@@ -20,48 +20,50 @@ export default class List extends React.Component {
     this.logoClick = this.logoClick.bind(this)
 
     this.state = {
-      channels: tp.store.getState().data.channels,
+      channels: ctx.store.getState().data.channels,
       comments: [],
-      posts: tp.store.getState().data.posts.filter(p => p.origin === undefined),
+      posts: ctx.store
+        .getState()
+        .data.posts.filter(p => p.origin === undefined),
       menuClicked: false,
     }
 
-    tp.view.List = this
+    ctx.view.List = this
 
-    if (this.props.context && this.props.context.length > tp.MAXCONTEXTLEN) {
-      alert(`채널이름은 최대 ${tp.MAXCONTEXTLEN}자 까지 가능합니다`)
+    if (this.props.context && this.props.context.length > ctx.MAXCONTEXTLEN) {
+      alert(`채널이름은 최대 ${ctx.MAXCONTEXTLEN}자 까지 가능합니다`)
       history.back()
       return
     }
 
-    tp.context =
-      this.props.context && this.props.context.length <= tp.MAXCONTEXTLEN
+    ctx.context =
+      this.props.context && this.props.context.length <= ctx.MAXCONTEXTLEN
         ? this.props.context
         : 'public'
 
-    //if(tp.view.App.state.data.posts.length <= 1 && tp.store.getState().view.search === ""){
+    //if(ctx.view.App.state.data.posts.length <= 1 && ctx.store.getState().view.search === ""){
     if (
       // 처음부터 글쓰기로 글을 생성하고 들어온 경우
-      (tp.store.getState().data.posts.filter(p => p.origin === undefined)
+      (ctx.store.getState().data.posts.filter(p => p.origin === undefined)
         .length <= 1 &&
-        tp.store.getState().view.search === '') ||
+        ctx.store.getState().view.search === '') ||
       // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
-      tp.store
+      ctx.store
         .getState()
         .data.posts.map(p => p.context)
         .filter((v, i, a) => a.indexOf(v) === i).length > 1
     ) {
-      tp.api
-        .getPosts({ idx: 0, cnt: 10, context: tp.context })
-        .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
+      ctx.api
+        .getPosts({ idx: 0, cnt: 10, context: ctx.context })
+        .then(res => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
     } else {
       // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
     }
 
     // 이후 App 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       // console.log("List가 store 상태 변경 노티 받음")
-      this.setState(tp.store.getState().data)
+      this.setState(ctx.store.getState().data)
     })
   }
 
@@ -71,21 +73,21 @@ export default class List extends React.Component {
   }
 
   componentDidMount() {
-    document.title = (tp.context || 'Anony') + ' - ' + tp.thispage
-    tp.$m.scrollTo(0, tp.scrollTop) // 이전 스크롤 위치로 복원
+    document.title = (ctx.context || 'Anony') + ' - ' + ctx.thispage
+    ctx.$m.scrollTo(0, ctx.scrollTop) // 이전 스크롤 위치로 복원
   }
 
   logoClick() {
     // 기존내용 초기화
-    tp.store.dispatch(tp.action.setSearch(''))
-    //tp.store.dispatch(tp.action.initPosts());
-    tp.isScrollLast = false
+    ctx.store.dispatch(ctx.action.setSearch(''))
+    //ctx.store.dispatch(ctx.action.initPosts());
+    ctx.isScrollLast = false
 
     // 다시 세팅
-    tp.api
-      .getPosts({ idx: 0, cnt: 10, context: tp.context })
-      //.then(res => tp.store.dispatch(tp.action.addPosts(res.posts)));
-      .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
+    ctx.api
+      .getPosts({ idx: 0, cnt: 10, context: ctx.context })
+      //.then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)));
+      .then(res => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -104,13 +106,13 @@ export default class List extends React.Component {
   }
 
   render() {
-    //let title = tp.store.getState().view.uuid + (tp.context ? (" /" + tp.context) : "") ;
-    let title = tp.user.uuid + (tp.context ? ' /' + tp.context : '')
-    let uuid = tp.user.uuid
-    let channel = tp.context ? ' /' + tp.context : ''
+    //let title = ctx.store.getState().view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
+    let title = ctx.user.uuid + (ctx.context ? ' /' + ctx.context : '')
+    let uuid = ctx.user.uuid
+    let channel = ctx.context ? ' /' + ctx.context : ''
 
     let status = ''
-    let search = tp.store.getState().view.search
+    let search = ctx.store.getState().view.search
 
     if (search) {
       status = ` > ${search}'s result`
@@ -124,7 +126,7 @@ export default class List extends React.Component {
           <div className="logo">
             <img src="/image/logo_transparent.png" onClick={this.logoClick} />
           </div>
-          <Search context={tp.context} />
+          <Search context={ctx.context} />
 
           {/* <div className="status">{status}</div> */}
 
@@ -144,13 +146,13 @@ export default class List extends React.Component {
             history={this.props.history}
             key={post.key}
             post={post}
-            context={tp.context}
+            context={ctx.context}
           />
         ))}
 
         <ListLoader />
 
-        {tp.store.getState().view.search !== '' && (
+        {ctx.store.getState().view.search !== '' && (
           <div className="backBtn">
             <Button bsStyle="success" onClick={this.logoClick}>
               Back
@@ -159,7 +161,7 @@ export default class List extends React.Component {
         )}
 
         <div className="writeBtn">
-          <Link to={'/' + tp.context + '/write'}>
+          <Link to={'/' + ctx.context + '/write'}>
             <Button bsStyle="success">
               <i className="icon-doc-new" />
               Write
@@ -180,11 +182,11 @@ export default class List extends React.Component {
 document.body.onscroll = function() {
   const PAGEROWS = 10
 
-  if (tp.thispage !== 'List') {
+  if (ctx.thispage !== 'List') {
     // 목록화면이 아니면 리턴
     return
   }
-  if (tp.view.ListLoader.state.loading) {
+  if (ctx.view.ListLoader.state.loading) {
     // 데이터 로딩중이면 리턴
     return
   }
@@ -196,9 +198,9 @@ document.body.onscroll = function() {
   )
 
   // 현재 스크롤 값을 전역변수에 저장
-  tp.scrollTop = scrollTop
+  ctx.scrollTop = scrollTop
 
-  if (tp.isScrollLast) return
+  if (ctx.isScrollLast) return
   // 아직 모든 글이 로드된 상태가 아니라면 스크롤이 아래까지 내려왔을 때 다음 글 10개 로드
 
   //현재문서의 높이
@@ -215,8 +217,8 @@ document.body.onscroll = function() {
 
   if (
     scrollTop + clientHeight == scrollHeight || // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
-    //(tp.isMobileChrome() && (scrollTop + clientHeight > scrollHeight - 10))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
-    (tp.isMobileChrome() && scrollTop + clientHeight > scrollHeight - 57) // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+    //(ctx.isMobileChrome() && (scrollTop + clientHeight > scrollHeight - 10))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+    (ctx.isMobileChrome() && scrollTop + clientHeight > scrollHeight - 57) // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
   ) {
     //스크롤이 마지막일때
     console.log('@@ 다음 페이지 호출~')
@@ -232,22 +234,22 @@ document.body.onscroll = function() {
 
     nprogress.start()
     $m('#nprogress .spinner').css('top', '95%')
-    tp.view.ListLoader.setState({ loading: true })
-    tp.api
+    ctx.view.ListLoader.setState({ loading: true })
+    ctx.api
       .getPosts({
-        idx: tp.store.getState().data.posts.filter(p => p.origin === undefined)
+        idx: ctx.store.getState().data.posts.filter(p => p.origin === undefined)
           .length,
         cnt: PAGEROWS,
-        search: tp.store.getState().view.search,
+        search: ctx.store.getState().view.search,
         hideProgress: true,
-        context: tp.context,
+        context: ctx.context,
       })
       .then(res => {
-        tp.view.ListLoader.setState({ loading: false })
-        tp.store.dispatch(tp.action.scrollEnd(res.posts))
+        ctx.view.ListLoader.setState({ loading: false })
+        ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
         if (res.posts.length < PAGEROWS) {
           //console.log("Scroll has touched bottom")
-          tp.isScrollLast = true
+          ctx.isScrollLast = true
           return
         }
       })

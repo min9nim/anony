@@ -18,7 +18,7 @@ export class AlertDismissable extends React.Component {
       width: undefined,
     }
 
-    tp.view.AlertDismissable = this
+    ctx.view.AlertDismissable = this
   }
 
   handleDismiss() {

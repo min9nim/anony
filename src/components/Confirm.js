@@ -19,7 +19,7 @@ export class Confirm extends React.Component {
       width: undefined,
     }
 
-    tp.view.Confirm = this
+    ctx.view.Confirm = this
   }
 
   handleDismiss() {

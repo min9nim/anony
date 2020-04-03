@@ -1,6 +1,6 @@
 import React from 'react'
 import shortid from 'shortid'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import { FormGroup, Checkbox, FormControl, Button } from 'react-bootstrap'
 import './Write.scss'
 
@@ -20,13 +20,15 @@ export default class Write extends React.Component {
     this.state = {
       key: '',
       title: '',
-      writer: tp.user.writer,
+      writer: ctx.user.writer,
       content: '',
       date: '',
       isPrivate: false,
-      isMarkdown: tp.user.isMarkdown === undefined ? false : tp.user.isMarkdown,
-      hasComment: tp.user.hasComment === undefined ? true : tp.user.hasComment,
-      uuid: tp.user.uuid,
+      isMarkdown:
+        ctx.user.isMarkdown === undefined ? false : ctx.user.isMarkdown,
+      hasComment:
+        ctx.user.hasComment === undefined ? true : ctx.user.hasComment,
+      uuid: ctx.user.uuid,
       context: this.props.context ? this.props.context : 'public',
       optClicked: false,
       autoTitle: this.props.type === 'edit' ? false : true,
@@ -38,13 +40,13 @@ export default class Write extends React.Component {
   }
 
   initializeInEdit() {
-    if (tp.store.getState().data.posts.length > 0) {
+    if (ctx.store.getState().data.posts.length > 0) {
       // 글보기화면이나 목록화면에서 넘어 들어온 경우
       //this.state = this.props.post;
-      this.state = tp.store
+      this.state = ctx.store
         .getState()
         .data.posts.find(post => post.key === this.props.postKey)
-      this.state.uuid = tp.user.uuid
+      this.state.uuid = ctx.user.uuid
       /**
        * 18.09.13
        * min9nim
@@ -52,7 +54,7 @@ export default class Write extends React.Component {
        */
       // if(this.state.origin !== undefined){
 
-      //   tp.alert({
+      //   ctx.alert({
       //     message: "Invalid access!",
       //     style: "danger",
       //     onClose: history.back
@@ -70,7 +72,7 @@ export default class Write extends React.Component {
       history.back()
       return
 
-      tp.api.getPost(this.props.postKey).then(res => {
+      ctx.api.getPost(this.props.postKey).then(res => {
         //this.state = res.post;
 
         /**
@@ -78,17 +80,17 @@ export default class Write extends React.Component {
          * min9nim
          * 어짜피 아래 스토어 갱신에 따라 setState가 호출될 것이기 때문에 위 문장 필요없음
          */
-        this.state.uuid = tp.user.uuid // uuid 는 res.post 에 포함되어 있지 않다
-        tp.store.dispatch(tp.action.addPost(res.post))
+        this.state.uuid = ctx.user.uuid // uuid 는 res.post 에 포함되어 있지 않다
+        ctx.store.dispatch(ctx.action.addPost(res.post))
       })
     }
 
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       //console.log("Edit가 store 상태변경 노티 받음");
       if (this.state.key === '') {
         // URL로 직접 들어온 경우에만 this.setState가 필요
         this.setState(
-          tp.store
+          ctx.store
             .getState()
             .data.posts.find(post => post.key === this.props.postKey),
         )
@@ -97,7 +99,7 @@ export default class Write extends React.Component {
          * 18.09.13
          * min9nim
          * 여기서 this.setState 를 하게 되면,
-         * 글 수정후 저장시 tp.setUser() 에 의해 store가 갱신되고
+         * 글 수정후 저장시 ctx.setUser() 에 의해 store가 갱신되고
          * 이때 잠시 수정 전 글이 잠깐 원복되어져 보이게 되는 문제가 발생할 수 있어서 분기처리함
          */
       }
@@ -123,7 +125,7 @@ export default class Write extends React.Component {
       nextProps.history.push('/public/list')
       return false
 
-      // tp.alert({
+      // ctx.alert({
       //   message: "Invalid access!",
       //   style: "danger",
       //   onClose: history.back
@@ -134,7 +136,7 @@ export default class Write extends React.Component {
   }
 
   getValidationState() {
-    let uuid = tp.$m.removeTag(this.state.uuid).trim()
+    let uuid = ctx.$m.removeTag(this.state.uuid).trim()
     const length = uuid.length
     if (shortid.isValid(this.state.uuid) && length >= 9) return 'success'
     else if (length > 5) return 'warning'
@@ -143,7 +145,7 @@ export default class Write extends React.Component {
   }
 
   componentDidMount() {
-    document.title = this.props.context + ' - ' + tp.thispage
+    document.title = this.props.context + ' - ' + ctx.thispage
   }
 
   toggleAdvancedOpt() {
@@ -159,7 +161,7 @@ export default class Write extends React.Component {
     } else {
       // in Write
       if (this.state.content.length > 10) {
-        tp.confirm({
+        ctx.confirm({
           message: 'Cancel to write?',
           style: 'danger',
           width: '170px',
@@ -184,8 +186,8 @@ export default class Write extends React.Component {
   }
 
   handleChange(e) {
-    if (e.target.id === 'uuid' && e.target.value.length > tp.MAXUUIDLEN) return
-    if (e.target.id === 'context' && e.target.value.length > tp.MAXCONTEXTLEN)
+    if (e.target.id === 'uuid' && e.target.value.length > ctx.MAXUUIDLEN) return
+    if (e.target.id === 'context' && e.target.value.length > ctx.MAXCONTEXTLEN)
       return
     if (e.target.id === 'title') {
       this.state.autoTitle = false
@@ -195,10 +197,10 @@ export default class Write extends React.Component {
       (this.state.autoTitle || this.state.title === '') &&
       e.target.id === 'content'
     ) {
-      if (e.target.value.length <= tp.MAXTITLELEN) {
+      if (e.target.value.length <= ctx.MAXTITLELEN) {
         this.state.title = e.target.value
       } else {
-        this.state.title = e.target.value.substr(0, tp.MAXTITLELEN)
+        this.state.title = e.target.value.substr(0, ctx.MAXTITLELEN)
         this.state.autoTitle = false
       }
     }
@@ -240,8 +242,8 @@ export default class Write extends React.Component {
     this.writerinput.focus()
   }
   savePost() {
-    if (tp.$m.removeTag(this.state.content).trim() === '') {
-      tp.alert({
+    if (ctx.$m.removeTag(this.state.content).trim() === '') {
+      ctx.alert({
         message: 'Content is empty',
         style: 'warning',
         width: '173px',
@@ -252,8 +254,8 @@ export default class Write extends React.Component {
       return
     }
 
-    if (tp.$m.removeTag(this.state.context).trim() === '') {
-      tp.alert({
+    if (ctx.$m.removeTag(this.state.context).trim() === '') {
+      ctx.alert({
         message: 'Channel is empty',
         style: 'warning',
         width: '176px',
@@ -264,8 +266,8 @@ export default class Write extends React.Component {
       return
     }
 
-    if (tp.$m.removeTag(this.state.uuid).trim() === '') {
-      tp.alert({
+    if (ctx.$m.removeTag(this.state.uuid).trim() === '') {
+      ctx.alert({
         message: 'Uuid is empty',
         style: 'warning',
         width: '173px',
@@ -278,7 +280,7 @@ export default class Write extends React.Component {
     }
 
     if (this.getValidationState() !== 'success') {
-      tp.alert({
+      ctx.alert({
         message: 'Invalid uuid',
         style: 'warning',
         width: '152px',
@@ -289,13 +291,13 @@ export default class Write extends React.Component {
       return
     }
 
-    const tagRemovedContent = tp.$m.removeTag(this.state.content).trim()
-    const tagRemovedTitle = tp.$m.removeTag(this.state.title).trim()
+    const tagRemovedContent = ctx.$m.removeTag(this.state.content).trim()
+    const tagRemovedTitle = ctx.$m.removeTag(this.state.title).trim()
 
     let post = {
       title:
         tagRemovedTitle === ''
-          ? tagRemovedContent.substr(0, tp.MAXTITLELEN)
+          ? tagRemovedContent.substr(0, ctx.MAXTITLELEN)
           : tagRemovedTitle,
       writer: this.state.writer.trim(),
       content: this.state.content.trim(),
@@ -303,12 +305,12 @@ export default class Write extends React.Component {
       isPrivate: this.state.isPrivate,
       isMarkdown: this.state.isMarkdown,
       hasComment: this.state.hasComment,
-      uuid: tp.user.uuid,
+      uuid: ctx.user.uuid,
       context: this.state.context,
     }
 
     // 사용자 정보 업데이트
-    tp.setUser({
+    ctx.setUser({
       uuid: this.state.uuid,
       writer: post.writer,
       hasComment: post.hasComment,
@@ -323,17 +325,17 @@ export default class Write extends React.Component {
         commentCnt: this.state.commentCnt,
       })
 
-      tp.api.updatePost(post).then(res => {
+      ctx.api.updatePost(post).then(res => {
         if (res.status === 'Fail') {
-          tp.alert({
+          ctx.alert({
             message: res.message,
             style: 'danger',
           })
           return
         }
-        //if(tp.view.App.state.data.posts.length > 0){
-        if (tp.store.getState().data.posts.length > 0) {
-          tp.store.dispatch(tp.action.updatePost(post))
+        //if(ctx.view.App.state.data.posts.length > 0){
+        if (ctx.store.getState().data.posts.length > 0) {
+          ctx.store.dispatch(ctx.action.updatePost(post))
         }
 
         // 작성된 글 바로 확인
@@ -347,18 +349,18 @@ export default class Write extends React.Component {
         commentCnt: 0,
       })
 
-      tp.api.addPost(post).then(res => {
+      ctx.api.addPost(post).then(res => {
         if (
-          tp.store.getState().data.posts.filter(p => p.origin === undefined)
+          ctx.store.getState().data.posts.filter(p => p.origin === undefined)
             .length > 0
         ) {
           if (
-            tp.store.getState().data.posts[0].context !== res.output.context
+            ctx.store.getState().data.posts[0].context !== res.output.context
           ) {
             // 다른 채널에 신규 글을 등록했다면 이전에 store에 등록된 posts 목록은 초기화
-            tp.store.dispatch(tp.action.initPosts())
+            ctx.store.dispatch(ctx.action.initPosts())
           }
-          tp.store.dispatch(tp.action.addPost(res.output))
+          ctx.store.dispatch(ctx.action.addPost(res.output))
         } else {
           // write 화면으로 직접 접근해서 저장하는 경우에는 store에 새글을 추가를 하지 않아도 문제되지 않음
         }
@@ -377,7 +379,7 @@ export default class Write extends React.Component {
      * 안드로이드(G6) 크롬&파폭일 경우 예외처리 추가
      */
     let height =
-      tp.isDesktop() || navigator.userAgent.match(/android/i)
+      ctx.isDesktop() || navigator.userAgent.match(/android/i)
         ? //(window.innerHeight - 200) + "px"
           /**
            * 18.10.01 min9nim
@@ -401,9 +403,9 @@ export default class Write extends React.Component {
      * 18.11.17
      * 이 부분에서 자꾸 context 가 사라지는 경우가 있어서 예외처리 추가함
      */
-    // if(!this.state.context && tp.context){
+    // if(!this.state.context && ctx.context){
     //   console.log("context 재설정 ")
-    //   this.state.context = tp.context;
+    //   this.state.context = ctx.context;
     // }
     /**
      * 18.11.19

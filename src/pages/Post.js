@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp, Ctx } from '@/biz/context'
+import { ctx, Ctx } from '@/biz/context'
 import {
   highlight_nl2br,
   highlight,
@@ -44,13 +44,13 @@ export default class Post extends React.Component {
       origin: '',
       likeCnt: 0,
     }
-    const { posts } = tp.store.getState().data
+    const { posts } = ctx.store.getState().data
     if (go(posts, exclude(prop('origin')), length)) {
       this.state = posts.find(propEq('key', this.props.postKey))
     }
 
     this.contextPath = this.props.context ? '/' + this.props.context : ''
-    tp.view.Post = this
+    ctx.view.Post = this
 
     this.md = new Remarkable({
       html: true,
@@ -67,9 +67,9 @@ export default class Post extends React.Component {
 
   componentDidMount() {
     document.title = this.state.title
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       this.setState(
-        tp.store.getState().data.posts.find(propEq('key', this.props.postKey)),
+        ctx.store.getState().data.posts.find(propEq('key', this.props.postKey)),
       )
     })
     if (this.state.key) {
@@ -89,8 +89,8 @@ export default class Post extends React.Component {
     }
 
     let title
-    const search = tp.store.getState().view.search
-    title = tp.highlight(this.state.title, search)
+    const search = ctx.store.getState().view.search
+    title = ctx.highlight(this.state.title, search)
     //title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
     title = (this.state.isPrivate ? `<i class="icon-lock"></i>` : '') + title
 
@@ -103,7 +103,7 @@ export default class Post extends React.Component {
 
     const content = this.state.isMarkdown
       ? this.md.render(highlight_nl2br(this.state.content, search))
-      : tp.$m.txtToHtml(this.state.content, search)
+      : ctx.$m.txtToHtml(this.state.content, search)
 
     return (
       <div>

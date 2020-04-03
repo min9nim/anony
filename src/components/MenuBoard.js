@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import shortid from 'shortid'
 import { MyChannels } from '../components'
 import './MenuBoard.scss'
@@ -17,37 +17,37 @@ export class MenuBoard extends React.Component {
     this.handleChange = this.handleChange.bind(this)
 
     this.state = {
-      uuid: tp.user.uuid,
+      uuid: ctx.user.uuid,
     }
   }
 
   confirm() {
     if (this.getValidationState() !== 'success') {
-      tp.alert({ message: 'Invalid uuid', style: 'warning', width: '152px' })
+      ctx.alert({ message: 'Invalid uuid', style: 'warning', width: '152px' })
       return
     }
-    tp.setUser({ uuid: this.state.uuid })
-    //tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
+    ctx.setUser({ uuid: this.state.uuid })
+    //ctx.store.dispatch(ctx.action.setUuid(ctx.user.uuid));
     //alert("uuid changed");
-    tp.alert({
+    ctx.alert({
       message: 'uuid changed',
       style: 'info',
       width: '152px',
     })
 
-    tp.store.dispatch(tp.action.myChannels([]))
-    tp.api.myChannels().then(res => {
-      tp.store.dispatch(tp.action.myChannels(res.output))
+    ctx.store.dispatch(ctx.action.myChannels([]))
+    ctx.api.myChannels().then(res => {
+      ctx.store.dispatch(ctx.action.myChannels(res.output))
     })
 
     //this.hideMenu();
-    tp.view.List.setState({ menuClicked: false })
+    ctx.view.List.setState({ menuClicked: false })
   }
 
   cancel() {
-    this.setState({ uuid: tp.user.uuid })
+    this.setState({ uuid: ctx.user.uuid })
     //this.hideMenu();
-    tp.view.List.setState({ menuClicked: false })
+    ctx.view.List.setState({ menuClicked: false })
   }
 
   refreshUuid() {
@@ -60,7 +60,7 @@ export class MenuBoard extends React.Component {
   }
 
   getValidationState() {
-    let uuid = tp.$m.removeTag(this.state.uuid).trim()
+    let uuid = ctx.$m.removeTag(this.state.uuid).trim()
     const length = uuid.length
     if (shortid.isValid(this.state.uuid) && length >= 9) return 'success'
     else if (length > 5) return 'warning'
@@ -129,7 +129,7 @@ export class MenuBoard extends React.Component {
             </Button>
           </div>
 
-          <MyChannels channels={tp.store.getState().data.channels} />
+          <MyChannels channels={ctx.store.getState().data.channels} />
         </div>
       </div>
     )

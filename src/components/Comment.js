@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import moment from 'moment'
 import { CommentMenu } from '../components'
 
@@ -25,19 +25,20 @@ export class Comment extends React.Component {
       return
     }
 
-    tp.api
+    ctx.api
       .deleteComment({
         key: this.state.key,
-        uuid: tp.user.uuid,
+        uuid: ctx.user.uuid,
       })
       .then(res => {
         if (res.status === 'Fail') {
-          tp.alert({
+          ctx.alert({
             message: res.message,
             style: 'danger',
           })
         } else {
-          tp.store && tp.store.dispatch(tp.action.deleteComment(this.state.key))
+          ctx.store &&
+            ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
           //history.back();
           this.props.history.push('/list')
         }
@@ -50,8 +51,7 @@ export class Comment extends React.Component {
       // Comment 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
       this.state = this.props.comment
     }
-
-    const html = tp.$m.txtToHtml(this.state.content)
+    const html = ctx.$m.txtToHtml(this.state.content)
 
     return (
       <div className="comment">

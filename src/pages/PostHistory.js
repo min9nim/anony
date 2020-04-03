@@ -3,7 +3,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { Excerpt } from '../components'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import { Link } from 'react-router-dom'
 import './PostHistory.scss'
 
@@ -12,17 +12,17 @@ export default class PostHistory extends React.Component {
     //console.log("PostHistory 생성자 호출");
     super(props)
     this.state = {
-      phist: tp.store
+      phist: ctx.store
         .getState()
         .data.posts.filter(p => p.origin === this.props.postKey),
     }
 
     if (this.state.phist.length === 0) {
-      tp.api.getPostHistory(this.props.postKey).then(res => {
+      ctx.api.getPostHistory(this.props.postKey).then(res => {
         if (res.posts.length > 0) {
-          tp.store.dispatch(tp.action.addPosts(res.posts))
+          ctx.store.dispatch(ctx.action.addPosts(res.posts))
         } else {
-          tp.alert('Have no changes')
+          ctx.alert('Have no changes')
         }
       })
     }
@@ -30,10 +30,10 @@ export default class PostHistory extends React.Component {
     this.contextPath = this.props.context ? '/' + this.props.context : ''
 
     // 이후 App 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       //console.log("PostHistory 가 store 상태변경 노티 받음")
       this.setState({
-        phist: tp.store
+        phist: ctx.store
           .getState()
           .data.posts.filter(p => p.origin === this.props.postKey),
       })
@@ -45,7 +45,7 @@ export default class PostHistory extends React.Component {
   }
 
   componentDidMount() {
-    document.title = (this.props.context || 'Anony') + ' - ' + tp.thispage
+    document.title = (this.props.context || 'Anony') + ' - ' + ctx.thispage
   }
 
   render() {

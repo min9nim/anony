@@ -1,6 +1,6 @@
 import React from 'react'
 import { Comment } from '../components'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import './CommentList.scss'
 
 export class CommentList extends React.Component {
@@ -8,26 +8,26 @@ export class CommentList extends React.Component {
     // console.log("CommentList 생성자 호출");
     super(props)
     this.state = {
-      comments: tp.store
+      comments: ctx.store
         .getState()
         .data.comments.filter(c => c.postKey === this.props.postKey),
     }
-    tp.view.CommentList = this
+    ctx.view.CommentList = this
 
     // 이후 CommentList 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       // console.log("# CommentList setState called..");
       this.setState({
-        comments: tp.store
+        comments: ctx.store
           .getState()
           .data.comments.filter(c => c.postKey === this.props.postKey),
       })
     })
 
     if (this.state.comments.length === 0 && this.props.commentCnt > 0) {
-      tp.api
+      ctx.api
         .getComments(this.props.postKey)
-        .then(res => tp.store.dispatch(tp.action.addComments(res.comments)))
+        .then(res => ctx.store.dispatch(ctx.action.addComments(res.comments)))
     }
   }
 

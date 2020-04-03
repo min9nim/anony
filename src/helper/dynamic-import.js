@@ -40,7 +40,7 @@ export function asyncComponent(name) {
 
 export function render(componentName) {
   return ({ history, match }) => {
-    tp.thispage = componentName
+    ctx.thispage = componentName
     let name = componentName
     let type
     if (componentName === 'Edit') {

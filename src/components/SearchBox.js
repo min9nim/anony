@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import './SearchBox.scss'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
@@ -12,14 +12,14 @@ export class SearchBox extends React.Component {
 
     this.state = {
       word: '',
-      uuid: tp.user.uuid,
+      uuid: ctx.user.uuid,
     }
   }
 
   search() {
     const search = this.state.word.trim()
     if (search === '') {
-      tp.alert({
+      ctx.alert({
         message: 'Keyword is empty',
         style: 'warning',
         width: '180px',
@@ -28,16 +28,16 @@ export class SearchBox extends React.Component {
     }
 
     // 기존내용 초기화
-    tp.store.dispatch(tp.action.initPosts())
-    tp.isScrollLast = false
+    ctx.store.dispatch(ctx.action.initPosts())
+    ctx.isScrollLast = false
 
     // 다시 세팅
-    tp.api
+    ctx.api
       .getPosts({ idx: 0, cnt: 10, search, context: this.props.context })
-      .then(res => tp.store.dispatch(tp.action.addPosts(res.posts)))
+      .then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)))
 
     // 현재 검색어 세팅
-    tp.store.dispatch(tp.action.setSearch(search))
+    ctx.store.dispatch(ctx.action.setSearch(search))
 
     this.hideSearch()
   }

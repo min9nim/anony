@@ -27,7 +27,7 @@ async function httpReq(path, opt = {}) {
     return res
   } catch (e) {
     console.error(e)
-    tp.alert({
+    ctx.alert({
       message: e.message,
       style: 'danger',
       width: '200px',
@@ -62,7 +62,7 @@ export function getPosts({
     '/api/posts/get/' + context + '/' + idx + '/' + cnt,
     {
       method: 'POST',
-      body: { uuid: tp.user.uuid, search },
+      body: { uuid: ctx.user.uuid, search },
       signal,
       hideProgress,
     },
@@ -76,7 +76,7 @@ export function getComments(postKey) {
 export function getPost(key) {
   return httpReq('/api/posts/get/' + key, {
     method: 'POST',
-    body: { uuid: tp.user.uuid },
+    body: { uuid: ctx.user.uuid },
   })
 }
 
@@ -99,7 +99,7 @@ export function restoreComment({ key, uuid }) {
 export function viewPost(key) {
   return httpReq('/api/posts/view/' + key, {
     method: 'POST',
-    body: { uuid: tp.user.uuid },
+    body: { uuid: ctx.user.uuid },
   })
 }
 
@@ -120,7 +120,7 @@ export function authComment({ key, uuid }) {
 }
 
 export function updatePost(post) {
-  return httpReq('/api/posts/edit/' + tp.user.uuid, {
+  return httpReq('/api/posts/edit/' + ctx.user.uuid, {
     method: 'POST',
     body: post,
   })
@@ -128,7 +128,7 @@ export function updatePost(post) {
 
 export function updateComment(comment) {
   return httpReq(
-    '/api/comments/edit/' + tp.user.uuid, // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
+    '/api/comments/edit/' + ctx.user.uuid, // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
     {
       method: 'POST',
       body: comment,
@@ -143,21 +143,21 @@ export function getPostHistory(key) {
 export function likePost(key) {
   return httpReq('/api/posts/likePost/' + key, {
     method: 'POST',
-    body: { uuid: tp.user.uuid },
+    body: { uuid: ctx.user.uuid },
   })
 }
 
 export function cancelLike(key, uuid) {
   return httpReq('/api/posts/cancelLike/' + key, {
     method: 'POST',
-    body: { uuid: tp.user.uuid },
+    body: { uuid: ctx.user.uuid },
   })
 }
 
 export async function myChannels() {
   const res = await httpReq('/api/posts/myChannels/', {
     method: 'POST',
-    body: { uuid: tp.user.uuid },
+    body: { uuid: ctx.user.uuid },
   })
   if (res.output.length === 0) {
     res.output = [{ name: 'public', count: 0 }]

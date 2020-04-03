@@ -4,28 +4,28 @@ import { Loading } from './Loading'
 import './MyChannels.scss'
 
 export const MyChannels = props => {
-  const { channels } = tp.store.getState().data
+  const { channels } = ctx.store.getState().data
   useEffect(() => {
     if (channels.length > 0) {
       return
     }
     // 로드된 채널 정보가 없다면 api 호출
-    tp.api.myChannels().then(res => {
-      tp.store.dispatch(tp.action.myChannels(res.output))
+    ctx.api.myChannels().then(res => {
+      ctx.store.dispatch(ctx.action.myChannels(res.output))
     })
   })
 
   function handleClick(channel) {
-    tp.context = channel
-    tp.api
+    ctx.context = channel
+    ctx.api
       .getPosts({ idx: 0, cnt: 10, context: channel })
-      .then(res => tp.store.dispatch(tp.action.setPosts(res.posts)))
+      .then(res => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
       .then(() => {
-        tp.isScrollLast = false
+        ctx.isScrollLast = false
       })
       .then(toggleChannels)
       .then(() => {
-        tp.history.push('/' + channel)
+        ctx.history.push('/' + channel)
       })
   }
 
@@ -47,7 +47,7 @@ export const MyChannels = props => {
           return (
             <div
               key={item.name}
-              className={tp.context === item.name ? 'item selected' : 'item'}
+              className={ctx.context === item.name ? 'item selected' : 'item'}
               onClick={() => handleClick(item.name)}
             >
               {item.name + '(' + item.count + ')'}

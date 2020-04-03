@@ -20,12 +20,12 @@ export class Search extends React.Component {
     }
 
     // 이후 Search 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = tp.store.subscribe(() => {
+    this.unsubscribe = ctx.store.subscribe(() => {
       // console.log("Search가 store 상태 변경 노티 받음")
-      if (this.state.word !== tp.store.getState().view.search) {
+      if (this.state.word !== ctx.store.getState().view.search) {
         //console.log("this.state.word = " + this.state.word);
-        //console.log("state_word = " + tp.store.getState().view.search);
-        this.setState({ word: tp.store.getState().view.search })
+        //console.log("state_word = " + ctx.store.getState().view.search);
+        this.setState({ word: ctx.store.getState().view.search })
       }
     })
   }
@@ -53,12 +53,12 @@ export class Search extends React.Component {
   }
 
   handleChange(e) {
-    if (tp.view.ListLoader.state.loading) {
+    if (ctx.view.ListLoader.state.loading) {
       this.fetchController.abort()
 
       // this.ipt.style.backgroundColor = "red";
       // setTimeout(()=>{
-      //     if(tp.view.ListLoader.state.loading){
+      //     if(ctx.view.ListLoader.state.loading){
       //         this.ipt.style.backgroundColor = "#eee"
       //     }else{
       //         this.ipt.style.backgroundColor = ""
@@ -101,7 +101,7 @@ export class Search extends React.Component {
   }
 
   search(word) {
-    if (tp.view.ListLoader.state.loading) {
+    if (ctx.view.ListLoader.state.loading) {
       this.fetchController.abort()
     }
     this.fetchController = new AbortController()
@@ -110,18 +110,18 @@ export class Search extends React.Component {
     const search = word.trim()
 
     // 18.11.10 스토어의 검색어 상태 미리 변경해둠
-    tp.store.dispatch(tp.action.setSearch(search))
+    ctx.store.dispatch(ctx.action.setSearch(search))
 
     // 기존내용 초기화
-    tp.store.dispatch(tp.action.initPosts())
-    //tp.view.ListLoader.setState({ loading: true });
-    tp.view.ListLoader.state.loading = true
+    ctx.store.dispatch(ctx.action.initPosts())
+    //ctx.view.ListLoader.setState({ loading: true });
+    ctx.view.ListLoader.state.loading = true
     this.ipt.style.backgroundColor = '#eee'
 
-    tp.isScrollLast = false
+    ctx.isScrollLast = false
 
     // 다시 세팅
-    tp.api
+    ctx.api
       .getPosts({
         idx: 0,
         cnt: 10,
@@ -130,10 +130,10 @@ export class Search extends React.Component {
         signal,
       })
       .then(res => {
-        tp.view.ListLoader.setState({ loading: false })
+        ctx.view.ListLoader.setState({ loading: false })
         this.ipt.style.backgroundColor = ''
-        //tp.view.ListLoader.state.loading = false;
-        tp.store.dispatch(tp.action.addPosts(res.posts))
+        //ctx.view.ListLoader.state.loading = false;
+        ctx.store.dispatch(ctx.action.addPosts(res.posts))
       })
       .catch(console.log)
   }
@@ -143,13 +143,13 @@ export class Search extends React.Component {
 
     return (
       <div className="search">
-        {tp.isDesktop() ? (
+        {ctx.isDesktop() ? (
           <React.Fragment>
             <div className="icon-search btn1" onClick={this.search}></div>
             <div className="ipt-wrapper">
               <input
                 className="ipt-search"
-                //value={tp.store.getState().view.search}
+                //value={ctx.store.getState().view.search}
                 ref={ele => {
                   this.ipt = ele
                 }}

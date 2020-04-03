@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { tp } from '@/biz/context'
+import { ctx } from '@/biz/context'
 import './PostMenu.scss'
 
 export class PostMenu extends React.Component {
@@ -17,28 +17,28 @@ export class PostMenu extends React.Component {
 
   deletePost() {
     //if(!confirm("Delete this?")) return;
-    tp.confirm({
+    ctx.confirm({
       //message: "Delete this?<br> whenever you can restore this.",
       //width: "256px",
       message: 'Delete this?',
       onYes: () => {
-        tp.api
+        ctx.api
           .deletePost({
             key: this.props.postKey,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert({
+              ctx.alert({
                 message: res.message,
                 style: 'warning',
               })
             } else {
-              if (tp.store.getState().data.posts.length > 0)
-                tp.store.dispatch(tp.action.deletePost(this.props.postKey))
+              if (ctx.store.getState().data.posts.length > 0)
+                ctx.store.dispatch(ctx.action.deletePost(this.props.postKey))
               //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
               //this.props.history.push("/list");
-              //tp.view.Post.setState({deleted : true});
+              //ctx.view.Post.setState({deleted : true});
             }
             //this.cancelMenu();
           })
@@ -47,33 +47,33 @@ export class PostMenu extends React.Component {
   }
 
   removePost() {
-    tp.confirm({
+    ctx.confirm({
       message: 'Remove this?',
       width: '155px',
       onYes: () => {
-        tp.api
+        ctx.api
           .removePost({
             key: this.props.postKey,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert({
+              ctx.alert({
                 message: 'Fail<br>' + res.message,
                 style: 'danger',
                 width: '200px',
               })
               //this.cancelMenu();
             } else {
-              if (['PostHistory', 'List'].includes(tp.thispage)) {
+              if (['PostHistory', 'List'].includes(ctx.thispage)) {
                 // 애니메이션 처리
                 document.getElementById(this.props.postKey).style.transform =
                   'scaleY(0)'
 
                 // dom 제거
                 setTimeout(() => {
-                  tp.store.dispatch(
-                    tp.action.removePost(p => p.key === this.props.postKey),
+                  ctx.store.dispatch(
+                    ctx.action.removePost(p => p.key === this.props.postKey),
                   )
                 }, 500)
 
@@ -85,8 +85,8 @@ export class PostMenu extends React.Component {
 
                 // dom 제거
                 setTimeout(() => {
-                  tp.store.dispatch(
-                    tp.action.removePost(p => p.key === this.props.postKey),
+                  ctx.store.dispatch(
+                    ctx.action.removePost(p => p.key === this.props.postKey),
                   )
 
                   // 글보기 화면에서 삭제할 경우에는 목록화면으로 이동 필요
@@ -107,23 +107,23 @@ export class PostMenu extends React.Component {
 
   restorePost() {
     //if(!confirm("Restore this?")) return;
-    tp.confirm({
+    ctx.confirm({
       message: 'Restore this?',
       onYes: () => {
-        tp.api
+        ctx.api
           .restorePost({
             key: this.props.postKey,
-            uuid: tp.user.uuid,
+            uuid: ctx.user.uuid,
           })
           .then(res => {
             if (res.status === 'Fail') {
-              tp.alert(JSON.stringify(res, null, 2))
+              ctx.alert(JSON.stringify(res, null, 2))
             } else {
-              //tp.store.dispatch(tp.action.deletePost(this.props.postKey));
-              tp.store.dispatch(tp.action.restorePost(this.props.postKey))
+              //ctx.store.dispatch(ctx.action.deletePost(this.props.postKey));
+              ctx.store.dispatch(ctx.action.restorePost(this.props.postKey))
               //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
               //this.props.history.push("/list");
-              //tp.view.Post.setState({deleted : true});
+              //ctx.view.Post.setState({deleted : true});
             }
             this.cancelMenu()
           })
@@ -132,10 +132,10 @@ export class PostMenu extends React.Component {
   }
 
   editPost() {
-    tp.api
+    ctx.api
       .authPost({
         key: this.props.postKey,
-        uuid: tp.user.uuid,
+        uuid: ctx.user.uuid,
       })
       .then(res => {
         if (res.status === 'Success') {
@@ -143,7 +143,7 @@ export class PostMenu extends React.Component {
             this.contextPath + '/edit/' + this.props.postKey,
           )
         } else {
-          tp.alert({
+          ctx.alert({
             message: res.message,
             style: 'warning',
             width: '160px',
@@ -155,20 +155,20 @@ export class PostMenu extends React.Component {
 
   postHistory() {
     // 기존 세팅된 히스토리 내역 초기화
-    tp.store.dispatch(
-      tp.action.removePost(p => p.origin === this.props.postKey),
+    ctx.store.dispatch(
+      ctx.action.removePost(p => p.origin === this.props.postKey),
     )
 
     // 최신 상태로 새로 세팅
-    tp.api.getPostHistory(this.props.postKey).then(res => {
+    ctx.api.getPostHistory(this.props.postKey).then(res => {
       if (res.posts.length > 0) {
-        //tp.store.dispatch(tp.action.setPostHistory(res.posts));
-        tp.store.dispatch(tp.action.addPosts(res.posts))
+        //ctx.store.dispatch(ctx.action.setPostHistory(res.posts));
+        ctx.store.dispatch(ctx.action.addPosts(res.posts))
         this.props.history.push(
           this.contextPath + '/postHistory/' + this.props.postKey,
         )
       } else {
-        tp.alert({
+        ctx.alert({
           message: 'Have no changes',
           style: 'info',
         })
@@ -206,7 +206,7 @@ export class PostMenu extends React.Component {
       <div className="postMenu">
         {this.state.clicked ? (
           <div className="navi">
-            {tp.history.location.pathname.indexOf('/post/') >= 0 && (
+            {ctx.history.location.pathname.indexOf('/post/') >= 0 && (
               <div className="icon-list" onClick={this.list.bind(this)}>
                 List
               </div>

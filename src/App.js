@@ -1,7 +1,7 @@
 import React from 'react'
 import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
-import { tp, Ctx } from '@/biz/context.js'
+import { ctx, Ctx } from '@/biz/context.js'
 import { createStore } from 'redux'
 import { reducer } from './redux/reducer'
 import { render, initializeShortcut } from './helper'
@@ -23,15 +23,15 @@ export default class App extends React.Component {
 
     initializeShortcut(this.props.history, context)
 
-    tp.history = this.props.history
+    ctx.history = this.props.history
 
-    tp.view.App = this
+    ctx.view.App = this
 
     // 스토어 최초 한번 생성
-    tp.store = createStore(reducer, {
+    ctx.store = createStore(reducer, {
       view: {
         search: '',
-        uuid: tp.user.uuid,
+        uuid: ctx.user.uuid,
       },
       data: {
         posts: [], // 전체 글
@@ -51,7 +51,7 @@ export default class App extends React.Component {
 
   render() {
     let tmp = decodeURI(location.pathname.split('/')[1])
-    tp.context = tmp === 'post' ? '' : tmp
+    ctx.context = tmp === 'post' ? '' : tmp
 
     return (
       <div>

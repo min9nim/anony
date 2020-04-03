@@ -11,9 +11,9 @@ export class CommentWrite extends React.Component {
 
     this.state = {
       key: '', // key
-      writer: tp.user.writer, // 작성자
+      writer: ctx.user.writer, // 작성자
       content: '', // 내용
-      uuid: tp.user.uuid, // uuid
+      uuid: ctx.user.uuid, // uuid
       postKey: this.props.postKey, // 부모 포스트 id
       commentKey: '', // 부모 코멘트 id
       date: '', // 작성시간
@@ -42,7 +42,7 @@ export class CommentWrite extends React.Component {
 
   saveComment() {
     if (this.state.content === '') {
-      tp.alert({
+      ctx.alert({
         message: 'Comment is empty',
         style: 'warning',
         width: '185px',
@@ -59,21 +59,21 @@ export class CommentWrite extends React.Component {
       uuid: this.state.uuid,
       postKey: this.state.postKey,
       date: Date.now(),
-      uuid: tp.user.uuid,
+      uuid: ctx.user.uuid,
       commentKey: '',
     }
 
-    tp.api.addComment(newComment).then(res => {
+    ctx.api.addComment(newComment).then(res => {
       //console.log("# " + res.message);
-      tp.store.dispatch(tp.action.addComment(newComment))
+      ctx.store.dispatch(ctx.action.addComment(newComment))
       // 부모post의 댓글 카운트 1증가
-      let post = tp.store
+      let post = ctx.store
         .getState()
         .data.posts.find(p => p.key === this.state.postKey)
       post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1
-      tp.store.dispatch(tp.action.updatePost(post))
+      ctx.store.dispatch(ctx.action.updatePost(post))
       this.setState({ content: '' }) // 기존 입력한 내용 초기화
-      tp.setUser({ writer: newComment.writer }) // 사용자 정보 업데이트
+      ctx.setUser({ writer: newComment.writer }) // 사용자 정보 업데이트
 
       //document.getElementById("content").style.height = "";   // 댓글 입력 textarea 높이 초기화
       this.content.style.height = '' // 댓글 입력 textarea 높이 초기화
