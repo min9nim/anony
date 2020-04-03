@@ -45,8 +45,7 @@ const MyChannels = props => {
       {channels.length === 0 ? (
         <Loading className="loading2" name="list" />
       ) : (
-        channels.map((item, i) => {
-          console.log(item)
+        channels.map(item => {
           return (
             <div
               key={item.name}
