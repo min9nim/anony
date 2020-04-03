@@ -6,7 +6,7 @@ import './Excerpt.scss'
 //import R from "ramda";
 const R = require('ramda')
 
-export default class Excerpt extends React.Component {
+export class Excerpt extends React.Component {
   constructor(props) {
     //console.log("Excerpt 생성자호출");
 

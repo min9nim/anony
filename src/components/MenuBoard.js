@@ -5,7 +5,7 @@ import { MyChannels } from '../components'
 import './MenuBoard.scss'
 import { FormGroup, FormControl, Button } from 'react-bootstrap'
 
-export default class MenuBoard extends React.Component {
+export class MenuBoard extends React.Component {
   constructor(props) {
     //console.log("MenuBoard 생성자 호출");
     super(props)

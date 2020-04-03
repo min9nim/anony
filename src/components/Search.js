@@ -3,7 +3,7 @@ import shortcut from '../ext/shortcut'
 import { SearchBox } from '../components'
 import './Search.scss'
 
-export default class Search extends React.Component {
+export class Search extends React.Component {
   constructor(props) {
     // console.log("Search 생성자 호출");
     super(props)

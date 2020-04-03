@@ -3,7 +3,7 @@ import $m from '../../com/util'
 import { Loading } from './Loading'
 import './MyChannels.scss'
 
-const MyChannels = props => {
+export const MyChannels = props => {
   const { channels } = tp.store.getState().data
   useEffect(() => {
     if (channels.length > 0) {
@@ -59,5 +59,3 @@ const MyChannels = props => {
     </div>
   )
 }
-
-export default MyChannels
