@@ -62,13 +62,13 @@ export default class List extends React.Component {
 
     // 이후 App 가 스토어 상태를 구독하도록 설정
     this.unsubscribe = ctx.store.subscribe(() => {
-      // console.log("List가 store 상태 변경 노티 받음")
+      // ctx.logger.verbose("List가 store 상태 변경 노티 받음")
       this.setState(ctx.store.getState().data)
     })
   }
 
   componentWillUnmount() {
-    //console.log("# List unsubscribe store..");
+    //ctx.logger.verbose("# List unsubscribe store..");
     this.unsubscribe()
   }
 
@@ -100,7 +100,7 @@ export default class List extends React.Component {
     if (this.state.menuClicked !== nextState.menuClicked) {
       return true
     } else {
-      console.log('List 렌더링 안함 ')
+      ctx.logger.verbose('List 렌더링 안함 ')
       return false
     }
   }
@@ -118,7 +118,7 @@ export default class List extends React.Component {
       status = ` > ${search}'s result`
     }
 
-    //console.log("@@222 " + this.state.myChannels)
+    //ctx.logger.verbose("@@222 " + this.state.myChannels)
 
     return (
       <div className="list">
@@ -211,9 +211,9 @@ document.body.onscroll = function() {
   //현재 화면 높이 값
   const clientHeight = document.documentElement.clientHeight
 
-  // console.log('@@ scrollTop : ' + scrollTop)
-  // console.log('clientHeight : ' + clientHeight)
-  // console.log('scrollHeight : ' + scrollHeight)
+  // ctx.logger.verbose('@@ scrollTop : ' + scrollTop)
+  // ctx.logger.verbose('clientHeight : ' + clientHeight)
+  // ctx.logger.verbose('scrollHeight : ' + scrollHeight)
 
   if (
     scrollTop + clientHeight == scrollHeight || // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
@@ -221,7 +221,7 @@ document.body.onscroll = function() {
     (ctx.isMobileChrome() && scrollTop + clientHeight > scrollHeight - 57) // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
   ) {
     //스크롤이 마지막일때
-    console.log('@@ 다음 페이지 호출~')
+    ctx.logger.verbose('@@ 다음 페이지 호출~')
 
     /*
      * 18.09.19 min9nim
@@ -229,8 +229,8 @@ document.body.onscroll = function() {
      * //if ((scrollTop + clientHeight) >= scrollHeight-55) {
      */
 
-    //console.log("scrollTop + clientHeight = " + (scrollTop + clientHeight));
-    //console.log("scrollHeight = " + scrollHeight);
+    //ctx.logger.verbose("scrollTop + clientHeight = " + (scrollTop + clientHeight));
+    //ctx.logger.verbose("scrollHeight = " + scrollHeight);
 
     nprogress.start()
     $m('#nprogress .spinner').css('top', '95%')
@@ -248,7 +248,7 @@ document.body.onscroll = function() {
         ctx.view.ListLoader.setState({ loading: false })
         ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
         if (res.posts.length < PAGEROWS) {
-          //console.log("Scroll has touched bottom")
+          //ctx.logger.verbose("Scroll has touched bottom")
           ctx.isScrollLast = true
           return
         }

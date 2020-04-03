@@ -40,20 +40,20 @@ export function highlight(str, lang) {
         //this.render();    // 이렇게 한다고 화면이 실제로 다시 그려지지는 않음
         this.setState(this.state)
       })
-      .catch(err => console.log(err.message))
+      .catch(err => ctx.logger.verbose(err.message))
     return 'code is loading..'
   }
   if (lang && ctx.hljs.getLanguage(lang)) {
     try {
       return ctx.hljs.highlight(lang, str).value
     } catch (err) {
-      //console.log(err.message);
+      //ctx.logger.verbose(err.message);
     }
   }
   try {
     return ctx.hljs.highlightAuto(str).value
   } catch (err) {
-    //console.log(err.message);
+    //ctx.logger.verbose(err.message);
   }
   return '' // use external default escaping
 }
@@ -83,7 +83,7 @@ export async function directAccess(postKey) {
       .then(ctx.action.addPost)
       .then(ctx.store.dispatch)
       .catch(e => {
-        //console.log(e.message)
+        //ctx.logger.verbose(e.message)
       })
   }
 }

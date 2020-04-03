@@ -9,7 +9,7 @@ import { highlight } from 'mingutils'
 
 export class Excerpt extends React.Component {
   constructor(props) {
-    //console.log("Excerpt 생성자호출");
+    //ctx.logger.verbose("Excerpt 생성자호출");
 
     super(props)
     this.state = {
@@ -27,8 +27,8 @@ export class Excerpt extends React.Component {
 
     //props: history, key, post, context
     //return prevProps.post !== this.props.post;
-    //console.log("this.props.post.deleted = " + this.props.post.deleted);
-    //console.log("prevProps.post.deleted = " + prevProps.post.deleted);
+    //ctx.logger.verbose("this.props.post.deleted = " + this.props.post.deleted);
+    //ctx.logger.verbose("prevProps.post.deleted = " + prevProps.post.deleted);
 
     /**
      * 18.11.08
@@ -43,7 +43,7 @@ export class Excerpt extends React.Component {
     this.setState({ postMetaClicked: true })
   }
   render() {
-    //console.log("Excerpt 렌더링..");
+    //ctx.logger.verbose("Excerpt 렌더링..");
 
     const deletedClass = this.props.post.deleted ? 'deleted' : ''
     const privateClass = this.props.post.isPrivate ? 'private' : ''

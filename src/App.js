@@ -45,7 +45,7 @@ export default class App extends React.Component {
     const render = nextProps.location.pathname !== this.props.location.pathname
     //|| !R.equals(nextState, this.state)
     // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-    //console.log("App.shouldComponentUpdate returns [" + render + "]");
+    //ctx.logger.verbose("App.shouldComponentUpdate returns [" + render + "]");
     return render
   }
 

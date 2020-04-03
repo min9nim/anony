@@ -56,5 +56,5 @@ const PORT =
 
 // HTTP 서비스 시작
 app.listen(PORT, function() {
-  console.log(`express is listening http://localhost:${PORT}`)
+  ctx.logger.verbose(`express is listening http://localhost:${PORT}`)
 })

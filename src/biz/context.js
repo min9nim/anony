@@ -5,6 +5,7 @@ import shortid from 'shortid'
 import $m from '../../com/util'
 import createLogger from 'if-logger'
 import nprogress from 'nprogress'
+import moment from 'moment'
 
 const USECOOKIE = true
 
@@ -109,7 +110,7 @@ function getUser() {
     }
     return JSON.parse(localStorage.getItem('user')) || ctx.setUser()
   } catch (e) {
-    //console.log(e.message);
+    //ctx.logger.verbose(e.message);
     return ctx.setUser()
   }
 }

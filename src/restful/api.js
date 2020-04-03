@@ -1,4 +1,4 @@
-//console.log("api.js start");
+//ctx.logger.verbose("api.js start");
 
 import nprogress from 'nprogress'
 

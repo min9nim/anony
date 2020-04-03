@@ -29,14 +29,14 @@ export class CommentWrite extends React.Component {
 
     if (e.target.id === 'content') {
       // https://zetawiki.com/wiki/HTML_textarea_자동_높이_조절
-      // console.log("## e.target.scrollHeight = " + e.target.scrollHeight);
-      // console.log("## e.target.style.height = " + e.target.style.height);
+      // ctx.logger.verbose("## e.target.scrollHeight = " + e.target.scrollHeight);
+      // ctx.logger.verbose("## e.target.style.height = " + e.target.style.height);
 
       e.target.style.height =
         e.target.scrollHeight > 20 ? e.target.scrollHeight + 1 + 'px' : '20px'
 
-      // console.log("@@ e.target.scrollHeight = " + e.target.scrollHeight);
-      // console.log("@@ e.target.style.height = " + e.target.style.height);
+      // ctx.logger.verbose("@@ e.target.scrollHeight = " + e.target.scrollHeight);
+      // ctx.logger.verbose("@@ e.target.style.height = " + e.target.style.height);
     }
   }
 
@@ -64,7 +64,7 @@ export class CommentWrite extends React.Component {
     }
 
     ctx.api.addComment(newComment).then(res => {
-      //console.log("# " + res.message);
+      //ctx.logger.verbose("# " + res.message);
       ctx.store.dispatch(ctx.action.addComment(newComment))
       // 부모post의 댓글 카운트 1증가
       let post = ctx.store
@@ -85,7 +85,7 @@ export class CommentWrite extends React.Component {
   render() {
     const { isLoading } = this.state
 
-    //console.log("Comment 렌더링..");
+    //ctx.logger.verbose("Comment 렌더링..");
     return (
       <div className="comment-write">
         <div className="writer">

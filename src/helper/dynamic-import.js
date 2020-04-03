@@ -21,7 +21,7 @@ export function asyncComponent(name) {
 
     async componentDidMount() {
       if (this.state.Component) {
-        console.log(`## cache[${name}] used`)
+        ctx.logger.verbose(`## cache[${name}] used`)
         return
       }
       const module = await dynamicImport[name]()

@@ -86,7 +86,7 @@ export default class Write extends React.Component {
     }
 
     this.unsubscribe = ctx.store.subscribe(() => {
-      //console.log("Edit가 store 상태변경 노티 받음");
+      //ctx.logger.verbose("Edit가 store 상태변경 노티 받음");
       if (this.state.key === '') {
         // URL로 직접 들어온 경우에만 this.setState가 필요
         this.setState(
@@ -108,7 +108,7 @@ export default class Write extends React.Component {
 
   componentWillUnmount() {
     if (this.props.type === 'edit') {
-      //console.log("# Edit unsubscribe store..");
+      //ctx.logger.verbose("# Edit unsubscribe store..");
       this.unsubscribe && this.unsubscribe()
     }
   }
@@ -372,7 +372,7 @@ export default class Write extends React.Component {
   }
 
   render() {
-    //console.log("Write 렌더링..");
+    //ctx.logger.verbose("Write 렌더링..");
 
     /**
      * 18.09.20 min9nim
@@ -397,14 +397,14 @@ export default class Write extends React.Component {
       ? 'icon-folder-open-empty'
       : 'icon-folder-empty'
 
-    // console.log("## this.state.context = " +  this.state.context)
+    // ctx.logger.verbose("## this.state.context = " +  this.state.context)
 
     /**
      * 18.11.17
      * 이 부분에서 자꾸 context 가 사라지는 경우가 있어서 예외처리 추가함
      */
     // if(!this.state.context && ctx.context){
-    //   console.log("context 재설정 ")
+    //   ctx.logger.verbose("context 재설정 ")
     //   this.state.context = ctx.context;
     // }
     /**

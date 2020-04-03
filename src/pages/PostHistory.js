@@ -1,4 +1,4 @@
-//console.log("PostHistory.js start");
+//ctx.logger.verbose("PostHistory.js start");
 
 import React from 'react'
 import { Button } from 'react-bootstrap'
@@ -9,7 +9,7 @@ import './PostHistory.scss'
 
 export default class PostHistory extends React.Component {
   constructor(props) {
-    //console.log("PostHistory 생성자 호출");
+    //ctx.logger.verbose("PostHistory 생성자 호출");
     super(props)
     this.state = {
       phist: ctx.store
@@ -31,7 +31,7 @@ export default class PostHistory extends React.Component {
 
     // 이후 App 가 스토어 상태를 구독하도록 설정
     this.unsubscribe = ctx.store.subscribe(() => {
-      //console.log("PostHistory 가 store 상태변경 노티 받음")
+      //ctx.logger.verbose("PostHistory 가 store 상태변경 노티 받음")
       this.setState({
         phist: ctx.store
           .getState()
@@ -40,7 +40,7 @@ export default class PostHistory extends React.Component {
     })
   }
   componentWillUnmount() {
-    //console.log("# PostHistory unsubscribe store..");
+    //ctx.logger.verbose("# PostHistory unsubscribe store..");
     this.unsubscribe()
   }
 
@@ -49,7 +49,7 @@ export default class PostHistory extends React.Component {
   }
 
   render() {
-    //console.log("PostHistory 렌더링..");
+    //ctx.logger.verbose("PostHistory 렌더링..");
     return (
       <div className="postHistory">
         {this.state.phist.map(post => (

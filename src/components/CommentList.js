@@ -5,7 +5,7 @@ import './CommentList.scss'
 
 export class CommentList extends React.Component {
   constructor(props) {
-    // console.log("CommentList 생성자 호출");
+    // ctx.logger.verbose("CommentList 생성자 호출");
     super(props)
     this.state = {
       comments: ctx.store
@@ -16,7 +16,7 @@ export class CommentList extends React.Component {
 
     // 이후 CommentList 가 스토어 상태를 구독하도록 설정
     this.unsubscribe = ctx.store.subscribe(() => {
-      // console.log("# CommentList setState called..");
+      // ctx.logger.verbose("# CommentList setState called..");
       this.setState({
         comments: ctx.store
           .getState()
@@ -32,12 +32,12 @@ export class CommentList extends React.Component {
   }
 
   componentWillUnmount() {
-    // console.log("# CommentList unsubscribe store..");
+    // ctx.logger.verbose("# CommentList unsubscribe store..");
     this.unsubscribe()
   }
 
   render() {
-    //console.log("CommentList 렌더링..");
+    //ctx.logger.verbose("CommentList 렌더링..");
     return (
       <div className="CommentList">
         {this.state.comments.map(comment => (

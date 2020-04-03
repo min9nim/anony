@@ -5,7 +5,7 @@ import './Search.scss'
 
 export class Search extends React.Component {
   constructor(props) {
-    // console.log("Search 생성자 호출");
+    // ctx.logger.verbose("Search 생성자 호출");
     super(props)
     this.showSearch = this.showSearch.bind(this)
     this.hideSearch = this.hideSearch.bind(this)
@@ -21,10 +21,10 @@ export class Search extends React.Component {
 
     // 이후 Search 가 스토어 상태를 구독하도록 설정
     this.unsubscribe = ctx.store.subscribe(() => {
-      // console.log("Search가 store 상태 변경 노티 받음")
+      // ctx.logger.verbose("Search가 store 상태 변경 노티 받음")
       if (this.state.word !== ctx.store.getState().view.search) {
-        //console.log("this.state.word = " + this.state.word);
-        //console.log("state_word = " + ctx.store.getState().view.search);
+        //ctx.logger.verbose("this.state.word = " + this.state.word);
+        //ctx.logger.verbose("state_word = " + ctx.store.getState().view.search);
         this.setState({ word: ctx.store.getState().view.search })
       }
     })
@@ -32,14 +32,14 @@ export class Search extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.word !== nextState.word) {
-      // console.log("word가 다르니까 렌더링")
+      // ctx.logger.verbose("word가 다르니까 렌더링")
       return true
     }
     if (this.state.clicked !== nextState.clicked) {
-      // console.log("clicked 다르니까 렌더링")
+      // ctx.logger.verbose("clicked 다르니까 렌더링")
       return true
     } else {
-      // console.log("word 가 같음 Search 렌더링 안함")
+      // ctx.logger.verbose("word 가 같음 Search 렌더링 안함")
       return false
     }
   }
@@ -72,11 +72,11 @@ export class Search extends React.Component {
 
     this.setState({ word: e.target.value }, () => {
       if (this.onTyping) {
-        // console.log("타이머 초기화")
+        // ctx.logger.verbose("타이머 초기화")
         clearTimeout(this.onTyping)
       }
       this.onTyping = setTimeout(() => {
-        // console.log("검색어 = " + word)
+        // ctx.logger.verbose("검색어 = " + word)
         this.search(word)
         this.onTyping = 0
       }, 300)
@@ -92,12 +92,12 @@ export class Search extends React.Component {
   }
 
   componentWillUnmount() {
-    //console.log("Search componentWillUnmount..");
+    //ctx.logger.verbose("Search componentWillUnmount..");
     this.unsubscribe()
   }
 
   componentDidMount() {
-    console.log('Search componentDidMount')
+    ctx.logger.verbose('Search componentDidMount')
   }
 
   search(word) {
@@ -135,11 +135,11 @@ export class Search extends React.Component {
         //ctx.view.ListLoader.state.loading = false;
         ctx.store.dispatch(ctx.action.addPosts(res.posts))
       })
-      .catch(console.log)
+      .catch(ctx.logger.verbose)
   }
 
   render() {
-    // console.log("Search 렌더링");
+    // ctx.logger.verbose("Search 렌더링");
 
     return (
       <div className="search">

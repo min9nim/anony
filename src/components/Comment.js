@@ -7,7 +7,7 @@ import './Comment.scss'
 
 export class Comment extends React.Component {
   constructor(props) {
-    // console.log("Comment 생성자 호출");
+    // ctx.logger.verbose("Comment 생성자 호출");
     super(props)
     this.state = {
       key: '',
@@ -46,7 +46,7 @@ export class Comment extends React.Component {
   }
 
   render() {
-    // console.log("Comment 렌더링");
+    // ctx.logger.verbose("Comment 렌더링");
     if (this.props.comment) {
       // Comment 프롭이 들어오는 경우는 다시 업데이트하지 말라고 일부러 setState 를 사용하지 않고 state를 갱신함
       this.state = this.props.comment

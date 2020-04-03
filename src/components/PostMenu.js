@@ -4,7 +4,7 @@ import './PostMenu.scss'
 
 export class PostMenu extends React.Component {
   constructor(props) {
-    //console.log("PostMenu 생성자 호출");
+    //ctx.logger.verbose("PostMenu 생성자 호출");
     super(props)
     this.cancelMenu = this.cancelMenu.bind(this)
     // this.restorePost = this.restorePost.bind(this);
@@ -194,7 +194,7 @@ export class PostMenu extends React.Component {
   }
 
   render() {
-    //console.log("PostMenu 렌더링");
+    //ctx.logger.verbose("PostMenu 렌더링");
     let historyCnt
     if (this.props.post) {
       if (this.props.post.historyCnt) {

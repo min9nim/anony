@@ -38,7 +38,7 @@ export class CommentEdit extends React.Component {
   }
 
   render() {
-    console.log('Search 렌더링')
+    ctx.logger.verbose('Search 렌더링')
     return (
       <div className="CommentEditBox">
         <div className="modal_div"></div>

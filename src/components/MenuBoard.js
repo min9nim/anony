@@ -7,7 +7,7 @@ import { FormGroup, FormControl, Button } from 'react-bootstrap'
 
 export class MenuBoard extends React.Component {
   constructor(props) {
-    //console.log("MenuBoard 생성자 호출");
+    //ctx.logger.verbose("MenuBoard 생성자 호출");
     super(props)
     //this.hideMenu = this.props.hideMenu;
     this.confirm = this.confirm.bind(this)
@@ -76,7 +76,7 @@ export class MenuBoard extends React.Component {
   }
 
   render() {
-    //console.log("MenuBoard 렌더링");
+    //ctx.logger.verbose("MenuBoard 렌더링");
     return (
       <div className="uuid-setting">
         <div className="modal_div"></div>
