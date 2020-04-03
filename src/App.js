@@ -8,15 +8,11 @@ import shortcut from './ext/shortcut'
 import { tp } from './tp.js'
 import { createStore } from 'redux'
 import { reducer } from './redux/reducer'
-//import {R} from "ramda";
-const R = require('ramda')
+import { render } from './helper/dynamic-import'
 
 export default class App extends React.Component {
   constructor(props) {
-    // console.log("App 생성자 호출!!");
     super(props)
-
-    //const contextname = $m._go(location.pathname, R.split("/"), R.prop(1));
     const contextname = location.pathname.split('/')[1]
     const context = [
       '',
@@ -53,12 +49,6 @@ export default class App extends React.Component {
         comments: [], // 전체 댓글
       },
     })
-
-    // 상태 변화에 따라 App에서 달라질 것은 없다고 판단되어 아래를 주석처리 18/08/08, 대신 List와 Post에서 직접 상태를 구독하는 것으로 함
-    // 이후 App 가 스토어 상태를 구독하도록 설정
-    // this.unsubscribe = tp.store.subscribe(() => {
-    //     this.setState(tp.store.getState());
-    // });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -69,44 +59,9 @@ export default class App extends React.Component {
     return render
   }
 
-  // componentWillUnmount(){
-  //   console.log("# App unsubscribe store..");
-  //   this.unsubscribe();
-  // }
-
   render() {
-    // console.log("App 렌더링..");
     let tmp = decodeURI(location.pathname.split('/')[1])
     tp.context = tmp === 'post' ? '' : tmp
-
-    const MAP = {
-      List: () => import('./pages/List'),
-      Write: () => import('./pages/Write'),
-      Post: () => import('./pages/Post'),
-      PostHistory: () => import('./pages/PostHistory'),
-    }
-
-    function render(componentName) {
-      return ({ history, match }) => {
-        tp.thispage = componentName
-        let name = componentName
-        let type
-        if (componentName === 'Edit') {
-          name = 'Write'
-          type = 'edit'
-        }
-        const Component = tp.asyncComponent(MAP[name], './pages/' + name)
-        return (
-          <Component
-            type={type}
-            history={history}
-            match={match}
-            postKey={match.params.key}
-            context={match.params.context}
-          />
-        )
-      }
-    }
 
     return (
       <div>
