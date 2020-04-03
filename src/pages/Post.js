@@ -80,7 +80,7 @@ export default class Post extends React.Component {
   }
 
   render() {
-    ctx.logger.verbose('이제 잘 나오지', this.context)
+    ctx.logger.verbose('this.context:', this.context)
     if (this.state.key) {
       // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
       document.title = this.state.title
