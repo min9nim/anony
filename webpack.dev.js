@@ -1,25 +1,14 @@
 const webpack = require('webpack')
 const path = require('path')
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//   .BundleAnalyzerPlugin
+const merge = require('webpack-merge')
+const common = require('./webpack.common.js')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
   entry: {
     dev: 'react-hot-loader/patch',
-    index: ['@babel/polyfill', './src/index.js'],
-    react: ['react', 'react-dom', 'react-router-dom', 'react-bootstrap'],
   },
-
-  //entry: './src/index.js',
-
-  output: {
-    path: __dirname + '/public/',
-    publicPath: '/', // chunk 파일을 / 에서 로드하도록 설정
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].chunk.js',
-  },
-
   module: {
     rules: [
       {
@@ -35,14 +24,6 @@ module.exports = {
             ],
           },
         },
-      },
-      {
-        test: /\.(s*)css$/,
-        use: [
-          'style-loader', // creates style nodes from JS strings
-          'css-loader', // translates CSS into CommonJS
-          'sass-loader', // compiles Sass to CSS
-        ],
       },
     ],
   },
@@ -64,37 +45,20 @@ module.exports = {
     },
   },
 
-  optimization: {
-    splitChunks: {
-      chunks: 'all', // include all types of chunks
-      minSize: 30000,
-      maxSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 10,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      name: true,
-      cacheGroups: {
-        default: false,
-      },
-    },
-  },
-
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    // new BundleAnalyzerPlugin({
-    //     analyzerMode: "static",
-    //     reportFilename: "docs/size_dev.html",
-    //     defaultSizes: "parsed",
-    //     openAnalyzer: false,
-    //     generateStatsFile: false,
-    //     statsFilename: "docs/stats_dev.json",
-    // })
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: 'docs/size_dev.html',
+      defaultSizes: 'parsed',
+      openAnalyzer: false,
+      generateStatsFile: false,
+      statsFilename: 'docs/stats_dev.json',
+    }),
   ],
   resolve: {
     alias: {
       'react-dom': '@hot-loader/react-dom',
-      '@': path.resolve(__dirname, 'src'),
     },
   },
-}
+})

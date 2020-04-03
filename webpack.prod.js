@@ -1,80 +1,28 @@
-const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
-//console.log("webpack.prod.js called");
+const merge = require('webpack-merge')
+const common = require('./webpack.common.js')
 
-module.exports = {
-    mode: 'production',
-    
-    entry: {
-        index: ['@babel/polyfill', './src/index.js'],
-        react : ["react", "react-dom", "react-router-dom", 'react-bootstrap'],
-//        lib : ["react", "react-dom", "react-router-dom", 'react-bootstrap', "moment", "ramda"],
-        //lib: ['highlight.js']
-    },
+module.exports = merge(common, {
+  mode: 'production',
 
-    output: {
-        path: __dirname + '/public/',
-        publicPath: "/",        // chunk 파일을 / 에서 로드하도록 설정
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].chunk.js',
-    },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': 'production',
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: 'docs/size_prod.html',
+      defaultSizes: 'parsed',
+      openAnalyzer: false,
+      generateStatsFile: false,
+      statsFilename: 'docs/stats_prod.json',
+    }),
+  ],
 
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: "babel-loader",
-                    options: {
-            presets: ['@babel/preset-env', '@babel/preset-react'],
-            plugins: ['@babel/plugin-syntax-dynamic-import'],
-                    }                    
-                }
-            },
-            {
-                test: /\.(s*)css$/,
-                use: [
-                    "style-loader", // creates style nodes from JS strings
-                    "css-loader", // translates CSS into CommonJS
-                    "sass-loader" // compiles Sass to CSS
-                ]
-            }
-        ]
-    },
-
-    plugins: [
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
-        }),
-        // new BundleAnalyzerPlugin({
-        //     analyzerMode: "static",
-        //     reportFilename: "docs/size_prod.html",
-        //     defaultSizes: "parsed",
-        //     openAnalyzer: false,
-        //     generateStatsFile: false,
-        //     statsFilename: "docs/stats_prod.json",
-        // })
-    ],
-
-    optimization: {
-        minimizer: [
-            new UglifyJsPlugin()
-        ],
-        splitChunks: {
-            chunks: 'all',    // include all types of chunks
-            minSize: 30000,
-            maxSize: 0,
-            minChunks: 1,
-            maxAsyncRequests: 10,
-            maxInitialRequests: 3,
-            automaticNameDelimiter: '~',
-            name: true,
-            cacheGroups: {
-              default: false
-            }
-        }
-    }    
-};
+  optimization: {
+    minimizer: [new UglifyJsPlugin()],
+  },
+})
