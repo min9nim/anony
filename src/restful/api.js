@@ -2,13 +2,16 @@
 
 import nprogress from 'nprogress'
 
+// const API_SERVER_URL = 'http://localhost:8080'
+const API_SERVER_URL = 'https://anony-api.now.sh'
+
 async function httpReq(path, opt = {}) {
   try {
     if (!opt.hideProgress) {
       nprogress.start()
     }
     delete opt.hideProgress
-    const result = await fetch(path, {
+    const result = await fetch(API_SERVER_URL + path, {
       credentials: 'omit',
       method: 'GET',
       headers: new Headers({ 'Content-Type': 'application/json' }),
