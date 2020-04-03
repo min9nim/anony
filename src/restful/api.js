@@ -154,16 +154,15 @@ export function cancelLike(key, uuid) {
   })
 }
 
-export function myChannels() {
-  return httpReq('/api/posts/myChannels/', {
+export async function myChannels() {
+  const res = await httpReq('/api/posts/myChannels/', {
     method: 'POST',
     body: { uuid: tp.user.uuid },
-  }).then(res => {
-    if (res.output.length === 0) {
-      res.output = [{ name: 'public', count: 0 }]
-    }
-    return res
   })
+  if (res.output.length === 0) {
+    res.output = [{ name: 'public', count: 0 }]
+  }
+  return res
 }
 
 export const api = {
