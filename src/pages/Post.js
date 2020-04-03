@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp, Ctx } from '../context'
+import { tp, Ctx } from '@/biz/context'
 import {
   highlight_nl2br,
   highlight,

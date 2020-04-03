@@ -7,7 +7,7 @@ import {
   ListLoader,
   MyChannels,
 } from '../components'
-import { tp } from '../context.js'
+import { tp } from '@/biz/context'
 import { Link } from 'react-router-dom'
 import nprogress from 'nprogress'
 import $m from '../../com/util'

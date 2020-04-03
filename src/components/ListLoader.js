@@ -1,6 +1,6 @@
 import React from 'react'
 import ContentLoader from 'react-content-loader'
-import { tp } from '../context'
+import { tp } from '@/biz/context'
 
 export class ListLoader extends React.Component {
   constructor(props) {

@@ -3,7 +3,7 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
 import { Excerpt } from '../components'
-import { tp } from '../context.js'
+import { tp } from '@/biz/context'
 import { Link } from 'react-router-dom'
 import './PostHistory.scss'
 

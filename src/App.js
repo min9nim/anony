@@ -1,7 +1,7 @@
 import React from 'react'
 import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
-import { tp, Ctx } from './context.js'
+import { tp, Ctx } from '@/biz/context.js'
 import { createStore } from 'redux'
 import { reducer } from './redux/reducer'
 import { render, initializeShortcut } from './helper'

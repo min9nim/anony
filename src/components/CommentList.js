@@ -1,6 +1,6 @@
 import React from 'react'
 import { Comment } from '../components'
-import { tp } from '../context.js'
+import { tp } from '@/biz/context'
 import './CommentList.scss'
 
 export class CommentList extends React.Component {
