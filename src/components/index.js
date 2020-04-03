@@ -5,7 +5,7 @@ export { default as PostMeta } from './PostMeta'
 export { default as Search } from './Search'
 export { default as SearchBox } from './SearchBox'
 
-export { default as CommentWrite } from './CommentWrite'
+export * from './CommentWrite'
 export * from './CommentEdit'
 export * from './CommentList'
 export * from './CommentMenu'
