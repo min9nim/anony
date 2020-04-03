@@ -1,6 +1,12 @@
 import React from 'react'
 import { tp } from '../tp'
-import { highlight_nl2br, highlight, spaAccess, directAccess } from '../biz'
+import {
+  highlight_nl2br,
+  highlight,
+  spaAccess,
+  directAccess,
+  editPost,
+} from '../biz'
 import { exclude, go } from 'mingutils'
 import {
   PostMenu,
@@ -14,7 +20,6 @@ import moment from 'moment'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Remarkable from 'remarkable'
-import shortcut from '../ext/shortcut'
 
 import './Post.scss'
 import '../css/hljsTheme/xcode.css'
@@ -23,7 +28,8 @@ export default class Post extends React.Component {
   constructor(props) {
     //console.log("Post 생성자 호출");
     super(props)
-    this.editPost = this.editPost.bind(this)
+    this.editPost = () =>
+      editPost(this.props.history, this.contextPath, this.props.postKey)
 
     this.state = {
       key: '',
@@ -46,12 +52,6 @@ export default class Post extends React.Component {
     this.contextPath = this.props.context ? '/' + this.props.context : ''
     tp.view.Post = this
 
-    this.unsubscribe = tp.store.subscribe(() => {
-      this.setState(
-        tp.store.getState().data.posts.find(propEq('key', this.props.postKey)),
-      )
-    })
-
     this.md = new Remarkable({
       html: true,
       linkify: true,
@@ -62,12 +62,16 @@ export default class Post extends React.Component {
   }
 
   componentWillUnmount() {
-    //console.log("# Post unsubscribe store..");
-    this.unsubscribe && this.unsubscribe()
+    this.unsubscribe()
   }
 
   componentDidMount() {
     document.title = this.state.title
+    this.unsubscribe = tp.store.subscribe(() => {
+      this.setState(
+        tp.store.getState().data.posts.find(propEq('key', this.props.postKey)),
+      )
+    })
     if (this.state.key) {
       spaAccess(this.state.date, this.props.postKey)
       return
@@ -75,26 +79,7 @@ export default class Post extends React.Component {
     directAccess(this.props.postKey)
   }
 
-  async editPost() {
-    const res = await tp.api.authPost({
-      key: this.props.postKey,
-      uuid: tp.user.uuid,
-    })
-    if (res.status !== 'Success') {
-      tp.alert({
-        message: res.message,
-        style: 'warning',
-        width: '160px',
-      })
-      //this.cancelMenu();
-      return
-    }
-    this.props.history.push(this.contextPath + '/edit/' + this.props.postKey)
-  }
-
   render() {
-    //console.log("Post 렌더링");
-
     if (this.state.key) {
       // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
       document.title = this.state.title

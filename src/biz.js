@@ -120,3 +120,20 @@ export async function spaAccess(postDate, postKey) {
   )
   //tp.store.dispatch(tp.action.updatePost(Object.assign(res.output, {context: tp.context}))
 }
+
+export async function editPost(history, contextPath, postKey) {
+  const res = await tp.api.authPost({
+    key: postKey,
+    uuid: tp.user.uuid,
+  })
+  if (res.status !== 'Success') {
+    tp.alert({
+      message: res.message,
+      style: 'warning',
+      width: '160px',
+    })
+    //this.cancelMenu();
+    return
+  }
+  history.push(contextPath + '/edit/' + postKey)
+}
