@@ -20,7 +20,6 @@ import moment from 'moment'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Remarkable from 'remarkable'
-
 import './Post.scss'
 import '../css/hljsTheme/xcode.css'
 
@@ -114,7 +113,7 @@ export default class Post extends React.Component {
             <div
               className={titleClass}
               dangerouslySetInnerHTML={{ __html: title }}
-            ></div>
+            />
           </div>
           <div className="meta">
             <div className="writer-time">
