@@ -7,7 +7,7 @@ import {
   directAccess,
   editPost,
 } from '../biz'
-import { exclude, go } from 'mingutils'
+import { exclude, go, highlight as mark } from 'mingutils'
 import {
   PostMenu,
   CommentWrite,
@@ -90,7 +90,7 @@ export default class Post extends React.Component {
 
     let title
     const search = ctx.store.getState().view.search
-    title = ctx.highlight(this.state.title, search)
+    title = mark(search)(this.state.title)
     //title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
     title = (this.state.isPrivate ? `<i class="icon-lock"></i>` : '') + title
 

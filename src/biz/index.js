@@ -1,4 +1,4 @@
-import { go } from 'mingutils'
+import { go, highlight as mark } from 'mingutils'
 
 export function nl2br(str) {
   // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
@@ -23,7 +23,7 @@ export function highlight_nl2br(str, word) {
         ? v
         : v
             .split('`')
-            .map((v, i) => (i % 2 ? v : nl2br(ctx.highlight(v, word))))
+            .map((v, i) => (i % 2 ? v : nl2br(mark(word)(v))))
             .join('`'),
     )
     .join('```')

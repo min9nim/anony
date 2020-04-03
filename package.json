@@ -19,6 +19,7 @@
     "express": "^4.16.3",
     "express-history-api-fallback": "^2.2.1",
     "highlight.js": "^9.12.0",
+    "if-logger": "^0.11.5",
     "mingutils": "^0.2.1",
     "moment": "^2.22.2",
     "mongoose": "^5.1.4",

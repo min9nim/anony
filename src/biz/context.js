@@ -3,11 +3,12 @@ import action from '../redux/action'
 import { api } from '../restful/api'
 import shortid from 'shortid'
 import $m from '../../com/util'
+import createLogger from 'if-logger'
 import nprogress from 'nprogress'
 
 const USECOOKIE = true
 
-export let ctx = {
+export const ctx = {
   view: {}, // 전역에서 관리될 필요가 있는 리액트 뷰들
   action, // store 상태업데이트시 전달될 action
   store: undefined, // List 컴포넌트가 호출될 때 store 가 초기화된다.
@@ -22,24 +23,18 @@ export let ctx = {
   MAXCONTEXTLEN: 16, // 컨텍스트명 최대 길이
   MAXUUIDLEN: 10, // uuid 최대길이
   MAXTITLELEN: 20, // 글제목 최대길이
+  logger: createLogger({
+    tags: [
+      () =>
+        moment()
+          .utc()
+          .add(9, 'hours')
+          .format('MM/DD HH:mm:ss'),
+    ],
+  }),
 }
 
 export const Ctx = React.createContext({})
-
-// ctx.checkStatus = function(res) {
-//   if (res.status === 'Success') {
-//     return res
-//   }
-//   // 정상적인 경우가 아니라 간주하고 예외 발생시킴
-//   ctx.alert({
-//     message: res.message,
-//     style: 'danger',
-//     width: '200px',
-//   })
-//   return new Promise(function(resolve, reject) {
-//     reject(new Error(res.message))
-//   })
-// }
 
 ctx.setCookie = function(cname, cvalue, exdays = 1000) {
   var d = new Date()
@@ -73,13 +68,13 @@ ctx.isMobileChrome = function() {
   return !ctx.isDesktop() && navigator.userAgent.includes('Chrome')
 }
 
-ctx.highlight = function(txt, word) {
-  if (word) {
-    var reg = new RegExp('(' + word + ')', 'gi')
-    txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>')
-  }
-  return txt
-}
+// ctx.highlight = function(txt, word) {
+//   if (word) {
+//     var reg = new RegExp('(' + word + ')', 'gi')
+//     txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>')
+//   }
+//   return txt
+// }
 
 ctx.setUser = function(obj) {
   const initValue = {
@@ -105,15 +100,14 @@ ctx.setUser = function(obj) {
   return user
 }
 
-ctx.getUser = function() {
+function getUser() {
   try {
     if (USECOOKIE) {
       return ctx.getCookie('user')
         ? JSON.parse(ctx.getCookie('user'))
         : ctx.setUser()
-    } else {
-      return JSON.parse(localStorage.getItem('user')) || ctx.setUser()
     }
+    return JSON.parse(localStorage.getItem('user')) || ctx.setUser()
   } catch (e) {
     //console.log(e.message);
     return ctx.setUser()
@@ -143,9 +137,5 @@ ctx.confirm = function({ message, style, width, onYes, onNo }) {
   })
 }
 
-ctx.init = function() {
-  ctx.user = ctx.getUser()
-}
-
-ctx.init()
+ctx.user = getUser()
 window.ctx = ctx // 개발 중 디버깅을 위해 전역공간으로 노출

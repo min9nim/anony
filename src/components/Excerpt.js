@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import './Excerpt.scss'
 //import R from "ramda";
 const R = require('ramda')
+import { highlight } from 'mingutils'
 
 export class Excerpt extends React.Component {
   constructor(props) {
@@ -51,12 +52,11 @@ export class Excerpt extends React.Component {
     const contentStyle = `content ${deletedClass} ${privateClass}`
 
     const search = ctx.store.getState().view.search
-    let title = ctx.highlight(this.props.post.title, search)
+    let title = highlight(search)(this.props.post.title)
     title =
       (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : '') + title
-    //const excerpt = ctx.highlight(this.props.post.content.substr(0,100), search);
     const content = ctx.$m.removeTag(this.props.post.content)
-    const excerpt = ctx.highlight(content, search)
+    const excerpt = highlight(search)(content)
 
     return (
       <div id={this.props.post.key} className="excerpt">
