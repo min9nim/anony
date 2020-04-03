@@ -1,3 +1,5 @@
+import { go } from 'mingutils'
+
 export function nl2br(str) {
   // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
 
@@ -93,28 +95,28 @@ export async function spaAccess(postDate, postKey) {
   if (diff < 1000) {
     // 1. 글등록이나 수정하고 바로 들어온 경우
     // 조회수 증가 처리 필요없고, 스토어 업데이트도 필요없음
-  } else {
-    // 2. List 에서 글 선택해서 들어온 경우
-    if (posts.length > 1) {
-      tp.api.viewPost(postKey).then(res => {
-        if (res.status == 'Success') {
-          // 일반post 인 경우
-          tp.store.dispatch(tp.action.viewPost(postKey))
-          // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
-          // 위에 주석처리하면 목록에서 글보기화면 넘어올 때 viewCnt 가 올라가지 않아서 다시 주석해제 함, 18.08.17
-
-          $m._go(
-            Object.assign(res.output, { context: tp.context }),
-            tp.action.updatePost,
-            tp.store.dispatch,
-          )
-          //tp.store.dispatch(tp.action.updatePost(Object.assign(res.output, {context: tp.context}))
-        } else {
-          // 수정내역post 인 경우
-        }
-      })
-    } else {
-      // 3.직접URL로 들어온 후 tp.api.viewPost 호출하고 store업데이트 된 후 화면 다시 그리면서 이쪽으로 들어옴
-    }
+    return
   }
+  // 2. List 에서 글 선택해서 들어온 경우
+  const { posts } = tp.store.getState().data
+  if (posts.length <= 1) {
+    // 3.직접URL로 들어온 후 tp.api.viewPost 호출하고 store업데이트 된 후 화면 다시 그리면서 이쪽으로 들어올 수 있음
+    return
+  }
+  const res = await tp.api.viewPost(postKey)
+  if (res.status !== 'Success') {
+    // 수정내역post 인 경우
+    return
+  }
+  // 일반post 인 경우
+  tp.store.dispatch(tp.action.viewPost(postKey))
+  // 여기서 스토어를 업데이트하면 다시 App 부터 리렌더링되면서 로직이 꼬이게 됨, 18.07.25
+  // 위에 주석처리하면 목록에서 글보기화면 넘어올 때 viewCnt 가 올라가지 않아서 다시 주석해제 함, 18.08.17
+
+  go(
+    Object.assign(res.output, { context: tp.context }),
+    tp.action.updatePost,
+    tp.store.dispatch,
+  )
+  //tp.store.dispatch(tp.action.updatePost(Object.assign(res.output, {context: tp.context}))
 }

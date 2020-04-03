@@ -39,9 +39,7 @@ export default class Post extends React.Component {
       likeCnt: 0,
     }
     const { posts } = tp.store.getState().data
-    let urlAccess = true
     if (go(posts, exclude(prop('origin')), length)) {
-      urlAccess = false
       this.state = posts.find(propEq('key', this.props.postKey))
     }
 
@@ -70,12 +68,6 @@ export default class Post extends React.Component {
       breaks: true,
       highlight,
     })
-
-    if (!urlAccess) {
-      spaAccess(this.state.date, this.props.postKey)
-    } else {
-      directAccess(this.props.postKey)
-    }
   }
 
   componentWillUnmount() {
@@ -85,6 +77,11 @@ export default class Post extends React.Component {
 
   componentDidMount() {
     document.title = this.state.title
+    if (this.state.key) {
+      spaAccess(this.state.date, this.props.postKey)
+      return
+    }
+    directAccess(this.props.postKey)
   }
 
   async editPost() {
