@@ -35,23 +35,21 @@ async function httpReq(path, opt = {}) {
   }
 }
 
-export const api = {}
-
-api.addPost = function(post) {
+export function addPost(post) {
   return httpReq('/api/posts/add', {
     method: 'POST',
     body: post,
   })
 }
 
-api.addComment = function(comment) {
+export function addComment(comment) {
   return httpReq('/api/comments/add', {
     method: 'POST',
     body: comment,
   })
 }
 
-api.getPosts = function({
+export function getPosts({
   idx = 0,
   cnt = 10,
   context = 'public',
@@ -71,64 +69,64 @@ api.getPosts = function({
   )
 }
 
-api.getComments = function(postKey) {
+export function getComments(postKey) {
   return httpReq('/api/comments/get/' + postKey)
 }
 
-api.getPost = function(key) {
+export function getPost(key) {
   return httpReq('/api/posts/get/' + key, {
     method: 'POST',
     body: { uuid: tp.user.uuid },
   })
 }
 
-api.deletePost = function({ key, uuid }) {
+export function deletePost({ key, uuid }) {
   return httpReq('/api/posts/delete/' + key + '/' + uuid)
 }
 
-api.removePost = function({ key, uuid }) {
+export function removePost({ key, uuid }) {
   return httpReq('/api/posts/remove/' + key + '/' + uuid)
 }
 
-api.restorePost = function({ key, uuid }) {
+export function restorePost({ key, uuid }) {
   return httpReq('/api/posts/restore/' + key + '/' + uuid)
 }
 
-api.restoreComment = function({ key, uuid }) {
+export function restoreComment({ key, uuid }) {
   return httpReq('/api/comments/restore/' + key + '/' + uuid)
 }
 
-api.viewPost = function(key) {
+export function viewPost(key) {
   return httpReq('/api/posts/view/' + key, {
     method: 'POST',
     body: { uuid: tp.user.uuid },
   })
 }
 
-api.deleteComment = function({ key, uuid }) {
+export function deleteComment({ key, uuid }) {
   return httpReq('/api/comments/delete/' + key + '/' + uuid)
 }
 
-api.removeComment = function({ key, uuid }) {
+export function removeComment({ key, uuid }) {
   return httpReq('/api/comments/remove/' + key + '/' + uuid)
 }
 
-api.authPost = function({ key, uuid }) {
+export function authPost({ key, uuid }) {
   return httpReq('/api/posts/auth/' + key + '/' + uuid)
 }
 
-api.authComment = function({ key, uuid }) {
+export function authComment({ key, uuid }) {
   return httpReq('/api/comments/auth/' + key + '/' + uuid)
 }
 
-api.updatePost = function(post) {
+export function updatePost(post) {
   return httpReq('/api/posts/edit/' + tp.user.uuid, {
     method: 'POST',
     body: post,
   })
 }
 
-api.updateComment = function(comment) {
+export function updateComment(comment) {
   return httpReq(
     '/api/comments/edit/' + tp.user.uuid, // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
     {
@@ -138,32 +136,25 @@ api.updateComment = function(comment) {
   )
 }
 
-api.getPostHistory = function(key) {
+export function getPostHistory(key) {
   return httpReq('/api/posts/history/' + key)
 }
 
-api.likePost = function(key) {
+export function likePost(key) {
   return httpReq('/api/posts/likePost/' + key, {
     method: 'POST',
     body: { uuid: tp.user.uuid },
   })
 }
 
-api.cancelLike = function(key, uuid) {
+export function cancelLike(key, uuid) {
   return httpReq('/api/posts/cancelLike/' + key, {
     method: 'POST',
     body: { uuid: tp.user.uuid },
   })
 }
 
-api.cancelLike = function(key, uuid) {
-  return httpReq('/api/posts/cancelLike/' + key, {
-    method: 'POST',
-    body: { uuid: tp.user.uuid },
-  })
-}
-
-api.myChannels = function() {
+export function myChannels() {
   return httpReq('/api/posts/myChannels/', {
     method: 'POST',
     body: { uuid: tp.user.uuid },
@@ -173,4 +164,28 @@ api.myChannels = function() {
     }
     return res
   })
+}
+
+export const api = {
+  addPost,
+  addComment,
+  myChannels,
+  getPost,
+  getPosts,
+  deletePost,
+  removePost,
+  restorePost,
+  restoreComment,
+  viewPost,
+  getComments,
+  deleteComment,
+  removeComment,
+  authPost,
+  authComment,
+  updatePost,
+  updateComment,
+  getPostHistory,
+  likePost,
+  cancelLike,
+  myChannels,
 }
