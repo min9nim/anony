@@ -9,7 +9,7 @@ const dynamicImport = {
   PostHistory: () => import('../pages/PostHistory'),
 }
 
-//Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
+// Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
 export function asyncComponent(name) {
   return class AsyncComponent extends React.Component {
     //static Component = null;
@@ -18,15 +18,14 @@ export function asyncComponent(name) {
       this.state = { Component: cache[name] }
     }
 
-    componentWillMount() {
+    async componentWillMount() {
       if (this.state.Component) {
         console.log(`## cache[${name}] used`)
         return
       }
-      dynamicImport[name]().then(m => {
-        cache[name] = m.default
-        this.setState({ Component: m.default })
-      })
+      const module = await dynamicImport[name]()
+      cache[name] = module.default
+      this.setState({ Component: module.default })
     }
     render() {
       const { Component } = this.state

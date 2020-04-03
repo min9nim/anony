@@ -1,14 +1,10 @@
 import React from 'react'
-//import {List, Write, Post, Edit, PostHistory } from "./pages";
-//import List from "./pages/List";
 import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
-//import moment from "moment";
-import shortcut from './ext/shortcut'
 import { tp } from './tp.js'
 import { createStore } from 'redux'
 import { reducer } from './redux/reducer'
-import { render } from './helper/dynamic-import'
+import { render, initializeShortcut } from './helper'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -25,14 +21,7 @@ export default class App extends React.Component {
       ? ''
       : '/' + contextname
 
-    shortcut.add('Alt+W', () => this.props.history.push(context + '/write'))
-    shortcut.add('Alt+L', () => this.props.history.push(context + '/list'))
-    shortcut.add('Alt+E', () => {
-      if (location.pathname.includes('post')) {
-        // 글보기 화면인 경우에만
-        this.props.history.push(location.pathname.replace('post', 'edit'))
-      }
-    })
+    initializeShortcut(this.props.history, context)
 
     tp.history = this.props.history
 
