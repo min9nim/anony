@@ -1,12 +1,12 @@
 const webpack = require('webpack')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin
 
 module.exports = {
   mode: 'development',
   entry: {
     dev: 'react-hot-loader/patch',
-    index: './src/index.js',
+    index: ['@babel/polyfill', './src/index.js'],
     react: ['react', 'react-dom', 'react-router-dom', 'react-bootstrap'],
   },
 
