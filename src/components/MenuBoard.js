@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '../tp'
+import { tp } from '../context'
 import shortid from 'shortid'
 import { MyChannels } from '../components'
 import './MenuBoard.scss'

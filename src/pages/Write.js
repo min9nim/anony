@@ -1,6 +1,6 @@
 import React from 'react'
 import shortid from 'shortid'
-import { tp } from '../tp'
+import { tp } from '../context'
 import { FormGroup, Checkbox, FormControl, Button } from 'react-bootstrap'
 import './Write.scss'
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { tp } from '../tp'
+import { tp } from '../context'
 import './PostMenu.scss'
 
 export class PostMenu extends React.Component {

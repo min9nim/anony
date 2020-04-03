@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '../tp'
+import { tp } from '../context'
 import { CommentEdit } from '../components'
 import './CommentMenu.scss'
 

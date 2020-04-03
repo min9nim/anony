@@ -1,5 +1,5 @@
 import React from 'react'
-import { tp } from '../tp'
+import { tp } from '../context'
 import './SearchBox.scss'
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
 
