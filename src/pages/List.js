@@ -211,9 +211,9 @@ document.body.onscroll = function() {
   //현재 화면 높이 값
   const clientHeight = document.documentElement.clientHeight
 
-  console.log('@@ scrollTop : ' + scrollTop)
-  console.log('clientHeight : ' + clientHeight)
-  console.log('scrollHeight : ' + scrollHeight)
+  // console.log('@@ scrollTop : ' + scrollTop)
+  // console.log('clientHeight : ' + clientHeight)
+  // console.log('scrollHeight : ' + scrollHeight)
 
   if (
     scrollTop + clientHeight == scrollHeight || // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
