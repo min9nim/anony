@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 // 디비설정
 const db = mongoose.connection
-db.on('error', console.error)
+db.on('error', ctx.logger.error)
 db.once('open', function() {
   ctx.logger.verbose('Connected to mongod server')
 })

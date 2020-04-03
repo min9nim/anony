@@ -26,7 +26,7 @@ async function httpReq(path, opt = {}) {
     }
     return res
   } catch (e) {
-    console.error(e)
+    ctx.logger.error(e)
     ctx.alert({
       message: e.message,
       style: 'danger',
