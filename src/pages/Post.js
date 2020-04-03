@@ -1,5 +1,6 @@
 import React from 'react'
 import { tp } from '../tp'
+import { highlight_nl2br } from '../biz'
 import {
   PostMenu,
   CommentWrite,
@@ -218,46 +219,6 @@ export default class Post extends React.Component {
     //title += this.state.isPrivate ? "<sup> - Private -</sup>" : "";
     title = (this.state.isPrivate ? `<i class="icon-lock"></i>` : '') + title
 
-    function nl2br(str) {
-      // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
-
-      /*
-       * 18.09.05
-       * 아래 highlight_nl2br 에서 코드영역에대한 replace 는 제외하도록 코딩이 되어있으므로 개행문자 <br>처리 문장을 다시 주석 해제함
-       */
-      //return str.replace(/\n\n\n/g, "\n<br><br>\n").replace(/\n\n/g, "\n<br>\n");
-      return str
-        .replace(/\n\n\n\n/g, '\n<br><br>\n\n')
-        .replace(/\n\n\n/g, '\n<br>\n\n')
-      //return str;
-    }
-
-    function highlight_nl2br(str) {
-      // 마크다운의 코드서식 텍스트에는 검색결과 highlight표시 안하도록 예외 처리
-      return str
-        .split('```')
-        .map((v, i) =>
-          i % 2
-            ? v
-            : v
-                .split('`')
-                .map((v, i) => (i % 2 ? v : nl2br(tp.highlight(v, search))))
-                .join('`'),
-        )
-        .join('```')
-    }
-
-    // const searchHighlight = R.curry(tp.highlight)(R.__, search);
-    // const highlight_nl2br = R.pipe(
-    //     R.split("```"),
-    //     R.map(R.ifElse(
-    //         (v, i) => i%2,
-    //         R.identity,
-    //         R.pipe(searchHighlight, nl2br)
-    //     )),
-    //     R.join("```")
-    // );
-
     const deletedClass = this.state.deleted ? 'deleted' : ''
     const privateClass = this.state.isPrivate ? 'private' : ''
     const titleClass = `title h4 ${deletedClass} ${privateClass}`
@@ -266,7 +227,7 @@ export default class Post extends React.Component {
     const contentStyle = `${deletedClass} ${privateClass} ${contentClass}`
 
     const content = this.state.isMarkdown
-      ? this.md.render(highlight_nl2br(this.state.content))
+      ? this.md.render(highlight_nl2br(this.state.content, search))
       : tp.$m.txtToHtml(this.state.content, search)
 
     return (
