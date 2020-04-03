@@ -1,4 +1,5 @@
 import React from 'react'
+import { Loading } from '@/components'
 
 const cache = {} // 비동기 컴포넌트 캐시
 
@@ -32,11 +33,7 @@ export function asyncComponent(name) {
       if (Component) {
         return <Component {...this.props} />
       }
-      return (
-        <div>
-          <i className="icon-spin3 animate-spin"></i> Loading.. [{name}]
-        </div>
-      )
+      return <Loading name={name} />
     }
   }
 }
