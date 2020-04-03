@@ -26,3 +26,32 @@ export function highlight_nl2br(str, word) {
     )
     .join('```')
 }
+
+export function highlight(str, lang) {
+  // Highlighter function. Should return escaped HTML,
+  // or '' if the source string is not changed
+
+  if (tp.hljs === undefined) {
+    import(/* webpackChunkName: "highlightjs"  */ 'highlight.js')
+      .then(m => {
+        tp.hljs = m.default
+        //this.render();    // 이렇게 한다고 화면이 실제로 다시 그려지지는 않음
+        this.setState(this.state)
+      })
+      .catch(err => console.log(err.message))
+    return 'code is loading..'
+  }
+  if (lang && tp.hljs.getLanguage(lang)) {
+    try {
+      return tp.hljs.highlight(lang, str).value
+    } catch (err) {
+      //console.log(err.message);
+    }
+  }
+  try {
+    return tp.hljs.highlightAuto(str).value
+  } catch (err) {
+    //console.log(err.message);
+  }
+  return '' // use external default escaping
+}
