@@ -43,21 +43,12 @@ export default class Post extends React.Component {
       this.state = posts.find(propEq('key', this.props.postKey))
     }
 
-    shortcut.add('Alt+E', () => {
-      if (location.pathname.indexOf('post') >= 0) {
-        // 글보기 화면인 경우에만
-        this.props.history.push(location.pathname.replace('post', 'edit'))
-      }
-    })
-
     this.contextPath = this.props.context ? '/' + this.props.context : ''
     tp.view.Post = this
 
     this.unsubscribe = tp.store.subscribe(() => {
       this.setState(
-        tp.store
-          .getState()
-          .data.posts.find(post => post.key === this.props.postKey),
+        tp.store.getState().data.posts.find(propEq('key', this.props.postKey)),
       )
     })
 

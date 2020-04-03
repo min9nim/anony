@@ -19,13 +19,6 @@ export default class Search extends React.Component {
       word: '',
     }
 
-    /**
-     * 2018.10.09
-     * min9nim
-     * 검색 단축키는 굳이 필요 없을 것 같아서 주석처리
-     */
-    //shortcut.add("Alt+S", this.showSearch);
-
     // 이후 Search 가 스토어 상태를 구독하도록 설정
     this.unsubscribe = tp.store.subscribe(() => {
       // console.log("Search가 store 상태 변경 노티 받음")
