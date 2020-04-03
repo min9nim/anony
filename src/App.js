@@ -36,6 +36,7 @@ export default class App extends React.Component {
       data: {
         posts: [], // 전체 글
         comments: [], // 전체 댓글
+        channels: [], // 채널목록
       },
     })
   }
