@@ -2,24 +2,29 @@ import React from 'react'
 
 const cache = {} // 비동기 컴포넌트 캐시
 
+const dynamicImport = {
+  List: () => import('../pages/List'),
+  Write: () => import('../pages/Write'),
+  Post: () => import('../pages/Post'),
+  PostHistory: () => import('../pages/PostHistory'),
+}
+
 //Ref) https://gist.github.com/acdlite/a68433004f9d6b4cbc83b5cc3990c194
-export function asyncComponent(getComponent, compname) {
+export function asyncComponent(name) {
   return class AsyncComponent extends React.Component {
     //static Component = null;
     constructor(props) {
       super(props)
-      this.state = { Component: cache[compname] }
+      this.state = { Component: cache[name] }
     }
 
     componentWillMount() {
       if (this.state.Component) {
-        console.log(`## cache[${compname}] used`)
+        console.log(`## cache[${name}] used`)
         return
       }
-      getComponent().then(m => {
-        //console.log("@@@@@ 동적로딩이요~");
-        //AsyncComponent.Component = m.default;
-        cache[compname] = m.default
+      dynamicImport[name]().then(m => {
+        cache[name] = m.default
         this.setState({ Component: m.default })
       })
     }
@@ -30,18 +35,11 @@ export function asyncComponent(getComponent, compname) {
       }
       return (
         <div>
-          <i className="icon-spin3 animate-spin"></i> Loading.. [{compname}]
+          <i className="icon-spin3 animate-spin"></i> Loading.. [{name}]
         </div>
       )
     }
   }
-}
-
-const MAP = {
-  List: () => import('../pages/List'),
-  Write: () => import('../pages/Write'),
-  Post: () => import('../pages/Post'),
-  PostHistory: () => import('../pages/PostHistory'),
 }
 
 export function render(componentName) {
@@ -53,7 +51,7 @@ export function render(componentName) {
       name = 'Write'
       type = 'edit'
     }
-    const Component = asyncComponent(MAP[name], './pages/' + name)
+    const Component = asyncComponent(name)
     return (
       <Component
         type={type}
