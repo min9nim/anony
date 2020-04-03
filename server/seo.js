@@ -18,14 +18,14 @@ module.exports = seo = {}
 
 // seo 최적화
 seo.post = function(req, res) {
-  //ctx.logger.verbose("### seo.post called");
+  //console.log("### seo.post called");
   // key 에 해당하는 post 를 조회
   Post.findOne({
     $and: [{ isPrivate: { $in: [false, undefined] } }, { key: req.params.key }],
   }).then(post => {
     fs.readFile(filepath, 'utf-8', function(err, buf) {
       if (err) {
-        ctx.logger.verbose(err)
+        console.log(err)
         res.send({ status: 'Fail', message: err.message })
       } else {
         try {
@@ -51,12 +51,12 @@ seo.post = function(req, res) {
                   ? md.render(tagRemovedContent)
                   : tagRemovedContent,
               )
-            //ctx.logger.verbose(output);
+            //console.log(output);
             res.send(output)
           }
         } catch (e) {
           // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
-          ctx.logger.verbose(e.message)
+          console.log(e.message)
           res.send({ status: 'Fail', message: e.message })
         }
       }
@@ -65,7 +65,7 @@ seo.post = function(req, res) {
 }
 
 seo.list = function(req, res, next) {
-  // ctx.logger.verbose("### seo.list called");
+  // console.log("### seo.list called");
   if (
     req.params.context &&
     req.params.context.match(
@@ -90,7 +90,7 @@ seo.list = function(req, res, next) {
     .then(posts => {
       fs.readFile(filepath, 'utf-8', function(err, buf) {
         if (err) {
-          ctx.logger.verbose(err)
+          console.log(err)
           res.send({ status: 'Fail', message: err.message })
         } else {
           try {
@@ -117,10 +117,10 @@ seo.list = function(req, res, next) {
                   )
                   .join('\n'),
               )
-            //ctx.logger.verbose(output);
+            //console.log(output);
             res.send(output)
           } catch (e) {
-            ctx.logger.verbose(e.message)
+            console.log(e.message)
             res.send({ status: 'Fail', message: e.message })
           }
         }
@@ -129,7 +129,7 @@ seo.list = function(req, res, next) {
 }
 
 seo.write = function(req, res, next) {
-  ctx.logger.verbose('### seo.write called')
+  console.log('### seo.write called')
   if (
     req.params.context &&
     req.params.context.match(
@@ -143,7 +143,7 @@ seo.write = function(req, res, next) {
 
   fs.readFile(filepath, 'utf-8', function(err, buf) {
     if (err) {
-      ctx.logger.verbose(err)
+      console.log(err)
       res.send({ status: 'Fail', message: err.message })
     } else {
       try {
@@ -157,7 +157,7 @@ seo.write = function(req, res, next) {
           .replace('{{content}}', 'Anony write page')
         res.send(output)
       } catch (e) {
-        ctx.logger.verbose(e.message)
+        console.log(e.message)
         res.send({ status: 'Fail', message: e.message })
       }
     }

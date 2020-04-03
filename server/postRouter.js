@@ -20,7 +20,7 @@ function setHasComment(post) {
 
 function sendErr(res) {
   return err => {
-    ctx.logger.verbose(err)
+    console.log(err)
     res.status(200).send({
       status: 'Fail',
       message: err.toString(),
@@ -34,13 +34,13 @@ function sendErr(res) {
 function maskPost(post, uuid) {
   const masked = JSON.parse(JSON.stringify(post)) // plain 객체 생성
 
-  //ctx.logger.verbose("## masked.like = " + masked.like);
-  //ctx.logger.verbose("## uuid = " + uuid);
+  //console.log("## masked.like = " + masked.like);
+  //console.log("## uuid = " + uuid);
   masked.like = masked.like || ''
   if (uuid) {
     masked.liked = R.pipe(R.split(','), R.contains(uuid))(masked.like)
   }
-  //ctx.logger.verbose("## masked.liked = " + masked.liked);
+  //console.log("## masked.liked = " + masked.liked);
 
   masked.likeCnt = masked.like === '' ? 0 : masked.like.split(',').length
 
@@ -54,7 +54,7 @@ function maskPost(post, uuid) {
 
 // 신규 post 등록
 post['/add'] = (req, res) => {
-  ctx.logger.verbose('received data = ' + JSON.stringify(req.body, null, 2))
+  console.log('received data = ' + JSON.stringify(req.body, null, 2))
   var post = new Post()
   Object.assign(post, req.body, { createdDate: Date.now() })
   // 글최초 등록하면 바로 글보기 화면으로 가면서 카운트가 1 증가하는데
@@ -77,7 +77,7 @@ post['/add'] = (req, res) => {
 
 // 글내용 수정
 post['/edit/:uuid'] = (req, res) => {
-  //ctx.logger.verbose("received data = " + JSON.stringify(req.body, null, 2));
+  //console.log("received data = " + JSON.stringify(req.body, null, 2));
 
   Post.findOne({ key: req.body.key })
     .then(post => {
@@ -104,8 +104,8 @@ post['/edit/:uuid'] = (req, res) => {
         // https://gist.github.com/min9nim/8f3c3895bf2e41e26921eb1002649306
 
         prevPost.save().then(output => {
-          //ctx.logger.verbose("# prevPost is saved");
-          //ctx.logger.verbose(output);
+          //console.log("# prevPost is saved");
+          //console.log(output);
         })
       }
 
@@ -114,8 +114,8 @@ post['/edit/:uuid'] = (req, res) => {
       post
         .save()
         .then(output => {
-          //ctx.logger.verbose("# afterPost is saved");
-          //ctx.logger.verbose(output);
+          //console.log("# afterPost is saved");
+          //console.log(output);
           res.send({
             status: 'Success',
             message: `post@${req.body.key} updated.`,
@@ -172,14 +172,14 @@ post['/get/:context/:idx/:cnt'] = async (req, res) => {
   const MAXCNT = 50 // posts 조회 최대 개수
 
   if (isNaN(idx)) {
-    //ctx.logger.verbose(":idx 가 숫자가 아닙니다");
+    //console.log(":idx 가 숫자가 아닙니다");
     res.status(500).send(':idx 가 숫자가 아닙니다')
     return
   }
 
   let cnt = Number(req.params.cnt)
   if (isNaN(cnt)) {
-    ctx.logger.verbose(':cnt 가 숫자가 아닙니다')
+    console.log(':cnt 가 숫자가 아닙니다')
     res.status(500).send(':cnt 가 숫자가 아닙니다')
     return
   }
@@ -187,9 +187,9 @@ post['/get/:context/:idx/:cnt'] = async (req, res) => {
   // 조회 최대 건수 제한
   cnt = cnt > MAXCNT ? MAXCNT : cnt
 
-  // ctx.logger.verbose("@@@111 " + Date.now())
+  // console.log("@@@111 " + Date.now())
   // let allPosts = await Post.find({context: req.params.context});
-  // ctx.logger.verbose("@@@222 " +Date.now())
+  // console.log("@@@222 " +Date.now())
 
   Post.find({
     $and: [
@@ -220,18 +220,18 @@ post['/get/:context/:idx/:cnt'] = async (req, res) => {
     ],
   })
     // .then(posts => {
-    //     ctx.logger.verbose("@@@ 11 " + Date.now())
+    //     console.log("@@@ 11 " + Date.now())
     //     const allPosts = posts.map(p => {
     //         return {key: p.key, origin: p.origin}
     //     });
-    //     ctx.logger.verbose("@@@ 22 " + Date.now())
+    //     console.log("@@@ 22 " + Date.now())
     //     posts = posts.filter(p => p.origin === undefined)
-    //     ctx.logger.verbose("@@@ 33 " + Date.now())
+    //     console.log("@@@ 33 " + Date.now())
     //     posts.sort((a,b) => b.date - a.date);
-    //     ctx.logger.verbose("@@@ 44 " + Date.now())
+    //     console.log("@@@ 44 " + Date.now())
     //     return posts.slice(idx, idx+cnt)
     //             .map(post => {
-    //                 ctx.logger.verbose("@@@ 55 " + Date.now())
+    //                 console.log("@@@ 55 " + Date.now())
     //                 let historyCnt = allPosts.filter(p => p.origin === post.key).length;
     //                 post.historyCnt = historyCnt;
     //                 post.aaa = 111;
@@ -251,13 +251,11 @@ post['/get/:context/:idx/:cnt'] = async (req, res) => {
 get['/delete/:key/:uuid'] = (req, res) => {
   Post.findOne({ key: req.params.key })
     .then(post => {
-      ctx.logger.verbose(
-        `# valid-delete-url = /delete/${post.key}/${post.uuid}`,
-      )
+      console.log(`# valid-delete-url = /delete/${post.key}/${post.uuid}`)
       if (post.uuid === req.params.uuid) {
         post.deleted = true
         post.save().then(output => {
-          //ctx.logger.verbose(output);
+          //console.log(output);
           res.send({
             status: 'Success',
             message: `post(${req.params.key}) is deleted`,
@@ -278,7 +276,7 @@ get['/restore/:key/:uuid'] = (req, res) => {
       if (post.uuid === req.params.uuid) {
         post.deleted = false
         post.save().then(output => {
-          //ctx.logger.verbose(output);
+          //console.log(output);
           res.send({
             status: 'Success',
             message: `post(${req.params.key}) is restored`,
@@ -296,9 +294,7 @@ get['/restore/:key/:uuid'] = (req, res) => {
 get['/remove/:key/:uuid'] = (req, res) => {
   Post.findOne({ key: req.params.key })
     .then(post => {
-      ctx.logger.verbose(
-        `# valid-remove-url = /remove/${post.key}/${post.uuid}`,
-      )
+      console.log(`# valid-remove-url = /remove/${post.key}/${post.uuid}`)
       if (post.uuid === req.params.uuid) {
         if (post.commentCnt) {
           res.send({
@@ -308,13 +304,13 @@ get['/remove/:key/:uuid'] = (req, res) => {
         } else {
           Comment.remove({ postKey: req.params.key })
             .then(output => {
-              //ctx.logger.verbose(output);
+              //console.log(output);
               return Post.remove({
                 $or: [{ key: req.params.key }, { origin: req.params.key }],
               })
             })
             .then(output => {
-              //ctx.logger.verbose(output);
+              //console.log(output);
               res.send({
                 status: 'Success',
                 message: `post(${req.params.key}) is removed`,
@@ -354,7 +350,7 @@ post['/get/:key'] = (req, res) => {
 get['/auth/:key/:uuid'] = (req, res) => {
   Post.findOne({ key: req.params.key })
     .then(post => {
-      //ctx.logger.verbose(post);
+      //console.log(post);
       if (post.uuid === req.params.uuid) {
         res.send({
           status: 'Success',
@@ -362,8 +358,8 @@ get['/auth/:key/:uuid'] = (req, res) => {
           post: maskPost(post, req.params.uuid),
         })
       } else {
-        //ctx.logger.verbose("Not authorized");
-        //ctx.logger.verbose(post);
+        //console.log("Not authorized");
+        //console.log(post);
         res.send({
           status: 'Fail',
           message: 'Not authorized',
@@ -386,7 +382,7 @@ get['/history/:key'] = (req, res) => {
 post['/likePost/:key'] = (req, res) => {
   Post.findOne({ key: req.params.key })
     .then(post => {
-      //ctx.logger.verbose(post);
+      //console.log(post);
       if (post.like) {
         /* vanillaJS
                 let arr = post.like.split(",");
@@ -403,7 +399,7 @@ post['/likePost/:key'] = (req, res) => {
       }
 
       post.save().then(output => {
-        ctx.logger.verbose(output)
+        console.log(output)
         res.send({
           status: 'Success',
           output: maskPost(output, req.body.uuid),
@@ -440,7 +436,7 @@ post['/cancelLike/:key'] = (req, res) => {
       )
 
       post.save().then(output => {
-        ctx.logger.verbose(output)
+        console.log(output)
         res.send({
           status: 'Success',
           output: maskPost(output, req.body.uuid),
@@ -462,13 +458,13 @@ post['/myChannels'] = (req, res) => {
       let obj = {}
       arr.forEach(c => {
         if (obj[c.context] === undefined) {
-          //ctx.logger.verbose("c.context = " + c.context + " : " + c.key)
+          //console.log("c.context = " + c.context + " : " + c.key)
           obj[c.context] = 1
         } else {
           obj[c.context]++
         }
       })
-      ctx.logger.verbose(JSON.stringify(obj))
+      console.log(JSON.stringify(obj))
       return obj
     })
     .then(obj => {
@@ -480,7 +476,7 @@ post['/myChannels'] = (req, res) => {
       return res
     })
     .then(channels => {
-      ctx.logger.verbose(JSON.stringify(channels))
+      console.log(JSON.stringify(channels))
       res.send({
         status: 'Success',
         output: channels,

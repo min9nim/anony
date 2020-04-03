@@ -20,7 +20,7 @@ function maskComment(comment) {
 
 function sendErr(res) {
   return err => {
-    ctx.logger.verbose(err)
+    console.log(err)
     res.status(500).send(err.toString())
   }
 }
@@ -34,10 +34,8 @@ function setPostCommentCnt(postKey) {
     Comment.find({ $and: [{ postKey: post.key }] }).then(comments => {
       post.commentCnt = comments.length
       post.save().then(output => {
-        ctx.logger.verbose(output)
-        ctx.logger.verbose(
-          `set post(${post.key})'s commentCnt : ${post.commentCnt}`,
-        )
+        console.log(output)
+        console.log(`set post(${post.key})'s commentCnt : ${post.commentCnt}`)
       })
     })
   })
@@ -45,7 +43,7 @@ function setPostCommentCnt(postKey) {
 
 // 신규 댓글 등록
 post['/add'] = (req, res) => {
-  ctx.logger.verbose('received data = ' + JSON.stringify(req.body, null, 2))
+  console.log('received data = ' + JSON.stringify(req.body, null, 2))
 
   // post 상태가 삭제된 상태라면 댓글 등록 불가
   Post.findOne({ key: req.body.postKey })
@@ -85,7 +83,7 @@ post['/add'] = (req, res) => {
 get['/get/:idx/:cnt'] = (req, res) => {
   const idx = Number(req.params.idx)
   if (isNaN(idx)) {
-    //ctx.logger.verbose(":idx 가 숫자가 아닙니다");
+    //console.log(":idx 가 숫자가 아닙니다");
     //res.status(500).send(":idx 가 숫자가 아닙니다");
     sendErr(res)(Error(':idx 가 숫자가 아닙니다'))
     return
@@ -93,7 +91,7 @@ get['/get/:idx/:cnt'] = (req, res) => {
 
   let cnt = Number(req.params.cnt)
   if (isNaN(cnt)) {
-    //ctx.logger.verbose(":cnt 가 숫자가 아닙니다");
+    //console.log(":cnt 가 숫자가 아닙니다");
     //res.status(500).send(":cnt 가 숫자가 아닙니다");
     sendErr(res)(Error(':cnt 가 숫자가 아닙니다'))
     return
@@ -107,9 +105,9 @@ get['/get/:idx/:cnt'] = (req, res) => {
     .skip(idx)
     .limit(cnt)
     .then(comments => {
-      //ctx.logger.verbose(JSON.stringify(comments, null,2));
+      //console.log(JSON.stringify(comments, null,2));
       let res = R.map(maskComment)(comments)
-      //ctx.logger.verbose(JSON.stringify(res, null,2));
+      //console.log(JSON.stringify(res, null,2));
       return res
     })
     .then(comments => res.send({ status: 'Success', comments: comments }))
@@ -118,10 +116,10 @@ get['/get/:idx/:cnt'] = (req, res) => {
 
 // key 에 해당하는 comment 삭제표시
 get['/delete/:key/:uuid'] = (req, res) => {
-  ctx.logger.verbose(`/comments/delete/:key/:uuid call`)
+  console.log(`/comments/delete/:key/:uuid call`)
   Comment.findOne({ key: req.params.key })
     .then(comment => {
-      ctx.logger.verbose('# comments = ' + JSON.stringify(comment, null, 2))
+      console.log('# comments = ' + JSON.stringify(comment, null, 2))
       if (comment.uuid === req.params.uuid) {
         comment.deleted = true
         comment.save().then(output => {
@@ -143,10 +141,10 @@ get['/delete/:key/:uuid'] = (req, res) => {
 
 // key 에 해당하는 comment 를 제거
 get['/remove/:key/:uuid'] = (req, res) => {
-  ctx.logger.verbose(`/comments/remove/:key/:uuid call`)
+  console.log(`/comments/remove/:key/:uuid call`)
   Comment.findOne({ key: req.params.key })
     .then(comment => {
-      ctx.logger.verbose('# comments = ' + JSON.stringify(comment, null, 2))
+      console.log('# comments = ' + JSON.stringify(comment, null, 2))
       if (comment.uuid === req.params.uuid) {
         Comment.remove({ key: req.params.key }).then(output => {
           // 댓글 카운트 set
@@ -169,7 +167,7 @@ get['/remove/:key/:uuid'] = (req, res) => {
 get['/get/:key'] = (req, res) => {
   Comment.find({ postKey: req.params.key })
     .then(comment => {
-      ctx.logger.verbose(comment)
+      console.log(comment)
       return comment
     })
     .then(R.map(maskComment))
@@ -181,7 +179,7 @@ get['/get/:key'] = (req, res) => {
 get['/auth/:key/:uuid'] = (req, res) => {
   Comment.findOne({ key: req.params.key })
     .then(comment => {
-      ctx.logger.verbose(comment)
+      console.log(comment)
       if (comment.uuid === req.params.uuid) {
         res.send({
           status: 'Success',
@@ -197,11 +195,11 @@ get['/auth/:key/:uuid'] = (req, res) => {
 
 // 댓글 내용 수정
 post['/edit/:uuid'] = (req, res) => {
-  //ctx.logger.verbose("received data = " + JSON.stringify(req.body, null, 2));
+  //console.log("received data = " + JSON.stringify(req.body, null, 2));
   Comment.findOne({ key: req.body.key })
     .then(comment => {
-      //ctx.logger.verbose("#### 검색결과");
-      //ctx.logger.verbose(JSON.stringify(comment, null, 2));
+      //console.log("#### 검색결과");
+      //console.log(JSON.stringify(comment, null, 2));
 
       if (comment.uuid !== req.params.uuid) {
         res.send({ status: 'Fail', message: 'Not authorized' })
@@ -211,8 +209,8 @@ post['/edit/:uuid'] = (req, res) => {
       // 신규내용으로 업데이트
       Object.assign(comment, req.body)
 
-      //ctx.logger.verbose("#### 수정 후.. ");
-      //ctx.logger.verbose(JSON.stringify(comment, null, 2));
+      //console.log("#### 수정 후.. ");
+      //console.log(JSON.stringify(comment, null, 2));
       comment
         .save()
         .then(output => {
@@ -234,7 +232,7 @@ get['/restore/:key/:uuid'] = (req, res) => {
       if (comment.uuid === req.params.uuid) {
         comment.deleted = false
         comment.save().then(output => {
-          ctx.logger.verbose(output)
+          console.log(output)
           res.send({
             status: 'Success',
             message: `comment(${req.params.key}) is restored`,
