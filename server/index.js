@@ -1,15 +1,17 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const morgan = require('morgan')
+// const morgan = require('morgan')
 const fallback = require('express-history-api-fallback')
 const seo = require('./seo')
+const { createContext } = require('./helper')
 
 // 익스프레스 앱생성
 const app = express()
 
 // 미들웨어 등록
-app.use(morgan('combined')) // 서버 access 로그
+// app.use(morgan('combined')) // 서버 access 로그
 app.use(bodyParser.json())
+app.use(createContext)
 
 // SEO 설정
 app.get('/post/:key', seo.post)
@@ -46,6 +48,6 @@ const PORT =
   process.env.NODE_ENV === 'development' ? 8080 : process.env.PORT || 8080
 
 // HTTP 서비스 시작
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log(`express is listening http://localhost:${PORT}`)
 })

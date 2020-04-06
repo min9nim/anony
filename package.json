@@ -23,7 +23,6 @@
     "mingutils": "^0.2.1",
     "moment": "^2.22.2",
     "mongoose": "^5.1.4",
-    "morgan": "^1.9.0",
     "nprogress": "^0.2.0",
     "ramda": "^0.25.0",
     "react": "^16.13.1",
