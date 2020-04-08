@@ -3,7 +3,7 @@ import action from '../redux/action'
 import { api } from '../restful/api'
 import shortid from 'shortid'
 import $m from '../../com/util'
-import createLogger from 'if-logger'
+import createLogger, { simpleFormat } from 'if-logger'
 import nprogress from 'nprogress'
 import moment from 'moment'
 
@@ -25,26 +25,21 @@ export const ctx = {
   MAXUUIDLEN: 10, // uuid 최대길이
   MAXTITLELEN: 20, // 글제목 최대길이
   logger: createLogger({
-    tags: [
-      () =>
-        moment()
-          .utc()
-          .add(9, 'hours')
-          .format('MM/DD HH:mm:ss'),
-    ],
+    format: simpleFormat,
+    tags: [() => moment().utc().add(9, 'hours').format('MM/DD HH:mm:ss')],
   }),
 }
 
 export const Ctx = React.createContext({})
 
-ctx.setCookie = function(cname, cvalue, exdays = 1000) {
+ctx.setCookie = function (cname, cvalue, exdays = 1000) {
   var d = new Date()
   d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000)
   var expires = 'expires=' + d.toUTCString()
   document.cookie = cname + '=' + cvalue + ';' + expires + ';path=/'
 }
 
-ctx.getCookie = function(cname) {
+ctx.getCookie = function (cname) {
   var name = cname + '='
   var decodedCookie = decodeURIComponent(document.cookie)
   var ca = decodedCookie.split(';')
@@ -60,24 +55,16 @@ ctx.getCookie = function(cname) {
   return ''
 }
 
-ctx.isDesktop = function() {
+ctx.isDesktop = function () {
   const os = ['win16', 'win32', 'win64', 'mac', 'macintel']
   return os.includes(navigator.platform.toLowerCase())
 }
 
-ctx.isMobileChrome = function() {
+ctx.isMobileChrome = function () {
   return !ctx.isDesktop() && navigator.userAgent.includes('Chrome')
 }
 
-// ctx.highlight = function(txt, word) {
-//   if (word) {
-//     var reg = new RegExp('(' + word + ')', 'gi')
-//     txt = txt.replace(reg, '<span style="background-color:yellow;">$1</span>')
-//   }
-//   return txt
-// }
-
-ctx.setUser = function(obj) {
+ctx.setUser = function (obj) {
   const initValue = {
     uuid: shortid.generate(),
     writer: '',
@@ -115,7 +102,7 @@ function getUser() {
   }
 }
 
-ctx.alert = function({ message, style, width, onClose }) {
+ctx.alert = function ({ message, style, width, onClose }) {
   if (typeof arguments[0] === 'string') {
     ctx.view.AlertDismissable.handleShow({ message: arguments[0] })
   } else {
@@ -128,7 +115,7 @@ ctx.alert = function({ message, style, width, onClose }) {
   }
 }
 
-ctx.confirm = function({ message, style, width, onYes, onNo }) {
+ctx.confirm = function ({ message, style, width, onYes, onNo }) {
   ctx.view.Confirm.handleShow({
     message,
     style,
