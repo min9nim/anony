@@ -82,12 +82,11 @@ export default class Post extends React.Component {
 
   render() {
     ctx.logger.verbose('this.context:', this.context)
-    if (this.state.key) {
-      // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
-      document.title = this.state.title
-    } else {
+    if (!this.state.key) {
       return null
     }
+    // 해당 글로 직접 access 한 경우에도 타이틀 세팅해주려면 여기서 한번 더 타이틀 설정이 필요함
+    document.title = this.state.title
 
     let title
     const search = ctx.store.getState().view.search
@@ -107,12 +106,10 @@ export default class Post extends React.Component {
       : ctx.$m.txtToHtml(this.state.content, search)
 
     return (
-      <div>
-        {/* <div className="context">{this.props.context || "Anony"}</div> */}
+      <article>
         <div className="post">
           <div className="title-wrapper">
             <div className="prev-padding"> </div>
-            {/*제목에서 검색결과 하이라이트 표시를 하려면 html태그 사용이 필요하다 */}
             <div
               className={titleClass}
               dangerouslySetInnerHTML={{ __html: title }}
@@ -178,7 +175,7 @@ export default class Post extends React.Component {
         <div className="channels-wrappter">
           <MyChannels />
         </div>
-      </div>
+      </article>
     )
   }
 }

@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 
 export function PostBottomButtons(props) {
   return (
-    <div>
+    <nav>
       <Link to={props.contextPath + '/list'}>
         <Button bsStyle="success" className="listBtn">
           <i className="icon-list" />
@@ -21,6 +21,6 @@ export function PostBottomButtons(props) {
         <i className="icon-pencil" />
         Edit
       </Button>
-    </div>
+    </nav>
   )
 }
