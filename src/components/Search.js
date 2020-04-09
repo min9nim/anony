@@ -79,7 +79,7 @@ export class Search extends React.Component {
         // ctx.logger.verbose("검색어 = " + word)
         this.search(word)
         this.onTyping = 0
-      }, 300)
+      }, 500)
     })
   }
 
@@ -129,13 +129,13 @@ export class Search extends React.Component {
         context: this.props.context,
         signal,
       })
-      .then(res => {
+      .then((res) => {
         ctx.view.ListLoader.setState({ loading: false })
         this.ipt.style.backgroundColor = ''
         //ctx.view.ListLoader.state.loading = false;
         ctx.store.dispatch(ctx.action.addPosts(res.posts))
       })
-      .catch(ctx.logger.verbose)
+      .catch((e) => ctx.logger.error(e))
   }
 
   render() {
@@ -150,7 +150,7 @@ export class Search extends React.Component {
               <input
                 className="ipt-search"
                 //value={ctx.store.getState().view.search}
-                ref={ele => {
+                ref={(ele) => {
                   this.ipt = ele
                 }}
                 value={this.state.word}
