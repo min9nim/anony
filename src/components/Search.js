@@ -1,6 +1,6 @@
 import React from 'react'
-import shortcut from '../ext/shortcut'
 import { SearchBox } from '../components'
+import { debounce } from 'interval-call'
 import './Search.scss'
 
 export class Search extends React.Component {
@@ -10,8 +10,7 @@ export class Search extends React.Component {
     this.showSearch = this.showSearch.bind(this)
     this.hideSearch = this.hideSearch.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
-    this.search = this.search.bind(this)
+    this.search = debounce(this.search.bind(this), 500)
     this.onTyping = 0
 
     this.state = {
@@ -53,42 +52,8 @@ export class Search extends React.Component {
   }
 
   handleChange(e) {
-    if (ctx.view.ListLoader.state.loading) {
-      this.fetchController.abort()
-
-      // this.ipt.style.backgroundColor = "red";
-      // setTimeout(()=>{
-      //     if(ctx.view.ListLoader.state.loading){
-      //         this.ipt.style.backgroundColor = "#eee"
-      //     }else{
-      //         this.ipt.style.backgroundColor = ""
-      //     }
-      // }
-      // ,50)
-      // return;
-    }
-
     let word = e.target.value
-
-    this.setState({ word: e.target.value }, () => {
-      if (this.onTyping) {
-        // ctx.logger.verbose("타이머 초기화")
-        clearTimeout(this.onTyping)
-      }
-      this.onTyping = setTimeout(() => {
-        // ctx.logger.verbose("검색어 = " + word)
-        this.search(word)
-        this.onTyping = 0
-      }, 500)
-    })
-  }
-
-  handleKeyPress(e) {
-    return // 18.11.10 이 함수는 이제 사용안함(handleChange 에서 다 처리됨)
-    let keyCode = e.keyCode || e.which
-    if (keyCode === 13) {
-      this.search(e.target.value)
-    }
+    this.setState({ word }, () => this.search(word))
   }
 
   componentWillUnmount() {
@@ -155,7 +120,6 @@ export class Search extends React.Component {
                 }}
                 value={this.state.word}
                 onChange={this.handleChange}
-                onKeyPress={this.handleKeyPress}
               />
             </div>
           </React.Fragment>

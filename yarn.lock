@@ -3249,6 +3249,11 @@ interpret@1.2.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.2.0.tgz#d5061a6224be58e8083985f5014d844359576296"
   integrity sha512-mT34yGKMNceBQUoVn7iCDKDntA7SC6gycMAWzGx1z/CMCTV7b2AAtXlo3nRyHZ1FelRkQbQjprHSYGwzLtkVbw==
 
+interval-call@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/interval-call/-/interval-call-0.4.0.tgz#6fc2b70f512f91c18464df1a23fb468d5536501d"
+  integrity sha512-JbDiw6z7U2QO/hCBM5dTaMQMk390AkmdjTO+MoJx2pvT7kzacQDbe9+6yMK5OSULB/3IXqZGNQS18rEZs2Z5Pw==
+
 invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
