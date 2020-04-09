@@ -109,7 +109,7 @@ export class Search extends React.Component {
     return (
       <div className="search">
         {ctx.isDesktop() ? (
-          <React.Fragment>
+          <>
             <div className="icon-search btn1" onClick={this.search}></div>
             <div className="ipt-wrapper">
               <input
@@ -122,9 +122,9 @@ export class Search extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-          </React.Fragment>
+          </>
         ) : (
-          <React.Fragment>
+          <>
             <div className="icon-search btn2" onClick={this.showSearch}></div>
             {this.state.clicked && (
               <SearchBox
@@ -133,7 +133,7 @@ export class Search extends React.Component {
                 title="Search button"
               />
             )}
-          </React.Fragment>
+          </>
         )}
       </div>
     )
