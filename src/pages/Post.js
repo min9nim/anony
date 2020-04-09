@@ -14,6 +14,7 @@ import {
   CommentList,
   PostMeta,
   MyChannels,
+  PostBottomButtons,
 } from '../components'
 import { prop, length, propEq } from 'ramda'
 import moment from 'moment'
@@ -122,53 +123,38 @@ export default class Post extends React.Component {
               {this.state.writer} -{' '}
               {moment(this.state.date).format('MM/DD/YYYY dd HH:mm')}
             </div>
-            {/**
-             * 18.11.09
-             * URL에서 channel 값을 지우고 직접 access해서 들어오는 경우에는 this.state.context 값이 false 가 된다
-             */
-            this.state.context && (
-              <PostMenu
-                history={this.props.history}
-                postKey={this.state.key}
-                postDeleted={this.state.deleted}
-                postOrigin={this.state.origin}
-                post={this.state}
-                context={this.props.context}
-              />
-            )}
+            {
+              /**
+               * 18.11.09
+               * URL에서 channel 값을 지우고 직접 access해서 들어오는 경우에는 this.state.context 값이 false 가 된다
+               */
+              this.state.context && (
+                <PostMenu
+                  history={this.props.history}
+                  postKey={this.state.key}
+                  postDeleted={this.state.deleted}
+                  postOrigin={this.state.origin}
+                  post={this.state}
+                  context={this.props.context}
+                />
+              )
+            }
           </div>
           <div
             className={contentStyle}
             dangerouslySetInnerHTML={{ __html: content }}
           ></div>
           <PostMeta post={this.state} />
-          {//!!this.state.origin || this.state.isPrivate || (
-          this.state.context &&
-            (!!this.state.origin || (
-              //(
-              <div>
-                <Link to={this.contextPath + '/list'}>
-                  <Button bsStyle="success" className="listBtn">
-                    <i className="icon-list" />
-                    List
-                  </Button>
-                </Link>
-                <Link to={this.contextPath + '/write'}>
-                  <Button bsStyle="success" className="writeBtn">
-                    <i className="icon-doc-new" />
-                    Write
-                  </Button>
-                </Link>
-                <Button
-                  bsStyle="success"
-                  className="writeBtn"
-                  onClick={this.editPost}
-                >
-                  <i className="icon-pencil" />
-                  Edit
-                </Button>
-              </div>
-            ))}
+          {
+            //!!this.state.origin || this.state.isPrivate || (
+            this.state.context &&
+              (!!this.state.origin || (
+                <PostBottomButtons
+                  contextPath={this.contextPath}
+                  editPost={this.editPost}
+                />
+              ))
+          }
           {this.state.origin && (
             <Link to={this.contextPath + '/postHistory/' + this.state.origin}>
               <Button bsStyle="success" className="writeBtn">
