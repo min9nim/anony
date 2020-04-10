@@ -1,84 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { PostMenu, PostMeta } from '../components'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import './Excerpt.scss'
 import { highlight } from 'mingutils'
 
-export class Excerpt extends React.Component {
-  constructor(props) {
-    ctx.logger.verbose('Excerpt 생성자호출')
+moment.locale('ko')
 
-    super(props)
-    this.state = {
-      postMetaClicked: false,
-    }
-    this.contextPath = this.props.context ? '/' + this.props.context : ''
+export function Excerpt(props) {
+  const [state, setState] = useState({
+    postMetaClicked: false,
+  })
 
-    moment.locale('ko')
-    //moment.locale('en');
+  function postMetaClick() {
+    setState({ postMetaClicked: true })
   }
 
-  postMetaClick() {
-    this.setState({ postMetaClicked: true })
-  }
-  render() {
-    //ctx.logger.verbose("Excerpt 렌더링..");
+  const contextPath = props.context ? '/' + props.context : ''
 
-    const deletedClass = this.props.post.deleted ? 'deleted' : ''
-    const privateClass = this.props.post.isPrivate ? 'private' : ''
+  //ctx.logger.verbose("Excerpt 렌더링..");
 
-    const titleClass = `title h4 ${deletedClass} ${privateClass}`
-    const contentStyle = `content ${deletedClass} ${privateClass}`
+  const deletedClass = props.post.deleted ? 'deleted' : ''
+  const privateClass = props.post.isPrivate ? 'private' : ''
 
-    const search = ctx.store.getState().view.search
-    let title = highlight(search)(this.props.post.title)
-    title =
-      (this.props.post.isPrivate ? `<i class="icon-lock"></i>` : '') + title
-    const content = ctx.$m.removeTag(this.props.post.content)
-    const excerpt = highlight(search)(content)
+  const titleClass = `title h4 ${deletedClass} ${privateClass}`
+  const contentStyle = `content ${deletedClass} ${privateClass}`
 
-    return (
-      <div id={this.props.post.key} className="excerpt">
-        <div className="title1">
-          <Link to={this.contextPath + '/post/' + this.props.post.key}>
-            <div
-              className={titleClass}
-              dangerouslySetInnerHTML={{ __html: title }}
-            ></div>
-          </Link>
-        </div>
+  const search = ctx.store.getState().view.search
+  let title = highlight(search)(props.post.title)
+  title = (props.post.isPrivate ? `<i class="icon-lock"></i>` : '') + title
+  const content = ctx.$m.removeTag(props.post.content)
+  const excerpt = highlight(search)(content)
 
-        <div className="meta" onClick={this.editPost}>
-          {this.props.post.writer} -{' '}
-          {/postHistory/.test(location.pathname) && 'edited'}{' '}
-          {moment(this.props.post.date).fromNow()}
-        </div>
-        <div
-          className={contentStyle}
-          dangerouslySetInnerHTML={{ __html: excerpt }}
-        ></div>
-        <div className="meta-wrapper">
-          {this.state.postMetaClicked ? (
-            <PostMeta post={this.props.post} />
-          ) : (
-            <div
-              className="postMetaBtn"
-              onClick={this.postMetaClick.bind(this)}
-            >
-              ...
-            </div>
-          )}
-          <PostMenu
-            history={this.props.history}
-            context={this.props.context}
-            postKey={this.props.post.key}
-            post={this.props.post}
-            postOrigin={this.props.post.origin}
-            postDeleted={this.props.post.deleted}
-          />
-        </div>
+  return (
+    <div id={props.post.key} className="excerpt">
+      <div className="title1">
+        <Link to={contextPath + '/post/' + props.post.key}>
+          <div
+            className={titleClass}
+            dangerouslySetInnerHTML={{ __html: title }}
+          ></div>
+        </Link>
       </div>
-    )
-  }
+
+      <div className="meta">
+        {props.post.writer} -{' '}
+        {/postHistory/.test(location.pathname) && 'edited'}{' '}
+        {moment(props.post.date).fromNow()}
+      </div>
+      <div
+        className={contentStyle}
+        dangerouslySetInnerHTML={{ __html: excerpt }}
+      ></div>
+      <div className="meta-wrapper">
+        {state.postMetaClicked ? (
+          <PostMeta post={props.post} />
+        ) : (
+          <div className="postMetaBtn" onClick={postMetaClick}>
+            ...
+          </div>
+        )}
+        <PostMenu
+          history={props.history}
+          context={props.context}
+          postKey={props.post.key}
+          post={props.post}
+          postOrigin={props.post.origin}
+          postDeleted={props.post.deleted}
+        />
+      </div>
+    </div>
+  )
 }
