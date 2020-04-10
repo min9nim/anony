@@ -3,13 +3,11 @@ import { PostMenu, PostMeta } from '../components'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import './Excerpt.scss'
-//import R from "ramda";
-const R = require('ramda')
 import { highlight } from 'mingutils'
 
 export class Excerpt extends React.Component {
   constructor(props) {
-    //ctx.logger.verbose("Excerpt 생성자호출");
+    ctx.logger.verbose('Excerpt 생성자호출')
 
     super(props)
     this.state = {
@@ -19,24 +17,6 @@ export class Excerpt extends React.Component {
 
     moment.locale('ko')
     //moment.locale('en');
-  }
-
-  shouldComponentUpdate(nextProps, prevState) {
-    // 여기는 setState 나 props 가 바뀔 때만 호출됨, 객체 생성자 호출될 때에는 호출되지 않는다(무조건 최초 한번은 렌더링 수행)
-    //return this.props !== prevProps;
-
-    //props: history, key, post, context
-    //return prevProps.post !== this.props.post;
-    //ctx.logger.verbose("this.props.post.deleted = " + this.props.post.deleted);
-    //ctx.logger.verbose("prevProps.post.deleted = " + prevProps.post.deleted);
-
-    /**
-     * 18.11.08
-     * postMetaClicked 함수를 추가하면서 아래 리턴값 변경함
-     *
-     */
-    //return !R.equals(this.props, nextProps)
-    return true
   }
 
   postMetaClick() {

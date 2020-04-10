@@ -58,30 +58,29 @@ export class Confirm extends React.Component {
   }
 
   render() {
-    if (this.state.show) {
-      return (
-        <div className="confirm">
-          <div className="modal_div"></div>
-          <Alert
-            bsStyle={this.state.style}
-            style={{ width: this.state.width }}
-            onDismiss={this.handleDismiss}
-          >
-            <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
-            <p>
-              <Button bsStyle="info" ref="yesBtn" onClick={this.handleYes}>
-                YES
-              </Button>
-              <span> or </span>
-              <Button bsStyle="warning" onClick={this.handleNo}>
-                NO
-              </Button>
-            </p>
-          </Alert>
-        </div>
-      )
-    } else {
+    if (!this.state.show) {
       return null
     }
+    return (
+      <div className="confirm">
+        <div className="modal_div"></div>
+        <Alert
+          bsStyle={this.state.style}
+          style={{ width: this.state.width }}
+          onDismiss={this.handleDismiss}
+        >
+          <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
+          <p>
+            <Button bsStyle="info" ref="yesBtn" onClick={this.handleYes}>
+              YES
+            </Button>
+            <span> or </span>
+            <Button bsStyle="warning" onClick={this.handleNo}>
+              NO
+            </Button>
+          </p>
+        </Alert>
+      </div>
+    )
   }
 }
