@@ -81,7 +81,7 @@ export default class Post extends React.Component {
   }
 
   render() {
-    ctx.logger.verbose('this.context:', this.context)
+    // ctx.logger.verbose('this.context:', this.context)
     if (!this.state.key) {
       return null
     }
