@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 import './Excerpt.scss'
 import { highlight } from 'mingutils'
 
-moment.locale('ko')
-
 export function Excerpt(props) {
   const [state, setState] = useState({
     postMetaClicked: false,
@@ -17,8 +15,6 @@ export function Excerpt(props) {
   }
 
   const contextPath = props.context ? '/' + props.context : ''
-
-  //ctx.logger.verbose("Excerpt 렌더링..");
 
   const deletedClass = props.post.deleted ? 'deleted' : ''
   const privateClass = props.post.isPrivate ? 'private' : ''

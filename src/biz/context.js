@@ -7,6 +7,7 @@ import createLogger, { simpleFormat } from 'if-logger'
 import nprogress from 'nprogress'
 import moment from 'moment'
 
+moment.locale('ko')
 const USECOOKIE = true
 
 export const ctx = {
