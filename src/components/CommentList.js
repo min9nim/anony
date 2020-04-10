@@ -8,16 +8,13 @@ export function CommentList(props) {
   const [comments, setComments] = useState([])
 
   useEffect(() => {
-    ctx.logger.debug('subscribe', comments.length)
     const unsubscribe = ctx.store.subscribe(() => {
       const newComments = ctx.store
         .getState()
         .data.comments.filter((c) => c.postKey === props.postKey)
-      // ctx.logger.debug('스토어 변경감지', newComments.length)
       setComments(newComments)
     })
     return () => {
-      ctx.logger.debug('unsubscribe', comments.length)
       unsubscribe()
     }
   }, [comments])
