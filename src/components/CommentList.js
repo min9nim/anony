@@ -4,41 +4,33 @@ import { ctx } from '@/biz/context'
 import './CommentList.scss'
 
 export function CommentList(props) {
-  ctx.logger.debug('CommentList render')
-
+  const [mounted, setMounted] = useState(true)
   const [comments, setComments] = useState([])
 
   useEffect(() => {
-    ctx.logger.debug('useEffect', comments.length)
-
+    ctx.logger.debug('subscribe', comments.length)
     const unsubscribe = ctx.store.subscribe(() => {
       const newComments = ctx.store
         .getState()
         .data.comments.filter((c) => c.postKey === props.postKey)
-      ctx.logger.debug(
-        '스토어 변경감지하고 코멘츠 갱신처리',
-        newComments.length,
-      )
+      // ctx.logger.debug('스토어 변경감지', newComments.length)
       setComments(newComments)
     })
-    if (comments.length === 0 && props.commentCnt > 0) {
-      ctx.logger.debug('load comments')
-      ctx.api.getComments(props.postKey).then((res) => {
-        ctx.logger.debug('loaded comments')
-        ctx.store.dispatch(ctx.action.addComments(res.comments))
-        ctx.logger.debug('스토어 dispatch')
-        const commentList = ctx.store
-          .getState()
-          .data.comments.filter((c) => c.postKey === props.postKey)
-        setComments(commentList)
-      })
-    }
-
     return () => {
-      ctx.logger.debug('unsubscribe')
+      ctx.logger.debug('unsubscribe', comments.length)
       unsubscribe()
     }
   }, [comments])
+
+  useEffect(() => {
+    if (mounted && comments.length === 0 && props.commentCnt > 0) {
+      ctx.api.getComments(props.postKey).then((res) => {
+        ctx.store.dispatch(ctx.action.addComments(res.comments))
+      })
+      setMounted(false)
+    }
+  }, [mounted])
+
   return (
     <div className="CommentList">
       {comments.map((comment) => (
