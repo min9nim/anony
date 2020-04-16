@@ -1,4 +1,5 @@
 export function observeDom(dom, callback) {
+  dom.observed = true
   const observer = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) {
@@ -10,6 +11,7 @@ export function observeDom(dom, callback) {
   })
   observer.observe(dom)
   return () => {
+    dom.observed = false
     observer.unobserve(dom)
   }
 }
