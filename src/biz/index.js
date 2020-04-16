@@ -1,4 +1,5 @@
 import { go, highlight as mark } from 'mingutils'
+import React from 'react'
 
 export function nl2br(str) {
   // 마크다운에서 인용부호 사용시 인용부호 밖으로 벗어날 수 있는 방법이 없어서 아래를 주석처리함
@@ -35,12 +36,12 @@ export function highlight(str, lang) {
 
   if (ctx.hljs === undefined) {
     import(/* webpackChunkName: "highlightjs"  */ 'highlight.js')
-      .then(m => {
+      .then((m) => {
         ctx.hljs = m.default
         //this.render();    // 이렇게 한다고 화면이 실제로 다시 그려지지는 않음
         this.setState(this.state)
       })
-      .catch(err => ctx.logger.verbose(err.message))
+      .catch((err) => ctx.logger.verbose(err.message))
     return 'code is loading..'
   }
   if (lang && ctx.hljs.getLanguage(lang)) {
@@ -82,7 +83,7 @@ export async function directAccess(postKey) {
       .then(prop('post'))
       .then(ctx.action.addPost)
       .then(ctx.store.dispatch)
-      .catch(e => {
+      .catch((e) => {
         //ctx.logger.verbose(e.message)
       })
   }
@@ -135,4 +136,13 @@ export async function editPost(history, contextPath, postKey) {
     return
   }
   history.push(contextPath + '/edit/' + postKey)
+}
+
+export function withLogger(Fn) {
+  const Component = (props) => {
+    // global.logger.addTags('withLogger').verbose('Component.name:', Component.name)
+    return <Fn {...props} logger={ctx.logger.addTags(Fn.name)} />
+  }
+  Component.getInitialProps = Fn.getInitialProps
+  return Component
 }
