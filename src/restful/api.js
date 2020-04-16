@@ -19,7 +19,8 @@ async function httpReq(path, opt = {}) {
   })
   nprogress.done() // nprogress.status 가 null 이면 바로 종료됨
   if (!result.ok) {
-    throw new Error(res.statusText)
+    ctx.logger.error(result)
+    throw new Error('Unknown error occured')
   }
   const res = await result.json()
   if (res.status !== 'Success') {
