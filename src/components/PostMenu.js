@@ -28,19 +28,17 @@ export class PostMenu extends React.Component {
             uuid: ctx.user.uuid,
           })
           .then(res => {
-            if (res.status === 'Fail') {
-              ctx.alert({
-                message: res.message,
-                style: 'warning',
-              })
-            } else {
-              if (ctx.store.getState().data.posts.length > 0)
+            if (ctx.store.getState().data.posts.length > 0)
                 ctx.store.dispatch(ctx.action.deletePost(this.props.postKey))
               //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
               //this.props.history.push("/list");
               //ctx.view.Post.setState({deleted : true});
-            }
-            //this.cancelMenu();
+          })
+          .catch((e) => {
+            ctx.alert({
+              message: e.message,
+              style: 'warning',
+            })
           })
       },
     })
