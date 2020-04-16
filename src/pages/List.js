@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import {
   Excerpt,
@@ -16,31 +16,45 @@ import { withLogger } from '../biz'
 import './List.scss'
 import { observeDom } from '../biz/utils'
 
-class List extends React.Component {
-  constructor(props) {
-    super(props)
-    this.logoClick = this.logoClick.bind(this)
+const logoClick = () => {
+  // 기존내용 초기화
+  ctx.store.dispatch(ctx.action.setSearch(''))
+  //ctx.store.dispatch(ctx.action.initPosts());
+  ctx.isScrollLast = false
 
-    this.state = {
-      channels: ctx.store.getState().data.channels,
-      comments: [],
-      posts: ctx.store
-        .getState()
-        .data.posts.filter((p) => p.origin === undefined),
-      menuClicked: false,
-    }
+  // 다시 세팅
+  ctx.api
+    .getPosts({ idx: 0, cnt: 10, context: ctx.context })
+    //.then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)));
+    .then((res) => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
+}
 
+function List(props) {
+  const [state, setState] = useState({
+    channels: ctx.store.getState().data.channels,
+    comments: [],
+    posts: ctx.store
+      .getState()
+      .data.posts.filter((p) => p.origin === undefined),
+    menuClicked: false,
+  })
+
+  // initialize
+  useEffect(() => {
+    props.logger.verbose('[effect-in] initialize')
+    ctx.scrollTop = 0 // 스크롤 위치 초기화
     ctx.view.List = this
+    document.title = (ctx.context || 'Anony') + ' - ' + ctx.thispage
 
-    if (this.props.context && this.props.context.length > ctx.MAXCONTEXTLEN) {
+    if (props.context && props.context.length > ctx.MAXCONTEXTLEN) {
       alert(`채널이름은 최대 ${ctx.MAXCONTEXTLEN}자 까지 가능합니다`)
       history.back()
       return
     }
 
     ctx.context =
-      this.props.context && this.props.context.length <= ctx.MAXCONTEXTLEN
-        ? this.props.context
+      props.context && props.context.length <= ctx.MAXCONTEXTLEN
+        ? props.context
         : 'public'
 
     //if(ctx.view.App.state.data.posts.length <= 1 && ctx.store.getState().view.search === ""){
@@ -62,48 +76,35 @@ class List extends React.Component {
     } else {
       // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
     }
-  }
+    return () => {
+      props.logger.verbose('[effect-out] initialize')
+    }
+  }, [])
 
-  componentWillUnmount() {
-    //ctx.logger.verbose("# List unsubscribe store..");
-    this.unsubscribe()
-  }
-
-  componentDidMount() {
-    document.title = (ctx.context || 'Anony') + ' - ' + ctx.thispage
+  // infinite loading
+  useEffect(() => {
+    props.logger.verbose('[effect-in] infinite loading')
     ctx.$m.scrollTo(0, ctx.scrollTop) // 이전 스크롤 위치로 복원
-    // 이후 App 가 스토어 상태를 구독하도록 설정
-    this.unsubscribe = ctx.store.subscribe(() => {
-      // ctx.logger.verbose("List가 store 상태 변경 노티 받음")
-      this.setState(ctx.store.getState().data)
-    })
-  }
-  componentDidUpdate() {
-    this.props.logger.verbose('componentDidUpdate')
+
     const lastPost = Array.prototype.slice.call(
       document.querySelectorAll('.list > .excerpt'),
       -1,
     )[0]
 
     if (!lastPost) {
-      this.props.logger.warn('not found lastPost')
+      props.logger.warn('not found lastPost')
       return () => {}
     }
     if (ctx.isScrollLast) {
-      this.props.logger.info('no more data')
+      props.logger.info('no more data')
       return
     }
-    this.props.logger.debug('lastPost', lastPost, lastPost.observed)
-    if (lastPost.observed) {
-      this.props.logger.info('observing last already')
-      return () => {}
-    }
+    props.logger.debug('lastPost', lastPost)
 
-    this.props.logger.info('observe last one')
+    props.logger.info('observe last one')
 
-    lastPost.observed = true
     const unobserve = observeDom(lastPost, () => {
-      this.props.logger.info('last one show up')
+      props.logger.info('last one show up')
       const PAGEROWS = 10
       nprogress.start()
       $m('#nprogress .spinner').css('top', '95%')
@@ -119,120 +120,122 @@ class List extends React.Component {
           context: ctx.context,
         })
         .then((res) => {
-          this.props.logger.verbose('unobserve')
+          if (lastPost.observed) {
+            props.logger.info('unobserve last one')
+            unobserve()
+          }
 
-          unobserve()
-          lastPost.observed = false
           ctx.view.ListLoader.setState({ loading: false })
           ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
           if (res.posts.length < PAGEROWS) {
-            this.props.logger.verbose('Scroll has touched bottom')
+            props.logger.verbose('Scroll has touched bottom')
             ctx.isScrollLast = true
             return
           }
         })
     })
+    return () => {
+      props.logger.verbose('[effect-out] infinite loading')
+
+      // 현재 목록화면 scrollTop 의 값
+      ctx.scrollTop = Math.max(
+        document.documentElement.scrollTop,
+        document.body.scrollTop,
+      )
+
+      if (lastPost.observed) {
+        props.logger.info('unobserve last one')
+        unobserve()
+      }
+    }
+  })
+
+  // subscribe store
+  useEffect(() => {
+    const unsubscribe = ctx.store.subscribe(() => {
+      setState({
+        channels: ctx.store.getState().data.channels,
+        comments: [],
+        posts: ctx.store
+          .getState()
+          .data.posts.filter((p) => p.origin === undefined),
+        menuClicked: state.menuClicked,
+      })
+    })
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
+  props.logger.verbose('render')
+  //let title = ctx.store.getState().view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
+  let title = ctx.user.uuid + (ctx.context ? ' /' + ctx.context : '')
+  let uuid = ctx.user.uuid
+  let channel = ctx.context ? ' /' + ctx.context : ''
+
+  let status = ''
+  let search = ctx.store.getState().view.search
+
+  if (search) {
+    status = ` > ${search}'s result`
   }
 
-  logoClick() {
-    // 기존내용 초기화
-    ctx.store.dispatch(ctx.action.setSearch(''))
-    //ctx.store.dispatch(ctx.action.initPosts());
-    ctx.isScrollLast = false
-
-    // 다시 세팅
-    ctx.api
-      .getPosts({ idx: 0, cnt: 10, context: ctx.context })
-      //.then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)));
-      .then((res) => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.posts !== nextState.posts) {
-      return true
-    }
-    if (this.state.channels !== nextState.channels) {
-      return true
-    }
-    if (this.state.menuClicked !== nextState.menuClicked) {
-      return true
-    } else {
-      this.props.logger.verbose('List 렌더링 안함 ')
-      return false
-    }
-  }
-
-  render() {
-    this.props.logger.verbose('render')
-    //let title = ctx.store.getState().view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
-    let title = ctx.user.uuid + (ctx.context ? ' /' + ctx.context : '')
-    let uuid = ctx.user.uuid
-    let channel = ctx.context ? ' /' + ctx.context : ''
-
-    let status = ''
-    let search = ctx.store.getState().view.search
-
-    if (search) {
-      status = ` > ${search}'s result`
-    }
-
-    return (
-      <div className="list">
-        <div className="header">
-          <div className="logo">
-            <img src="/image/logo_transparent.png" onClick={this.logoClick} />
-          </div>
-          <Search context={ctx.context} />
-
-          {/* <div className="status">{status}</div> */}
-
-          <div className="menu-title">
-            {/* <Menu /> */}
-            <div
-              className="icon-menu-1 menu"
-              onClick={() => this.setState({ menuClicked: true })}
-            ></div>
-            <div className="uuid">{uuid}</div>
-          </div>
-          <div className="channel">{channel}</div>
+  return (
+    <div className="list">
+      <div className="header">
+        <div className="logo">
+          <img src="/image/logo_transparent.png" onClick={logoClick} />
         </div>
+        <Search context={ctx.context} />
 
-        {this.state.posts.map((post) => (
-          <Excerpt
-            history={this.props.history}
-            key={post.key}
-            post={post}
-            context={ctx.context}
-          />
-        ))}
+        {/* <div className="status">{status}</div> */}
 
-        <ListLoader />
-
-        {ctx.store.getState().view.search !== '' && (
-          <div className="backBtn">
-            <Button bsStyle="success" onClick={this.logoClick}>
-              Back
-            </Button>
-          </div>
-        )}
-
-        <div className="writeBtn">
-          <Link to={'/' + ctx.context + '/write'}>
-            <Button bsStyle="success">
-              <i className="icon-doc-new" />
-              Write
-            </Button>
-          </Link>
+        <div className="menu-title">
+          {/* <Menu /> */}
+          <div
+            className="icon-menu-1 menu"
+            onClick={() => setState({ ...state, menuClicked: true })}
+          ></div>
+          <div className="uuid">{uuid}</div>
         </div>
-
-        <div className="channels-wrappter">
-          <MyChannels />
-        </div>
-
-        {this.state.menuClicked && <MenuBoard />}
+        <div className="channel">{channel}</div>
       </div>
-    )
-  }
+
+      {state.posts.map((post) => (
+        <Excerpt
+          history={props.history}
+          key={post.key}
+          post={post}
+          context={ctx.context}
+        />
+      ))}
+
+      <ListLoader />
+
+      {ctx.store.getState().view.search !== '' && (
+        <div className="backBtn">
+          <Button bsStyle="success" onClick={logoClick}>
+            Back
+          </Button>
+        </div>
+      )}
+
+      <div className="writeBtn">
+        <Link to={'/' + ctx.context + '/write'}>
+          <Button bsStyle="success">
+            <i className="icon-doc-new" />
+            Write
+          </Button>
+        </Link>
+      </div>
+
+      <div className="channels-wrappter">
+        <MyChannels />
+      </div>
+
+      {state.menuClicked && <MenuBoard />}
+    </div>
+  )
 }
 
 export default withLogger(List)
