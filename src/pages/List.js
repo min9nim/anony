@@ -20,7 +20,7 @@ const logoClick = () => {
   // 기존내용 초기화
   ctx.store.dispatch(ctx.action.setSearch(''))
   //ctx.store.dispatch(ctx.action.initPosts());
-  ctx.isScrollLast = false
+  ctx.noMore = false
 
   // 다시 세팅
   ctx.api
@@ -95,7 +95,7 @@ function List(props) {
       props.logger.warn('not found lastPost')
       return () => {}
     }
-    if (ctx.isScrollLast) {
+    if (ctx.noMore) {
       props.logger.info('no more data')
       return
     }
@@ -127,7 +127,7 @@ function List(props) {
           ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
           if (res.posts.length < PAGEROWS) {
             props.logger.verbose('Scroll has touched bottom')
-            ctx.isScrollLast = true
+            ctx.noMore = true
             return
           }
         })
@@ -259,7 +259,7 @@ export default withLogger(List)
 //   // 현재 스크롤 값을 전역변수에 저장
 //   ctx.scrollTop = scrollTop
 
-//   if (ctx.isScrollLast) return
+//   if (ctx.noMore) return
 //   // 아직 모든 글이 로드된 상태가 아니라면 스크롤이 아래까지 내려왔을 때 다음 글 10개 로드
 
 //   //현재문서의 높이
@@ -309,7 +309,7 @@ export default withLogger(List)
 //         ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
 //         if (res.posts.length < PAGEROWS) {
 //           ctx.logger.verbose('Scroll has touched bottom')
-//           ctx.isScrollLast = true
+//           ctx.noMore = true
 //           return
 //         }
 //       })

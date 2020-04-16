@@ -9,7 +9,7 @@ function handleClick(channel) {
     .getPosts({ idx: 0, cnt: 10, context: channel })
     .then((res) => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
     .then(() => {
-      ctx.isScrollLast = false
+      ctx.noMore = false
     })
     .then(toggleChannels)
     .then(() => {

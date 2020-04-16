@@ -29,12 +29,12 @@ export class SearchBox extends React.Component {
 
     // 기존내용 초기화
     ctx.store.dispatch(ctx.action.initPosts())
-    ctx.isScrollLast = false
+    ctx.noMore = false
 
     // 다시 세팅
     ctx.api
       .getPosts({ idx: 0, cnt: 10, search, context: this.props.context })
-      .then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)))
+      .then((res) => ctx.store.dispatch(ctx.action.addPosts(res.posts)))
 
     // 현재 검색어 세팅
     ctx.store.dispatch(ctx.action.setSearch(search))

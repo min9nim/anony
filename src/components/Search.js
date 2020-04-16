@@ -83,7 +83,7 @@ export class Search extends React.Component {
     ctx.view.ListLoader.state.loading = true
     this.ipt.style.backgroundColor = '#eee'
 
-    ctx.isScrollLast = false
+    ctx.noMore = false
 
     // 다시 세팅
     ctx.api

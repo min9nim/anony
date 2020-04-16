@@ -17,7 +17,7 @@ export const ctx = {
   user: undefined, // 로컬스토리지에 저장된 사용자 정보
   api, // RESTful API
   nprogress, // 서버통신시 진행표시
-  isScrollLast: false, // 세로 스크롤이 마지막까지 도달했는지 여부
+  noMore: false, // 세로 스크롤이 마지막까지 도달했는지 여부
   temp: undefined, // 컴포넌트간 정보 전달을 위한 임시 저장 공간
   $m, // 기본 유틸함수
   hljs: undefined, // 마크다운 코드 하이라이트처리(필요할 때 동적으로 로딩함)
