@@ -99,8 +99,6 @@ function List(props) {
       props.logger.info('no more data')
       return
     }
-    props.logger.debug('lastPost', lastPost)
-
     props.logger.info('observe last one')
 
     const unobserve = observeDom(lastPost, () => {
