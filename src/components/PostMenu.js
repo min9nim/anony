@@ -27,12 +27,12 @@ export class PostMenu extends React.Component {
             key: this.props.postKey,
             uuid: ctx.user.uuid,
           })
-          .then(res => {
+          .then((res) => {
             if (ctx.store.getState().data.posts.length > 0)
-                ctx.store.dispatch(ctx.action.deletePost(this.props.postKey))
-              //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-              //this.props.history.push("/list");
-              //ctx.view.Post.setState({deleted : true});
+              ctx.store.dispatch(ctx.action.deletePost(this.props.postKey))
+            //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+            //this.props.history.push("/list");
+            //ctx.view.Post.setState({deleted : true});
           })
           .catch((e) => {
             ctx.alert({
@@ -54,50 +54,48 @@ export class PostMenu extends React.Component {
             key: this.props.postKey,
             uuid: ctx.user.uuid,
           })
-          .then(res => {
-            if (res.status === 'Fail') {
-              ctx.alert({
-                message: 'Fail<br>' + res.message,
-                style: 'danger',
-                width: '200px',
-              })
-              //this.cancelMenu();
+          .then((res) => {
+            if (['PostHistory', 'List'].includes(ctx.thispage)) {
+              // 애니메이션 처리
+              document.getElementById(this.props.postKey).style.transform =
+                'scaleY(0)'
+
+              // dom 제거
+              setTimeout(() => {
+                ctx.store.dispatch(
+                  ctx.action.removePost((p) => p.key === this.props.postKey),
+                )
+              }, 500)
+
+              // 목록에서 바로 삭제할 경우에는 화면이동 필요없음
             } else {
-              if (['PostHistory', 'List'].includes(ctx.thispage)) {
-                // 애니메이션 처리
-                document.getElementById(this.props.postKey).style.transform =
-                  'scaleY(0)'
+              // 애니메이션 처리
+              document.getElementsByClassName('post')[0].style.transform =
+                'scaleX(0)'
 
-                // dom 제거
-                setTimeout(() => {
-                  ctx.store.dispatch(
-                    ctx.action.removePost(p => p.key === this.props.postKey),
-                  )
-                }, 500)
+              // dom 제거
+              setTimeout(() => {
+                ctx.store.dispatch(
+                  ctx.action.removePost((p) => p.key === this.props.postKey),
+                )
 
-                // 목록에서 바로 삭제할 경우에는 화면이동 필요없음
-              } else {
-                // 애니메이션 처리
-                document.getElementsByClassName('post')[0].style.transform =
-                  'scaleX(0)'
-
-                // dom 제거
-                setTimeout(() => {
-                  ctx.store.dispatch(
-                    ctx.action.removePost(p => p.key === this.props.postKey),
-                  )
-
-                  // 글보기 화면에서 삭제할 경우에는 목록화면으로 이동 필요
-                  if (this.props.postOrigin) {
-                    var arr = location.pathname.split('/')
-                    arr.splice(2, 2, 'postHistory', this.props.postOrigin) // context 명이 없는 경우 문제 발생할 수 있음
-                    this.props.history.push(arr.join('/'))
-                  } else {
-                    this.props.history.push(this.contextPath + '/list')
-                  }
-                }, 500)
-              }
+                // 글보기 화면에서 삭제할 경우에는 목록화면으로 이동 필요
+                if (this.props.postOrigin) {
+                  var arr = location.pathname.split('/')
+                  arr.splice(2, 2, 'postHistory', this.props.postOrigin) // context 명이 없는 경우 문제 발생할 수 있음
+                  this.props.history.push(arr.join('/'))
+                } else {
+                  this.props.history.push(this.contextPath + '/list')
+                }
+              }, 500)
             }
+          })
+          .catch((e) => {
+            ctx.alert({
+              message: 'Fail<br>' + e.message,
+              style: 'danger',
+              width: '200px',
+            })
           })
       },
     })
@@ -113,16 +111,16 @@ export class PostMenu extends React.Component {
             key: this.props.postKey,
             uuid: ctx.user.uuid,
           })
-          .then(res => {
-            if (res.status === 'Fail') {
-              ctx.alert(JSON.stringify(res, null, 2))
-            } else {
-              //ctx.store.dispatch(ctx.action.deletePost(this.props.postKey));
-              ctx.store.dispatch(ctx.action.restorePost(this.props.postKey))
-              //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-              //this.props.history.push("/list");
-              //ctx.view.Post.setState({deleted : true});
-            }
+          .then((res) => {
+            //ctx.store.dispatch(ctx.action.deletePost(this.props.postKey));
+            ctx.store.dispatch(ctx.action.restorePost(this.props.postKey))
+            //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+            //this.props.history.push("/list");
+            //ctx.view.Post.setState({deleted : true});
+            this.cancelMenu()
+          })
+          .catch((e) => {
+            ctx.alert({ message: e.message, style: 'danger' })
             this.cancelMenu()
           })
       },
@@ -135,7 +133,7 @@ export class PostMenu extends React.Component {
         key: this.props.postKey,
         uuid: ctx.user.uuid,
       })
-      .then(res => {
+      .then((res) => {
         if (res.status === 'Success') {
           this.props.history.push(
             this.contextPath + '/edit/' + this.props.postKey,
@@ -154,11 +152,11 @@ export class PostMenu extends React.Component {
   postHistory() {
     // 기존 세팅된 히스토리 내역 초기화
     ctx.store.dispatch(
-      ctx.action.removePost(p => p.origin === this.props.postKey),
+      ctx.action.removePost((p) => p.origin === this.props.postKey),
     )
 
     // 최신 상태로 새로 세팅
-    ctx.api.getPostHistory(this.props.postKey).then(res => {
+    ctx.api.getPostHistory(this.props.postKey).then((res) => {
       if (res.posts.length > 0) {
         //ctx.store.dispatch(ctx.action.setPostHistory(res.posts));
         ctx.store.dispatch(ctx.action.addPosts(res.posts))

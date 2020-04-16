@@ -30,18 +30,17 @@ export class Comment extends React.Component {
         key: this.state.key,
         uuid: ctx.user.uuid,
       })
-      .then(res => {
-        if (res.status === 'Fail') {
-          ctx.alert({
-            message: res.message,
-            style: 'danger',
-          })
-        } else {
-          ctx.store &&
-            ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
-          //history.back();
-          this.props.history.push('/list')
-        }
+      .then(() => {
+        ctx.store &&
+          ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
+        //history.back();
+        this.props.history.push('/list')
+      })
+      .catch((e) => {
+        ctx.alert({
+          message: e.message,
+          style: 'warning',
+        })
       })
   }
 

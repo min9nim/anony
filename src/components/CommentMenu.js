@@ -27,19 +27,21 @@ export class CommentMenu extends React.Component {
       message: 'Delete this?',
       width: 'inherit',
       onYes: async () => {
-        const res = await ctx.api.deleteComment({
-          key: this.props.comment.key,
-          uuid: ctx.user.uuid,
-        })
-        this.hideMenu()
-        if (res.status === 'Fail') {
+        try {
+          await ctx.api.deleteComment({
+            key: this.props.comment.key,
+            uuid: ctx.user.uuid,
+          })
+          this.hideMenu()
+
+          ctx.store.dispatch(ctx.action.deleteComment(this.props.comment.key))
+        } catch (e) {
           ctx.alert({
-            message: res.message,
+            message: e.message,
             style: 'danger',
             width: '175px',
           })
         }
-        ctx.store.dispatch(ctx.action.deleteComment(this.props.comment.key))
       },
       onNo: () => {
         this.hideMenu()
@@ -51,26 +53,26 @@ export class CommentMenu extends React.Component {
     ctx.confirm({
       message: 'Remove this?',
       onYes: async () => {
-        const res = await ctx.api.removeComment({
-          key: this.props.comment.key,
-          uuid: ctx.user.uuid,
-        })
-        if (res.status === 'Fail') {
+        try {
+          await ctx.api.removeComment({
+            key: this.props.comment.key,
+            uuid: ctx.user.uuid,
+          })
+          ctx.store.dispatch(ctx.action.removeComment(this.props.comment.key))
+
+          // 부모 글의 commentCnt 1감소
+          const postKey = this.props.comment.postKey
+          let post = ctx.store
+            .getState()
+            .data.posts.find((p) => p.key === postKey)
+          post.commentCnt = post.commentCnt ? post.commentCnt - 1 : 1
+          ctx.store.dispatch(ctx.action.updatePost(post))
+        } catch (e) {
           ctx.alert({
-            message: res.message,
+            message: e.message,
             style: 'danger',
           })
-          return
         }
-        ctx.store.dispatch(ctx.action.removeComment(this.props.comment.key))
-
-        // 부모 글의 commentCnt 1감소
-        const postKey = this.props.comment.postKey
-        let post = ctx.store
-          .getState()
-          .data.posts.find((p) => p.key === postKey)
-        post.commentCnt = post.commentCnt ? post.commentCnt - 1 : 1
-        ctx.store.dispatch(ctx.action.updatePost(post))
       },
       onNo: () => {
         this.hideMenu()
@@ -89,13 +91,13 @@ export class CommentMenu extends React.Component {
             uuid: ctx.user.uuid,
           })
           .then((res) => {
-            if (res.status === 'Fail') {
-              ctx.alert({ message: res.message, style: 'danger' })
-            } else {
-              ctx.store.dispatch(
-                ctx.action.restoreComment(this.props.comment.key),
-              )
-            }
+            ctx.store.dispatch(
+              ctx.action.restoreComment(this.props.comment.key),
+            )
+            this.hideMenu()
+          })
+          .catch((e) => {
+            ctx.alert({ message: e.message, style: 'danger' })
             this.hideMenu()
           })
       },

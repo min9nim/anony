@@ -45,7 +45,7 @@ export default class Write extends React.Component {
       //this.state = this.props.post;
       this.state = ctx.store
         .getState()
-        .data.posts.find(post => post.key === this.props.postKey)
+        .data.posts.find((post) => post.key === this.props.postKey)
       this.state.uuid = ctx.user.uuid
       /**
        * 18.09.13
@@ -72,7 +72,7 @@ export default class Write extends React.Component {
       history.back()
       return
 
-      ctx.api.getPost(this.props.postKey).then(res => {
+      ctx.api.getPost(this.props.postKey).then((res) => {
         //this.state = res.post;
 
         /**
@@ -92,7 +92,7 @@ export default class Write extends React.Component {
         this.setState(
           ctx.store
             .getState()
-            .data.posts.find(post => post.key === this.props.postKey),
+            .data.posts.find((post) => post.key === this.props.postKey),
         )
       } else {
         /**
@@ -325,22 +325,25 @@ export default class Write extends React.Component {
         commentCnt: this.state.commentCnt,
       })
 
-      ctx.api.updatePost(post).then(res => {
-        if (res.status === 'Fail') {
+      ctx.api
+        .updatePost(post)
+        .then((res) => {
+          //if(ctx.view.App.state.data.posts.length > 0){
+          if (ctx.store.getState().data.posts.length > 0) {
+            ctx.store.dispatch(ctx.action.updatePost(post))
+          }
+
+          // 작성된 글 바로 확인
+          this.props.history.push(
+            '/' + this.state.context + '/post/' + post.key,
+          )
+        })
+        .catch((e) => {
           ctx.alert({
-            message: res.message,
+            message: e.message,
             style: 'danger',
           })
-          return
-        }
-        //if(ctx.view.App.state.data.posts.length > 0){
-        if (ctx.store.getState().data.posts.length > 0) {
-          ctx.store.dispatch(ctx.action.updatePost(post))
-        }
-
-        // 작성된 글 바로 확인
-        this.props.history.push('/' + this.state.context + '/post/' + post.key)
-      })
+        })
     } else {
       Object.assign(post, {
         key: shortid.generate(),
@@ -349,9 +352,9 @@ export default class Write extends React.Component {
         commentCnt: 0,
       })
 
-      ctx.api.addPost(post).then(res => {
+      ctx.api.addPost(post).then((res) => {
         if (
-          ctx.store.getState().data.posts.filter(p => p.origin === undefined)
+          ctx.store.getState().data.posts.filter((p) => p.origin === undefined)
             .length > 0
         ) {
           if (
@@ -422,7 +425,7 @@ export default class Write extends React.Component {
             id="title"
             value={this.state.title}
             onChange={this.handleChange}
-            inputRef={ref => {
+            inputRef={(ref) => {
               this.titleinput = ref
             }}
             placeholder="Title.."
@@ -442,7 +445,7 @@ export default class Write extends React.Component {
             id="writer"
             value={this.state.writer}
             onChange={this.handleChange}
-            inputRef={ref => {
+            inputRef={(ref) => {
               this.writerinput = ref
             }}
             placeholder="Writer.."
@@ -472,7 +475,7 @@ export default class Write extends React.Component {
                 id="context"
                 value={this.state.context}
                 onChange={this.handleChange}
-                inputRef={ref => {
+                inputRef={(ref) => {
                   this.contextinput = ref
                 }}
                 placeholder="Channel.."
@@ -492,7 +495,7 @@ export default class Write extends React.Component {
                 id="uuid"
                 value={this.state.uuid}
                 disabled={this.props.type === 'edit'}
-                inputRef={ref => {
+                inputRef={(ref) => {
                   this.uuidinput = ref
                 }}
                 onChange={this.handleChange}
@@ -556,7 +559,7 @@ export default class Write extends React.Component {
           <FormControl
             style={contentStyle}
             autoFocus
-            inputRef={ref => {
+            inputRef={(ref) => {
               this.contentinput = ref
             }}
             value={this.state.content}
