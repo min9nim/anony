@@ -11,10 +11,12 @@ import { ctx } from '@/biz/context'
 import { Link } from 'react-router-dom'
 import nprogress from 'nprogress'
 import $m from '../../com/util'
+import { withLogger } from '../biz'
 
 import './List.scss'
+import { observeDom } from '../biz/utils'
 
-export default class List extends React.Component {
+class List extends React.Component {
   constructor(props) {
     super(props)
     this.logoClick = this.logoClick.bind(this)
@@ -24,7 +26,7 @@ export default class List extends React.Component {
       comments: [],
       posts: ctx.store
         .getState()
-        .data.posts.filter(p => p.origin === undefined),
+        .data.posts.filter((p) => p.origin === undefined),
       menuClicked: false,
     }
 
@@ -44,18 +46,19 @@ export default class List extends React.Component {
     //if(ctx.view.App.state.data.posts.length <= 1 && ctx.store.getState().view.search === ""){
     if (
       // 처음부터 글쓰기로 글을 생성하고 들어온 경우
-      (ctx.store.getState().data.posts.filter(p => p.origin === undefined)
+      (ctx.store.getState().data.posts.filter((p) => p.origin === undefined)
         .length <= 1 &&
         ctx.store.getState().view.search === '') ||
       // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
       ctx.store
         .getState()
-        .data.posts.map(p => p.context)
-        .filter((v, i, a) => a.indexOf(v) === i).length > 1
+        .data.posts.map((p) => p.context)
+        .filter((value, index, array) => array.indexOf(value) === index)
+        .length > 1
     ) {
       ctx.api
         .getPosts({ idx: 0, cnt: 10, context: ctx.context })
-        .then(res => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
+        .then((res) => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
     } else {
       // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
     }
@@ -75,6 +78,61 @@ export default class List extends React.Component {
       this.setState(ctx.store.getState().data)
     })
   }
+  componentDidUpdate() {
+    this.props.logger.verbose('componentDidUpdate')
+    const lastPost = Array.prototype.slice.call(
+      document.querySelectorAll('.list > .excerpt'),
+      -1,
+    )[0]
+
+    if (!lastPost) {
+      this.props.logger.warn('not found lastPost')
+      return () => {}
+    }
+    if (ctx.isScrollLast) {
+      this.props.logger.info('no more data')
+      return
+    }
+    this.props.logger.debug('lastPost', lastPost, lastPost.observed)
+    if (lastPost.observed) {
+      this.props.logger.info('observing last already')
+      return () => {}
+    }
+
+    this.props.logger.info('observe last one')
+
+    lastPost.observed = true
+    const unobserve = observeDom(lastPost, () => {
+      this.props.logger.info('last one show up')
+      const PAGEROWS = 10
+      nprogress.start()
+      $m('#nprogress .spinner').css('top', '95%')
+      ctx.view.ListLoader.setState({ loading: true })
+      ctx.api
+        .getPosts({
+          idx: ctx.store
+            .getState()
+            .data.posts.filter((p) => p.origin === undefined).length,
+          cnt: PAGEROWS,
+          search: ctx.store.getState().view.search,
+          hideProgress: true,
+          context: ctx.context,
+        })
+        .then((res) => {
+          this.props.logger.verbose('unobserve')
+
+          unobserve()
+          lastPost.observed = false
+          ctx.view.ListLoader.setState({ loading: false })
+          ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
+          if (res.posts.length < PAGEROWS) {
+            this.props.logger.verbose('Scroll has touched bottom')
+            ctx.isScrollLast = true
+            return
+          }
+        })
+    })
+  }
 
   logoClick() {
     // 기존내용 초기화
@@ -86,7 +144,7 @@ export default class List extends React.Component {
     ctx.api
       .getPosts({ idx: 0, cnt: 10, context: ctx.context })
       //.then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)));
-      .then(res => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
+      .then((res) => ctx.store.dispatch(ctx.action.setPosts(res.posts)))
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -99,12 +157,13 @@ export default class List extends React.Component {
     if (this.state.menuClicked !== nextState.menuClicked) {
       return true
     } else {
-      ctx.logger.verbose('List 렌더링 안함 ')
+      this.props.logger.verbose('List 렌더링 안함 ')
       return false
     }
   }
 
   render() {
+    this.props.logger.verbose('render')
     //let title = ctx.store.getState().view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
     let title = ctx.user.uuid + (ctx.context ? ' /' + ctx.context : '')
     let uuid = ctx.user.uuid
@@ -138,7 +197,7 @@ export default class List extends React.Component {
           <div className="channel">{channel}</div>
         </div>
 
-        {this.state.posts.map(post => (
+        {this.state.posts.map((post) => (
           <Excerpt
             history={this.props.history}
             key={post.key}
@@ -176,79 +235,82 @@ export default class List extends React.Component {
   }
 }
 
-document.body.onscroll = function() {
-  const PAGEROWS = 10
+export default withLogger(List)
 
-  if (ctx.thispage !== 'List') {
-    // 목록화면이 아니면 리턴
-    return
-  }
-  if (ctx.view.ListLoader.state.loading) {
-    // 데이터 로딩중이면 리턴
-    return
-  }
+// document.body.onscroll2 = function () {
+//   const PAGEROWS = 10
 
-  // 현재 목록화면 scrollTop 의 값
-  const scrollTop = Math.max(
-    document.documentElement.scrollTop,
-    document.body.scrollTop,
-  )
+//   if (ctx.thispage !== 'List') {
+//     // 목록화면이 아니면 리턴
+//     return
+//   }
+//   if (ctx.view.ListLoader.state.loading) {
+//     // 데이터 로딩중이면 리턴
+//     return
+//   }
 
-  // 현재 스크롤 값을 전역변수에 저장
-  ctx.scrollTop = scrollTop
+//   // 현재 목록화면 scrollTop 의 값
+//   const scrollTop = Math.max(
+//     document.documentElement.scrollTop,
+//     document.body.scrollTop,
+//   )
 
-  if (ctx.isScrollLast) return
-  // 아직 모든 글이 로드된 상태가 아니라면 스크롤이 아래까지 내려왔을 때 다음 글 10개 로드
+//   // 현재 스크롤 값을 전역변수에 저장
+//   ctx.scrollTop = scrollTop
 
-  //현재문서의 높이
-  const scrollHeight = Math.max(
-    document.documentElement.scrollHeight,
-    document.body.scrollHeight,
-  )
-  //현재 화면 높이 값
-  const clientHeight = document.documentElement.clientHeight
+//   if (ctx.isScrollLast) return
+//   // 아직 모든 글이 로드된 상태가 아니라면 스크롤이 아래까지 내려왔을 때 다음 글 10개 로드
 
-  // ctx.logger.verbose('@@ scrollTop : ' + scrollTop)
-  // ctx.logger.verbose('clientHeight : ' + clientHeight)
-  // ctx.logger.verbose('scrollHeight : ' + scrollHeight)
+//   //현재문서의 높이
+//   const scrollHeight = Math.max(
+//     document.documentElement.scrollHeight,
+//     document.body.scrollHeight,
+//   )
+//   //현재 화면 높이 값
+//   const clientHeight = document.documentElement.clientHeight
 
-  if (
-    scrollTop + clientHeight == scrollHeight || // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
-    //(ctx.isMobileChrome() && (scrollTop + clientHeight > scrollHeight - 10))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
-    (ctx.isMobileChrome() && scrollTop + clientHeight > scrollHeight - 57) // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
-  ) {
-    //스크롤이 마지막일때
-    ctx.logger.verbose('@@ 다음 페이지 호출~')
+//   // ctx.logger.verbose('@@ scrollTop : ' + scrollTop)
+//   // ctx.logger.verbose('clientHeight : ' + clientHeight)
+//   // ctx.logger.verbose('scrollHeight : ' + scrollHeight)
 
-    /*
-     * 18.09.19 min9nim
-     * 아래와 같이 분기 처리하면 데스크탑 크롬에서 스크롤이 마지막에 닿고나서 요청이 여러번 한꺼번에 올라가는 문제 발생
-     * //if ((scrollTop + clientHeight) >= scrollHeight-55) {
-     */
+//   if (
+//     scrollTop + clientHeight == scrollHeight || // 일반적인 경우(데스크탑: 크롬/파폭, 아이폰: 사파리)
+//     //(ctx.isMobileChrome() && (scrollTop + clientHeight > scrollHeight - 10))   // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+//     (ctx.isMobileChrome() && scrollTop + clientHeight > scrollHeight - 57) // 모바일 크롬(55는 위에 statusbar 의 높이 때문인건가)
+//   ) {
+//     //스크롤이 마지막일때
+//     ctx.logger.verbose('@@ 다음 페이지 호출~')
 
-    //ctx.logger.verbose("scrollTop + clientHeight = " + (scrollTop + clientHeight));
-    //ctx.logger.verbose("scrollHeight = " + scrollHeight);
+//     /*
+//      * 18.09.19 min9nim
+//      * 아래와 같이 분기 처리하면 데스크탑 크롬에서 스크롤이 마지막에 닿고나서 요청이 여러번 한꺼번에 올라가는 문제 발생
+//      * //if ((scrollTop + clientHeight) >= scrollHeight-55) {
+//      */
 
-    nprogress.start()
-    $m('#nprogress .spinner').css('top', '95%')
-    ctx.view.ListLoader.setState({ loading: true })
-    ctx.api
-      .getPosts({
-        idx: ctx.store.getState().data.posts.filter(p => p.origin === undefined)
-          .length,
-        cnt: PAGEROWS,
-        search: ctx.store.getState().view.search,
-        hideProgress: true,
-        context: ctx.context,
-      })
-      .then(res => {
-        ctx.view.ListLoader.setState({ loading: false })
-        ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
-        if (res.posts.length < PAGEROWS) {
-          //ctx.logger.verbose("Scroll has touched bottom")
-          ctx.isScrollLast = true
-          return
-        }
-      })
-  }
-}
+//     //ctx.logger.verbose("scrollTop + clientHeight = " + (scrollTop + clientHeight));
+//     //ctx.logger.verbose("scrollHeight = " + scrollHeight);
+
+//     nprogress.start()
+//     $m('#nprogress .spinner').css('top', '95%')
+//     ctx.view.ListLoader.setState({ loading: true })
+//     ctx.api
+//       .getPosts({
+//         idx: ctx.store
+//           .getState()
+//           .data.posts.filter((p) => p.origin === undefined).length,
+//         cnt: PAGEROWS,
+//         search: ctx.store.getState().view.search,
+//         hideProgress: true,
+//         context: ctx.context,
+//       })
+//       .then((res) => {
+//         ctx.view.ListLoader.setState({ loading: false })
+//         ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
+//         if (res.posts.length < PAGEROWS) {
+//           ctx.logger.verbose('Scroll has touched bottom')
+//           ctx.isScrollLast = true
+//           return
+//         }
+//       })
+//   }
+// }
