@@ -41,12 +41,17 @@ function List(props) {
     ctx.noMore = false
 
     // 다시 세팅
-    const res = await ctx.api.getPosts({
+    props.setPostsAsync({
       idx: 0,
       cnt: 10,
       context: ctx.context,
     })
-    props.setPosts(res.posts)
+    // const res = await ctx.api.getPosts({
+    //   idx: 0,
+    //   cnt: 10,
+    //   context: ctx.context,
+    // })
+    // props.setPosts(res.posts)
   }
 
   const posts = props.state.data.posts.filter((p) => p.origin === undefined)
