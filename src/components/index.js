@@ -3,7 +3,7 @@ export * from './PostMenu'
 export * from './PostMeta'
 export * from './Search'
 export * from './SearchBox'
-export * from './CommentWrite'
+import CommentWrite from './CommentWrite'
 export * from './CommentEdit'
 export * from './CommentList'
 import CommentMenu from './CommentMenu'
@@ -17,3 +17,4 @@ export * from './Loading'
 export * from './PostBottomButtons'
 
 export { CommentMenu }
+export { CommentWrite }

@@ -1,9 +1,11 @@
 import React from 'react'
-import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap'
+import { FormControl, Button } from 'react-bootstrap'
 import shortid from 'shortid'
+import { connect } from 'react-redux'
+import { addComment, updatePost } from '@/redux/action'
 import './CommentWrite.scss'
 
-export class CommentWrite extends React.Component {
+class CommentWrite extends React.Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
@@ -63,15 +65,13 @@ export class CommentWrite extends React.Component {
       commentKey: '',
     }
 
-    ctx.api.addComment(newComment).then(res => {
+    ctx.api.addComment(newComment).then((res) => {
       //ctx.logger.verbose("# " + res.message);
-      ctx.store.dispatch(ctx.action.addComment(newComment))
+      this.props.addComment(newComment)
       // 부모post의 댓글 카운트 1증가
-      let post = ctx.store
-        .getState()
-        .data.posts.find(p => p.key === this.state.postKey)
+      let post = this.props.posts.find((p) => p.key === this.state.postKey)
       post.commentCnt = post.commentCnt ? post.commentCnt + 1 : 1
-      ctx.store.dispatch(ctx.action.updatePost(post))
+      this.props.updatePost(post)
       this.setState({ content: '' }) // 기존 입력한 내용 초기화
       ctx.setUser({ writer: newComment.writer }) // 사용자 정보 업데이트
 
@@ -84,8 +84,6 @@ export class CommentWrite extends React.Component {
 
   render() {
     const { isLoading } = this.state
-
-    //ctx.logger.verbose("Comment 렌더링..");
     return (
       <div className="comment-write">
         <div className="writer">
@@ -100,7 +98,7 @@ export class CommentWrite extends React.Component {
           <FormControl
             id="content"
             value={this.state.content}
-            inputRef={ref => {
+            inputRef={(ref) => {
               this.content = ref
             }}
             onChange={this.handleChange}
@@ -122,3 +120,8 @@ export class CommentWrite extends React.Component {
     )
   }
 }
+
+export default connect((state) => ({ posts: state.data.posts }), {
+  addComment,
+  updatePost,
+})(CommentWrite)
