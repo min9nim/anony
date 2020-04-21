@@ -35,14 +35,14 @@ function posts(state = [], action) {
     case at.DELETEPOST: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       afterState[idx].deleted = true // idx번째 요소 삭제표시
       return afterState
     }
     case at.VIEWPOST: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       // 기존상태의 값을 변경하면 안될 것 같아서 아래와 같이 처리함
       afterState[idx] = Object.assign({}, afterState[idx]) // 객체 복사
       afterState[idx].viewCnt = afterState[idx].viewCnt
@@ -53,7 +53,7 @@ function posts(state = [], action) {
     case at.RESTOREPOST: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       afterState[idx].deleted = false
       return afterState
     }
@@ -64,12 +64,12 @@ function posts(state = [], action) {
       //const idx = afterState.findIndex(o => o.key === action.key);
       //afterState.splice(idx, 1); // idx번째 요소 삭제
       //return afterState;
-      return afterState.filter(p => !action.predi(p))
+      return afterState.filter((p) => !action.predi(p))
     }
     case at.UPDATEPOST: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.post.key)
+      const idx = afterState.findIndex((o) => o.key === action.post.key)
 
       /**
        * 18.09.17 min9nim
@@ -113,14 +113,14 @@ function comments(state = [], action) {
     case at.DELETECOMMENT: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       afterState[idx].deleted = true
       return afterState
     }
     case at.REMOVECOMMENT: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       afterState.splice(idx, 1) // idx번째 요소 삭제
       return afterState
     }
@@ -128,7 +128,7 @@ function comments(state = [], action) {
     case at.UPDATECOMMENT: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.comment.key)
+      const idx = afterState.findIndex((o) => o.key === action.comment.key)
       afterState.splice(idx, 1, action.comment) // idx번째 요소 삭제하고 comment 추가
       return afterState
     }
@@ -136,7 +136,7 @@ function comments(state = [], action) {
     case at.RESTORECOMMENT: {
       //const afterState = [...state]; // state 배열 복사
       const afterState = R.clone(state) // state 깊은 복사
-      const idx = afterState.findIndex(o => o.key === action.key)
+      const idx = afterState.findIndex((o) => o.key === action.key)
       afterState[idx].deleted = false
       return afterState
     }
