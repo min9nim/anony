@@ -1,9 +1,16 @@
 import React from 'react'
 import { ctx } from '@/biz/context'
 import { CommentEdit } from '../components'
+import {
+  deleteComment,
+  removeComment,
+  updatePost,
+  restoreComment,
+} from '@/redux/action'
+import { connect } from 'react-redux'
 import './CommentMenu.scss'
 
-export class CommentMenu extends React.Component {
+class CommentMenu extends React.Component {
   constructor(props) {
     //ctx.logger.verbose("CommentMenu 생성자 호출");
     super(props)
@@ -34,7 +41,7 @@ export class CommentMenu extends React.Component {
           })
           this.hideMenu()
 
-          ctx.store.dispatch(ctx.action.deleteComment(this.props.comment.key))
+          this.props.deleteComment(this.props.comment.key)
         } catch (e) {
           ctx.alert({
             message: e.message,
@@ -58,15 +65,13 @@ export class CommentMenu extends React.Component {
             key: this.props.comment.key,
             uuid: ctx.user.uuid,
           })
-          ctx.store.dispatch(ctx.action.removeComment(this.props.comment.key))
+          this.props.removeComment(this.props.comment.key)
 
           // 부모 글의 commentCnt 1감소
           const postKey = this.props.comment.postKey
-          let post = ctx.store
-            .getState()
-            .data.posts.find((p) => p.key === postKey)
+          let post = this.props.posts.find((p) => p.key === postKey)
           post.commentCnt = post.commentCnt ? post.commentCnt - 1 : 1
-          ctx.store.dispatch(ctx.action.updatePost(post))
+          this.props.updatePost(post)
         } catch (e) {
           ctx.alert({
             message: e.message,
@@ -91,9 +96,7 @@ export class CommentMenu extends React.Component {
             uuid: ctx.user.uuid,
           })
           .then((res) => {
-            ctx.store.dispatch(
-              ctx.action.restoreComment(this.props.comment.key),
-            )
+            this.props.restoreComment(this.props.comment.key)
             this.hideMenu()
           })
           .catch((e) => {
@@ -184,3 +187,10 @@ export class CommentMenu extends React.Component {
     )
   }
 }
+
+export default connect((state) => ({ posts: state.data.posts }), {
+  deleteComment,
+  removeComment,
+  updatePost,
+  restoreComment,
+})(CommentMenu)
