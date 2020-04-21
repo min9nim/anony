@@ -6,7 +6,7 @@ export function observeDom(dom, callback) {
         return
       }
       callback(entry.target)
-      // observer.unobserve(entry.target)
+      observer.unobserve(entry.target)
     })
   })
   observer.observe(dom)

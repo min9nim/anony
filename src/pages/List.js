@@ -17,6 +17,8 @@ import $m from '@@/com/util'
 
 import './List.scss'
 
+const PAGEROWS = 10
+
 const logoClick = () => {
   // 기존내용 초기화
   ctx.store.dispatch(ctx.action.setSearch(''))
@@ -38,6 +40,7 @@ function List(props) {
       .getState()
       .data.posts.filter((p) => p.origin === undefined),
     menuClicked: false,
+    loading: false,
   })
 
   // initialize
@@ -103,16 +106,17 @@ function List(props) {
     props.logger.info('observe last one')
 
     const unobserve = observeDom(lastPost, () => {
-      props.logger.info('last one show up')
-      const PAGEROWS = 10
+      const idx = state.posts.length
+      props.logger.info('last one show up', idx)
+
       nprogress.start()
       $m('#nprogress .spinner').css('top', '95%')
-      ctx.view.ListLoader.setState({ loading: true })
+      // ctx.view.ListLoader.setState({ loading: true })
+      setState({ ...state, loading: true })
+
       ctx.api
         .getPosts({
-          idx: ctx.store
-            .getState()
-            .data.posts.filter((p) => p.origin === undefined).length,
+          idx,
           cnt: PAGEROWS,
           search: ctx.store.getState().view.search,
           hideProgress: true,
@@ -124,7 +128,9 @@ function List(props) {
             unobserve()
           }
 
-          ctx.view.ListLoader.setState({ loading: false })
+          // ctx.view.ListLoader.setState({ loading: false })
+          setState({ ...state, loading: false })
+
           ctx.store.dispatch(ctx.action.scrollEnd(res.posts))
           if (res.posts.length < PAGEROWS) {
             props.logger.verbose('Scroll has touched bottom')
@@ -147,7 +153,7 @@ function List(props) {
         unobserve()
       }
     }
-  })
+  }, [state.posts.length])
 
   // subscribe store
   useEffect(() => {
@@ -166,7 +172,7 @@ function List(props) {
     }
   }, [])
 
-  props.logger.verbose('render')
+  props.logger.verbose('render', state.loading)
   //let title = ctx.store.getState().view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
   let title = ctx.user.uuid + (ctx.context ? ' /' + ctx.context : '')
   let uuid = ctx.user.uuid
@@ -209,7 +215,7 @@ function List(props) {
         />
       ))}
 
-      <ListLoader />
+      {state.loading && <ListLoader />}
 
       {ctx.store.getState().view.search !== '' && (
         <div className="backBtn">
