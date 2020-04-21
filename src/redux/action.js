@@ -1,143 +1,177 @@
 import shortid from 'shortid'
 
-const action = {}
-export default action
+const ADDPOST = 'ADDPOST'
+const ADDPOSTS = 'ADDPOSTS'
+const INITPOSTS = 'INITPOSTS'
+const SETPOSTS = 'SETPOSTS'
+const DELETEPOST = 'DELETEPOST'
+const UPDATEPOST = 'UPDATEPOST'
+const REMOVEPOST = 'REMOVEPOST'
+const RESTOREPOST = 'RESTOREPOST'
+const VIEWPOST = 'VIEWPOST' // 조회수 +1
+const ADDCOMMENT = 'ADDCOMMENT'
+const ADDCOMMENTS = 'ADDCOMMENTS'
+const DELETECOMMENT = 'DELETECOMMENT'
+const UPDATECOMMENT = 'UPDATECOMMENT'
+const REMOVECOMMENT = 'REMOVECOMMENT'
+const RESTORECOMMENT = 'RESTORECOMMENT'
+const SETSEARCH = 'SETSEARCH'
+const SETUUID = 'SETUUID'
+const SCROLLEND = 'SCROLLEND'
+const MYCHANNELS = 'MYCHANNELS'
 
-const at = (action.type = {
-  ADDPOST: 'ADDPOST',
-  ADDPOSTS: 'ADDPOSTS',
-  INITPOSTS: 'INITPOSTS',
-  SETPOSTS: 'SETPOSTS',
-  DELETEPOST: 'DELETEPOST',
-  UPDATEPOST: 'UPDATEPOST',
-  REMOVEPOST: 'REMOVEPOST',
-  RESTOREPOST: 'RESTOREPOST',
-  VIEWPOST: 'VIEWPOST', // 조회수 +1
-
-  ADDCOMMENT: 'ADDCOMMENT',
-  ADDCOMMENTS: 'ADDCOMMENTS',
-  DELETECOMMENT: 'DELETECOMMENT',
-  UPDATECOMMENT: 'UPDATECOMMENT',
-  REMOVECOMMENT: 'REMOVECOMMENT',
-  RESTORECOMMENT: 'RESTORECOMMENT',
-
-  SETSEARCH: 'SETSEARCH',
-  SETUUID: 'SETUUID',
-
-  SCROLLEND: 'SCROLLEND',
-
-  MYCHANNELS: 'MYCHANNELS',
-})
-
-action.addPost = (post) => {
+export const addPost = (post) => {
   post.key = post.key || shortid.generate()
   return {
-    type: at.ADDPOST,
+    type: ADDPOST,
     post,
   }
 }
 
-action.initPosts = () => {
+export const initPosts = () => {
   return {
-    type: at.INITPOSTS,
+    type: INITPOSTS,
   }
 }
 
-action.setPosts = (posts) => {
+export const setPosts = (posts) => {
   return {
-    type: at.SETPOSTS,
+    type: SETPOSTS,
     posts,
   }
 }
 
-action.scrollEnd = (posts) => {
+export const scrollEnd = (posts) => {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
-    type: at.SCROLLEND,
+    type: SCROLLEND,
     posts,
   }
 }
 
-action.addPosts = (posts) => {
+export const addPosts = (posts) => {
   return {
-    type: at.ADDPOSTS,
+    type: ADDPOSTS,
     posts,
   }
 }
 
-action.deletePost = (key) => {
-  return { type: at.DELETEPOST, key }
+export const deletePost = (key) => {
+  return { type: DELETEPOST, key }
 }
 
-action.removePost = (fn) => {
-  return { type: at.REMOVEPOST, predi: fn }
+export const removePost = (fn) => {
+  return { type: REMOVEPOST, predi: fn }
 }
 
-action.viewPost = (key) => {
-  return { type: at.VIEWPOST, key }
+export const viewPost = (key) => {
+  return { type: VIEWPOST, key }
 }
 
-action.restorePost = (key) => {
-  return { type: at.RESTOREPOST, key }
+export const restorePost = (key) => {
+  return { type: RESTOREPOST, key }
 }
 
-action.updatePost = (post) => {
+export const updatePost = (post) => {
   return {
-    type: at.UPDATEPOST,
+    type: UPDATEPOST,
     post,
   }
 }
 
-action.updateComment = (comment) => {
+export const updateComment = (comment) => {
   return {
-    type: at.UPDATECOMMENT,
+    type: UPDATECOMMENT,
     comment,
   }
 }
 
-action.deleteComment = (key) => {
-  return { type: at.DELETECOMMENT, key }
+export const deleteComment = (key) => {
+  return { type: DELETECOMMENT, key }
 }
 
-action.removeComment = (key) => {
-  return { type: at.REMOVECOMMENT, key }
+export const removeComment = (key) => {
+  return { type: REMOVECOMMENT, key }
 }
 
-action.addComment = (comment) => {
+export const addComment = (comment) => {
   return {
-    type: at.ADDCOMMENT,
+    type: ADDCOMMENT,
     comment,
   }
 }
 
-action.addComments = (comments) => {
+export const addComments = (comments) => {
   return {
-    type: at.ADDCOMMENTS,
+    type: ADDCOMMENTS,
     comments,
   }
 }
 
-action.restoreComment = (key) => {
-  return { type: at.RESTORECOMMENT, key }
+export const restoreComment = (key) => {
+  return { type: RESTORECOMMENT, key }
 }
 
-action.setSearch = (word) => {
+export const setSearch = (word) => {
   return {
-    type: at.SETSEARCH,
+    type: SETSEARCH,
     search: word,
   }
 }
 
-action.setUuid = (uuid) => {
+export const setUuid = (uuid) => {
   return {
-    type: at.SETUUID,
+    type: SETUUID,
     uuid,
   }
 }
 
-action.myChannels = (channels) => {
+export const myChannels = (channels) => {
   return {
-    type: at.MYCHANNELS,
+    type: MYCHANNELS,
     channels,
   }
+}
+
+export default {
+  type: {
+    ADDPOST,
+    ADDPOSTS,
+    INITPOSTS,
+    SETPOSTS,
+    DELETEPOST,
+    UPDATEPOST,
+    REMOVEPOST,
+    RESTOREPOST,
+    VIEWPOST, // 조회수 +1
+    ADDCOMMENT,
+    ADDCOMMENTS,
+    DELETECOMMENT,
+    UPDATECOMMENT,
+    REMOVECOMMENT,
+    RESTORECOMMENT,
+    SETSEARCH,
+    SETUUID,
+    SCROLLEND,
+    MYCHANNELS,
+  },
+  addPost,
+  addPosts,
+  initPosts,
+  setPosts,
+  deletePost,
+  updatePost,
+  removePost,
+  restorePost,
+  viewPost,
+  addComment,
+  addComments,
+  deleteComment,
+  updateComment,
+  removeComment,
+  restoreComment,
+  setSearch,
+  setUuid,
+  scrollEnd,
+  myChannels,
 }
