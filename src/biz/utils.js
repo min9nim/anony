@@ -5,8 +5,8 @@ export function observeDom(dom, callback) {
       if (!entry.isIntersecting) {
         return
       }
-      callback(entry.target)
       observer.unobserve(entry.target)
+      callback(entry.target)
     })
   })
   observer.observe(dom)

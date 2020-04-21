@@ -8,26 +8,16 @@ import {
   MyChannels,
   Search,
 } from '@/components'
-import nprogress from 'nprogress'
+
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { setPosts, setSearch, scrollEnd, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
-import $m from '@@/com/util'
 import { prop, isNil, pipe } from 'ramda'
+import { needToFetch, fetchList } from './List-fn'
+
 import './List.scss'
-
-const PAGEROWS = 10
-
-const needToFetch = (props) =>
-  // 처음부터 글쓰기로 글을 생성하고 들어온 경우
-  (props.state.data.posts.filter((p) => p.origin === undefined).length <= 1 &&
-    props.state.view.search === '') ||
-  // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
-  props.state.data.posts
-    .map((p) => p.context)
-    .filter((value, index, array) => array.indexOf(value) === index).length > 1
 
 function List(props) {
   const [state, setState] = useState({
@@ -97,34 +87,10 @@ function List(props) {
     }
     props.logger.info('observe last one')
 
-    const unobserve = observeDom(lastPost, async () => {
-      props.logger.info('last one show up', posts.length)
-
-      nprogress.start()
-      $m('#nprogress .spinner').css('top', '95%')
-      setState({ ...state, loading: true })
-
-      const res = await ctx.api.getPosts({
-        idx: posts.length,
-        cnt: PAGEROWS,
-        search: props.state.view.search,
-        hideProgress: true,
-        context: ctx.context,
-      })
-      if (lastPost.observed) {
-        props.logger.info('unobserve last one')
-        unobserve()
-      }
-
-      setState({ ...state, loading: false })
-
-      props.scrollEnd(res.posts)
-      if (res.posts.length < PAGEROWS) {
-        props.logger.verbose('Scroll has touched bottom')
-        ctx.noMore = true
-        return
-      }
-    })
+    const unobserve = observeDom(
+      lastPost,
+      fetchList(props, posts, lastPost, state, setState),
+    )
     return () => {
       props.logger.verbose('[effect-out] infinite loading')
 
