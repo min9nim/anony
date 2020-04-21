@@ -21,25 +21,26 @@ import './List.scss'
 
 const PAGEROWS = 10
 
-const logoClick = (props) => {
-  // 기존내용 초기화
-  props.setSearch('')
-  ctx.noMore = false
-
-  // 다시 세팅
-  ctx.api
-    .getPosts({ idx: 0, cnt: 10, context: ctx.context })
-    //.then(res => ctx.store.dispatch(ctx.action.addPosts(res.posts)));
-    .then((res) => props.setPosts(res.posts))
-}
-
 function List(props) {
   const [state, setState] = useState({
     channels: props.state.data.channels,
-    comments: [],
     menuClicked: false,
     loading: false,
   })
+
+  const logoClick = async () => {
+    // 기존내용 초기화
+    props.setSearch('')
+    ctx.noMore = false
+
+    // 다시 세팅
+    const res = await ctx.api.getPosts({
+      idx: 0,
+      cnt: 10,
+      context: ctx.context,
+    })
+    props.setPosts(res.posts)
+  }
 
   const posts = props.state.data.posts.filter((p) => p.origin === undefined)
 
@@ -160,7 +161,6 @@ function List(props) {
     const unsubscribe = ctx.store.subscribe(() => {
       setState({
         channels: props.state.data.channels,
-        comments: [],
         posts: props.state.data.posts.filter((p) => p.origin === undefined),
         menuClicked: state.menuClicked,
         loading: false,
