@@ -165,6 +165,7 @@ function List(props) {
           .getState()
           .data.posts.filter((p) => p.origin === undefined),
         menuClicked: state.menuClicked,
+        loading: false,
       })
     })
     return () => {
