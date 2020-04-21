@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import { Comment } from '../components'
 import { ctx } from '@/biz/context'
+import { Comment } from '@/components'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+
 import './CommentList.scss'
 
 function CommentListFn(props) {
