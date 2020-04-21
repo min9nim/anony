@@ -1,7 +1,7 @@
-import React from 'react'
 import { ctx } from '@/biz/context'
+import { CommentMenu } from '@/components'
 import moment from 'moment'
-import { CommentMenu } from '../components'
+import React from 'react'
 
 import './Comment.scss'
 
@@ -20,28 +20,24 @@ export class Comment extends React.Component {
     this.deleteComment = this.deleteComment.bind(this)
   }
 
-  deleteComment() {
+  async deleteComment() {
     if (!confirm('delete this comment?')) {
       return
     }
-
-    ctx.api
-      .deleteComment({
+    try {
+      await ctx.api.deleteComment({
         key: this.state.key,
         uuid: ctx.user.uuid,
       })
-      .then(() => {
-        ctx.store &&
-          ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
-        //history.back();
-        this.props.history.push('/list')
+      ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
+      //history.back();
+      this.props.history.push('/list')
+    } catch (e) {
+      ctx.alert({
+        message: e.message,
+        style: 'warning',
       })
-      .catch((e) => {
-        ctx.alert({
-          message: e.message,
-          style: 'warning',
-        })
-      })
+    }
   }
 
   render() {
