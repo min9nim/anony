@@ -11,7 +11,7 @@ function CommentListFn(props) {
     // 댓글 목록 로드
     if (comments.length === 0 && props.commentCnt > 0) {
       ctx.api.getComments(props.postKey).then((res) => {
-        ctx.store.dispatch(ctx.action.addComments(res.comments))
+        props.addComments(res.comments)
       })
     }
   }, [])
@@ -30,8 +30,9 @@ function CommentListFn(props) {
   )
 }
 
-export const CommentList = connect((state) => {
-  return {
+export const CommentList = connect(
+  (state) => ({
     comments: state.data.comments,
-  }
-})(CommentListFn)
+  }),
+  { addComments: ctx.action.addComments },
+)(CommentListFn)
