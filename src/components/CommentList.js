@@ -1,32 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { Comment } from '../components'
 import { ctx } from '@/biz/context'
+import { connect } from 'react-redux'
 import './CommentList.scss'
 
-export function CommentList(props) {
-  const [mounted, setMounted] = useState(true)
-  const [comments, setComments] = useState([])
+function CommentListFn(props) {
+  const comments = props.comments.filter((c) => c.postKey === props.postKey)
 
   useEffect(() => {
-    const unsubscribe = ctx.store.subscribe(() => {
-      const newComments = ctx.store
-        .getState()
-        .data.comments.filter((c) => c.postKey === props.postKey)
-      setComments(newComments)
-    })
-    return () => {
-      unsubscribe()
-    }
-  }, [comments])
-
-  useEffect(() => {
-    if (mounted && comments.length === 0 && props.commentCnt > 0) {
+    // 댓글 목록 로드
+    if (comments.length === 0 && props.commentCnt > 0) {
       ctx.api.getComments(props.postKey).then((res) => {
         ctx.store.dispatch(ctx.action.addComments(res.comments))
       })
-      setMounted(false)
     }
-  }, [mounted])
+  }, [])
 
   return (
     <div className="CommentList">
@@ -41,3 +29,9 @@ export function CommentList(props) {
     </div>
   )
 }
+
+export const CommentList = connect((state) => {
+  return {
+    comments: state.data.comments,
+  }
+})(CommentListFn)

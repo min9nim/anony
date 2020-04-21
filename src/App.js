@@ -2,8 +2,8 @@ import React from 'react'
 import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
 import { ctx, Ctx } from '@/biz/context.js'
-import { createStore } from 'redux'
-import { reducer } from './redux/reducer'
+import store from './redux/store'
+
 import { render, initializeShortcut } from './helper'
 
 export default class App extends React.Component {
@@ -28,17 +28,7 @@ export default class App extends React.Component {
     ctx.view.App = this
 
     // 스토어 최초 한번 생성
-    ctx.store = createStore(reducer, {
-      view: {
-        search: '',
-        uuid: ctx.user.uuid,
-      },
-      data: {
-        posts: [], // 전체 글
-        comments: [], // 전체 댓글
-        channels: [], // 채널목록
-      },
-    })
+    ctx.store = store
   }
 
   shouldComponentUpdate(nextProps, nextState) {
