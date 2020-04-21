@@ -108,6 +108,13 @@ export const addComments = (comments) => {
   }
 }
 
+export const addCommentsAsync = (postKey) => {
+  return async (dispatch) => {
+    const res = await ctx.api.getComments(postKey)
+    dispatch(addComments(res.comments))
+  }
+}
+
 export const restoreComment = (key) => {
   return { type: RESTORECOMMENT, key }
 }

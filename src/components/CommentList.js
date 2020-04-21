@@ -1,5 +1,5 @@
-import { ctx } from '@/biz/context'
 import { Comment } from '@/components'
+import { addCommentsAsync } from '@/redux/action'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 
@@ -11,9 +11,10 @@ function CommentListFn(props) {
   useEffect(() => {
     // 댓글 목록 로드
     if (comments.length === 0 && props.commentCnt > 0) {
-      ctx.api.getComments(props.postKey).then((res) => {
-        props.addComments(res.comments)
-      })
+      props.addCommentsAsync(props.postKey)
+      // ctx.api.getComments(props.postKey).then((res) => {
+      //   props.addComments(res.comments)
+      // })
     }
   }, [])
 
@@ -35,5 +36,5 @@ export const CommentList = connect(
   (state) => ({
     comments: state.data.comments,
   }),
-  { addComments: ctx.action.addComments },
+  { addCommentsAsync },
 )(CommentListFn)
