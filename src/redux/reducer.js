@@ -20,9 +20,9 @@ function posts(state = [], action) {
     case at.ADDPOST: {
       return [action.post, ...state]
     }
-    case at.SCROLLEND: {
-      return [...state, ...action.posts]
-    }
+    // case at.SCROLLEND: {
+    //   return [...state, ...action.posts]
+    // }
     case at.ADDPOSTS: {
       return [...state, ...action.posts]
     }

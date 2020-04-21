@@ -17,7 +17,7 @@ const REMOVECOMMENT = 'REMOVECOMMENT'
 const RESTORECOMMENT = 'RESTORECOMMENT'
 const SETSEARCH = 'SETSEARCH'
 const SETUUID = 'SETUUID'
-const SCROLLEND = 'SCROLLEND'
+// const SCROLLEND = 'SCROLLEND'
 const MYCHANNELS = 'MYCHANNELS'
 
 export const addPost = (post) => {
@@ -51,13 +51,13 @@ export const setPostsAsync = ({ idx, cnt, context }) => {
   }
 }
 
-export const scrollEnd = (posts) => {
-  //posts = posts.map(o => {o.key = shortid.generate(); return o;});
-  return {
-    type: SCROLLEND,
-    posts,
-  }
-}
+// export const scrollEnd = (posts) => {
+//   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
+//   return {
+//     type: SCROLLEND,
+//     posts,
+//   }
+// }
 
 export const addPosts = (posts) => {
   return {
@@ -179,7 +179,7 @@ export default {
     RESTORECOMMENT,
     SETSEARCH,
     SETUUID,
-    SCROLLEND,
+    // SCROLLEND,
     MYCHANNELS,
   },
   addPost,
@@ -199,6 +199,6 @@ export default {
   restoreComment,
   setSearch,
   setUuid,
-  scrollEnd,
+  // scrollEnd,
   myChannels,
 }

@@ -34,7 +34,7 @@ export function fetchList(props, posts, lastPost, state, setState) {
 
     setState({ ...state, loading: false })
 
-    props.scrollEnd(res.posts)
+    props.addPosts(res.posts)
     if (res.posts.length < PAGEROWS) {
       props.logger.verbose('Scroll has touched bottom')
       ctx.noMore = true

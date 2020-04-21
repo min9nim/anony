@@ -8,11 +8,10 @@ import {
   MyChannels,
   Search,
 } from '@/components'
-
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { setPosts, setSearch, scrollEnd, setPostsAsync } from '@/redux/action'
+import { setPosts, setSearch, addPosts, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
 import { prop, isNil, pipe } from 'ramda'
 import { needToFetch, fetchList } from './List-fn'
@@ -186,7 +185,7 @@ export default withLogger(
   connect((state) => ({ state }), {
     setPosts,
     setSearch,
-    scrollEnd,
+    addPosts,
     setPostsAsync,
   })(List),
 )
