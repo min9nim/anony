@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
 import { ctx } from '@/biz/context'
+import { deletePost, removePost, restorePost, addPosts } from '@/redux/action'
+import { connect } from 'react-redux'
 import './PostMenu.scss'
 
-export class PostMenu extends React.Component {
+class PostMenu extends React.Component {
   constructor(props) {
     //ctx.logger.verbose("PostMenu 생성자 호출");
     super(props)
@@ -28,8 +30,8 @@ export class PostMenu extends React.Component {
             uuid: ctx.user.uuid,
           })
           .then((res) => {
-            if (ctx.store.getState().data.posts.length > 0)
-              ctx.store.dispatch(ctx.action.deletePost(this.props.postKey))
+            if (this.props.posts.length > 0)
+              this.props.deletePost(this.props.postKey)
             //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
             //this.props.history.push("/list");
             //ctx.view.Post.setState({deleted : true});
@@ -61,11 +63,11 @@ export class PostMenu extends React.Component {
                 'scaleY(0)'
 
               // dom 제거
-              setTimeout(() => {
-                ctx.store.dispatch(
-                  ctx.action.removePost((p) => p.key === this.props.postKey),
-                )
-              }, 500)
+              setTimeout(
+                () =>
+                  this.props.removePost((p) => p.key === this.props.postKey),
+                500,
+              )
 
               // 목록에서 바로 삭제할 경우에는 화면이동 필요없음
             } else {
@@ -75,9 +77,7 @@ export class PostMenu extends React.Component {
 
               // dom 제거
               setTimeout(() => {
-                ctx.store.dispatch(
-                  ctx.action.removePost((p) => p.key === this.props.postKey),
-                )
+                this.props.removePost((p) => p.key === this.props.postKey)
 
                 // 글보기 화면에서 삭제할 경우에는 목록화면으로 이동 필요
                 if (this.props.postOrigin) {
@@ -113,7 +113,7 @@ export class PostMenu extends React.Component {
           })
           .then((res) => {
             //ctx.store.dispatch(ctx.action.deletePost(this.props.postKey));
-            ctx.store.dispatch(ctx.action.restorePost(this.props.postKey))
+            this.props.restorePost(this.props.postKey)
             //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
             //this.props.history.push("/list");
             //ctx.view.Post.setState({deleted : true});
@@ -151,15 +151,13 @@ export class PostMenu extends React.Component {
 
   postHistory() {
     // 기존 세팅된 히스토리 내역 초기화
-    ctx.store.dispatch(
-      ctx.action.removePost((p) => p.origin === this.props.postKey),
-    )
+    this.props.removePost((p) => p.origin === this.props.postKey)
 
     // 최신 상태로 새로 세팅
     ctx.api.getPostHistory(this.props.postKey).then((res) => {
       if (res.posts.length > 0) {
         //ctx.store.dispatch(ctx.action.setPostHistory(res.posts));
-        ctx.store.dispatch(ctx.action.addPosts(res.posts))
+        this.props.addPosts(res.posts)
         this.props.history.push(
           this.contextPath + '/postHistory/' + this.props.postKey,
         )
@@ -256,3 +254,10 @@ export class PostMenu extends React.Component {
     )
   }
 }
+
+export default connect((state) => ({ posts: state.data.posts }), {
+  deletePost,
+  removePost,
+  restorePost,
+  addPosts,
+})(PostMenu)

@@ -1,5 +1,5 @@
 export * from './Excerpt'
-export * from './PostMenu'
+import PostMenu from './PostMenu'
 export * from './PostMeta'
 export * from './Search'
 export * from './SearchBox'
@@ -16,5 +16,4 @@ export * from './MenuBoard'
 export * from './Loading'
 export * from './PostBottomButtons'
 
-export { CommentMenu }
-export { CommentWrite }
+export { CommentMenu, PostMenu, CommentWrite }
