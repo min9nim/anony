@@ -45,6 +45,9 @@ export const setPostsAsync = ({ idx, cnt, context }) => {
   return async (dispatch) => {
     const res = await ctx.api.getPosts({ idx, cnt, context })
     dispatch(setPosts(res.posts))
+    if (res.posts.length < cnt) {
+      ctx.noMore = true
+    }
   }
 }
 

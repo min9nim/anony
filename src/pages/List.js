@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 import { setPosts, setSearch, scrollEnd, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
 import $m from '@@/com/util'
+import { prop, isNil, pipe } from 'ramda'
 import './List.scss'
 
 const PAGEROWS = 10
@@ -54,7 +55,7 @@ function List(props) {
     // props.setPosts(res.posts)
   }
 
-  const posts = props.state.data.posts.filter((p) => p.origin === undefined)
+  const posts = props.state.data.posts.filter(pipe(prop('origin'), isNil))
 
   // initialize
   useEffect(() => {
