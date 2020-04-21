@@ -1,258 +1,185 @@
-//console.log("api.js start");
+//ctx.logger.verbose("api.js start");
 
-import nprogress from "nprogress";
+import nprogress from 'nprogress'
 
-function errHandler(res) {
-    nprogress.done(); // nprogress.status 가 null 이면 바로 종료됨
-    //if (!res.ok) throw Error(res.statusText);
-    if (!res.ok) {
-        return new Promise(function (resolve, reject) {
-            reject(new Error(res.statusText));
-        })
-    } else {
-        return res.json();
-    }
+// const API_SERVER_URL = 'http://localhost:8080'
+const API_SERVER_URL = 'https://anony-api.now.sh'
 
-
+async function httpReq(path, opt = {}) {
+  if (!opt.hideProgress) {
+    nprogress.start()
+  }
+  delete opt.hideProgress
+  const result = await fetch(API_SERVER_URL + path, {
+    credentials: 'omit',
+    method: 'GET',
+    headers: new Headers({ 'Content-Type': 'application/json' }),
+    ...opt,
+    body: typeof opt.body === 'string' ? opt.body : JSON.stringify(opt.body),
+  })
+  nprogress.done() // nprogress.status 가 null 이면 바로 종료됨
+  if (!result.ok) {
+    ctx.logger.error(result)
+    throw new Error('Unknown error occured')
+  }
+  const res = await result.json()
+  if (res.status !== 'Success') {
+    // 정상적인 경우가 아니라 간주하고 예외 발생시킴
+    throw new Error(res.message)
+  }
+  return res
 }
 
-function httpReq(path, opt) {
-    opt.hideProgress || nprogress.start();
-    delete opt.hideProgress;
-    return fetch(path, Object.assign({}, {
-        credentials: "omit"
-    }, opt));
+export function addPost(post) {
+  return httpReq('/api/posts/add', {
+    method: 'POST',
+    body: post,
+  })
 }
 
-export const api = {};
-
-api.addPost = function (post) {
-    return httpReq(
-        "/api/posts/add",
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify(post, null, 2),
-        }
-    ).then(errHandler);
+export function addComment(comment) {
+  return httpReq('/api/comments/add', {
+    method: 'POST',
+    body: comment,
+  })
 }
 
-api.addComment = function (comment) {
-    return httpReq(
-        "/api/comments/add",
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify(comment, null, 2),
-        }
-    ).then(errHandler);
+export function getPosts({
+  idx = 0,
+  cnt = 10,
+  context = 'public',
+  signal,
+  search = '',
+  hideProgress,
+}) {
+  return httpReq(
+    //        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
+    '/api/posts/get/' + context + '/' + idx + '/' + cnt,
+    {
+      method: 'POST',
+      body: { uuid: ctx.user.uuid, search },
+      signal,
+      hideProgress,
+    },
+  )
 }
 
-
-api.getPosts = function ({ idx = 0, cnt = 10, context = "public", signal, search = "", hideProgress }) {
-    return httpReq(
-        //        "/api/posts/get/" + (context || "root") + "/" + idx + "/" + cnt,
-        "/api/posts/get/" + context + "/" + idx + "/" + cnt,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid, search }),
-            signal,
-            hideProgress
-        }
-    ).then(errHandler);
+export function getComments(postKey) {
+  return httpReq('/api/comments/get/' + postKey)
 }
 
-api.getComments = function (postKey) {
-    return httpReq(
-        "/api/comments/get/" + postKey,
-        {
-            method: "GET",
-        }
-    ).then(errHandler);
+export function getPost(key) {
+  return httpReq('/api/posts/get/' + key, {
+    method: 'POST',
+    body: { uuid: ctx.user.uuid },
+  })
 }
 
-
-api.getPost = function (key) {
-    return httpReq(
-        "/api/posts/get/" + key,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler);
+export function deletePost({ key, uuid }) {
+  return httpReq('/api/posts/delete/' + key + '/' + uuid)
 }
 
-
-api.deletePost = function ({ key, uuid }) {
-    return httpReq(
-        "/api/posts/delete/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function removePost({ key, uuid }) {
+  return httpReq('/api/posts/remove/' + key + '/' + uuid)
 }
 
-
-api.removePost = function ({ key, uuid }) {
-    return httpReq(
-        "/api/posts/remove/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function restorePost({ key, uuid }) {
+  return httpReq('/api/posts/restore/' + key + '/' + uuid)
 }
 
-api.restorePost = function ({ key, uuid }) {
-    return httpReq(
-        "/api/posts/restore/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function restoreComment({ key, uuid }) {
+  return httpReq('/api/comments/restore/' + key + '/' + uuid)
 }
 
-api.restoreComment = function ({ key, uuid }) {
-    return httpReq(
-        "/api/comments/restore/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function viewPost(key) {
+  return httpReq('/api/posts/view/' + key, {
+    method: 'POST',
+    body: { uuid: ctx.user.uuid },
+  })
 }
 
-
-api.viewPost = function (key) {
-    return httpReq(
-        "/api/posts/view/" + key,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler);
+export function deleteComment({ key, uuid }) {
+  return httpReq('/api/comments/delete/' + key + '/' + uuid)
 }
 
-
-
-api.deleteComment = function ({ key, uuid }) {
-    return httpReq(
-        "/api/comments/delete/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function removeComment({ key, uuid }) {
+  return httpReq('/api/comments/remove/' + key + '/' + uuid)
 }
 
-api.removeComment = function ({ key, uuid }) {
-    return httpReq(
-        "/api/comments/remove/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function authPost({ key, uuid }) {
+  return httpReq('/api/posts/auth/' + key + '/' + uuid)
 }
 
-
-api.authPost = function ({ key, uuid }) {
-    return httpReq(
-        "/api/posts/auth/" + key + "/" + uuid,
-        {
-            method: "GET"
-        }
-    ).then(errHandler);
+export function authComment({ key, uuid }) {
+  return httpReq('/api/comments/auth/' + key + '/' + uuid)
 }
 
-api.authComment = function ({ key, uuid }) {
-    return httpReq(
-        "/api/comments/auth/" + key + "/" + uuid,
-        {
-            method: "GET",
-        }
-    ).then(errHandler);
+export function updatePost(post) {
+  return httpReq('/api/posts/edit/' + ctx.user.uuid, {
+    method: 'POST',
+    body: post,
+  })
 }
 
-
-api.updatePost = function (post) {
-    return httpReq(
-        "/api/posts/edit/" + tp.user.uuid,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify(post, null, 2),
-        }
-    ).then(errHandler);
+export function updateComment(comment) {
+  return httpReq(
+    '/api/comments/edit/' + ctx.user.uuid, // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
+    {
+      method: 'POST',
+      body: comment,
+    },
+  )
 }
 
-api.updateComment = function (comment) {
-    return httpReq(
-        "/api/comments/edit/" + tp.user.uuid,           // uuid 민감한 정보를 URL정보로 넘기는 것은 보안상 위험할 수 있음
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify(comment, null, 2),
-        }
-    ).then(errHandler);
+export function getPostHistory(key) {
+  return httpReq('/api/posts/history/' + key)
 }
 
-api.getPostHistory = function (key) {
-    return httpReq(
-        "/api/posts/history/" + key,
-        {
-            method: "GET",
-        }
-    ).then(errHandler);
+export function likePost(key) {
+  return httpReq('/api/posts/likePost/' + key, {
+    method: 'POST',
+    body: { uuid: ctx.user.uuid },
+  })
 }
 
-api.likePost = function (key) {
-    return httpReq(
-        "/api/posts/likePost/" + key,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler);
+export function cancelLike(key, uuid) {
+  return httpReq('/api/posts/cancelLike/' + key, {
+    method: 'POST',
+    body: { uuid: ctx.user.uuid },
+  })
 }
 
-api.cancelLike = function (key, uuid) {
-    return httpReq(
-        "/api/posts/cancelLike/" + key,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler);
+export async function myChannels() {
+  const res = await httpReq('/api/posts/myChannels/', {
+    method: 'POST',
+    body: { uuid: ctx.user.uuid },
+  })
+  if (res.output.length === 0) {
+    res.output = [{ name: 'public', count: 0 }]
+  }
+  return res
 }
 
-
-api.cancelLike = function (key, uuid) {
-    return httpReq(
-        "/api/posts/cancelLike/" + key,
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler);
-}
-
-
-api.myChannels = function(){
-    return httpReq(
-        "/api/posts/myChannels/",
-        {
-            method: "POST",
-            headers: new Headers({ "Content-Type": "application/json" }),
-            body: JSON.stringify({ uuid: tp.user.uuid }),
-        }
-    ).then(errHandler)
-    .then(res => {
-        if(res.output.length === 0){
-            res.output = [{name: "public", count: 0}]
-        }
-        return res;
-    });    
+export const api = {
+  addPost,
+  addComment,
+  myChannels,
+  getPost,
+  getPosts,
+  deletePost,
+  removePost,
+  restorePost,
+  restoreComment,
+  viewPost,
+  getComments,
+  deleteComment,
+  removeComment,
+  authPost,
+  authComment,
+  updatePost,
+  updateComment,
+  getPostHistory,
+  likePost,
+  cancelLike,
+  myChannels,
 }

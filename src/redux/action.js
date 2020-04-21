@@ -1,147 +1,204 @@
-import shortid from "shortid";
+import shortid from 'shortid'
 
-const action = {};
-export default action;
+const ADDPOST = 'ADDPOST'
+const ADDPOSTS = 'ADDPOSTS'
+const INITPOSTS = 'INITPOSTS'
+const SETPOSTS = 'SETPOSTS'
+const DELETEPOST = 'DELETEPOST'
+const UPDATEPOST = 'UPDATEPOST'
+const REMOVEPOST = 'REMOVEPOST'
+const RESTOREPOST = 'RESTOREPOST'
+const VIEWPOST = 'VIEWPOST' // 조회수 +1
+const ADDCOMMENT = 'ADDCOMMENT'
+const ADDCOMMENTS = 'ADDCOMMENTS'
+const DELETECOMMENT = 'DELETECOMMENT'
+const UPDATECOMMENT = 'UPDATECOMMENT'
+const REMOVECOMMENT = 'REMOVECOMMENT'
+const RESTORECOMMENT = 'RESTORECOMMENT'
+const SETSEARCH = 'SETSEARCH'
+const SETUUID = 'SETUUID'
+// const SCROLLEND = 'SCROLLEND'
+const MYCHANNELS = 'MYCHANNELS'
 
-
-const at = action.type = {
-  ADDPOST : "ADDPOST",
-  ADDPOSTS : "ADDPOSTS",
-  INITPOSTS : "INITPOSTS",
-  SETPOSTS : "SETPOSTS",
-  DELETEPOST : "DELETEPOST",
-  UPDATEPOST : "UPDATEPOST",
-  REMOVEPOST : "REMOVEPOST",
-  RESTOREPOST : "RESTOREPOST",
-  VIEWPOST : "VIEWPOST",      // 조회수 +1
-
-  ADDCOMMENT : "ADDCOMMENT",
-  ADDCOMMENTS : "ADDCOMMENTS",
-  DELETECOMMENT : "DELETECOMMENT",
-  UPDATECOMMENT : "UPDATECOMMENT",
-  REMOVECOMMENT : "REMOVECOMMENT",
-  RESTORECOMMENT : "RESTORECOMMENT",
-
-  SETSEARCH : "SETSEARCH",
-  SETUUID : "SETUUID",
-
-  SCROLLEND : "SCROLLEND",
-
-  MYCHANNELS : "MYCHANNELS"
-}
-
-action.addPost = function(post) {
-  post.key = post.key || shortid.generate();
+export const addPost = (post) => {
+  post.key = post.key || shortid.generate()
   return {
-    type: at.ADDPOST,
-    post
+    type: ADDPOST,
+    post,
   }
 }
 
-action.initPosts = function(){
+export const initPosts = () => {
   return {
-    type: at.INITPOSTS,
+    type: INITPOSTS,
   }
 }
 
-action.setPosts = function(posts){
+export const setPosts = (posts) => {
   return {
-    type: at.SETPOSTS,
-    posts
+    type: SETPOSTS,
+    posts,
   }
 }
 
-
-action.scrollEnd = function(posts) {
-  //posts = posts.map(o => {o.key = shortid.generate(); return o;});
-  return {
-    type: at.SCROLLEND,
-    posts
+export const setPostsAsync = ({ idx, cnt, context }) => {
+  return async (dispatch) => {
+    const res = await ctx.api.getPosts({ idx, cnt, context })
+    dispatch(setPosts(res.posts))
+    if (res.posts.length < cnt) {
+      ctx.noMore = true
+    }
   }
 }
 
-action.addPosts = function(posts) {
+// export const scrollEnd = (posts) => {
+//   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
+//   return {
+//     type: SCROLLEND,
+//     posts,
+//   }
+// }
+
+export const addPosts = (posts) => {
   return {
-    type: at.ADDPOSTS,
-    posts
+    type: ADDPOSTS,
+    posts,
   }
 }
 
-action.deletePost = function(key) {
-  return {type: at.DELETEPOST, key}
+export const deletePost = (key) => {
+  return { type: DELETEPOST, key }
 }
 
-action.removePost = function(fn) {
-  return {type: at.REMOVEPOST, predi: fn}
+export const removePost = (fn) => {
+  return { type: REMOVEPOST, predi: fn }
 }
 
-action.viewPost = function(key) {
-  return {type: at.VIEWPOST, key}
+export const viewPost = (key) => {
+  return { type: VIEWPOST, key }
 }
 
-action.restorePost = function(key) {
-  return {type: at.RESTOREPOST, key}
+export const restorePost = (key) => {
+  return { type: RESTOREPOST, key }
 }
 
-action.updatePost = function(post) {
+export const updatePost = (post) => {
   return {
-    type: at.UPDATEPOST,
-    post
+    type: UPDATEPOST,
+    post,
   }
 }
 
-action.updateComment = function(comment) {
+export const updateComment = (comment) => {
   return {
-    type: at.UPDATECOMMENT,
-    comment
+    type: UPDATECOMMENT,
+    comment,
   }
 }
 
-action.deleteComment = function(key) {
-  return {type: at.DELETECOMMENT, key}
+export const deleteComment = (key) => {
+  return { type: DELETECOMMENT, key }
 }
 
-action.removeComment = function(key) {
-  return {type: at.REMOVECOMMENT, key}
-}
-
-action.addComment = function(comment) {
-  return {
-    type: at.ADDCOMMENT,
-    comment
+export const deleteCommentAsync = (key) => {
+  return async (dispatch) => {
+    await ctx.api.deleteComment({
+      key,
+      uuid: ctx.user.uuid,
+    })
+    dispatch(deleteComment(key))
   }
 }
 
-action.addComments = function(comments) {
+export const removeComment = (key) => {
+  return { type: REMOVECOMMENT, key }
+}
+
+export const addComment = (comment) => {
   return {
-    type: at.ADDCOMMENTS,
-    comments
+    type: ADDCOMMENT,
+    comment,
   }
 }
 
-action.restoreComment = function(key) {
-  return {type: at.RESTORECOMMENT, key}
-}
-
-
-action.setSearch = function(word) {
+export const addComments = (comments) => {
   return {
-    type: at.SETSEARCH,
-    search: word
+    type: ADDCOMMENTS,
+    comments,
   }
 }
 
-action.setUuid = function(uuid) {
-  return {
-    type: at.SETUUID,
-    uuid
+export const addCommentsAsync = (postKey) => {
+  return async (dispatch) => {
+    const res = await ctx.api.getComments(postKey)
+    dispatch(addComments(res.comments))
   }
 }
 
+export const restoreComment = (key) => {
+  return { type: RESTORECOMMENT, key }
+}
 
-action.myChannels = function(channels) {
+export const setSearch = (word) => {
   return {
-    type: at.MYCHANNELS,
-    channels
+    type: SETSEARCH,
+    search: word,
   }
+}
+
+export const setUuid = (uuid) => {
+  return {
+    type: SETUUID,
+    uuid,
+  }
+}
+
+export const myChannels = (channels) => {
+  return {
+    type: MYCHANNELS,
+    channels,
+  }
+}
+
+export default {
+  type: {
+    ADDPOST,
+    ADDPOSTS,
+    INITPOSTS,
+    SETPOSTS,
+    DELETEPOST,
+    UPDATEPOST,
+    REMOVEPOST,
+    RESTOREPOST,
+    VIEWPOST, // 조회수 +1
+    ADDCOMMENT,
+    ADDCOMMENTS,
+    DELETECOMMENT,
+    UPDATECOMMENT,
+    REMOVECOMMENT,
+    RESTORECOMMENT,
+    SETSEARCH,
+    SETUUID,
+    // SCROLLEND,
+    MYCHANNELS,
+  },
+  addPost,
+  addPosts,
+  initPosts,
+  setPosts,
+  deletePost,
+  updatePost,
+  removePost,
+  restorePost,
+  viewPost,
+  addComment,
+  addComments,
+  deleteComment,
+  updateComment,
+  removeComment,
+  restoreComment,
+  setSearch,
+  setUuid,
+  // scrollEnd,
+  myChannels,
 }

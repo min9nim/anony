@@ -1,118 +1,133 @@
-import React from "react";
-import {tp} from "../tp";
-import shortid from "shortid";
-import { Excerpt, Menu, Search, ListLoader, MyChannels } from "../components";
+import { ctx } from '@/biz/context'
+import React from 'react'
+import { Button, FormControl, FormGroup } from 'react-bootstrap'
+import shortid from 'shortid'
+import { MyChannels } from '@/components'
 
-import "./MenuBoard.scss";
-import {
-    FormGroup,
-    FormControl,
-    Button
-  } from "react-bootstrap";
+import './MenuBoard.scss'
 
-export default class MenuBoard extends React.Component {
-    constructor(props) {
-        //console.log("MenuBoard 생성자 호출");
-        super(props);
-        //this.hideMenu = this.props.hideMenu;
-        this.confirm = this.confirm.bind(this);
-        this.refreshUuid = this.refreshUuid.bind(this);
-        this.deleteUuid = this.deleteUuid.bind(this);
-        this.cancel = this.cancel.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        
-        this.state = {
-            uuid: tp.user.uuid,
-        }
+export class MenuBoard extends React.Component {
+  constructor(props) {
+    //ctx.logger.verbose("MenuBoard 생성자 호출");
+    super(props)
+    //this.hideMenu = this.props.hideMenu;
+    this.confirm = this.confirm.bind(this)
+    this.refreshUuid = this.refreshUuid.bind(this)
+    this.deleteUuid = this.deleteUuid.bind(this)
+    this.cancel = this.cancel.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+
+    this.state = {
+      uuid: ctx.user.uuid,
     }
+  }
 
-
-    confirm(){
-        if(this.getValidationState() !== "success"){
-            tp.alert({message: "Invalid uuid", style: "warning", width: "152px"});
-            return;
-        }
-        tp.setUser({uuid: this.state.uuid});
-        //tp.store.dispatch(tp.action.setUuid(tp.user.uuid));
-        //alert("uuid changed");
-        tp.alert({
-            message: "uuid changed", 
-            style: "info", 
-            width: "152px"
-        });
-
-
-        tp.store.dispatch(tp.action.myChannels([]));
-        tp.api.myChannels().then(
-            res => {
-                tp.store.dispatch(tp.action.myChannels(res.output));                
-            }
-        );    
-
-        //this.hideMenu();
-        tp.view.List.setState({menuClicked: false})
+  async confirm() {
+    if (this.getValidationState() !== 'success') {
+      ctx.alert({ message: 'Invalid uuid', style: 'warning', width: '152px' })
+      return
     }
+    ctx.setUser({ uuid: this.state.uuid })
+    //ctx.store.dispatch(ctx.action.setUuid(ctx.user.uuid));
+    //alert("uuid changed");
+    ctx.alert({
+      message: 'uuid changed',
+      style: 'info',
+      width: '152px',
+    })
 
-    cancel(){
-        this.setState({uuid: tp.user.uuid});
-        //this.hideMenu();
-        tp.view.List.setState({menuClicked: false})
-    }
+    ctx.store.dispatch(ctx.action.myChannels([]))
+    const res = await ctx.api.myChannels()
+    ctx.store.dispatch(ctx.action.myChannels(res.output))
 
-    refreshUuid(){
-        this.setState({uuid: shortid.generate()});
-    }
+    this.props.hideMenu()
+  }
 
-    deleteUuid(){
-        this.setState({uuid: ""});
-        this.uuidinput.focus();
-    }
+  cancel() {
+    this.setState({ uuid: ctx.user.uuid })
+    this.props.hideMenu()
+  }
 
-    getValidationState() {
-        let uuid = tp.$m.removeTag(this.state.uuid).trim();
-        const length = uuid.length;    
-        if (shortid.isValid(this.state.uuid) && length >= 9) return 'success';
-        else if (length > 5) return 'warning';
-        else if (length > 0) return 'error';
-        return null;
-    }
+  refreshUuid() {
+    this.setState({ uuid: shortid.generate() })
+  }
 
-    handleChange(e) {
-        if(e.target.value.length > 10) return;
-        const state = {};
-        state[e.target.id] = e.target.value ;
-        this.setState(state);
-    }
+  deleteUuid() {
+    this.setState({ uuid: '' })
+    this.uuidinput.focus()
+  }
 
-    render(){
-        //console.log("MenuBoard 렌더링");
-        return (
-            <div className="uuid-setting">
-                <div className="modal_div"></div>
-                <div className="inner_div">
-                    <div className="upper_grp">
-                        <FormGroup className="form" controlId = "uuid" validationState = {this.getValidationState()}>
-                            {/* <ControlLabel> uuid </ControlLabel> */}
-                            <FormControl type = "text"
-                                    autoFocus
-                                    inputRef={ref => { this.uuidinput = ref; }}
-                                    value = {this.state.uuid}
-                                    onChange = {this.handleChange}
-                                    placeholder = "uuid.." />
-                            <FormControl.Feedback />
-                        </FormGroup>
-                        <div className="icon-cancel delete" onClick={this.deleteUuid} title="Delete uuid" />
-                        <div className="icon-spin3 refresh" onClick={this.refreshUuid} title="Generate random uuid"/>
-                    </div>
-                    
-                    <div className="btn_grp">
-                        <Button className="searchBtn" bsStyle="success" onClick={this.confirm}>Save</Button>
-                        <Button className="cancelBtn" bsStyle="success" onClick={this.cancel}>Cancel</Button>
-                    </div>
+  getValidationState() {
+    let uuid = ctx.$m.removeTag(this.state.uuid).trim()
+    const length = uuid.length
+    if (shortid.isValid(this.state.uuid) && length >= 9) return 'success'
+    else if (length > 5) return 'warning'
+    else if (length > 0) return 'error'
+    return null
+  }
 
-                    <MyChannels channels={tp.store.getState().data.channels} />
-                </div>
-            </div>
-        );
-    }
+  handleChange(e) {
+    if (e.target.value.length > 10) return
+    this.setState({ [e.target.id]: e.target.value })
+  }
+
+  render() {
+    //ctx.logger.verbose("MenuBoard 렌더링");
+    return (
+      <div className="uuid-setting">
+        <div className="modal_div"></div>
+        <div className="inner_div">
+          <div className="upper_grp">
+            <FormGroup
+              className="form"
+              controlId="uuid"
+              validationState={this.getValidationState()}
+            >
+              {/* <ControlLabel> uuid </ControlLabel> */}
+              <FormControl
+                type="text"
+                autoFocus
+                inputRef={(ref) => {
+                  this.uuidinput = ref
+                }}
+                value={this.state.uuid}
+                onChange={this.handleChange}
+                placeholder="uuid.."
+              />
+              <FormControl.Feedback />
+            </FormGroup>
+            <div
+              className="icon-cancel delete"
+              onClick={this.deleteUuid}
+              title="Delete uuid"
+            />
+            <div
+              className="icon-spin3 refresh"
+              onClick={this.refreshUuid}
+              title="Generate random uuid"
+            />
+          </div>
+
+          <div className="btn_grp">
+            <Button
+              className="searchBtn"
+              bsStyle="success"
+              onClick={this.confirm}
+            >
+              Save
+            </Button>
+            <Button
+              className="cancelBtn"
+              bsStyle="success"
+              onClick={this.cancel}
+            >
+              Cancel
+            </Button>
+          </div>
+
+          <MyChannels channels={ctx.store.getState().data.channels} />
+        </div>
+      </div>
+    )
+  }
 }

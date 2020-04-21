@@ -1,5 +1,9 @@
 node_modules
 dbConfig.js
 .vscode
+.idea
 nohup.out
-public/*.chunk.js
+dev-start.sh
+prod-start.sh
+.now
+.DS_Store
