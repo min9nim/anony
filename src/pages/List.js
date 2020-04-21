@@ -19,6 +19,15 @@ import './List.scss'
 
 const PAGEROWS = 10
 
+const needToFetch = (props) =>
+  // 처음부터 글쓰기로 글을 생성하고 들어온 경우
+  (props.state.data.posts.filter((p) => p.origin === undefined).length <= 1 &&
+    props.state.view.search === '') ||
+  // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
+  props.state.data.posts
+    .map((p) => p.context)
+    .filter((value, index, array) => array.indexOf(value) === index).length > 1
+
 function List(props) {
   const [state, setState] = useState({
     channels: props.state.data.channels,
@@ -60,17 +69,7 @@ function List(props) {
         ? props.context
         : 'public'
 
-    if (
-      // 처음부터 글쓰기로 글을 생성하고 들어온 경우
-      (props.state.data.posts.filter((p) => p.origin === undefined).length <=
-        1 &&
-        props.state.view.search === '') ||
-      // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
-      props.state.data.posts
-        .map((p) => p.context)
-        .filter((value, index, array) => array.indexOf(value) === index)
-        .length > 1
-    ) {
+    if (needToFetch(props)) {
       ctx.api
         .getPosts({ idx: 0, cnt: 10, context: ctx.context })
         .then((res) => {
