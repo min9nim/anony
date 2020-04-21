@@ -1,147 +1,143 @@
-import shortid from "shortid";
+import shortid from 'shortid'
 
-const action = {};
-export default action;
+const action = {}
+export default action
 
+const at = (action.type = {
+  ADDPOST: 'ADDPOST',
+  ADDPOSTS: 'ADDPOSTS',
+  INITPOSTS: 'INITPOSTS',
+  SETPOSTS: 'SETPOSTS',
+  DELETEPOST: 'DELETEPOST',
+  UPDATEPOST: 'UPDATEPOST',
+  REMOVEPOST: 'REMOVEPOST',
+  RESTOREPOST: 'RESTOREPOST',
+  VIEWPOST: 'VIEWPOST', // 조회수 +1
 
-const at = action.type = {
-  ADDPOST : "ADDPOST",
-  ADDPOSTS : "ADDPOSTS",
-  INITPOSTS : "INITPOSTS",
-  SETPOSTS : "SETPOSTS",
-  DELETEPOST : "DELETEPOST",
-  UPDATEPOST : "UPDATEPOST",
-  REMOVEPOST : "REMOVEPOST",
-  RESTOREPOST : "RESTOREPOST",
-  VIEWPOST : "VIEWPOST",      // 조회수 +1
+  ADDCOMMENT: 'ADDCOMMENT',
+  ADDCOMMENTS: 'ADDCOMMENTS',
+  DELETECOMMENT: 'DELETECOMMENT',
+  UPDATECOMMENT: 'UPDATECOMMENT',
+  REMOVECOMMENT: 'REMOVECOMMENT',
+  RESTORECOMMENT: 'RESTORECOMMENT',
 
-  ADDCOMMENT : "ADDCOMMENT",
-  ADDCOMMENTS : "ADDCOMMENTS",
-  DELETECOMMENT : "DELETECOMMENT",
-  UPDATECOMMENT : "UPDATECOMMENT",
-  REMOVECOMMENT : "REMOVECOMMENT",
-  RESTORECOMMENT : "RESTORECOMMENT",
+  SETSEARCH: 'SETSEARCH',
+  SETUUID: 'SETUUID',
 
-  SETSEARCH : "SETSEARCH",
-  SETUUID : "SETUUID",
+  SCROLLEND: 'SCROLLEND',
 
-  SCROLLEND : "SCROLLEND",
+  MYCHANNELS: 'MYCHANNELS',
+})
 
-  MYCHANNELS : "MYCHANNELS"
-}
-
-action.addPost = function(post) {
-  post.key = post.key || shortid.generate();
+action.addPost = (post) => {
+  post.key = post.key || shortid.generate()
   return {
     type: at.ADDPOST,
-    post
+    post,
   }
 }
 
-action.initPosts = function(){
+action.initPosts = () => {
   return {
     type: at.INITPOSTS,
   }
 }
 
-action.setPosts = function(posts){
+action.setPosts = (posts) => {
   return {
     type: at.SETPOSTS,
-    posts
+    posts,
   }
 }
 
-
-action.scrollEnd = function(posts) {
+action.scrollEnd = (posts) => {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {
     type: at.SCROLLEND,
-    posts
+    posts,
   }
 }
 
-action.addPosts = function(posts) {
+action.addPosts = (posts) => {
   return {
     type: at.ADDPOSTS,
-    posts
+    posts,
   }
 }
 
-action.deletePost = function(key) {
-  return {type: at.DELETEPOST, key}
+action.deletePost = (key) => {
+  return { type: at.DELETEPOST, key }
 }
 
-action.removePost = function(fn) {
-  return {type: at.REMOVEPOST, predi: fn}
+action.removePost = (fn) => {
+  return { type: at.REMOVEPOST, predi: fn }
 }
 
-action.viewPost = function(key) {
-  return {type: at.VIEWPOST, key}
+action.viewPost = (key) => {
+  return { type: at.VIEWPOST, key }
 }
 
-action.restorePost = function(key) {
-  return {type: at.RESTOREPOST, key}
+action.restorePost = (key) => {
+  return { type: at.RESTOREPOST, key }
 }
 
-action.updatePost = function(post) {
+action.updatePost = (post) => {
   return {
     type: at.UPDATEPOST,
-    post
+    post,
   }
 }
 
-action.updateComment = function(comment) {
+action.updateComment = (comment) => {
   return {
     type: at.UPDATECOMMENT,
-    comment
+    comment,
   }
 }
 
-action.deleteComment = function(key) {
-  return {type: at.DELETECOMMENT, key}
+action.deleteComment = (key) => {
+  return { type: at.DELETECOMMENT, key }
 }
 
-action.removeComment = function(key) {
-  return {type: at.REMOVECOMMENT, key}
+action.removeComment = (key) => {
+  return { type: at.REMOVECOMMENT, key }
 }
 
-action.addComment = function(comment) {
+action.addComment = (comment) => {
   return {
     type: at.ADDCOMMENT,
-    comment
+    comment,
   }
 }
 
-action.addComments = function(comments) {
+action.addComments = (comments) => {
   return {
     type: at.ADDCOMMENTS,
-    comments
+    comments,
   }
 }
 
-action.restoreComment = function(key) {
-  return {type: at.RESTORECOMMENT, key}
+action.restoreComment = (key) => {
+  return { type: at.RESTORECOMMENT, key }
 }
 
-
-action.setSearch = function(word) {
+action.setSearch = (word) => {
   return {
     type: at.SETSEARCH,
-    search: word
+    search: word,
   }
 }
 
-action.setUuid = function(uuid) {
+action.setUuid = (uuid) => {
   return {
     type: at.SETUUID,
-    uuid
+    uuid,
   }
 }
 
-
-action.myChannels = function(channels) {
+action.myChannels = (channels) => {
   return {
     type: at.MYCHANNELS,
-    channels
+    channels,
   }
 }
