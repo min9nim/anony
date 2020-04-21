@@ -41,6 +41,13 @@ export const setPosts = (posts) => {
   }
 }
 
+export const setPostsAsync = ({ idx, cnt, context }) => {
+  return async (dispatch) => {
+    const res = await ctx.api.getPosts({ idx, cnt, context })
+    dispatch(setPosts(res.posts))
+  }
+}
+
 export const scrollEnd = (posts) => {
   //posts = posts.map(o => {o.key = shortid.generate(); return o;});
   return {

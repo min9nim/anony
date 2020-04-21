@@ -12,7 +12,7 @@ import nprogress from 'nprogress'
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { setPosts, setSearch, scrollEnd } from '@/redux/action'
+import { setPosts, setSearch, scrollEnd, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
 import $m from '@@/com/util'
 import './List.scss'
@@ -70,14 +70,7 @@ function List(props) {
         : 'public'
 
     if (needToFetch(props)) {
-      ctx.api
-        .getPosts({ idx: 0, cnt: 10, context: ctx.context })
-        .then((res) => {
-          props.setPosts(res.posts)
-        })
-    } else {
-      console.log('여기 드르와여지??')
-      // 이전에 들고있던 글목록이 있다면 굳이 새로 서버로 요청을 다시 보낼 필요가 없음..
+      props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })
     }
     return () => {
       props.logger.verbose('[effect-out] initialize')
@@ -224,5 +217,10 @@ function List(props) {
 }
 
 export default withLogger(
-  connect((state) => ({ state }), { setPosts, setSearch, scrollEnd })(List),
+  connect((state) => ({ state }), {
+    setPosts,
+    setSearch,
+    scrollEnd,
+    setPostsAsync,
+  })(List),
 )
