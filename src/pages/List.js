@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
+import { withLogger } from '@/biz'
+import { ctx } from '@/biz/context'
+import { observeDom } from '@/biz/utils'
 import {
   Excerpt,
-  MenuBoard,
-  Search,
   ListLoader,
+  MenuBoard,
   MyChannels,
-} from '../components'
-import { ctx } from '@/biz/context'
-import { Link } from 'react-router-dom'
+  Search,
+} from '@/components'
 import nprogress from 'nprogress'
+import React, { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+
 import $m from '../../com/util'
-import { withLogger } from '../biz'
 
 import './List.scss'
-import { observeDom } from '../biz/utils'
 
 const logoClick = () => {
   // 기존내용 초기화
@@ -231,7 +232,11 @@ function List(props) {
         <MyChannels />
       </div>
 
-      {state.menuClicked && <MenuBoard />}
+      {state.menuClicked && (
+        <MenuBoard
+          hideMenu={() => setState({ ...state, menuClicked: false })}
+        />
+      )}
     </div>
   )
 }

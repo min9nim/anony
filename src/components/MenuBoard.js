@@ -1,9 +1,11 @@
-import React from 'react'
 import { ctx } from '@/biz/context'
+import React from 'react'
+import { Button, FormControl, FormGroup } from 'react-bootstrap'
 import shortid from 'shortid'
+
 import { MyChannels } from '../components'
+
 import './MenuBoard.scss'
-import { FormGroup, FormControl, Button } from 'react-bootstrap'
 
 export class MenuBoard extends React.Component {
   constructor(props) {
@@ -36,18 +38,16 @@ export class MenuBoard extends React.Component {
     })
 
     ctx.store.dispatch(ctx.action.myChannels([]))
-    ctx.api.myChannels().then(res => {
+    ctx.api.myChannels().then((res) => {
       ctx.store.dispatch(ctx.action.myChannels(res.output))
     })
 
-    //this.hideMenu();
-    ctx.view.List.setState({ menuClicked: false })
+    this.props.hideMenu()
   }
 
   cancel() {
     this.setState({ uuid: ctx.user.uuid })
-    //this.hideMenu();
-    ctx.view.List.setState({ menuClicked: false })
+    this.props.hideMenu()
   }
 
   refreshUuid() {
@@ -91,7 +91,7 @@ export class MenuBoard extends React.Component {
               <FormControl
                 type="text"
                 autoFocus
-                inputRef={ref => {
+                inputRef={(ref) => {
                   this.uuidinput = ref
                 }}
                 value={this.state.uuid}
