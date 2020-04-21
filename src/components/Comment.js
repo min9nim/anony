@@ -25,11 +25,11 @@ export class Comment extends React.Component {
       return
     }
     try {
-      await ctx.api.deleteComment({
-        key: this.state.key,
-        uuid: ctx.user.uuid,
-      })
-      ctx.store.dispatch(ctx.action.deleteComment(this.state.key))
+      // await ctx.api.deleteComment({
+      //   key: this.state.key,
+      //   uuid: ctx.user.uuid,
+      // })
+      ctx.store.dispatch(ctx.action.deleteCommentAsync(this.state.key))
       //history.back();
       this.props.history.push('/list')
     } catch (e) {

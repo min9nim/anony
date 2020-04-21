@@ -90,6 +90,16 @@ export const deleteComment = (key) => {
   return { type: DELETECOMMENT, key }
 }
 
+export const deleteCommentAsync = (key) => {
+  return async (dispatch) => {
+    await ctx.api.deleteComment({
+      key,
+      uuid: ctx.user.uuid,
+    })
+    dispatch(deleteComment(key))
+  }
+}
+
 export const removeComment = (key) => {
   return { type: REMOVECOMMENT, key }
 }
