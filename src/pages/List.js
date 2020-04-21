@@ -47,12 +47,6 @@ function List(props) {
       cnt: 10,
       context: ctx.context,
     })
-    // const res = await ctx.api.getPosts({
-    //   idx: 0,
-    //   cnt: 10,
-    //   context: ctx.context,
-    // })
-    // props.setPosts(res.posts)
   }
 
   const posts = props.state.data.posts.filter(pipe(prop('origin'), isNil))
