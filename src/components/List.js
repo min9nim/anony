@@ -88,7 +88,7 @@ function List(props) {
 
     const unobserve = observeDom(
       lastPost,
-      fetchList(props, posts, lastPost, state, setState),
+      fetchList(props, posts, state, setState),
     )
     return () => {
       props.logger.verbose('[effect-out] infinite loading')

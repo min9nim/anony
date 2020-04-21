@@ -5,6 +5,7 @@ export function observeDom(dom, callback) {
       if (!entry.isIntersecting) {
         return
       }
+      dom.observed = false
       observer.unobserve(entry.target)
       callback(entry.target)
     })

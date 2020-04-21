@@ -12,7 +12,7 @@ export const needToFetch = (props) =>
     .map((p) => p.context)
     .filter((value, index, array) => array.indexOf(value) === index).length > 1
 
-export function fetchList(props, posts, lastPost, state, setState) {
+export function fetchList(props, posts, state, setState) {
   return async () => {
     props.logger.info('last one show up', posts.length)
 
@@ -27,10 +27,6 @@ export function fetchList(props, posts, lastPost, state, setState) {
       hideProgress: true,
       context: ctx.context,
     })
-    // if (lastPost.observed) {
-    //   props.logger.info('unobserve last one')
-    //   unobserve()
-    // }
 
     setState({ ...state, loading: false })
 
