@@ -107,38 +107,33 @@ function List(props) {
     }
     props.logger.info('observe last one')
 
-    const unobserve = observeDom(lastPost, () => {
+    const unobserve = observeDom(lastPost, async () => {
       props.logger.info('last one show up', posts.length)
 
       nprogress.start()
       $m('#nprogress .spinner').css('top', '95%')
-      // ctx.view.ListLoader.setState({ loading: true })
       setState({ ...state, loading: true })
 
-      ctx.api
-        .getPosts({
-          idx: posts.length,
-          cnt: PAGEROWS,
-          search: props.state.view.search,
-          hideProgress: true,
-          context: ctx.context,
-        })
-        .then((res) => {
-          if (lastPost.observed) {
-            props.logger.info('unobserve last one')
-            unobserve()
-          }
+      const res = await ctx.api.getPosts({
+        idx: posts.length,
+        cnt: PAGEROWS,
+        search: props.state.view.search,
+        hideProgress: true,
+        context: ctx.context,
+      })
+      if (lastPost.observed) {
+        props.logger.info('unobserve last one')
+        unobserve()
+      }
 
-          // ctx.view.ListLoader.setState({ loading: false })
-          setState({ ...state, loading: false })
+      setState({ ...state, loading: false })
 
-          props.scrollEnd(res.posts)
-          if (res.posts.length < PAGEROWS) {
-            props.logger.verbose('Scroll has touched bottom')
-            ctx.noMore = true
-            return
-          }
-        })
+      props.scrollEnd(res.posts)
+      if (res.posts.length < PAGEROWS) {
+        props.logger.verbose('Scroll has touched bottom')
+        ctx.noMore = true
+        return
+      }
     })
     return () => {
       props.logger.verbose('[effect-out] infinite loading')
@@ -155,21 +150,6 @@ function List(props) {
       }
     }
   }, [posts.length])
-
-  // subscribe store
-  useEffect(() => {
-    const unsubscribe = ctx.store.subscribe(() => {
-      setState({
-        channels: props.state.data.channels,
-        posts: props.state.data.posts.filter((p) => p.origin === undefined),
-        menuClicked: state.menuClicked,
-        loading: false,
-      })
-    })
-    return () => {
-      unsubscribe()
-    }
-  }, [])
 
   props.logger.verbose('render', state.loading)
   //let title = props.state.view.uuid + (ctx.context ? (" /" + ctx.context) : "") ;
