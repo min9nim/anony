@@ -14,9 +14,7 @@ import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { setPosts, setSearch, scrollEnd } from '@/redux/action'
 import { connect } from 'react-redux'
-
 import $m from '@@/com/util'
-
 import './List.scss'
 
 const PAGEROWS = 10
