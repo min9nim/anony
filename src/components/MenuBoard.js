@@ -2,8 +2,7 @@ import { ctx } from '@/biz/context'
 import React from 'react'
 import { Button, FormControl, FormGroup } from 'react-bootstrap'
 import shortid from 'shortid'
-
-import { MyChannels } from '../components'
+import { MyChannels } from '@/components'
 
 import './MenuBoard.scss'
 
@@ -23,7 +22,7 @@ export class MenuBoard extends React.Component {
     }
   }
 
-  confirm() {
+  async confirm() {
     if (this.getValidationState() !== 'success') {
       ctx.alert({ message: 'Invalid uuid', style: 'warning', width: '152px' })
       return
@@ -38,9 +37,8 @@ export class MenuBoard extends React.Component {
     })
 
     ctx.store.dispatch(ctx.action.myChannels([]))
-    ctx.api.myChannels().then((res) => {
-      ctx.store.dispatch(ctx.action.myChannels(res.output))
-    })
+    const res = await ctx.api.myChannels()
+    ctx.store.dispatch(ctx.action.myChannels(res.output))
 
     this.props.hideMenu()
   }
@@ -70,9 +68,7 @@ export class MenuBoard extends React.Component {
 
   handleChange(e) {
     if (e.target.value.length > 10) return
-    const state = {}
-    state[e.target.id] = e.target.value
-    this.setState(state)
+    this.setState({ [e.target.id]: e.target.value })
   }
 
   render() {
