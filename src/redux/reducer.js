@@ -1,6 +1,6 @@
 import action from './action'
-//import R from "ramda";
-const R = require('ramda')
+import * as R from 'ramda'
+// const R = require('ramda')
 
 const at = action.type
 
@@ -38,6 +38,14 @@ function posts(state = [], action) {
       const idx = afterState.findIndex((o) => o.key === action.key)
       afterState[idx].deleted = true // idx번째 요소 삭제표시
       return afterState
+    }
+    case at.DELETEPOST_REQUESTED: {
+      ctx.logger.debug('요청 시작')
+      return state
+    }
+    case at.DELETEPOST_FAILED: {
+      ctx.logger.debug('요청 실패')
+      return state
     }
     case at.VIEWPOST: {
       //const afterState = [...state]; // state 배열 복사
