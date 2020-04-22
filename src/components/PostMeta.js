@@ -1,6 +1,9 @@
 import React from 'react'
 import { ctx } from '@/biz/context'
+import { type } from '@/redux/action'
 import './PostMeta.scss'
+
+const { LIKEPOST_REQUESTED } = type
 
 export class PostMeta extends React.Component {
   constructor(props) {
@@ -11,14 +14,15 @@ export class PostMeta extends React.Component {
 
   likePost() {
     if (this.props.post.liked) {
-      ctx.api.cancelLike(this.props.post.key).then(res => {
+      ctx.api.cancelLike(this.props.post.key).then((res) => {
         ctx.store.dispatch(ctx.action.updatePost(res.output))
       })
-    } else {
-      ctx.api.likePost(this.props.post.key).then(res => {
-        ctx.store.dispatch(ctx.action.updatePost(res.output))
-      })
+      return
     }
+    // ctx.api.likePost(this.props.post.key).then((res) => {
+    //   ctx.store.dispatch(ctx.action.updatePost(res.output))
+    // })
+    ctx.store.dispatch({ type: LIKEPOST_REQUESTED, key: this.props.post.key })
   }
 
   render() {
