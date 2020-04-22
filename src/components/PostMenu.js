@@ -126,19 +126,17 @@ class PostMenu extends React.Component {
         uuid: ctx.user.uuid,
       })
       .then((res) => {
-        if (res.status === 'Success') {
-          this.props.history.push(
-            this.contextPath + '/edit/' + this.props.postKey,
-          )
-        } else {
-          ctx.alert({
-            message: res.message,
-            style: 'warning',
-            width: '160px',
-          })
-          //this.cancelMenu();
-        }
+        this.props.history.push(
+          this.contextPath + '/edit/' + this.props.postKey,
+        )
       })
+      .catch((e) =>
+        ctx.alert({
+          message: e.message,
+          style: 'warning',
+          width: '160px',
+        }),
+      )
   }
 
   postHistory() {
