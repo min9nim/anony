@@ -53,10 +53,10 @@ function List(props) {
       return
     }
 
-    ctx.context =
-      props.context && props.context.length <= ctx.MAXCONTEXTLEN
-        ? props.context
-        : 'public'
+    // ctx.context =
+    //   props.context && props.context.length <= ctx.MAXCONTEXTLEN
+    //     ? props.context
+    //     : 'public'
 
     if (needToFetch(props)) {
       props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })

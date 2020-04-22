@@ -43,6 +43,8 @@ export default class App extends React.Component {
     let tmp = decodeURI(location.pathname.split('/')[1])
     ctx.context = tmp === 'post' ? '' : tmp
 
+    ctx.logger.debug('App render', ctx.context)
+
     return (
       <div>
         <Ctx.Provider value="hello">
