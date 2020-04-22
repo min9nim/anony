@@ -8,6 +8,7 @@ import {
   type,
 } from '@/redux/action'
 import { connect } from 'react-redux'
+import PostMenuTemplate from './PostMenuTemplate'
 import './PostMenu.scss'
 
 const { DELETEPOST_REQUESTED } = type
@@ -26,34 +27,13 @@ class PostMenu extends React.Component {
   }
 
   deletePost() {
-    //if(!confirm("Delete this?")) return;
     ctx.confirm({
-      //message: "Delete this?<br> whenever you can restore this.",
-      //width: "256px",
       message: 'Delete this?',
       onYes: () => {
         ctx.store.dispatch({
           type: DELETEPOST_REQUESTED,
           key: this.props.postKey,
         })
-        //   ctx.api
-        //     .deletePost({
-        //       key: this.props.postKey,
-        //       uuid: ctx.user.uuid,
-        //     })
-        //     .then((res) => {
-        //       if (this.props.posts.length > 0)
-        //         this.props.deletePost(this.props.postKey)
-        //       //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-        //       //this.props.history.push("/list");
-        //       //ctx.view.Post.setState({deleted : true});
-        //     })
-        //     .catch((e) => {
-        //       ctx.alert({
-        //         message: e.message,
-        //         style: 'warning',
-        //       })
-        //     })
       },
     })
   }
@@ -146,19 +126,17 @@ class PostMenu extends React.Component {
         uuid: ctx.user.uuid,
       })
       .then((res) => {
-        if (res.status === 'Success') {
-          this.props.history.push(
-            this.contextPath + '/edit/' + this.props.postKey,
-          )
-        } else {
-          ctx.alert({
-            message: res.message,
-            style: 'warning',
-            width: '160px',
-          })
-          //this.cancelMenu();
-        }
+        this.props.history.push(
+          this.contextPath + '/edit/' + this.props.postKey,
+        )
       })
+      .catch((e) =>
+        ctx.alert({
+          message: e.message,
+          style: 'warning',
+          width: '160px',
+        }),
+      )
   }
 
   postHistory() {
@@ -201,68 +179,24 @@ class PostMenu extends React.Component {
 
   render() {
     //ctx.logger.verbose("PostMenu 렌더링");
-    let historyCnt
-    if (this.props.post) {
-      if (this.props.post.historyCnt) {
-        historyCnt = '(' + this.props.post.historyCnt + ')'
-      }
-    }
+    let historyCnt = this.props.post?.historyCnt
+      ? (historyCnt = '(' + this.props.post.historyCnt + ')')
+      : ''
 
     return (
-      <div className="postMenu">
-        {this.state.clicked ? (
-          <div className="navi">
-            {ctx.history.location.pathname.indexOf('/post/') >= 0 && (
-              <div className="icon-list" onClick={this.list.bind(this)}>
-                List
-              </div>
-            )}
-            {!this.props.postOrigin && (
-              <div
-                className="icon-history"
-                onClick={this.postHistory.bind(this)}
-              >
-                History{historyCnt}
-              </div>
-            )}
-            {this.props.postDeleted ? (
-              <div className="icon-ccw" onClick={this.restorePost.bind(this)}>
-                Restore
-              </div>
-            ) : (
-              <Fragment>
-                {!this.props.postOrigin && (
-                  <div
-                    className="icon-pencil"
-                    onClick={this.editPost.bind(this)}
-                  >
-                    Edit
-                  </div>
-                )}
-                <div
-                  className="icon-trash-empty"
-                  onClick={this.deletePost.bind(this)}
-                  title="Delete this, whenever you can restore this"
-                >
-                  Delete
-                </div>
-              </Fragment>
-            )}
-            <div
-              className="icon-trash"
-              onClick={this.removePost.bind(this)}
-              title="Delete this, you cannot undo"
-            >
-              Remove
-            </div>
-            {/* <div className="icon-cancel" onClick={this.cancelMenu}>Cancel</div> */}
-          </div>
-        ) : (
-          <div className="navi" onClick={this.showMenu.bind(this)}>
-            ...
-          </div>
-        )}
-      </div>
+      <PostMenuTemplate
+        menuClicked={this.state.clicked}
+        postOrigin={this.props.postOrigin}
+        postDeleted={this.props.postDeleted}
+        historyCnt={historyCnt}
+        listClick={this.list.bind(this)}
+        historyClick={this.postHistory.bind(this)}
+        restoreClick={this.restorePost.bind(this)}
+        editClick={this.editPost.bind(this)}
+        deleteClick={this.deletePost.bind(this)}
+        removeClick={this.removePost.bind(this)}
+        dotsClick={this.showMenu.bind(this)}
+      />
     )
   }
 }

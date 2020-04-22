@@ -19,6 +19,10 @@ function* deletePost(action) {
     ctx.logger.debug('상태 변경 완료')
   } catch (e) {
     yield put({ type: DELETEPOST_FAILED, message: e.message })
+    ctx.alert({
+      message: e.message,
+      style: 'warning',
+    })
   }
 }
 
@@ -28,6 +32,10 @@ function* likePost(action) {
     yield put(updatePost(res.output))
   } catch (e) {
     yield put({ type: LIKEPOST_FAILED, message: e.message })
+    ctx.alert({
+      message: e.message,
+      style: 'warning',
+    })
   }
 }
 
