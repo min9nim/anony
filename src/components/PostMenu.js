@@ -1,8 +1,16 @@
 import React, { Fragment } from 'react'
 import { ctx } from '@/biz/context'
-import { deletePost, removePost, restorePost, addPosts } from '@/redux/action'
+import {
+  deletePost,
+  removePost,
+  restorePost,
+  addPosts,
+  type,
+} from '@/redux/action'
 import { connect } from 'react-redux'
 import './PostMenu.scss'
+
+const { DELETEPOST_REQUESTED } = type
 
 class PostMenu extends React.Component {
   constructor(props) {
@@ -24,24 +32,28 @@ class PostMenu extends React.Component {
       //width: "256px",
       message: 'Delete this?',
       onYes: () => {
-        ctx.api
-          .deletePost({
-            key: this.props.postKey,
-            uuid: ctx.user.uuid,
-          })
-          .then((res) => {
-            if (this.props.posts.length > 0)
-              this.props.deletePost(this.props.postKey)
-            //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
-            //this.props.history.push("/list");
-            //ctx.view.Post.setState({deleted : true});
-          })
-          .catch((e) => {
-            ctx.alert({
-              message: e.message,
-              style: 'warning',
-            })
-          })
+        ctx.store.dispatch({
+          type: DELETEPOST_REQUESTED,
+          key: this.props.postKey,
+        })
+        //   ctx.api
+        //     .deletePost({
+        //       key: this.props.postKey,
+        //       uuid: ctx.user.uuid,
+        //     })
+        //     .then((res) => {
+        //       if (this.props.posts.length > 0)
+        //         this.props.deletePost(this.props.postKey)
+        //       //history.back();       // 이걸 사용하면 전혀 다른 사이트로 튈수 있음
+        //       //this.props.history.push("/list");
+        //       //ctx.view.Post.setState({deleted : true});
+        //     })
+        //     .catch((e) => {
+        //       ctx.alert({
+        //         message: e.message,
+        //         style: 'warning',
+        //       })
+        //     })
       },
     })
   }
