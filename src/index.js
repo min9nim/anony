@@ -8,11 +8,13 @@ import Root from './Root'
 import store from './redux/store'
 
 ReactDOM.render(
-  <AppContainer>
-    <Provider store={store}>
-      <Root />
-    </Provider>
-  </AppContainer>,
+  <React.StrictMode>
+    <AppContainer>
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    </AppContainer>
+  </React.StrictMode>,
   document.getElementById('root'),
 )
 // Hot Module Replacement API
@@ -20,9 +22,11 @@ if (module.hot) {
   module.hot.accept('./App', () => {
     const NextApp = require('./App').default
     ReactDOM.render(
-      <AppContainer>
-        <NextApp />
-      </AppContainer>,
+      <React.StrictMode>
+        <AppContainer>
+          <NextApp />
+        </AppContainer>
+      </React.StrictMode>,
       document.getElementById('root'),
     )
   })
