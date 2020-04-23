@@ -13,7 +13,7 @@ import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { setPosts, setSearch, addPosts, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
-import { prop, isNil, pipe } from 'ramda'
+import { prop, isNil, pipe, last } from 'ramda'
 import { needToFetch, fetchList } from './List-fn'
 
 import './List.scss'
@@ -44,7 +44,6 @@ function List(props) {
   useEffect(() => {
     props.logger.verbose('[effect-in] initialize')
     ctx.scrollTop = 0 // 스크롤 위치 초기화
-    ctx.view.List = this
     document.title = (ctx.context || 'Anony') + ' - ' + ctx.thispage
 
     if (props.context && props.context.length > ctx.MAXCONTEXTLEN) {
@@ -53,16 +52,8 @@ function List(props) {
       return
     }
 
-    // ctx.context =
-    //   props.context && props.context.length <= ctx.MAXCONTEXTLEN
-    //     ? props.context
-    //     : 'public'
-
     if (needToFetch(props)) {
       props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })
-    }
-    return () => {
-      props.logger.verbose('[effect-out] initialize')
     }
   }, [])
 
@@ -71,10 +62,7 @@ function List(props) {
     props.logger.verbose('[effect-in] infinite loading')
     ctx.$m.scrollTo(0, ctx.scrollTop) // 이전 스크롤 위치로 복원
 
-    const lastPost = Array.prototype.slice.call(
-      document.querySelectorAll('.list > .excerpt'),
-      -1,
-    )[0]
+    const lastPost = last(document.querySelectorAll('.list > .excerpt'))
 
     if (!lastPost) {
       props.logger.warn('not found lastPost')
