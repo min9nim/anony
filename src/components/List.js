@@ -60,7 +60,11 @@ function List(props) {
         <div className="logo">
           <img src="/image/logo_transparent.png" onClick={logoClick} />
         </div>
-        <Search context={ctx.context} />
+        <Search
+          context={ctx.context}
+          setLoading={setLoading}
+          loading={state.loading}
+        />
         <div className="menu-title">
           {/* <Menu /> */}
           <div

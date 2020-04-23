@@ -66,7 +66,7 @@ export class Search extends React.Component {
   }
 
   search(word) {
-    if (ctx.view.ListLoader.state.loading) {
+    if (this.props.loading) {
       this.fetchController.abort()
     }
     this.fetchController = new AbortController()
@@ -79,8 +79,7 @@ export class Search extends React.Component {
 
     // 기존내용 초기화
     ctx.store.dispatch(ctx.action.initPosts())
-    //ctx.view.ListLoader.setState({ loading: true });
-    ctx.view.ListLoader.state.loading = true
+    this.props.setLoading(true)
     this.ipt.style.backgroundColor = '#eee'
 
     ctx.noMore = false
@@ -95,9 +94,8 @@ export class Search extends React.Component {
         signal,
       })
       .then((res) => {
-        ctx.view.ListLoader.setState({ loading: false })
+        this.props.setLoading(false)
         this.ipt.style.backgroundColor = ''
-        //ctx.view.ListLoader.state.loading = false;
         ctx.store.dispatch(ctx.action.addPosts(res.posts))
       })
       .catch((e) => ctx.logger.error(e))
