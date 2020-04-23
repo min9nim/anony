@@ -154,7 +154,7 @@ export default class Post extends React.Component {
           }
           {this.state.origin && (
             <Link to={this.contextPath + '/postHistory/' + this.state.origin}>
-              <Button bsStyle="success" className="writeBtn">
+              <Button variant="success" className="writeBtn">
                 <i className="icon-history" />
                 History
               </Button>

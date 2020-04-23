@@ -54,7 +54,7 @@ export default function ListTemplate({
 
       {ctx.store.getState().view.search !== '' && (
         <div className="backBtn">
-          <Button bsStyle="success" onClick={logoClick}>
+          <Button variant="success" onClick={logoClick}>
             Back
           </Button>
         </div>
@@ -62,7 +62,7 @@ export default function ListTemplate({
 
       <div className="writeBtn">
         <Link to={'/' + ctx.context + '/write'}>
-          <Button bsStyle="success">
+          <Button variant="success">
             <i className="icon-doc-new" />
             Write
           </Button>

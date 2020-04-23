@@ -59,7 +59,7 @@ export class SearchBox extends React.Component {
               autoFocus
               value={this.state.word}
               onChange={this.handleChange}
-              componentClass="textarea"
+              as="textarea"
               placeholder="word.."
             />
           </FormGroup>
@@ -67,14 +67,14 @@ export class SearchBox extends React.Component {
           <div className="btn_grp">
             <Button
               className="searchBtn"
-              bsStyle="success"
+              variant="success"
               onClick={this.search}
             >
               Search
             </Button>
             <Button
               className="cancelBtn"
-              bsStyle="success"
+              variant="success"
               onClick={this.hideSearch}
             >
               Cancel

@@ -62,7 +62,7 @@ export default class PostHistory extends React.Component {
         ))}
         <div className="btnWrapper">
           <Link to={this.contextPath + '/post/' + this.props.postKey}>
-            <Button bsStyle="success">
+            <Button variant="success">
               <i className="icon-to-end" />
               Last
             </Button>

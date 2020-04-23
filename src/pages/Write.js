@@ -425,7 +425,7 @@ export default class Write extends React.Component {
             id="title"
             value={this.state.title}
             onChange={this.handleChange}
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.titleinput = ref
             }}
             placeholder="Title.."
@@ -445,7 +445,7 @@ export default class Write extends React.Component {
             id="writer"
             value={this.state.writer}
             onChange={this.handleChange}
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.writerinput = ref
             }}
             placeholder="Writer.."
@@ -475,7 +475,7 @@ export default class Write extends React.Component {
                 id="context"
                 value={this.state.context}
                 onChange={this.handleChange}
-                inputRef={(ref) => {
+                ref={(ref) => {
                   this.contextinput = ref
                 }}
                 placeholder="Channel.."
@@ -495,7 +495,7 @@ export default class Write extends React.Component {
                 id="uuid"
                 value={this.state.uuid}
                 disabled={this.props.type === 'edit'}
-                inputRef={(ref) => {
+                ref={(ref) => {
                   this.uuidinput = ref
                 }}
                 onChange={this.handleChange}
@@ -559,22 +559,22 @@ export default class Write extends React.Component {
           <FormControl
             style={contentStyle}
             autoFocus
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.contentinput = ref
             }}
             value={this.state.content}
             onChange={this.handleChange}
-            componentClass="textarea"
+            as="textarea"
             placeholder="Content.."
           />
         </FormGroup>
-        <Button bsStyle="success" onClick={this.savePost}>
+        <Button variant="success" onClick={this.savePost}>
           <i className="icon-floppy" />
           Save
         </Button>
         <Button
           className="write-cancel-btn"
-          bsStyle="success"
+          variant="success"
           onClick={this.cancel}
         >
           <i className="icon-cancel" />

@@ -1,7 +1,7 @@
 import React from 'react'
 import { findDOMNode } from 'react-dom'
-import Alert from 'react-bootstrap/lib/Alert'
-import Button from 'react-bootstrap/lib/Button'
+import Alert from 'react-bootstrap/Alert'
+import Button from 'react-bootstrap/Button'
 import './AlertDismissable.scss'
 
 export class AlertDismissable extends React.Component {
@@ -51,14 +51,14 @@ export class AlertDismissable extends React.Component {
       <div className="alertDismissable">
         <div className="modal_div"></div>
         <Alert
-          bsStyle={this.state.style}
+          variant={this.state.style}
           style={{ width: this.state.width }}
           onDismiss={this.handleDismiss}
         >
           <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
           <p>
             <Button
-              bsStyle={this.state.style}
+              variant={this.state.style}
               ref="closeBtn"
               onClick={this.handleDismiss}
             >
