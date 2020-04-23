@@ -1,7 +1,7 @@
 import React from 'react'
 import shortid from 'shortid'
 import { ctx } from '@/biz/context'
-import { FormGroup, Checkbox, FormControl, Button } from 'react-bootstrap'
+import { FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap'
 import './Write.scss'
 
 export default class Write extends React.Component {
@@ -527,30 +527,30 @@ export default class Write extends React.Component {
               </div>
             </FormGroup>
             <FormGroup className="form_chk">
-              <Checkbox
+              <InputGroup.Checkbox
                 onChange={this.handleChange}
                 id="isMarkdown"
                 checked={this.state.isMarkdown}
                 title="If you check markdown, you can use markdown syntax"
               >
                 Markdown
-              </Checkbox>
-              <Checkbox
+              </InputGroup.Checkbox>
+              <InputGroup.CheckBox
                 onChange={this.handleChange}
                 id="isPrivate"
                 checked={this.state.isPrivate}
                 title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately."
               >
                 Private
-              </Checkbox>
-              <Checkbox
+              </InputGroup.CheckBox>
+              <InputGroup.CheckBox
                 onChange={this.handleChange}
                 id="hasComment"
                 checked={this.state.hasComment}
                 title="If you check comment, you can get comments from others"
               >
                 Comment
-              </Checkbox>
+              </InputGroup.CheckBox>
             </FormGroup>
           </React.Fragment>
         )}
