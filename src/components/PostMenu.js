@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { ctx } from '@/biz/context'
 import {
   deletePost,
@@ -9,9 +9,8 @@ import {
 } from '@/redux/action'
 import { connect } from 'react-redux'
 import PostMenuTemplate from './PostMenuTemplate'
-import './PostMenu.scss'
 
-const { DELETEPOST_REQUESTED } = type
+const { DELETEPOST_REQUESTED, REMOVEPOST_REQUESTED } = type
 
 class PostMenu extends React.Component {
   constructor(props) {
@@ -43,52 +42,12 @@ class PostMenu extends React.Component {
       message: 'Remove this?',
       width: '155px',
       onYes: () => {
-        ctx.api
-          .removePost({
-            key: this.props.postKey,
-            uuid: ctx.user.uuid,
-          })
-          .then((res) => {
-            if (['PostHistory', 'List'].includes(ctx.thispage)) {
-              // 애니메이션 처리
-              document.getElementById(this.props.postKey).style.transform =
-                'scaleY(0)'
-
-              // dom 제거
-              setTimeout(
-                () =>
-                  this.props.removePost((p) => p.key === this.props.postKey),
-                500,
-              )
-
-              // 목록에서 바로 삭제할 경우에는 화면이동 필요없음
-            } else {
-              // 애니메이션 처리
-              document.getElementsByClassName('post')[0].style.transform =
-                'scaleX(0)'
-
-              // dom 제거
-              setTimeout(() => {
-                this.props.removePost((p) => p.key === this.props.postKey)
-
-                // 글보기 화면에서 삭제할 경우에는 목록화면으로 이동 필요
-                if (this.props.postOrigin) {
-                  var arr = location.pathname.split('/')
-                  arr.splice(2, 2, 'postHistory', this.props.postOrigin) // context 명이 없는 경우 문제 발생할 수 있음
-                  this.props.history.push(arr.join('/'))
-                } else {
-                  this.props.history.push(this.contextPath + '/list')
-                }
-              }, 500)
-            }
-          })
-          .catch((e) => {
-            ctx.alert({
-              message: 'Fail<br>' + e.message,
-              style: 'danger',
-              width: '200px',
-            })
-          })
+        ctx.store.dispatch({
+          type: REMOVEPOST_REQUESTED,
+          key: this.props.postKey,
+          postOrigin: this.props.postOrigin,
+          contextPath: this.contextPath,
+        })
       },
     })
   }
