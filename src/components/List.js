@@ -9,14 +9,8 @@ import './List.scss'
 import ListTemplate from './ListTemplate'
 
 function List(props) {
-  const [state, setState] = useState({
-    channels: props.state.data.channels,
-    menuClicked: false,
-    loading: false,
-  })
-
-  const setLoading = (loading) => setState({ ...state, loading })
-  const setMenuClicked = (menuClicked) => setState({ ...state, menuClicked })
+  const [loading, setLoading] = useState(false)
+  const [menuClicked, setMenuClicked] = useState(false)
 
   const logoClick = () => {
     // 기존내용 초기화
@@ -41,11 +35,11 @@ function List(props) {
   return (
     <ListTemplate
       logoClick={logoClick}
-      setMenuClicked={setMenuClicked}
       posts={posts}
+      loading={loading}
       setLoading={setLoading}
-      loading={state.loading}
-      menuClicked={state.menuClicked}
+      menuClicked={menuClicked}
+      setMenuClicked={setMenuClicked}
     />
   )
 }
