@@ -5,7 +5,6 @@ import { setPosts, setSearch, addPosts, setPostsAsync } from '@/redux/action'
 import { connect } from 'react-redux'
 import { prop, isNil, pipe } from 'ramda'
 import { initializeEffect, infiniteLoadingEffect } from './List-fn'
-import './List.scss'
 import ListTemplate from './ListTemplate'
 
 function List(props) {

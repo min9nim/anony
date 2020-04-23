@@ -8,6 +8,7 @@ import {
 } from '@/components'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import './ListTemplate.scss'
 
 export default function ListTemplate({
   logoClick,
