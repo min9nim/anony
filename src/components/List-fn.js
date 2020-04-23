@@ -11,7 +11,7 @@ export const needToFetch = (props) =>
     props.state.view.search === '') ||
   // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
   props.state.data.posts
-    .map((p) => p.context)
+    .map(prop('context'))
     .filter((value, index, array) => array.indexOf(value) === index).length > 1
 
 export function fetchList(props, posts, setLoading) {
