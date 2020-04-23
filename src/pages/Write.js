@@ -1,7 +1,7 @@
 import React from 'react'
 import shortid from 'shortid'
 import { ctx } from '@/biz/context'
-import { FormGroup, InputGroup, FormControl, Button } from 'react-bootstrap'
+import { InputGroup, FormControl, Button, Form } from 'react-bootstrap'
 import './Write.scss'
 
 export default class Write extends React.Component {
@@ -418,9 +418,9 @@ export default class Write extends React.Component {
     return (
       <div className="write">
         {/* <div className="context">{this.props.context || "Anony"}</div> */}
-        <FormGroup className="form_title">
+        <Form.Group className="form_title">
           {/*<ControlLabel> Title </ControlLabel>*/}
-          <FormControl
+          <Form.Control
             type="text"
             id="title"
             value={this.state.title}
@@ -437,9 +437,9 @@ export default class Write extends React.Component {
               title="Delete title"
             />
           )}
-        </FormGroup>
-        <FormGroup className="form_writer">
-          <FormControl
+        </Form.Group>
+        <Form.Group className="form_writer">
+          <Form.Control
             type="text"
             className="writer"
             id="writer"
@@ -465,11 +465,11 @@ export default class Write extends React.Component {
             {' '}
             options
           </div>
-        </FormGroup>
+        </Form.Group>
         {this.state.optClicked && (
           <React.Fragment>
-            <FormGroup className="form_context">
-              <FormControl
+            <Form.Group className="form_context">
+              <Form.Control
                 type="text"
                 className="context"
                 id="context"
@@ -487,9 +487,9 @@ export default class Write extends React.Component {
                   title="Delete channel"
                 />
               )}
-            </FormGroup>
-            <FormGroup className="form_uuid">
-              <FormControl
+            </Form.Group>
+            <Form.Group className="form_uuid">
+              <Form.Control
                 type="text"
                 className="uuid"
                 id="uuid"
@@ -500,7 +500,7 @@ export default class Write extends React.Component {
                 }}
                 onChange={this.handleChange}
                 placeholder="Uuid.."
-              ></FormControl>
+              />
               <div className="group_icon">
                 <div
                   style={
@@ -525,8 +525,8 @@ export default class Write extends React.Component {
                   />
                 )}
               </div>
-            </FormGroup>
-            <FormGroup className="form_chk">
+            </Form.Group>
+            <Form.Group className="form_chk">
               <InputGroup.Checkbox
                 onChange={this.handleChange}
                 id="isMarkdown"
@@ -551,12 +551,12 @@ export default class Write extends React.Component {
               >
                 Comment
               </InputGroup.CheckBox>
-            </FormGroup>
+            </Form.Group>
           </React.Fragment>
         )}
-        <FormGroup controlId="content">
+        <Form.Group controlId="content">
           {/*<ControlLabel> Content </ControlLabel>*/}
-          <FormControl
+          <Form.Control
             style={contentStyle}
             autoFocus
             ref={(ref) => {
@@ -567,7 +567,7 @@ export default class Write extends React.Component {
             as="textarea"
             placeholder="Content.."
           />
-        </FormGroup>
+        </Form.Group>
         <Button variant="success" onClick={this.savePost}>
           <i className="icon-floppy" />
           Save
