@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import './PostMenuTemplate.scss'
 
 export default function PostMenuTemplate(props) {
   const {
