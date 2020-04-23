@@ -1,9 +1,9 @@
 import React from 'react'
 
-export function Loading(props) {
+export function Loading({ name }) {
   return (
     <div>
-      <i className="icon-spin3 animate-spin"></i> Loading.. [{props.name}]
+      <i className="icon-spin3 animate-spin"></i> Loading.. [{name}]
     </div>
   )
 }
