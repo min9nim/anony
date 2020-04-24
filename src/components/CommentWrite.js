@@ -98,17 +98,17 @@ class CommentWrite extends React.Component {
           <FormControl
             id="content"
             value={this.state.content}
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.content = ref
             }}
             onChange={this.handleChange}
-            componentClass="textarea"
+            as="textarea"
             placeholder="Comment.."
           />
         </div>
         <div className="confirmBtn">
           <Button
-            bsStyle="success"
+            variant="success"
             disabled={isLoading}
             onClick={isLoading ? null : this.saveComment}
           >

@@ -1,9 +1,11 @@
 import React from 'react'
 import shortid from 'shortid'
 import { ctx } from '@/biz/context'
-import { FormGroup, Checkbox, FormControl, Button } from 'react-bootstrap'
+import { InputGroup, Button, Form } from 'react-bootstrap'
+import WriteOption from '@/components/WriteOption'
 import './Write.scss'
 
+console.log('InputGroup', InputGroup)
 export default class Write extends React.Component {
   constructor(props) {
     super(props)
@@ -375,7 +377,7 @@ export default class Write extends React.Component {
   }
 
   render() {
-    //ctx.logger.verbose("Write 렌더링..");
+    ctx.logger.verbose('Write 렌더링..')
 
     /**
      * 18.09.20 min9nim
@@ -415,17 +417,21 @@ export default class Write extends React.Component {
      * write 화면에서 채널명 초기화가 안되서 그냥 다시 주석처리함
      */
 
+    console.log('Form', Form)
+    console.log('Button', Button)
+    console.log('Form.Group', Form.Group)
+    console.log('Form.Control', Form.Control)
     return (
       <div className="write">
         {/* <div className="context">{this.props.context || "Anony"}</div> */}
-        <FormGroup className="form_title">
+        <Form.Group className="form_title">
           {/*<ControlLabel> Title </ControlLabel>*/}
-          <FormControl
+          <Form.Control
             type="text"
             id="title"
             value={this.state.title}
             onChange={this.handleChange}
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.titleinput = ref
             }}
             placeholder="Title.."
@@ -437,15 +443,15 @@ export default class Write extends React.Component {
               title="Delete title"
             />
           )}
-        </FormGroup>
-        <FormGroup className="form_writer">
-          <FormControl
+        </Form.Group>
+        <Form.Group className="form_writer">
+          <Form.Control
             type="text"
             className="writer"
             id="writer"
             value={this.state.writer}
             onChange={this.handleChange}
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.writerinput = ref
             }}
             placeholder="Writer.."
@@ -465,116 +471,39 @@ export default class Write extends React.Component {
             {' '}
             options
           </div>
-        </FormGroup>
+        </Form.Group>
         {this.state.optClicked && (
-          <React.Fragment>
-            <FormGroup className="form_context">
-              <FormControl
-                type="text"
-                className="context"
-                id="context"
-                value={this.state.context}
-                onChange={this.handleChange}
-                inputRef={(ref) => {
-                  this.contextinput = ref
-                }}
-                placeholder="Channel.."
-              />
-              {this.state.context && (
-                <div
-                  className="icon-cancel delete"
-                  onClick={this.deleteContext}
-                  title="Delete channel"
-                />
-              )}
-            </FormGroup>
-            <FormGroup className="form_uuid">
-              <FormControl
-                type="text"
-                className="uuid"
-                id="uuid"
-                value={this.state.uuid}
-                disabled={this.props.type === 'edit'}
-                inputRef={(ref) => {
-                  this.uuidinput = ref
-                }}
-                onChange={this.handleChange}
-                placeholder="Uuid.."
-              ></FormControl>
-              <div className="group_icon">
-                <div
-                  style={
-                    this.props.type === 'edit'
-                      ? { cursor: 'not-allowed' }
-                      : { cursor: 'pointer' }
-                  }
-                  className="icon-spin3 refresh"
-                  onClick={this.refreshUuid}
-                  title="Generate random uuid"
-                />
-                {this.state.uuid && (
-                  <div
-                    style={
-                      this.props.type === 'edit'
-                        ? { cursor: 'not-allowed' }
-                        : { cursor: 'pointer' }
-                    }
-                    className="icon-cancel delete"
-                    onClick={this.deleteUuid}
-                    title="Delete uuid"
-                  />
-                )}
-              </div>
-            </FormGroup>
-            <FormGroup className="form_chk">
-              <Checkbox
-                onChange={this.handleChange}
-                id="isMarkdown"
-                checked={this.state.isMarkdown}
-                title="If you check markdown, you can use markdown syntax"
-              >
-                Markdown
-              </Checkbox>
-              <Checkbox
-                onChange={this.handleChange}
-                id="isPrivate"
-                checked={this.state.isPrivate}
-                title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately."
-              >
-                Private
-              </Checkbox>
-              <Checkbox
-                onChange={this.handleChange}
-                id="hasComment"
-                checked={this.state.hasComment}
-                title="If you check comment, you can get comments from others"
-              >
-                Comment
-              </Checkbox>
-            </FormGroup>
-          </React.Fragment>
+          <WriteOption
+            state={this.state}
+            handleChange={this.handleChange}
+            deleteContext={this.deleteContext}
+            type={this.props.type}
+            refreshUuid={this.refreshUuid}
+            deleteUuid={this.deleteUuid}
+            parent={this}
+          />
         )}
-        <FormGroup controlId="content">
+        <Form.Group controlId="content">
           {/*<ControlLabel> Content </ControlLabel>*/}
-          <FormControl
+          <Form.Control
             style={contentStyle}
             autoFocus
-            inputRef={(ref) => {
+            ref={(ref) => {
               this.contentinput = ref
             }}
             value={this.state.content}
             onChange={this.handleChange}
-            componentClass="textarea"
+            as="textarea"
             placeholder="Content.."
           />
-        </FormGroup>
-        <Button bsStyle="success" onClick={this.savePost}>
+        </Form.Group>
+        <Button variant="success" onClick={this.savePost}>
           <i className="icon-floppy" />
           Save
         </Button>
         <Button
           className="write-cancel-btn"
-          bsStyle="success"
+          variant="success"
           onClick={this.cancel}
         >
           <i className="icon-cancel" />

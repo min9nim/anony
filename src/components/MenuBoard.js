@@ -87,7 +87,7 @@ export class MenuBoard extends React.Component {
               <FormControl
                 type="text"
                 autoFocus
-                inputRef={(ref) => {
+                ref={(ref) => {
                   this.uuidinput = ref
                 }}
                 value={this.state.uuid}
@@ -111,14 +111,14 @@ export class MenuBoard extends React.Component {
           <div className="btn_grp">
             <Button
               className="searchBtn"
-              bsStyle="success"
+              variant="success"
               onClick={this.confirm}
             >
               Save
             </Button>
             <Button
               className="cancelBtn"
-              bsStyle="success"
+              variant="success"
               onClick={this.cancel}
             >
               Cancel

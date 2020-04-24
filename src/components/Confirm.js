@@ -43,7 +43,7 @@ export class Confirm extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.show) ReactDOM.findDOMNode(this.refs.yesBtn).focus()
+    if (this.state.show) ReactDOM.findDOMNode(this.yesBtn).focus()
   }
 
   handleShow({ message, style = 'info', width, onYes, onNo }) {
@@ -65,17 +65,24 @@ export class Confirm extends React.Component {
       <div className="confirm">
         <div className="modal_div"></div>
         <Alert
-          bsStyle={this.state.style}
+          variant={this.state.style}
           style={{ width: this.state.width }}
-          onDismiss={this.handleDismiss}
+          className="in"
+          onClose={this.handleDismiss}
         >
           <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
           <p>
-            <Button bsStyle="info" ref="yesBtn" onClick={this.handleYes}>
+            <Button
+              variant="info"
+              ref={(dom) => {
+                this.yesBtn = dom
+              }}
+              onClick={this.handleYes}
+            >
               YES
             </Button>
             <span> or </span>
-            <Button bsStyle="warning" onClick={this.handleNo}>
+            <Button variant="warning" onClick={this.handleNo}>
               NO
             </Button>
           </p>

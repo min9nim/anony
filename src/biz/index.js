@@ -122,20 +122,20 @@ export async function spaAccess(postDate, postKey) {
 }
 
 export async function editPost(history, contextPath, postKey) {
-  const res = await ctx.api.authPost({
-    key: postKey,
-    uuid: ctx.user.uuid,
-  })
-  if (res.status !== 'Success') {
+  try {
+    const res = await ctx.api.authPost({
+      key: postKey,
+      uuid: ctx.user.uuid,
+    })
+
+    history.push(contextPath + '/edit/' + postKey)
+  } catch (e) {
     ctx.alert({
-      message: res.message,
+      message: e.message,
       style: 'warning',
       width: '160px',
     })
-    //this.cancelMenu();
-    return
   }
-  history.push(contextPath + '/edit/' + postKey)
 }
 
 export function withLogger(Fn) {

@@ -49,7 +49,7 @@ export class CommentEdit extends React.Component {
               className="writer"
               value={this.state.writer}
               onChange={this.handleChange}
-              componentClass="textarea"
+              as="textarea"
               placeholder="writer.."
             />
           </FormGroup>
@@ -61,18 +61,18 @@ export class CommentEdit extends React.Component {
               autoFocus
               value={this.state.content}
               onChange={this.handleChange}
-              componentClass="textarea"
+              as="textarea"
               placeholder="comment.."
             />
           </FormGroup>
 
           <div className="btn_grp">
-            <Button className="searchBtn" bsStyle="success" onClick={this.save}>
+            <Button className="searchBtn" variant="success" onClick={this.save}>
               Save
             </Button>
             <Button
               className="cancelBtn"
-              bsStyle="success"
+              variant="success"
               onClick={this.hideEdit}
             >
               Cancel
