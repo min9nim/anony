@@ -40,7 +40,7 @@ export class AlertDismissable extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.show) findDOMNode(this.refs.closeBtn).focus()
+    if (this.state.show) findDOMNode(this.closeBtn).focus()
   }
 
   render() {
@@ -53,13 +53,17 @@ export class AlertDismissable extends React.Component {
         <Alert
           variant={this.state.style}
           style={{ width: this.state.width }}
-          onDismiss={this.handleDismiss}
+          className="in"
+          onClose={this.handleDismiss}
+          dismissible
         >
           <p dangerouslySetInnerHTML={{ __html: this.state.message }} />
           <p>
             <Button
               variant={this.state.style}
-              ref="closeBtn"
+              ref={(el) => {
+                this.closeBtn = el
+              }}
               onClick={this.handleDismiss}
             >
               Close
