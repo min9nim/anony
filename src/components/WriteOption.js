@@ -71,30 +71,33 @@ export default function WriteOption({
         </div>
       </Form.Group>
       <Form.Group className="form_chk">
-        <InputGroup.CheckBox
-          onChange={handleChange}
-          id="isMarkdown"
-          checked={state.isMarkdown}
-          title="If you check markdown, you can use markdown syntax"
-        >
+        <InputGroup>
+          <InputGroup.Checkbox
+            onChange={handleChange}
+            id="isMarkdown"
+            checked={state.isMarkdown}
+            title="If you check markdown, you can use markdown syntax"
+          />
           Markdown
-        </InputGroup.CheckBox>
-        <InputGroup.CheckBox
-          onChange={handleChange}
-          id="isPrivate"
-          checked={state.isPrivate}
-          title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately."
-        >
+        </InputGroup>
+        <InputGroup>
+          <InputGroup.Checkbox
+            onChange={handleChange}
+            id="isPrivate"
+            checked={state.isPrivate}
+            title="If you check private, the article is not exposed on the list. You can only access the URL directly. If you need to access it again, please keep the post URL separately."
+          />
           Private
-        </InputGroup.CheckBox>
-        <InputGroup.CheckBox
-          onChange={handleChange}
-          id="hasComment"
-          checked={state.hasComment}
-          title="If you check comment, you can get comments from others"
-        >
+        </InputGroup>
+        <InputGroup>
+          <InputGroup.Checkbox
+            onChange={handleChange}
+            id="hasComment"
+            checked={state.hasComment}
+            title="If you check comment, you can get comments from others"
+          />
           Comment
-        </InputGroup.CheckBox>
+        </InputGroup>
       </Form.Group>
     </React.Fragment>
   )
