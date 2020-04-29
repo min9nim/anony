@@ -32,12 +32,13 @@ export default function ListTemplate({
           setLoading={setLoading}
           loading={loading}
         />
+        <div className="space" />
         <div className="menu-title">
           {/* <Menu /> */}
           <div
             className="icon-menu-1 menu"
             onClick={() => setMenuClicked(true)}
-          ></div>
+          />
           <div className="uuid">{ctx.user.uuid}</div>
         </div>
 
