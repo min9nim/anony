@@ -11,7 +11,7 @@
     margin-bottom: 4px; //height: 29px;
     border-bottom: 1px solid #eee;
     .logo {
-      flex: 1;
+      flex: 2;
       // min-width: 80px;
       font-size: 20px;
       font-weight: bold;
@@ -23,6 +23,9 @@
         filter: grayscale(100%);
         opacity: 0.4;
       }
+    }
+    .space {
+      flex: 1;
     }
     .channel {
       margin-left: 5px;

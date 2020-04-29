@@ -32,6 +32,7 @@ export default function ListTemplate({
           setLoading={setLoading}
           loading={loading}
         />
+        <div className="space" />
         <div className="menu-title">
           {/* <Menu /> */}
           <div
