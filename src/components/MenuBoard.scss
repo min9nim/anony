@@ -1,67 +1,68 @@
 .uuid-setting {
-    height: 22px;
-    //position: relative;
-    .modal_div {
-        position: fixed;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        opacity: 0.5;
-        background-color: #808080;
-    }
-    .inner_div {
+  height: 22px;
+  //position: relative;
+  .modal_div {
+    backdrop-filter: blur(2px);
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: #808080;
+  }
+  .inner_div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    .upper_grp {
+      .form {
+        margin-bottom: 7px;
+        #uuid {
+          width: 248px;
+          text-indent: 3px;
+          height: 40px;
+          font-size: 20px;
+        }
+        .form-control-feedback {
+          top: 3px;
+          left: 170px;
+        }
+      }
+      .delete {
+        font-size: 15px;
+        font-weight: bold;
         position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        -moz-transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        max-width: 800px;
-        .upper_grp {
-            .form {
-                margin-bottom: 7px;
-                #uuid {
-                    width: 248px;
-                    text-indent: 3px;
-                    height: 40px;
-                    font-size: 20px;
-                }
-                .form-control-feedback {
-                    top: 3px;
-                    left: 170px;
-                }
-            }
-            .delete {
-                font-size: 15px;
-                font-weight: bold;
-                position: absolute;
-                display: inline;
-                color: #999;
-                top: 10px;
-                left: 198px;
-                cursor: pointer;
-            }
-            .refresh {
-                font-size: 15px;
-                font-weight: bold;
-                position: absolute;
-                display: inline;
-                color: #999;
-                top: 10px;
-                left: 220px;
-                cursor: pointer;
-            }
-        }
-        .btn_grp {
-            margin-top: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-            width: 245px;
-            .cancelBtn {
-                margin-left: 3px;
-            }
-        }
+        display: inline;
+        color: #999;
+        top: 10px;
+        left: 198px;
+        cursor: pointer;
+      }
+      .refresh {
+        font-size: 15px;
+        font-weight: bold;
+        position: absolute;
+        display: inline;
+        color: #999;
+        top: 10px;
+        left: 220px;
+        cursor: pointer;
+      }
     }
+    .btn_grp {
+      margin-top: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+      width: 245px;
+      .cancelBtn {
+        margin-left: 3px;
+      }
+    }
+  }
 }

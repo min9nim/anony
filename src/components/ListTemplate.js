@@ -6,6 +6,7 @@ import {
   MyChannels,
   Search,
 } from '@/components'
+import DarkModeToggle from './DarkModeToggle'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './ListTemplate.scss'
@@ -22,8 +23,9 @@ export default function ListTemplate({
   return (
     <div className="list">
       <div className="header">
-        <div className="logo">
-          <img src="/image/logo_transparent.png" onClick={logoClick} />
+        <div className="logo" onClick={logoClick}>
+          {/* <img src="/image/logo_transparent.png" /> */}
+          Anony
         </div>
         <Search
           context={ctx.context}
@@ -38,7 +40,11 @@ export default function ListTemplate({
           ></div>
           <div className="uuid">{ctx.user.uuid}</div>
         </div>
+
         <div className="channel">{channel}</div>
+        <div className="navbar2">
+          <DarkModeToggle />
+        </div>
       </div>
 
       {posts.map((post) => (

@@ -1,0 +1,305 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body.light-mode {
+  background-color: #fff;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #10171d;
+  color: #afafaf;
+
+  .navbar2 {
+    // background-color: #1b2938;
+    margin-bottom: 0px;
+    // height: 22px;
+  }
+
+  .dark-mode-toggle > button {
+    color: #999;
+    &:last-child {
+      color: lightblue;
+    }
+  }
+}
+
+.navbar {
+  // position: fixed;
+  // top: 0;
+  // width: 100%;
+  display: flex;
+  // background-color: #95d3ff;
+  // padding: 20px;
+}
+
+.content {
+  h1 {
+    font-size: 2rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  code {
+    background-color: #cbe9ff;
+    border-radius: 2px;
+    font-size: 1em;
+    padding: 0 5px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #006688;
+  }
+
+  button {
+    color: #006688;
+    background-color: transparent;
+    border: none;
+    font-size: 1em;
+    padding: 0;
+  }
+}
+
+body.dark-mode .content code {
+  background-color: #1b2938;
+}
+
+body.dark-mode .content a {
+  color: #ee09;
+}
+
+body.dark-mode .content button {
+  color: #ee09;
+}
+
+.dark-mode-toggle {
+  display: flex;
+  margin: 0 auto;
+  & > button {
+    font-size: 1.2em;
+    background: none;
+    border: none;
+    color: darkorange;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    &:last-child {
+      color: #666;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.toggle-control {
+  position: relative;
+  padding: 0 4px 4px 4px;
+  display: flex;
+  align-items: center;
+}
+
+input[type='checkbox'].dmcheck {
+  width: 40px;
+  height: 10px;
+  background: #555;
+  position: relative;
+  border-radius: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  vertical-align: 2px;
+  outline: none;
+
+  &:checked + label {
+    left: 30px;
+  }
+
+  &:focus-visible {
+    outline: solid 2px white;
+  }
+
+  & + label {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: absolute;
+    left: 2px;
+    background: #fff;
+    opacity: 0.9;
+    background-color: #f6f6f6;
+  }
+}
+
+.dark-mode {
+  pre {
+    background-color: transparent;
+    color: #888;
+    code {
+      color: #888;
+    }
+  }
+  .btn-success {
+    background-color: darkgreen;
+  }
+  .write {
+    color: #888;
+    input,
+    textarea {
+      background-color: transparent;
+      color: #999;
+    }
+  }
+  .list {
+    .header {
+      border-bottom: 1px solid #777;
+    }
+  }
+  .excerpt {
+    border-bottom: 1px solid #777;
+    .title {
+      color: lightblue;
+    }
+    svg {
+      rect {
+        fill: #777 !important;
+      }
+    }
+  }
+  .post {
+    .title-wrapper .title {
+      color: lightblue;
+    }
+    .markdown {
+      color: #999;
+      table {
+        th,
+        td {
+          background-color: transparent;
+          border-color: #777;
+          color: #999;
+        }
+      }
+      p {
+        color: #999;
+      }
+      li {
+        color: #999;
+      }
+    }
+  }
+  .comment-write {
+    .content textarea,
+    .writer input {
+      color: #999;
+    }
+  }
+  .search .ipt-wrapper .ipt-search {
+    background-color: transparent;
+    border-color: #777;
+  }
+  .my-channels {
+    border-color: #777;
+    background-color: #10171d;
+    .title {
+      border-color: #777;
+    }
+  }
+  .uuid-setting .inner_div .upper_grp .form input {
+    // background-color: transparent;
+    background-color: #10171d;
+    color: #ddd;
+  }
+  /* Dracula Theme v1.2.5
+ *
+ * https://github.com/dracula/highlightjs
+ *
+ * Copyright 2016-present, All rights reserved
+ *
+ * Code licensed under the MIT license
+ *
+ * @author Denis Ciccale <dciccale@gmail.com>
+ * @author Zeno Rocha <hi@zenorocha.com>
+ */
+
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #282a36;
+  }
+
+  .hljs-built_in,
+  .hljs-selector-tag,
+  .hljs-section,
+  .hljs-link {
+    color: #8be9fd;
+  }
+
+  .hljs-keyword {
+    color: #ff79c6;
+  }
+
+  .hljs,
+  .hljs-subst {
+    color: #f8f8f2;
+  }
+
+  .hljs-title {
+    color: #50fa7b;
+  }
+
+  .hljs-string,
+  .hljs-meta,
+  .hljs-name,
+  .hljs-type,
+  .hljs-attribute,
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-addition,
+  .hljs-variable,
+  .hljs-template-tag,
+  .hljs-template-variable {
+    color: #f1fa8c;
+  }
+
+  .hljs-comment,
+  .hljs-quote,
+  .hljs-deletion {
+    color: #6272a4;
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-literal,
+  .hljs-title,
+  .hljs-section,
+  .hljs-doctag,
+  .hljs-type,
+  .hljs-name,
+  .hljs-strong {
+    font-weight: bold;
+  }
+
+  .hljs-literal,
+  .hljs-number {
+    color: #bd93f9;
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+}
