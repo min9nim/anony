@@ -1,11 +1,15 @@
+:root {
+  --dark-bg-color: #10171d;
+  --dark-color: #999;
+}
 
 body {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 #root {
-    max-width: 800px;
-    margin: auto;    
+  max-width: 800px;
+  margin: auto;
 }
 
 /* 공통 css 스타일 설정 */
@@ -21,14 +25,12 @@ body {
 // }
 
 img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
-
-
 
 /*
 * 18.10.16
@@ -42,45 +44,39 @@ input, textarea {
 }
 */
 
-
 /* bootstrap.css 커스터마이징 */
-.form-control {// 입력 컨트롤에 그림자효과 제거
-    box-shadow: initial;
+.form-control {
+  // 입력 컨트롤에 그림자효과 제거
+  box-shadow: initial;
 }
 
 .btn {
-    padding: 5px 6px;
-    &:active {
-        // 버튼 클릭효과
-        transform : rotate(10deg);
-        -webkit-transform : rotate(10deg);
-    }
+  padding: 5px 6px;
+  &:active {
+    // 버튼 클릭효과
+    transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+  }
 }
 
 // 폰텔로 아이콘 애니메이션 효과 지정
-div[class^="icon-"] {
-    transition: all 0.1s ease-in-out;
-    &:hover {
-        // fontello 아이콘 hover
-        transform : scale(1.2);
-        -webkit-transform : scale(1.2);
-    }
-    &:active {
-        // fontello 아이콘 버튼 클릭효과
-        transform : rotate(10deg);
-        -webkit-transform : rotate(10deg);
-    }
+div[class^='icon-'] {
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    // fontello 아이콘 hover
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+  }
+  &:active {
+    // fontello 아이콘 버튼 클릭효과
+    transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+  }
 }
-
-
-
-
-
-
 
 /* nprogress.css 커스터마이징 */
 #nprogress {
-    /*
+  /*
     .bar {
         display: none;
         position: absolute;
@@ -88,8 +84,8 @@ div[class^="icon-"] {
         background: #708c0c;
     }
     */
-    .spinner {
-        top: 50%;
-        right: 50%;
-    }
+  .spinner {
+    top: 50%;
+    right: 50%;
+  }
 }

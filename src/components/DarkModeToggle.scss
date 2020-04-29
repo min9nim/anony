@@ -13,7 +13,7 @@ body.light-mode {
 }
 
 body.dark-mode {
-  background-color: #10171d;
+  background-color: var(--dark-bg-color);
   color: #afafaf;
 
   .navbar2 {
@@ -23,7 +23,7 @@ body.dark-mode {
   }
 
   .dark-mode-toggle > button {
-    color: #999;
+    color: var(--dark-color);
     &:last-child {
       color: lightblue;
     }
@@ -160,15 +160,15 @@ input[type='checkbox'].dmcheck {
     input,
     textarea {
       background-color: transparent;
-      color: #999;
+      color: var(--dark-color);
     }
   }
   .list {
     .header {
       border-bottom: 1px solid #777;
       .searchBox .search_div .input {
-        background-color: #10171d;
-        color: #999;
+        background-color: var(--dark-bg-color);
+        color: var(--dark-color);
       }
     }
   }
@@ -188,27 +188,27 @@ input[type='checkbox'].dmcheck {
       color: lightblue;
     }
     .markdown {
-      color: #999;
+      color: var(--dark-color);
       table {
         th,
         td {
           background-color: transparent;
           border-color: #777;
-          color: #999;
+          color: var(--dark-color);
         }
       }
       p {
-        color: #999;
+        color: var(--dark-color);
       }
       li {
-        color: #999;
+        color: var(--dark-color);
       }
     }
   }
   .comment-write {
     .content textarea,
     .writer input {
-      color: #999;
+      color: var(--dark-color);
     }
   }
   .search .ipt-wrapper .ipt-search {
@@ -216,15 +216,17 @@ input[type='checkbox'].dmcheck {
     border-color: #777;
   }
   .my-channels {
+    color: var(--dark-color);
     border-color: #777;
-    background-color: #10171d;
+
+    background-color: var(--dark-bg-color);
     .title {
       border-color: #777;
     }
   }
   .uuid-setting .inner_div .upper_grp .form input {
     // background-color: transparent;
-    background-color: #10171d;
+    background-color: var(--dark-color);
     color: #ddd;
   }
   /* Dracula Theme v1.2.5
