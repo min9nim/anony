@@ -9,7 +9,7 @@ import {
 import DarkModeToggle from './DarkModeToggle'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import './ListTemplate.scss'
+import './ListTemplate.scoped.scss'
 
 export default function ListTemplate({
   logoClick,

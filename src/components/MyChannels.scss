@@ -18,3 +18,9 @@
     font-weight: bold;
   }
 }
+
+@media screen and (max-width: 1090px) {
+  .channels-wrappter .my-channels {
+    display: none;
+  }
+}

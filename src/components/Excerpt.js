@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { PostMenu, PostMeta } from '../components'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import './Excerpt.scss'
+import './Excerpt.scoped.scss'
 import { highlight } from 'mingutils'
 
 export function Excerpt(props) {
