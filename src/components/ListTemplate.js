@@ -37,7 +37,7 @@ export default function ListTemplate({
           <div
             className="icon-menu-1 menu"
             onClick={() => setMenuClicked(true)}
-          ></div>
+          />
           <div className="uuid">{ctx.user.uuid}</div>
         </div>
 
