@@ -22,7 +22,7 @@ module.exports = merge(common, {
     // }),
   ],
 
-  optimization: {
-    minimizer: [new UglifyJsPlugin()],
-  },
+  // optimization: {
+  //   minimizer: [new UglifyJsPlugin()],
+  // },
 })
