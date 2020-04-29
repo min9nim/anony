@@ -417,10 +417,6 @@ export default class Write extends React.Component {
      * write 화면에서 채널명 초기화가 안되서 그냥 다시 주석처리함
      */
 
-    console.log('Form', Form)
-    console.log('Button', Button)
-    console.log('Form.Group', Form.Group)
-    console.log('Form.Control', Form.Control)
     return (
       <div className="write">
         {/* <div className="context">{this.props.context || "Anony"}</div> */}
