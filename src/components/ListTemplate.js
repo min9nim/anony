@@ -6,6 +6,7 @@ import {
   MyChannels,
   Search,
 } from '@/components'
+import DarkModeToggle from './DarkModeToggle'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import './ListTemplate.scss'
@@ -38,7 +39,11 @@ export default function ListTemplate({
           ></div>
           <div className="uuid">{ctx.user.uuid}</div>
         </div>
+
         <div className="channel">{channel}</div>
+        <div className="navbar2">
+          <DarkModeToggle />
+        </div>
       </div>
 
       {posts.map((post) => (

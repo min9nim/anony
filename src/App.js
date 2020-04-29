@@ -3,7 +3,6 @@ import { AlertDismissable, Confirm } from './components'
 import { Route, Switch } from 'react-router-dom'
 import { ctx, Ctx } from '@/biz/context.js'
 import store from './redux/store'
-
 import { render, initializeShortcut } from './helper'
 
 export default class App extends React.Component {

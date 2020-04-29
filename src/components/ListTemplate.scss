@@ -1,103 +1,101 @@
 /* List component */
 
 .list {
-    margin: 0px; //background-color: #f7f7f7;
-    .header {
-        display: flex;
-        flex-wrap: wrap;
-        color: #aaa;
-        background-color: #fff;
-        padding: 3px 15px 3px 10px;
-        margin-bottom: 4px; //height: 29px;
-        border-bottom: 1px solid #eee;
-        .logo {
-            //flex:1;
-            min-width: 110px;
-            img {
-                position: absolute;
-                width: 110px;
-                cursor: pointer;
-                filter: grayscale(100%);
-                opacity: 0.4;
-            }
-        }
-        .search {
-            text-align: left;
-            margin-right: 15px;
-            flex: 1;
-            display: flex;
-        }
-        .channel {
-            margin-left: 5px;
-            display: inline-block;
-            font-size: 16px;
-        }
-        .status {
-            margin-left: 5px;
-            display: inline-block;
-            font-size: 16px;
-        }
-        .menu-title {
-            //flex:1;
-            text-align: right; //display: flex;
-            .menu{
-                display: inline-block;
-                font-size: 16px;
-                cursor: pointer;
-            }
-            .uuid {
-                display: inline-block;
-                font-size: 16px;
-                cursor: pointer;
-            }
-        }
+  margin: 0px; //background-color: #f7f7f7;
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    color: #aaa;
+
+    padding: 3px 15px 3px 10px;
+    margin-bottom: 4px; //height: 29px;
+    border-bottom: 1px solid #eee;
+    .logo {
+      //flex:1;
+      min-width: 110px;
+      img {
+        position: absolute;
+        width: 110px;
+        cursor: pointer;
+        filter: grayscale(100%);
+        opacity: 0.4;
+      }
     }
-    .writeBtn {
-        padding-right: 15px;
-        position: fixed;
-        bottom: 15px;
-        width: 100%;
-        max-width: 800px;
-        text-align: right;
-        opacity: 0.7;
-        .btn {
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 7px;
-            padding-right: 10px;
-        }
+    .search {
+      text-align: left;
+      margin-right: 15px;
+      flex: 1;
+      display: flex;
     }
-    .backBtn {
-        background-color: #fff;
-        padding-left: 15px;
-        padding-top: 10px;
+    .channel {
+      margin-left: 5px;
+      display: inline-block;
+      font-size: 16px;
     }
+    .status {
+      margin-left: 5px;
+      display: inline-block;
+      font-size: 16px;
+    }
+    .menu-title {
+      //flex:1;
+      text-align: right; //display: flex;
+      .menu {
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .uuid {
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
+  }
+  .writeBtn {
+    padding-right: 15px;
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    max-width: 800px;
+    text-align: right;
+    opacity: 0.7;
+    .btn {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 7px;
+      padding-right: 10px;
+    }
+  }
+  .backBtn {
+    background-color: #fff;
+    padding-left: 15px;
+    padding-top: 10px;
+  }
 }
 
 /* On screens that are 992px or less, set the background color to blue */
 
 @media screen and (max-width: 400px) {
-    .list .header .search {
-        order: 1;
-    }
-    .logo {
-        flex: 1;
-    }
-    div.header>div.search>div.ipt-wrapper {
-        max-width: initial;
-    }
+  .list .header .search {
+    order: 1;
+  }
+  .logo {
+    flex: 1;
+  }
+  div.header > div.search > div.ipt-wrapper {
+    max-width: initial;
+  }
 }
-
-
 
 /* myChannels 스타일 */
 .channels-wrappter {
-    position: fixed;
-    left: 20px;
-    top: 50px;
+  position: fixed;
+  left: 20px;
+  top: 50px;
 }
 @media screen and (max-width: 1090px) {
-    .channels-wrappter .my-channels {
-        display: none;
-    }
+  .channels-wrappter .my-channels {
+    display: none;
+  }
 }
