@@ -18,10 +18,8 @@ const Root = () => {
   ctx.logger.info('[Root render] dark value', value)
   useEffect(() => {
     ctx.logger.info('[Root render] effect')
-    if (value) {
-      const meta = getMeta('theme-color')
-      meta.setAttribute('content', '#10171d')
-    }
+    const meta = getMeta('theme-color')
+    meta.setAttribute('content', value ? '#10171d' : '#ddd')
   })
 
   return (
