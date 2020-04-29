@@ -23,8 +23,9 @@ export default function ListTemplate({
   return (
     <div className="list">
       <div className="header">
-        <div className="logo">
-          <img src="/image/logo_transparent.png" onClick={logoClick} />
+        <div className="logo" onClick={logoClick}>
+          {/* <img src="/image/logo_transparent.png" /> */}
+          Anony
         </div>
         <Search
           context={ctx.context}
