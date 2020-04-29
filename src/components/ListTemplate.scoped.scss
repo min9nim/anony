@@ -7,12 +7,12 @@
     flex-wrap: wrap;
     color: #aaa;
 
-    padding: 3px 15px 3px 10px;
+    padding: 3px 15px 0 10px;
     margin-bottom: 4px; //height: 29px;
     border-bottom: 1px solid #eee;
     .logo {
-      //flex:1;
-      min-width: 80px;
+      flex: 1;
+      // min-width: 80px;
       font-size: 20px;
       font-weight: bold;
       font-style: italic;
@@ -23,12 +23,6 @@
         filter: grayscale(100%);
         opacity: 0.4;
       }
-    }
-    .search {
-      text-align: left;
-      margin-right: 15px;
-      flex: 1;
-      display: flex;
     }
     .channel {
       margin-left: 5px;
