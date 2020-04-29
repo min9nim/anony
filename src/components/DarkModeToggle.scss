@@ -155,6 +155,14 @@ input[type='checkbox'].dmcheck {
   .btn-success {
     background-color: darkgreen;
   }
+  .write {
+    color: #888;
+    input,
+    textarea {
+      background-color: transparent;
+      color: #999;
+    }
+  }
   .list {
     .header {
       border-bottom: 1px solid #777;
