@@ -177,6 +177,13 @@ input[type='checkbox'].dmcheck {
     .title {
       color: lightblue;
     }
+
+    .title.private {
+      color: dimgray;
+    }
+    .private {
+      color: #666;
+    }
     svg {
       rect {
         fill: #777 !important;
