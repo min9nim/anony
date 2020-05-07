@@ -34,6 +34,7 @@ module.exports = merge(common, {
     inline: true,
     // publicPath: __dirname + '/public/', // 이건 무슨 설정인지 몰라서 일단 주석처리 해놓음
     historyApiFallback: {
+      // index: '/index.dev.html',
       rewrites: [{ from: /./, to: '/index.dev.html' }],
     },
     host: '0.0.0.0',
@@ -42,10 +43,11 @@ module.exports = merge(common, {
     disableHostCheck: true, // 외부에서 접속 허용
     // proxy: {
     // '/api/*': 'http://localhost:8080',
-    // '/index.html': 'http://localhost:8080',
-    // '/': 'http://localhost:8080',
+    // '/index.html': 'http://localhost:8000/index.dev.html',
+    // '/': 'http://0.0.0.0:8000/index.dev.html',
     // },
     open: true,
+    openPage: 'public',
   },
 
   plugins: [
