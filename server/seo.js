@@ -6,7 +6,7 @@ const $m = require('../com/util')
 const filepath =
   process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development'
     ? __dirname + '/../public/index.dev.html'
-    : __dirname + '/../public/index.prod.html'
+    : __dirname + '/../public/index.html'
 
 const md = new Remarkable({
   html: true,
@@ -22,7 +22,7 @@ seo.post = function(req, res) {
   // key 에 해당하는 post 를 조회
   Post.findOne({
     $and: [{ isPrivate: { $in: [false, undefined] } }, { key: req.params.key }],
-  }).then(post => {
+  }).then((post) => {
     fs.readFile(filepath, 'utf-8', function(err, buf) {
       if (err) {
         console.log(err)
@@ -87,7 +87,7 @@ seo.list = function(req, res, next) {
     .sort({ date: -1 }) // 최종수정일 기준 내림차순
     .skip(0)
     .limit(10)
-    .then(posts => {
+    .then((posts) => {
       fs.readFile(filepath, 'utf-8', function(err, buf) {
         if (err) {
           console.log(err)
@@ -105,7 +105,7 @@ seo.list = function(req, res, next) {
               .replace(
                 /{{description}}/g,
                 posts
-                  .map(p => $m.removeTag(p.title))
+                  .map((p) => $m.removeTag(p.title))
                   .join('\n')
                   .substr(0, 100),
               )
@@ -113,7 +113,8 @@ seo.list = function(req, res, next) {
                 '{{content}}',
                 posts
                   .map(
-                    p => $m.removeTag(p.title) + '\n' + $m.removeTag(p.content),
+                    (p) =>
+                      $m.removeTag(p.title) + '\n' + $m.removeTag(p.content),
                   )
                   .join('\n'),
               )
