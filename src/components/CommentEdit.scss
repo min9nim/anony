@@ -53,3 +53,12 @@
     }
   }
 }
+
+.dark-mode {
+  .CommentEditBox .inner_div {
+    .writer,
+    .content {
+      background-color: var(--dark-bg-color);
+    }
+  }
+}
