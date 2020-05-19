@@ -107,24 +107,20 @@ class CommentMenu extends React.Component {
     })
   }
 
-  editComment() {
-    ctx.api
-      .authComment({
+  async editComment() {
+    try {
+      const res = await ctx.api.authComment({
         key: this.props.comment.key,
         uuid: ctx.user.uuid,
       })
-      .then((res) => {
-        if (res.status === 'Success') {
-          this.showEdit()
-          //ctx.temp = res.comment;
-          //this.props.history.push("/edit/"+this.props.comment.key);
-        } else {
-          ctx.alert({
-            message: res.message,
-            style: 'danger',
-          })
-        }
+      this.showEdit()
+    } catch (e) {
+      ctx.logger.error(e.message)
+      ctx.alert({
+        message: e.message,
+        style: 'danger',
       })
+    }
   }
 
   hideMenu() {
@@ -188,9 +184,12 @@ class CommentMenu extends React.Component {
   }
 }
 
-export default connect((state) => ({ posts: state.data.posts }), {
-  deleteComment,
-  removeComment,
-  updatePost,
-  restoreComment,
-})(CommentMenu)
+export default connect(
+  (state) => ({ posts: state.data.posts }),
+  {
+    deleteComment,
+    removeComment,
+    updatePost,
+    restoreComment,
+  },
+)(CommentMenu)
