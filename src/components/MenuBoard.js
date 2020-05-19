@@ -75,7 +75,7 @@ export class MenuBoard extends React.Component {
     //ctx.logger.verbose("MenuBoard 렌더링");
     return (
       <div className="uuid-setting">
-        <div className="modal_div"></div>
+        <div className="modal_div" />
         <div className="inner_div">
           <div className="upper_grp">
             <FormGroup
@@ -86,7 +86,7 @@ export class MenuBoard extends React.Component {
               {/* <ControlLabel> uuid </ControlLabel> */}
               <FormControl
                 type="text"
-                autoFocus
+                // autoFocus
                 ref={(ref) => {
                   this.uuidinput = ref
                 }}
