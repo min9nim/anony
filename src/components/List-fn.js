@@ -5,14 +5,24 @@ import { prop, isNil, pipe, last } from 'ramda'
 
 const PAGEROWS = 10
 
-export const needToFetch = (props) =>
-  // 처음부터 글쓰기로 글을 생성하고 들어온 경우
-  (props.state.data.posts.filter((p) => p.origin === undefined).length <= 1 &&
-    props.state.view.search === '') ||
-  // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
-  props.state.data.posts
-    .map(prop('context'))
-    .filter((value, index, array) => array.indexOf(value) === index).length > 1
+const originIsNil = pipe(
+  prop('origin'),
+  isNil,
+)
+
+export const needToFetch = (props) => {
+  // 처음부터 글쓰기로 글을 생성하고 들어오거나 글보기 상태에서 새로고침 후 목록으로 들어갈 때, 이 경우는 어짜피 무한스크롤에 의해서 이후 목록을 로드하므로 0번째부터 데이터를 로드할 필요가 없음(duplicate key 오류 발생 )
+  const condition1 =
+    props.state.data.posts.filter(originIsNil).length === 1 &&
+    props.state.view.search === ''
+  const condition2 = // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
+    props.state.data.posts
+      .map(prop('context'))
+      .filter((value, index, array) => array.indexOf(value) === index).length >
+    1
+  console.log('###', { condition1, condition2 })
+  return !condition1 || condition2
+}
 
 export function fetchList(props, posts, setLoading) {
   return async () => {
@@ -42,7 +52,7 @@ export function fetchList(props, posts, setLoading) {
 }
 
 export function infiniteLoadingEffect(props, setLoading) {
-  const posts = props.state.data.posts.filter(pipe(prop('origin'), isNil))
+  const posts = props.state.data.posts.filter(originIsNil)
   return () => {
     props.logger.verbose('[effect-in] infinite loading')
     ctx.$m.scrollTo(0, ctx.scrollTop) // 이전 스크롤 위치로 복원
@@ -78,7 +88,12 @@ export function infiniteLoadingEffect(props, setLoading) {
 }
 
 export function initializeEffect(props) {
-  const posts = props.state.data.posts.filter(pipe(prop('origin'), isNil))
+  const posts = props.state.data.posts.filter(
+    pipe(
+      prop('origin'),
+      isNil,
+    ),
+  )
   return () => {
     props.logger.verbose('[effect-in] initialize')
     ctx.scrollTop = 0 // 스크롤 위치 초기화
