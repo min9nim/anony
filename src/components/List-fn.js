@@ -13,7 +13,7 @@ const originIsNil = pipe(
 export const needToFetch = (props) => {
   // 처음부터 글쓰기로 글을 생성하고 들어오거나 글보기 상태에서 새로고침 후 목록으로 들어갈 때, 이 경우는 어짜피 무한스크롤에 의해서 이후 목록을 로드하므로 0번째부터 데이터를 로드할 필요가 없음(duplicate key 오류 발생 )
   const condition1 =
-    props.state.data.posts.filter(originIsNil).length === 1 &&
+    props.state.data.posts.filter(originIsNil).length <= 1 &&
     props.state.view.search === ''
   const condition2 = // 글수정화면에서 context를 수정한 경우(posts에 context 가 2개 이상 포함된 경우)
     props.state.data.posts
@@ -105,8 +105,12 @@ export function initializeEffect(props) {
       return
     }
 
-    if (needToFetch(props, posts)) {
-      props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })
-    }
+    // if (needToFetch(props, posts)) {
+    //   props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })
+    // }
+
+    // 목록 초기화하고 전체 처음부터 다시 로드
+    props.setPosts([])
+    props.setPostsAsync({ idx: 0, cnt: 10, context: ctx.context })
   }
 }
