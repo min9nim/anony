@@ -14,11 +14,11 @@ const dburl = process.env.dburl
 console.log('dburl:', dburl)
 mongoose
   .connect(dburl)
-  .then(success => console.log('DB 연결 성공'))
-  .catch(error => {
+  .then((success) => console.log('DB 연결 성공'))
+  .catch((error) => {
     console.warn('디비 연결 실패..')
     console.log('dburl:', dburl)
-    console.log(error)
+    console.error(error)
   })
 
 // if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
