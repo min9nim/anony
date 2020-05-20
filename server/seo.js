@@ -136,6 +136,10 @@ seo.list = function(req, res, next) {
         }
       })
     })
+    .catch((e) => {
+      console.error(e)
+      res.send({ status: 'Fail', message: e.message })
+    })
 }
 
 seo.write = function(req, res, next) {
@@ -167,7 +171,7 @@ seo.write = function(req, res, next) {
           .replace('{{content}}', 'Anony write page')
         res.send(output)
       } catch (e) {
-        console.log(e.message)
+        console.error(e.message)
         res.send({ status: 'Fail', message: e.message })
       }
     }
