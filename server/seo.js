@@ -17,50 +17,59 @@ const md = new Remarkable({
 module.exports = seo = {}
 
 // seo 최적화
-seo.post = function(req, res) {
-  //console.log("### seo.post called");
-  // key 에 해당하는 post 를 조회
-  Post.findOne({
-    $and: [{ isPrivate: { $in: [false, undefined] } }, { key: req.params.key }],
-  }).then((post) => {
-    fs.readFile(filepath, 'utf-8', function(err, buf) {
-      if (err) {
-        console.log(err)
-        res.send({ status: 'Fail', message: err.message })
-      } else {
-        try {
-          if (post === null) {
-            // private 글이거나 postKey 값이 유효하지 않은 경우
+seo.post = async function(req, res) {
+  console.log('### seo.post called')
 
-            const output = buf
-              .toString()
-              .replace(/{{title}}/g, '')
-              .replace(/{{description}}/g, '')
-              .replace('{{content}}', '')
-            res.send(output)
-            //throw Error("Invlid access");
-          } else {
-            const tagRemovedContent = $m.removeTag(post.content)
-            const output = buf
-              .toString()
-              .replace(/{{title}}/g, post.title)
-              .replace(/{{description}}/g, tagRemovedContent.substr(0, 100))
-              .replace(
-                '{{content}}',
-                post.isMarkdown
-                  ? md.render(tagRemovedContent)
-                  : tagRemovedContent,
-              )
-            //console.log(output);
-            res.send(output)
-          }
-        } catch (e) {
-          // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
-          console.log(e.message)
-          res.send({ status: 'Fail', message: e.message })
-        }
-      }
+  let post
+  try {
+    // key 에 해당하는 post 를 조회
+    post = await Post.findOne({
+      $and: [
+        { isPrivate: { $in: [false, undefined] } },
+        { key: req.params.key },
+      ],
     })
+  } catch (e) {
+    console.error(e)
+    res.send({ status: 'Fail', message: e.message })
+    return
+  }
+
+  fs.readFile(filepath, 'utf-8', function(err, buf) {
+    if (err) {
+      console.log(err)
+      res.send({ status: 'Fail', message: err.message })
+      return
+    }
+    try {
+      if (post === null) {
+        // private 글이거나 postKey 값이 유효하지 않은 경우
+
+        const output = buf
+          .toString()
+          .replace(/{{title}}/g, '')
+          .replace(/{{description}}/g, '')
+          .replace('{{content}}', '')
+        res.send(output)
+        //throw Error("Invlid access");
+      } else {
+        const tagRemovedContent = $m.removeTag(post.content)
+        const output = buf
+          .toString()
+          .replace(/{{title}}/g, post.title)
+          .replace(/{{description}}/g, tagRemovedContent.substr(0, 100))
+          .replace(
+            '{{content}}',
+            post.isMarkdown ? md.render(tagRemovedContent) : tagRemovedContent,
+          )
+        //console.log(output);
+        res.send(output)
+      }
+    } catch (e) {
+      // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
+      console.log(e.message)
+      res.send({ status: 'Fail', message: e.message })
+    }
   })
 }
 
