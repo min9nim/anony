@@ -79,7 +79,7 @@ seo.post = async function(req, res) {
   })
 }
 
-seo.list = function(req, res, next) {
+seo.list = async function(req, res, next) {
   const logger = req.ctx.logger
   logger.info('### seo.list called')
   if (
@@ -92,61 +92,58 @@ seo.list = function(req, res, next) {
     next()
     return
   }
+  try {
+    await connectDB()
+    const posts = await Post.find({
+      $and: [
+        { isPrivate: { $in: [false, undefined] } },
+        { origin: undefined },
+        { context: req.params.context },
+      ],
+    })
+      .sort({ date: -1 }) // 최종수정일 기준 내림차순
+      .skip(0)
+      .limit(10)
 
-  Post.find({
-    $and: [
-      { isPrivate: { $in: [false, undefined] } },
-      { origin: undefined },
-      { context: req.params.context },
-    ],
-  })
-    .sort({ date: -1 }) // 최종수정일 기준 내림차순
-    .skip(0)
-    .limit(10)
-    .then((posts) => {
-      fs.readFile(filepath, 'utf-8', function(err, buf) {
-        if (err) {
-          console.log(err)
-          res.send({ status: 'Fail', message: err.message })
-        } else {
-          try {
-            const output = buf
-              .toString()
-              .replace(
-                /{{title}}/g,
-                req.params.context
-                  ? req.params.context + '-list'
-                  : 'anony-list',
+    fs.readFile(filepath, 'utf-8', function(err, buf) {
+      if (err) {
+        console.error(err)
+        res.send({ status: 'Fail', message: err.message })
+        return
+      }
+      try {
+        const output = buf
+          .toString()
+          .replace(
+            /{{title}}/g,
+            req.params.context ? req.params.context + '-list' : 'anony-list',
+          )
+          .replace(
+            /{{description}}/g,
+            posts
+              .map((p) => $m.removeTag(p.title))
+              .join('\n')
+              .substr(0, 100),
+          )
+          .replace(
+            '{{content}}',
+            posts
+              .map(
+                (p) => $m.removeTag(p.title) + '\n' + $m.removeTag(p.content),
               )
-              .replace(
-                /{{description}}/g,
-                posts
-                  .map((p) => $m.removeTag(p.title))
-                  .join('\n')
-                  .substr(0, 100),
-              )
-              .replace(
-                '{{content}}',
-                posts
-                  .map(
-                    (p) =>
-                      $m.removeTag(p.title) + '\n' + $m.removeTag(p.content),
-                  )
-                  .join('\n'),
-              )
-            //console.log(output);
-            res.send(output)
-          } catch (e) {
-            console.log(e.message)
-            res.send({ status: 'Fail', message: e.message })
-          }
-        }
-      })
+              .join('\n'),
+          )
+        //console.log(output);
+        res.send(output)
+      } catch (e) {
+        console.log(e.message)
+        res.send({ status: 'Fail', message: e.message })
+      }
     })
-    .catch((e) => {
-      console.error(e)
-      res.send({ status: 'Fail', message: e.message })
-    })
+  } catch (e) {
+    console.error(e)
+    res.send({ status: 'Fail', message: e.message })
+  }
 }
 
 seo.write = function(req, res, next) {
@@ -166,21 +163,21 @@ seo.write = function(req, res, next) {
     if (err) {
       console.log(err)
       res.send({ status: 'Fail', message: err.message })
-    } else {
-      try {
-        const output = buf
-          .toString()
-          .replace(
-            /{{title}}/g,
-            req.params.context ? req.params.context + '-write' : 'public-write',
-          )
-          .replace(/{{description}}/g, 'Anony write page')
-          .replace('{{content}}', 'Anony write page')
-        res.send(output)
-      } catch (e) {
-        console.error(e.message)
-        res.send({ status: 'Fail', message: e.message })
-      }
+      return
+    }
+    try {
+      const output = buf
+        .toString()
+        .replace(
+          /{{title}}/g,
+          req.params.context ? req.params.context + '-write' : 'public-write',
+        )
+        .replace(/{{description}}/g, 'Anony write page')
+        .replace('{{content}}', 'Anony write page')
+      res.send(output)
+    } catch (e) {
+      console.error(e.message)
+      res.send({ status: 'Fail', message: e.message })
     }
   })
 }
