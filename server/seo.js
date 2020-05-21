@@ -1,4 +1,5 @@
 const Post = require('./models/post')
+const connectDB = require('./models/dbConnect')
 const fs = require('fs')
 const Remarkable = require('remarkable')
 const $m = require('../com/util')
@@ -23,6 +24,7 @@ seo.post = async function(req, res) {
 
   let post
   try {
+    await connectDB()
     logger.debug('Post.findOne 호출 전')
     // key 에 해당하는 post 를 조회
     post = await Post.findOne({
@@ -33,7 +35,7 @@ seo.post = async function(req, res) {
     })
     logger.debug('Post.findOne 호출 후')
   } catch (e) {
-    logger.debug('Post.findOne 호출시 오류 발생')
+    logger.debug('seo.post 에서 오류 발생했네')
     console.error(e)
     res.send({ status: 'Fail', message: e.message })
     return
