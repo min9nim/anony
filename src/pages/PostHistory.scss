@@ -1,21 +1,23 @@
 /* List component */
 .postHistory {
-    margin: 0px;
-    // background-color: #f7f7f7;
+  margin: 0px;
+  // background-color: #f7f7f7;
 
-
-    .btnWrapper{
-        background-color: #fff;
-        padding-left: 15px;
-        padding-top: 10px;        
-        .btn{
-            opacity: 0.7;
-            font-size: 12px;
-            padding-top: 3px;
-            padding-bottom: 2px;
-            padding-left: 2px;
-            padding-right: 8px;        
-        }
+  .btnWrapper {
+    background-color: #fff;
+    padding-left: 15px;
+    padding-top: 10px;
+    .btn {
+      opacity: 0.7;
+      font-size: 12px;
+      padding-top: 3px;
+      padding-bottom: 2px;
+      padding-left: 2px;
+      padding-right: 8px;
     }
+  }
 }
 
+.dark-mode .postHistory .btnWrapper {
+  background-color: var(--dark-bg-color);
+}
