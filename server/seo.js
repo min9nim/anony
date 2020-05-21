@@ -18,10 +18,12 @@ module.exports = seo = {}
 
 // seo 최적화
 seo.post = async function(req, res) {
-  console.log('### seo.post called')
+  const logger = req.ctx.logger
+  logger.info('### seo.post called')
 
   let post
   try {
+    logger.debug('Post.findOne 호출 전')
     // key 에 해당하는 post 를 조회
     post = await Post.findOne({
       $and: [
@@ -29,7 +31,9 @@ seo.post = async function(req, res) {
         { key: req.params.key },
       ],
     })
+    logger.debug('Post.findOne 호출 후')
   } catch (e) {
+    logger.debug('Post.findOne 호출시 오류 발생')
     console.error(e)
     res.send({ status: 'Fail', message: e.message })
     return
@@ -37,7 +41,7 @@ seo.post = async function(req, res) {
 
   fs.readFile(filepath, 'utf-8', function(err, buf) {
     if (err) {
-      console.log(err)
+      logger.error(err)
       res.send({ status: 'Fail', message: err.message })
       return
     }
@@ -67,14 +71,15 @@ seo.post = async function(req, res) {
       }
     } catch (e) {
       // 아니 해당 post 가 없으면 위에 err로 떨어져야지 왜 일루 들어와서 서버가 죽고 난리지???;;
-      console.log(e.message)
+      logger.error(e.message)
       res.send({ status: 'Fail', message: e.message })
     }
   })
 }
 
 seo.list = function(req, res, next) {
-  // console.log("### seo.list called");
+  const logger = req.ctx.logger
+  logger.info('### seo.list called')
   if (
     req.params.context &&
     req.params.context.match(
