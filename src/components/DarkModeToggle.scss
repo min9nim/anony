@@ -184,6 +184,9 @@ input[type='checkbox'].dmcheck {
     .private {
       color: #666;
     }
+    .deleted {
+      color: dimgray;
+    }
     svg {
       rect {
         fill: #777 !important;
@@ -212,6 +215,11 @@ input[type='checkbox'].dmcheck {
       }
     }
   }
+  .CommentList {
+    .content.deleted {
+      color: #333;
+    }
+  }
   .comment-write {
     .content textarea,
     .writer input {
@@ -228,7 +236,7 @@ input[type='checkbox'].dmcheck {
 
     background-color: var(--dark-bg-color);
     .title {
-      border-color: #777;
+      border-color: rgb(141, 42, 42);
     }
   }
   .uuid-setting .inner_div .upper_grp .form input {
