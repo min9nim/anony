@@ -45,7 +45,7 @@ process.env.NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.trim()
 
 // 서비스 포트
 const PORT =
-  process.env.NODE_ENV === 'development' ? 8080 : process.env.PORT || 8080
+  process.env.NODE_ENV === 'development' ? 8090 : process.env.PORT || 8090
 
 // HTTP 서비스 시작
 app.listen(PORT, function () {
