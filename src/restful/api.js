@@ -181,5 +181,4 @@ export const api = {
   getPostHistory,
   likePost,
   cancelLike,
-  myChannels,
 }
