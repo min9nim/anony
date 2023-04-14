@@ -3,7 +3,6 @@ const bodyParser = require('body-parser')
 // const morgan = require('morgan')
 const fallback = require('express-history-api-fallback')
 const seo = require('./seo')
-const cors = require('cors')
 const { createContext } = require('./helper')
 
 // 익스프레스 앱생성
@@ -13,9 +12,6 @@ const app = express()
 // app.use(morgan('combined')) // 서버 access 로그
 app.use(bodyParser.json())
 app.use(createContext)
-app.use(cors({origin: (origin,callback) => {
-    callback(null, true)
-}}))
 
 // SEO 설정
 app.get('/post/:key', seo.post)
