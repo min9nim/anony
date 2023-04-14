@@ -3,7 +3,8 @@
 import nprogress from 'nprogress'
 
 // const API_SERVER_URL = 'http://localhost:8080'
-const API_SERVER_URL = 'https://anony-api.vercel.app'
+// const API_SERVER_URL = 'https://anony-api.vercel.app'
+const API_SERVER_URL = 'http://115.140.124.99:8081'
 
 async function httpReq(path, opt = {}) {
   if (!opt.hideProgress) {
